@@ -2,6 +2,30 @@
 
 **Última actualización:** 2026-10-27
 
+## 2026-10-27 (noche) — simulación v2: se explica con el dedo
+
+- **Pedido de Fran:** iterar `compton.html` buscando fallas y mejoras con los
+  criterios de Aníbal; dibujos más profesionales, que se entienda cómo son el
+  cristal y la cámara de ionización, con vistas de detalle abajo.
+- **Fallas corregidas:** el pie de la Fig. 2-10 decía que el cristal «elegía»
+  el haz de λ0 del continuo, y el cristal del aparato está del lado del
+  detector y mide λ1 (ahora: el haz sale de una línea del tubo, cap. 9 del
+  Eisberg, marcado como dato fuera de la bibliografía); el pico de θ = 0° salía
+  recortado (techo plano); el cristal y la cámara no estaban en su geometría
+  (ahora la cámara va a 2× el ángulo de Bragg real); rótulos encimados.
+- **Nuevo:** narración en cuatro pasos sincronizada con la animación (sale,
+  choca, salen los dos, el cristal mide), con los números de cada paso; botones
+  0/45/90/135/180°, el tipo de choque en palabras (roce, de costado, de
+  frente); sello MODELO y la predicción clásica opcional (ANI-05, ANI-07);
+  tres vistas de detalle: **A** Bragg con planos de átomos y el camino de más
+  2d·sen (Sears §36.6, TAL-13/14), **B** el barrido del cristal que arma la
+  curva punto por punto con el amperímetro, **C** la cámara por dentro (iones,
+  pila, corriente); teclado para exponer.
+- **Verificado:** en el navegador, sin errores de consola; números contra el
+  Ej. 2-4 (0,294 keV y 371,5 keV a 90°; luz verde 0,00044 %); los cuatro
+  presets, θ = 0 y 180, barrido completo. Drive: mismo id
+  (`1sL9ZE3MSLgCfGEXHLaHPtaZ5quGtatOw`), MD5 igual al local.
+
 ## 2026-10-27 (tarde) — dos clases, diagrama nuevo y simulación
 
 - **El reparto** (Fran y Agustín): clase 1 (28/10) hasta Compton inclusive;

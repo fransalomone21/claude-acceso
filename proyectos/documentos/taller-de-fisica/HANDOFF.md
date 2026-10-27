@@ -3,6 +3,18 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-27 (noche) — simulación v2
+
+- Se prueba con `preview_start compton-sim` (servidor estático en
+  `.claude/launch.json`, puerto 8766); `file://` no abre en el panel. El
+  navegador cachea: navegar con `?v=N` nuevo después de cada `armar.py`.
+- Todo lo del cristal comparte un solo estado `angC` (ángulo real): la
+  Fig. 2-6 (cursor), A, B y C lo leen. El dibujo de A y B exagera ×3 y lo dice.
+- La cámara de ionización (C) es un esquema del principio: el Eisberg sólo la
+  nombra (p. 55). Si Aníbal pregunta más, no hay fuente en la bibliografía.
+- La guía (§ del aparato, «La simulación») sigue siendo cierta pero no nombra
+  las vistas de detalle; se puede sumar una línea si se recompila la guía.
+
 ## 2026-10-27 (tarde) — dos clases, diagrama y simulación
 
 - `referencia.js` toma un 4.º argumento: `1`, `2` o `todo`. La clase que no

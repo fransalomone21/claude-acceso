@@ -4,8 +4,26 @@
     {
       "name": "telescopio-modelo",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "proyectos/ingenieria/telescopio/docs"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--directory",
+        "proyectos/ingenieria/telescopio/docs"
+      ],
       "port": 8765
+    },
+    {
+      "name": "compton-sim",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8766",
+        "--directory",
+        "proyectos/documentos/catedras/taller-de-fisica/exposicion/simulacion"
+      ],
+      "port": 8766
     }
   ]
 }
