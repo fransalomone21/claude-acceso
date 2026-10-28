@@ -241,6 +241,26 @@ escondido en la manga.
   lo que se le da. Ninguna de las tres cosas se adivina con la intuición de
   Física 1, que es lo que la cátedra quería mostrar con este problema.
 
+  *Y sin cupla, que es como lo resolvió Aníbal.* Su resolución escrita del
+  Ejercicio 3 (la hoja «Sin torque externo», subida con la clase de los
+  ángulos de Euler) pone $M_x = 0$: el gimbal está suelto y nadie lo empuja.
+  La misma fórmula da
+  $ dot(Omega)_x = - (omega_p I_z omega_s)/I_x = - ((0,5)(10)(100))/5 = -100 " rad/s"^2 $
+  *El gimbal suelto no se queda quieto*: arranca solo, y para el lado que
+  lleva el eje del volante a ponerse *paralelo* al eje de giro de la
+  plataforma, con el mismo sentido. Como arranca a $90degree$ de esa
+  posición y nada lo frena, se pasa de largo: oscila como un péndulo entre
+  la posición inicial y la simétrica del otro lado, pasando por la
+  paralela. Integrando numéricamente la ecuación completa con estos
+  números, la ida y vuelta tarda unos $0,74$ s; las oscilaciones chicas
+  alrededor de la posición paralela tienen $omega approx sqrt(omega_p I_z
+  omega_s \/ I_x) = 10$ rad/s. La nota de Aníbal al pie lo dice en cuatro
+  palabras: «el sistema evoluciona oscilando». Es el principio del
+  *girocompás* —el GIF que subió con esa clase—: con la Tierra de
+  plataforma, un volante libre en su gimbal busca ponerse paralelo al eje
+  terrestre, y con un poco de rozamiento que mate la oscilación se queda
+  apuntando al norte.
+
   *Y leído al revés, es un CMG.* Las diapositivas de control de actitud de la
   Universidad de Sevilla que subió la cátedra (R. Vázquez, 2021, diap. 10 y
   14) lo cuentan desde el satélite: un volante de $bold(H)$ grande y velocidad
@@ -298,14 +318,26 @@ thin hat(e) + cos theta thin hat(k)$ (ec. 18.34) y la precesión aporta un
 menos—. Ese menos no es decorativo: con $hat(e)$ apuntando para el otro lado
 el corchete de la @euler-precesion-estable cambia de signo por dentro, y en
 el módulo #M("peonza") eso da vuelta la precesión directa y la retrógrada.
-Este apunte lo sabe por las malas. Con $I$ el momento de inercia transversal
-—sobre $hat(e)$ o $hat(f)$— e $I'$ el momento sobre el eje de simetría $z$,
-$bold(H)_O = I Omega_e hat(e) + I Omega_f hat(f) + I' omega_z hat(k)$, y las
+Este apunte lo sabe por las malas. Con $I'$ el momento de inercia transversal
+—sobre $hat(e)$ o $hat(f)$— e $I$ el momento sobre el eje de simetría $z$,
+$bold(H)_O = I' Omega_e hat(e) + I' Omega_f hat(f) + I omega_z hat(k)$, y las
 tres componentes de $sum bold(M)_O = dot(bold(H))_O$ dan las tres ecuaciones
 diferenciales del giróscopo (Beer ec. 18.39, pág. 1188), cuya solución general
 no es elemental. *Se citan porque son las que hay que resolver en el caso
 general* —el módulo no las resuelve enteras: la sección siguiente resuelve el
-caso particular que sí tiene solución simple.
+caso particular que sí tiene solución simple—. Escritas, con $omega_z =
+dot(psi) + dot(phi) cos theta$:
+
+$ sum M_e = -I' (dot.double(phi) sin theta + 2 dot(theta) dot(phi) cos theta) + I dot(theta) omega_z, quad quad
+  sum M_k = I (d omega_z)/(d t) $
+$ sum M_f = I' (dot.double(theta) - dot(phi)^2 sin theta cos theta) + I dot(phi) sin theta thin omega_z $
+
+Aníbal las pegó tal cual en su resumen manuscrito del capítulo, con una nota
+que es todo el plan de lo que sigue: «ec. no lineales → casos particulares».
+Y otra que vale oro para el parcialito: «el giróscopo ayuda a visualizar los
+ángulos de Euler». El balancín exterior gira $phi$ alrededor del eje fijo, el
+interior gira $theta$ dentro del exterior, y el rotor gira $psi$ dentro del
+interior: tres cardanes, tres ángulos, uno por articulación.
 
 #notacion[
   *Tres ángulos alcanzan, pero tienen un agujero; por eso a bordo se usan
@@ -346,22 +378,22 @@ caso particular que sí tiene solución simple.
   hat(k)$ es constante en el tiempo *dentro* de la base $(hat(e), hat(f),
   hat(k))$ que gira con ella —su módulo y su ángulo con $hat(k)$ no cambian—,
   así que $bold(H)_O$ también tiene componentes constantes en esa base:
-  $ bold(H)_O = -I dot(phi) sin theta thin hat(e) + I' (dot(phi) cos theta +
+  $ bold(H)_O = -I' dot(phi) sin theta thin hat(e) + I (dot(phi) cos theta +
     dot(psi)) hat(k) $
   y el primer término de la @euler-derivada-h se anula. Queda sólo
   $bold(Omega) times bold(H)_O$, con $bold(Omega)$ y $bold(H)_O$ los de
   arriba y usando $hat(e) times hat(k) = -hat(f)$ y $hat(k) times hat(e) = hat(f)$:
-  $ bold(Omega) times bold(H)_O = dot(phi) sin theta thin I' (dot(phi) cos theta + dot(psi)) hat(f)
-    - I dot(phi)^2 sin theta cos theta thin hat(f) $
+  $ bold(Omega) times bold(H)_O = dot(phi) sin theta thin I (dot(phi) cos theta + dot(psi)) hat(f)
+    - I' dot(phi)^2 sin theta cos theta thin hat(f) $
   y juntando:
-  $ sum bold(M)_O = dot(phi) sin theta thin [ I' dot(psi) + (I' - I) dot(phi) cos theta ] thin hat(f) $
+  $ sum bold(M)_O = dot(phi) sin theta thin [ I dot(psi) + (I - I') dot(phi) cos theta ] thin hat(f) $
 ]
 
-$ sum bold(M)_O = dot(phi) sin theta thin [ I' dot(psi) + (I' - I) dot(phi)
+$ sum bold(M)_O = dot(phi) sin theta thin [ I dot(psi) + (I - I') dot(phi)
   cos theta ] thin hat(f) $ <euler-precesion-estable>
 
 (Beer §18.10, ecs. 18.40 a 18.44, pág. 1189: el Beer la escribe como
-$(I' omega_z - I dot(phi) cos theta) dot(phi) sin theta thin hat(j)$, con su
+$(I omega_z - I' dot(phi) cos theta) dot(phi) sin theta thin hat(j)$, con su
 $hat(j)$ igual a nuestro $hat(f)$ y $omega_z = dot(psi) + dot(phi) cos
 theta$; es la misma, y vale la pena comprobarlo abriendo el paréntesis.)
 *La cupla necesaria es perpendicular al plano
@@ -374,7 +406,7 @@ ella.
   *Caso particular, $theta = 90degree$: el eje de simetría queda siempre
   perpendicular a $Z$.* Ahí $sin theta = 1$, $cos theta = 0$, y la
   @euler-precesion-estable se reduce a
-  $ sum bold(M)_O = I' dot(phi) dot(psi) thin hat(f) $ <euler-precesion-90>
+  $ sum bold(M)_O = I dot(phi) dot(psi) thin hat(f) $ <euler-precesion-90>
   (Beer ec. 18.45, pág. 1189.) Es la forma más simple de toda la sección —el
   producto de las dos velocidades angulares por el momento de inercia axial,
   sin ningún coseno— y el mismo mecanismo, con otra letra para cada

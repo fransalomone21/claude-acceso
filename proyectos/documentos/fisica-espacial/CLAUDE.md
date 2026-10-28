@@ -262,6 +262,16 @@ entra en una página, se acorta o se parte en dos ejercicios: no se acepta
 partida. Los modelos viejos se pasan cuando se vuelvan a tocar (al
 2026-10-13 cumple sólo el parcialito 4).
 
+**11. Una notación que el apunte atribuye a un libro se mira en la página del
+libro, y la cita lleva esa página.** Decisión del 2026-10-28: el apunte usaba
+$I$ transversal e $I'$ axial —al revés que el Beer y que Aníbal— y el Anexo D
+decía «Beer: igual» sin página. La física daba bien, pero el criterio
+«$I > I'$ es directa» era, con las letras del Beer, exactamente el contrario,
+a dos días de un parcialito. Se corrigió en 9 archivos y la fila de
+`a4-correspondencia.typ` cita ahora §18.10–18.11, págs. 1189–1190. Vale para
+toda fila nueva del Anexo D y para toda caja `#notacion` que diga «como el
+libro».
+
 ## Dónde está cada cosa
 
 ```
@@ -315,9 +325,11 @@ sesión no encuentra, por más que esté commiteado.
    exige verlos en rojo.
    Y **`python verificar-anexos.py`**: toda ecuación etiquetada de un módulo
    tiene que estar en el formulario (Anexo B, `#ec(<clave>)`) o excluida
-   con motivo, y toda constante del Anexo C con su página. Una etiqueta
+   con motivo, toda constante del Anexo C con su página, y toda fila del
+   Anexo D que dice «igual» al libro con la página en esa misma oración
+   (regla propia 11; las heredadas sin medir, en `SIN_MEDIR`). Una etiqueta
    nueva lo pone en rojo **a propósito**. Su saboteador:
-   `python probar-verificar-anexos.py` (9 sabotajes, ~45 s).
+   `python probar-verificar-anexos.py` (11 sabotajes, ~50 s).
    Si se tocó `practica/`: **`.\practica\compilar.ps1`** (recorta, valida los
    233 números contra sus cuentas y genera) y su saboteador
    `python practica\probar-validar.py` (8 sabotajes).

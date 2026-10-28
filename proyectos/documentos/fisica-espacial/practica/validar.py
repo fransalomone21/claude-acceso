@@ -528,7 +528,28 @@ def c_modelos():
         ('3,55$°', deg(m.atan(Ia4 / It4 * m.tan(rad(2))))), ('1,930$ rad/s', fi4b), ('3,256$ s', 2 * m.pi / fi4b),
         ('2,668$ rad/s', fi4c), ('2,355$ s', 2 * m.pi / fi4c),
     ]
+    # Guia del parcialito de CR (2026-10-28): la hormiga y Coriolis de la hoja
+    # de la catedra, el Ejercicio 3 con y sin cupla, y el Beer 18.127.
+    g, kx, ky = 32.2, 28.8 / 12, 32.4 / 12
+    ms, mmet = 800 / g, 6 / 16 / g
+    Ia, It = ms * ky ** 2, ms * kx ** 2            # axial (y) y transversal
+    H127 = tuple(a + b for a, b in zip((0, Ia * 1.5, 0),
+                 (mmet * c for c in cruz((42 / 12, -20 / 12, 0), (-1600, 1300, 4000)))))
+    th127 = m.acos(H127[1] / norm(H127))
+    ga127 = m.atan(Ia / It * m.tan(th127))
+    w127 = (H127[0] / It, H127[1] / Ia, H127[2] / It)
+    guia_cr = [
+        ('1,12$ m/s de', m.hypot(0.5, 1.0)), ('1,41$ m/s²', m.hypot(1.0, 1.0)),
+        ('0,025$', 2 * 7.29e-5 * 300 * m.sin(rad(35))),
+        ('20$ rad/s² (no', (600 - 0.5 * 10 * 100) / 5), ('-100$ rad/s² en', -0.5 * 10 * 100 / 5),
+        ('-100$ rad/s² en el', -0.5 * 10 * 100 / 5),
+        ('36,6degree$ con', deg(th127)), ('43,2degree$; precesa', deg(ga127)),
+        ('0,946$ rad/s con', norm(H127) / It),
+        ('-0,159$ rad/s:', norm(w127) * m.sin(th127 - ga127) / m.sin(th127)),
+        ('1,832$ s', 2 * m.pi / abs(fi4)),
+    ]
     return {
+        'resumen-cuerpo-rigido.typ': guia_cr,
         'resueltos-cr-1-a-4.typ': resueltos_cr,
         'parcialito-4-momento-angular.typ': parcialito4,
         'modelo-parcial-4.typ': modelo4,

@@ -280,8 +280,8 @@ $ bold(H)_O = macron(bold(r)) times m macron(bold(v)) + bold(H)_G, quad T = 1/2 
 $ sum M_x &= I_x dot(omega)_x - (I_y - I_z) omega_y omega_z \
   sum M_y &= I_y dot(omega)_y - (I_z - I_x) omega_z omega_x \
   sum M_z &= I_z dot(omega)_z - (I_x - I_y) omega_x omega_y $
-$ sum bold(M)_O = dot(phi) sin theta [I' dot(psi) + (I' - I) dot(phi) cos theta] hat(f) $
-$ theta = 90°: quad sum bold(M)_O = I' dot(phi) dot(psi) hat(f) $
-$ dot(phi) = H\/I, quad tan gamma = I/I' tan theta $
+$ sum bold(M)_O = dot(phi) sin theta [I dot(psi) + (I - I') dot(phi) cos theta] hat(f) $
+$ theta = 90°: quad sum bold(M)_O = I dot(phi) dot(psi) hat(f) $
+$ dot(phi) = H\/I', quad tan gamma = I/I' tan theta $
 ]
 ]

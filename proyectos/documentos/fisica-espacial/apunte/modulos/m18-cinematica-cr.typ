@@ -455,6 +455,56 @@ además el origen del sistema móvil se traslada, se le suma $bold(a)_A$ y las
 posiciones se miden desde $A$ (Beer ecs. 15.52 y 15.54, pág. 1004): nada más
 cambia.
 
+#ejemplo("La hormiga sobre el disco: la regla aplicada dos veces")[
+  _(Material de la cátedra: «Derivada de un vector en sistemas rotantes»,
+  Feder–Valenti 2026, subido con la clase de los ángulos de Euler. No está en
+  la guía.)_ Un disco gira con $bold(Omega) = Omega hat(k)$ constante. Sobre
+  él hay pintada una línea radial con el versor $hat(e)_1$ encima ($hat(e)_2$
+  perpendicular, los dos clavados al disco). Una hormiga sale del centro en
+  $t = 0$ y camina por la línea con rapidez $v$ *respecto del disco*:
+  $bold(r) = v t thin hat(e)_1$. El que va en el disco la ve ir en línea
+  recta; el de afuera, dibujar una espiral.
+
+  *Velocidad.* Con la @cin-derivada, la derivada que ve el disco es $v
+  hat(e)_1$ y el transporte agrega $bold(Omega) times bold(r)$:
+  $ bold(v)_I = v hat(e)_1 + Omega v t thin hat(e)_2 $
+  La radial es lo que camina la hormiga; la tangencial, lo que la arrastra
+  el disco.
+
+  *Aceleración: la regla otra vez, pero sobre $bold(v)_I$.* Visto desde el
+  disco, $bold(v)_I$ cambia sólo porque su componente tangencial crece: $Omega
+  v hat(e)_2$. El transporte suma $bold(Omega) times bold(v)_I = Omega v
+  hat(e)_2 - Omega^2 v t thin hat(e)_1$. Juntando:
+  $ bold(a)_I = 2 Omega v thin hat(e)_2 - Omega^2 r thin hat(e)_1 $
+  La centrípeta, por estar en un punto que gira, y la de Coriolis, $2 Omega
+  v$: la mitad porque la dirección de $v hat(e)_1$ gira, la otra mitad
+  porque la tangencial $Omega r$ crece con $r$. Es la @cin-coriolis-a con
+  $(dot.double(bold(r)))_(O x y z) = 0$ y $dot(bold(Omega)) = 0$, sin
+  haberla usado.
+
+  *Con números* (los de la cátedra): $Omega = 1$ rad/s, $v = 0,5$ m/s, a
+  los $2$ s la hormiga está a $r = 1$ m. $bold(v)_I = (0,5; 1,0)$ m/s, de
+  módulo $1,12$ m/s; $bold(a)_I = (-1,0; 1,0)$ m/s² en $(hat(e)_1;
+  hat(e)_2)$, de módulo $1,41$ m/s². Desde el disco, la hormiga tiene
+  aceleración *cero*: toda la diferencia la ponen los términos con
+  $bold(Omega)$. Para que la hormiga siga la línea, el disco la tiene que
+  empujar de costado con $2 m Omega v$; ella lo siente al revés y lo llama
+  fuerza de Coriolis.
+
+  #cuidado[
+    Los dos errores que la hoja de Aníbal pone primero en su lista, y con
+    razón. *Derivar las componentes no alcanza*: en la base del disco,
+    $sum dot(A)_i hat(e)_i$ es sólo la derivada que ve el disco; el término
+    de los versores es el que se olvida. Y *para la aceleración se deriva
+    $bold(v)_I$, no la velocidad que ve el disco*: si se deriva la
+    equivocada, el 2 de Coriolis sale 1 y la hormiga se cae de la línea. La
+    misma cuenta en la Tierra (su tercer ejercicio): un proyectil a $300$
+    m/s hacia el norte, a $35degree$ de latitud sur, tiene una Coriolis
+    horizontal de $2 Omega_T v sin 35degree approx 0,025$ m/s², hacia la
+    izquierda de su marcha: al oeste, como todo en el hemisferio sur.
+  ]
+]
+
 #clave[
   *La aceleración en polares#repaso(destino: <vec-polares>)[
     Son las dos componentes de la aceleración de una partícula en

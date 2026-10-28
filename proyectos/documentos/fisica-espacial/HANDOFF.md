@@ -1,5 +1,19 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-10-28 — guía del parcialito de CR y notación del Beer.** Hecho y
+> publicado (ver ESTADO). **Queda:** (1) las 7 filas de `SIN_MEDIR` en
+> `verificar-anexos.py` (Anexo D) dicen «igual» a un libro sin página: se
+> abren los libros y se les pone página, una por una; (2) si Fran confirma
+> el tema del parcialito del 29/10 o trae la hoja corregida, entra a
+> `catedras` como ANI-R13 y se contrastan ANI-61 a 66; (3) los rojos del
+> arranque que no son de este proyecto (lecciones #297 y #346 sin su nivel,
+> T18, inyección, nube) siguen sin tocar. **Trampas pagadas:** `I'` es
+> prima en Typst y un intercambio $I <-> I'$ por regex se hace sólo por
+> tramos revisados en seco (el cubo isótropo del Anexo A y el Steiner del
+> parcialito 4 usan $I$/$I'$ para otra cosa); un chequeo «la fila tiene
+> página» quedaba tapado por otra página de la misma fila: la página va en
+> la misma oración que dice «igual».
+
 > **2026-10-23 (sesión de método, DA-079):** las trampas de Typst que compilan sin
 > error ya no se recuerdan: `compilar.bat` y `practica\compilar.ps1` corren el lint
 > del perfil y cortan en rojo, y todo `typst compile` de una sesión lo pasa el

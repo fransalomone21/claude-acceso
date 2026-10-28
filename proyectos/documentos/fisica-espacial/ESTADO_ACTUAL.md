@@ -1,5 +1,26 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-28: guía del parcialito de CR, material del 27/10 y la notación del Beer
+
+- **Guía para el parcialito** (`practica/resumen-cuerpo-rigido.typ`, 6 págs.):
+  la lista de CR renglón por renglón, el material nuevo de Aníbal, cómo
+  pregunta y 10 preguntas con respuesta corta (en `#consigna`, el archivo
+  entró a `OBLIGADOS`). 11 números en `validar.py`. Pública en
+  `Modelos de Parcial/5 - Parcialito de cuerpo rigido (29-10)`, MD5 al día.
+  El tema del parcialito es `hipótesis` (Fran no lo dijo).
+- **Apunte** (216 págs.): la hormiga de la cátedra en m18; el Ej. 3 sin
+  cupla (−100 rad/s², oscila: el girocompás, integrado numéricamente) y las
+  ecs. 18.39 en m20; el Beer 18.127 resuelto en m21 (coincide con el
+  cuaderno de Aníbal). Mirado en el render; MD5 al día.
+- **Notación corregida en 9 archivos**: el apunte, la hoja de fórmulas, los
+  anexos, la guía, el integrador y `ejercicios.toml` tenían $I$ transversal
+  e $I'$ axial —al revés que el Beer (págs. 1189–1190) y que Aníbal— y el
+  Anexo D decía «Beer: igual». La física y los números no cambiaron; el
+  criterio «$I > I'$ → directa» ahora es «$I < I'$ (alargado) → directa»,
+  con las letras de la cátedra. Regla propia 11 y chequeo 6 de
+  `verificar-anexos.py` (con sabotaje; 7 filas viejas del Anexo D en
+  `SIN_MEDIR`, sin página).
+
 ## 2026-10-23: el compilado corre el lint de Typst (DA-079, sesión de método)
 
 `compilar.bat` y `practica\compilar.ps1` corren `~/.claude/herramientas/lint-typst.py`

@@ -426,7 +426,7 @@ módulo.]
 
 #ec(<euler-precesion-estable>)[Precesión estable ($theta$,
 $dot(phi)$ y $dot(psi)$ constantes) de un cuerpo con simetría axial;
-$I$ transversal, $I'$ axial.]
+$I'$ transversal, $I$ axial.]
 
 #ec(<euler-precesion-90>)[El caso $theta = 90°$.]
 

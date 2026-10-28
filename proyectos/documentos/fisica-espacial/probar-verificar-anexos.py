@@ -33,6 +33,7 @@ M14 = os.path.join(MODULOS, 'm14-esfera-influencia.typ')
 M21 = os.path.join(MODULOS, 'm21-peonza.typ')
 FORM = os.path.join(ANEXOS, 'a2-formulario.typ')
 CONST = os.path.join(ANEXOS, 'a3-constantes.typ')
+CORR = os.path.join(ANEXOS, 'a4-correspondencia.typ')
 
 
 def correr():
@@ -141,11 +142,23 @@ def main():
                        reemplazar('[Curtis pág. 14]', '[Curtis]'),
                        'no dice de que pagina sale'))
 
+    # 6a. la fila de I e I' pierde la pagina del Beer: es el caso que lo hizo
+    #     nacer ("Beer: igual" sin haber mirado el Beer).
+    ok.append(sabotear('6a. "igual" al libro sin pagina', CORR,
+                       reemplazar('Beer (§18.10–18.11, págs. 1189–1190) y Aníbal: igual.',
+                                  'Beer y Aníbal: igual.'),
+                       'no cita la pagina'))
+
+    # 6b. una fila de SIN_MEDIR desaparece del Anexo D: la lista no se pudre.
+    ok.append(sabotear('6b. SIN_MEDIR con una fila que ya no existe', CORR,
+                       reemplazar('[potencial de Jacobi]', '[potencial de Jacobi, renombrado]'),
+                       'ya no es una fila del Anexo D'))
+
     ok.append(control_positivo('despues'))
 
     print('')
     if all(ok):
-        print('Los cinco chequeos se pusieron en rojo cuando correspondia (nueve '
+        print('Los seis chequeos se pusieron en rojo cuando correspondia (once '
               'sabotajes), y el verificador quedo limpio.')
         return 0
     print('Algo no se puso en rojo. El verificador esta ciego en esa mitad.')

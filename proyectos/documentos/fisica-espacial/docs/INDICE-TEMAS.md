@@ -382,6 +382,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(ejemplo)* El volante en el gimbal: por qué hace falta una cupla
 - **Dos puntos cualesquiera: el movimiento general**
 - **Una partícula vista desde un sistema que rota: Coriolis en tres dimensiones**
+  - *(ejemplo)* La hormiga sobre el disco: la regla aplicada dos veces
   - *(guia de la catedra)* qué ejercicios cubre este módulo
 - **Lo que se usa después**
 
@@ -441,6 +442,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(guia de la catedra)* qué ejercicios cubre este módulo
   - *(ejemplo)* El satélite achatado: el período de una precesión que nadie sostiene
   - *(ejemplo)* El cilindro de paredes delgadas: el umbral entre directa y retrógrada
+  - *(ejemplo)* El satélite y el meteorito: precesión libre con números del Beer
 - **Cierre de la Parte V, y del apunte**
 
   Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-conos-directa>`

@@ -37,6 +37,11 @@ fallan en rojo (codigo de salida 1):
   5. Cada constante del Anexo C (`#cte(...)`) dice de que libro y de que
      pagina sale: la llamada tiene que contener "pág." o "págs.".
 
+  6. Cada fila del Anexo D que dice que un libro usa la misma notacion
+     ("igual", "lo mismo"...) cita la pagina donde se miro, salvo las
+     heredadas declaradas en SIN_MEDIR (que no se pudren: si la fila
+     desaparece, rojo).
+
 Probarlo en rojo: `python probar-verificar-anexos.py`. Un chequeo que nunca
 fallo esta sin verificar.
 """
@@ -54,6 +59,19 @@ MODULOS = os.path.join(APUNTE_DIR, 'modulos')
 ANEXOS = os.path.join(APUNTE_DIR, 'anexos')
 FORMULARIO = os.path.join(ANEXOS, 'a2-formulario.typ')
 CONSTANTES = os.path.join(ANEXOS, 'a3-constantes.typ')
+CORRESPONDENCIA = os.path.join(ANEXOS, 'a4-correspondencia.typ')
+
+# Chequeo 6 (2026-10-28): una fila del Anexo D que dice que un libro usa la
+# MISMA notacion cita la pagina donde se miro. Nacio de la fila de I e I',
+# que decia "Beer: igual" y el Beer las usaba al reves (lección #215, que se
+# repitio). Las filas de abajo son anteriores al chequeo y nadie miro el
+# libro: quedan declaradas, a la vista, hasta que alguien les ponga pagina.
+IGUAL = re.compile(r'\b(igual|lo mismo|la misma|las mismas|los mismos)\b', re.I)
+SIN_MEDIR = {
+    'parámetro gravitatorio', 'caudal másico del cohete', 'momento angular específico',
+    'anomalía verdadera', 'versores del marco perifocal', 'semieje de la hipérbola',
+    'potencial de Jacobi',
+}
 
 # Typst admite mayusculas, `_`, `.` y `:` en una etiqueta. El primer conteo
 # (`[a-z0-9-]`) dejaba afuera <grav-E>, <orb-Uef> y otras seis: 124 contra
@@ -182,6 +200,23 @@ def llamadas(t, nombre):
     return salida
 
 
+def filas_correspondencia(t):
+    """(linea, primer bloque, texto entero) de cada `..fila(...)` del Anexo D."""
+    salida = []
+    for m in re.finditer(r'\.\.fila\(', t):
+        i, prof = m.end(), 1
+        while i < len(t) and prof:
+            if t[i] in '([':
+                prof += 1
+            elif t[i] in ')]':
+                prof -= 1
+            i += 1
+        cuerpo = t[m.end():i - 1]
+        q = re.match(r'\s*\[([^\]]*)\]', cuerpo)
+        salida.append((linea_de(t, m.start()), (q.group(1) if q else '').strip(), cuerpo))
+    return salida
+
+
 def main():
     fallas = []
 
@@ -270,6 +305,32 @@ def main():
         print('   %d constantes, %d sin pagina' % (len(cs), len(sin)))
     else:
         fallas.append('no existe %s' % os.path.relpath(CONSTANTES, RAIZ))
+
+    # --- 6. "igual que el libro" con pagina --------------------------------
+    print('6. cada fila del Anexo D que dice "igual" al libro cita la pagina')
+    if os.path.exists(CORRESPONDENCIA):
+        filas = filas_correspondencia(leer(CORRESPONDENCIA))
+        if not filas:
+            fallas.append('a4-correspondencia.typ no tiene ninguna fila ..fila(...)')
+        pendientes = 0
+        for ln, que, cuerpo in filas:
+            # La pagina va en la MISMA oracion que dice "igual": la primera
+            # version miraba la fila entera, y el sabotaje 6a paso en verde
+            # porque la pagina del Curtis, dos oraciones despues, la tapaba.
+            oraciones = re.split(r'(?<=[.;])\s+(?=[A-ZÁÉÍÓÚ«(])', cuerpo)
+            if not any(IGUAL.search(o) and not re.search(r'págs?\.', o) for o in oraciones):
+                continue
+            if que in SIN_MEDIR:
+                pendientes += 1
+                continue
+            fallas.append('a4-correspondencia.typ:%d: la fila «%s» dice que el libro '
+                          'usa la misma notacion y no cita la pagina ("pág.")' % (ln, que))
+        for que in sorted(SIN_MEDIR):
+            if que not in [f[1] for f in filas]:
+                fallas.append('SIN_MEDIR tiene «%s», que ya no es una fila del Anexo D' % que)
+        print('   %d filas, %d heredadas sin medir (SIN_MEDIR)' % (len(filas), pendientes))
+    else:
+        fallas.append('no existe %s' % os.path.relpath(CORRESPONDENCIA, RAIZ))
 
     print('')
     if fallas:

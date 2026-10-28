@@ -36,6 +36,7 @@ try {
         @('parcialito-4-momento-angular.typ', 'salida\parcialito-4-momento-angular.pdf', $null),
         @('resumen-momento-angular.typ', 'salida\resumen-momento-angular.pdf', $null),
         @('resueltos-cr-1-a-4.typ', 'salida\resueltos-cr-1-a-4.pdf', $null),
+        @('resumen-cuerpo-rigido.typ', 'salida\resumen-cuerpo-rigido.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )

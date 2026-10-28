@@ -226,7 +226,7 @@ $T = 2 pi sqrt(a^3\/mu) = 171,0$ min.
   En cuerpo rígido el apunte pasa a la letra del Beer: $bold(H)_G$ es el
   momento angular respecto del centro de masa (el $bold(L)$ de los módulos
   anteriores; la guía: *impulso angular*), $bold(M)$ o $bold(tau)$ el torque,
-  $I_z = I'$ el momento de inercia *axial* e $I_x = I$ el *transversal*
+  $I_z = I$ el momento de inercia *axial* e $I_x = I'$ el *transversal*
   (Curtis: $C$ y $A$). $dot(phi)$ es la precesión y $dot(psi)$ el spin
   (ángulos de Euler). El *impulso angular* es $integral bold(tau) dif t = Delta bold(H)$.
 ]

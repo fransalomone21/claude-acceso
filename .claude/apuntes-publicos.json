@@ -8,7 +8,7 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Fisica Espacial.pdf",
-      "estado": "2026-10-22 -- 21 modulos, 215 pag., con todo lo que dio la catedra hasta el 19/10 (cuerpo rigido: el material de esa clase en los modulos 18 a 21, y el origen de cada ejemplo en la guia); L es el momento angular y el impulso angular la integral del torque (C1, decidido por Fran el 13/10); en mantenimiento (fase 17)"
+      "estado": "2026-10-28 -- 21 modulos, 216 pag., con todo lo que dio la catedra hasta el material del 27/10 (la hormiga en m18, el Ej. 3 sin cupla y las ecs. 18.39 en m20, el Beer 18.127 en m21); I axial e I' transversal como el Beer y Anibal (estaban al reves hasta el 27/10); L es el momento angular (C1, 13/10); en mantenimiento (fase 17)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
@@ -21,7 +21,7 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas.pdf",
       "nombre-en-drive": "Hoja de formulas.pdf",
-      "estado": "2026-10-01 -- la definitiva de toda la materia: 2 carillas A4, solo formulas y titulos de tema; la 1.a es la del parcial y la 2.a trae marcos, SOI, Lagrange, tres cuerpos y rigido 3D (fuente: practica/hoja-formulas.typ; la de 3 carillas con hipotesis: commit 72727fa)"
+      "estado": "2026-10-28 -- la definitiva de toda la materia: 2 carillas A4, solo formulas y titulos de tema; la 1.a es la del parcial y la 2.a trae marcos, SOI, Lagrange, tres cuerpos y rigido 3D, con I axial e I' transversal como el Beer desde el 28/10 (fuente: practica/hoja-formulas.typ; la de 3 carillas con hipotesis: commit 72727fa)"
     },
     {
       "materia": "Fisica Espacial",
@@ -46,6 +46,12 @@
       "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-momento-angular.pdf",
       "nombre-en-drive": "Resumen - Momento angular.pdf",
       "estado": "2026-10-14 -- 5 pag. para estudiar el parcialito 4: la lista de temas de impulso angular renglon por renglon (idea, formula y trampa), la analogia giroscopo-orbita, como pregunta Anibal y las formulas juntas. Publico por decision de Fran del 14/10 (fuente: practica/resumen-momento-angular.typ)"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial/5 - Parcialito de cuerpo rigido (29-10)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-cuerpo-rigido.pdf",
+      "nombre-en-drive": "Guia para el parcialito - Cuerpo rigido.pdf",
+      "estado": "2026-10-28 -- 6 pag. para estudiar el parcialito del 29/10 (tema: hipotesis, cuerpo rigido): la lista de temas de CR renglon por renglon (idea, formula, trampa), el material de Anibal del 27/10 (resumen del cap. 18, Ej. 3 sin cupla, derivada en sistemas rotantes, Beer 18.127), como pregunta y 10 preguntas con respuesta corta; numeros en practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/resumen-cuerpo-rigido.typ)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial/4 - 2do Parcial (19-11) y recuperatorio (26-11)",

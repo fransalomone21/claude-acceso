@@ -463,8 +463,8 @@ seccion = "cr"
 titulo = "Problema 4 — el spacecraft que precesa"
 recortes = [[19, 79, 376]]
 nota = '''Donde dice «impulso angular ($bold(H)_G$)», léase *momento angular*.'''
-tip = '''Libre de torques y simétrico, el spin y la precesión cumplen $dot(psi) = (I - I')\/I',dot(phi) cos theta$ con $I'$ el axial e $I$ el transversal.'''
-resultado = '''$abs(dot(phi)) = 3,431$ rad/s, período de precesión $1,832$ s. El spin es *negativo* (sentido $-z$): el cuerpo es achatado ($I' > I$) y la precesión es retrógrada.'''
+tip = '''Libre de torques y simétrico, el spin y la precesión cumplen $dot(psi) = (I' - I)\/I,dot(phi) cos theta$ con $I$ el axial e $I'$ el transversal.'''
+resultado = '''$abs(dot(phi)) = 3,431$ rad/s, período de precesión $1,832$ s. El spin es *negativo* (sentido $-z$): el cuerpo es achatado ($I > I'$) y la precesión es retrógrada.'''
 
 [[ej]]
 id = "cr-5"

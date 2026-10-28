@@ -429,7 +429,7 @@ medirlos desde el centro.
 #subtitulo-anexo("A.5 — Cuerpo rígido (Problemas 1 a 9)")
 
 Todo del Beer, capítulo 18. Antes de mirar cualquier respuesta de acá:
-*alargado ($I > I'$) precesa directo; achatado ($I < I'$), retrógrado*
+*alargado ($I' > I$) precesa directo; achatado ($I' < I$), retrógrado*
 (Beer §18.11, pág. 1191). Es la línea que más fácil se da vuelta, y este
 anexo ya la dio vuelta una vez.
 
@@ -464,8 +464,8 @@ anexo ya la dio vuelta una vez.
   [Simétrico en $z$, radio de giro 720 mm (eje) y 540 mm (transversal).
   El eje $z$ describe un cono de 2° al precesar, con spin de 1,5 rad/s.
   Período de precesión.],
-  resuelve: [precesión estable de un cuerpo simétrico sin torque: $tan gamma = (I\/I') tan theta$ relaciona el ángulo del eje instantáneo con el de $bold(H)$, y de ahí sale la razón entre spin y precesión, $dot(psi)\/dot(phi)=((I-I')\/I') cos theta$, con $I=m k_"transversal"^2$, $I'=m k_"eje"^2$ (#M("peonza")). Despejando $dot(phi)$ con el spin dado, y el período es $2 pi\/abs(dot(phi))$. Ya resuelto.],
-  [período de precesión $= 1,832$ s (con $abs(dot(phi)) approx 3,431$ rad/s); el spin es *negativo*, en el sentido de $-z$: precesión retrógrada porque el cuerpo es achatado, $I'>I$ (Beer fig. 18.24).],
+  resuelve: [precesión estable de un cuerpo simétrico sin torque: $tan gamma = (I\/I') tan theta$ relaciona el ángulo del eje instantáneo ($gamma$) con el de $bold(H)$ ($theta$), y de ahí sale la razón entre spin y precesión, $dot(psi)\/dot(phi)=((I'-I)\/I) cos theta$, con $I'=m k_"transversal"^2$, $I=m k_"eje"^2$ (#M("peonza")). Despejando $dot(phi)$ con el spin dado, y el período es $2 pi\/abs(dot(phi))$. Ya resuelto.],
+  [período de precesión $= 1,832$ s (con $abs(dot(phi)) approx 3,431$ rad/s); el spin es *negativo*, en el sentido de $-z$: precesión retrógrada porque el cuerpo es achatado, $I>I'$ (Beer fig. 18.24).],
 )
 
 #disparador(
@@ -484,7 +484,7 @@ anexo ya la dio vuelta una vez.
   [Cilindro de paredes delgadas que rota sobre su eje de simetría, con
   precesión de ángulo pequeño. ¿Para qué $ell\/r$ la precesión es
   retrógrada, y para cuáles directa?],
-  resuelve: [el signo de $dot(psi)\/dot(phi) = ((I-I')\/I') cos theta$ decide directa ($I>I'$) o retrógrada ($I<I'$); con $I$ e $I'$ del cilindro de paredes delgadas en función de $ell$ y $r$, el umbral sale de igualar $I=I'$ (#M("peonza")). Ya resuelto.],
+  resuelve: [el signo de $dot(psi)\/dot(phi) = ((I'-I)\/I) cos theta$ decide directa ($I'>I$) o retrógrada ($I'<I$); con $I'$ e $I$ del cilindro de paredes delgadas en función de $ell$ y $r$, el umbral sale de igualar $I'=I$ (#M("peonza")). Ya resuelto.],
   [umbral $ell\/r = sqrt(6)$: *retrógrada* para $ell\/r < sqrt(6)$ (corto, tipo disco) y *directa* para $ell\/r > sqrt(6)$ (largo, tipo varilla); en el umbral, caso límite isótropo, como el cubo del Problema 1.],
 )
 

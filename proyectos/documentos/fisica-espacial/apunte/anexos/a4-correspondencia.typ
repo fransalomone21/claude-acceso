@@ -115,8 +115,10 @@ quiere decir cuatro cosas distintas según quién la escriba.
     [El nombre es de este apunte. Curtis escribe la misma agrupación sin
     nombrarla.], "tres-cuerpos"),
   ..fila([momentos de inercia de un cuerpo con simetría axial],
-    [$I$ transversal \ $I'$ axial],
-    [Beer: igual. Curtis (§11.8, pág. 583): $A$ transversal y $C$ axial.
-    Lo único que decide directa o retrógrada es el signo de $I - I'$, así que
+    [$I'$ transversal \ $I$ axial],
+    [Beer (§18.10–18.11, págs. 1189–1190) y Aníbal: igual. Hasta el 27/10
+    este apunte los tenía al revés, y lo dejaba escrito acá como si fuera
+    el Beer. Curtis (§11.8, pág. 583): $A$ transversal y $C$ axial.
+    Lo único que decide directa o retrógrada es el signo de $I' - I$, así que
     confundir las dos da vuelta el resultado.], "peonza"),
 )
