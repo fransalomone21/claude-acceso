@@ -68,6 +68,14 @@ SABOTAJES = [
      'El impulso angular $bold(r) times bold(p)$ vale $p$ por el *brazo*', 'validar.py', 'terminologia'),
     ('recorte que parte un renglon', 'ejercicios.toml', 'recortes = [[3, 381, 399]]',
      'recortes = [[3, 381, 390]]', 'recortar.py', 'vec-11 recorte 1'),
+    ('numero mal en el modelo de parcialito 5 (la precesion)', 'parcialito-5-cuerpo-rigido.typ',
+     '1,754$ rad/s, y', '1,854$ rad/s, y',   # las dos copias: la de la ley de los senos y la del otro camino
+     'validar.py', '"1,754$ rad/s, y" no esta'),
+    # Lo que paso el 2026-10-28: la guia tenia controles cargados y estaba
+    # fuera de la lista que el validador recorre. El guardia tiene que verlo.
+    ('documento con controles fuera de PARCIALES_NUEVOS', 'validar.py',
+     "'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ')",
+     "'parcialito-5-cuerpo-rigido.typ')", 'validar.py', 'nadie los mira'),
 ]
 
 

@@ -270,6 +270,23 @@ escondido en la manga.
   mover el _gimbal_. Así maniobran rápido los satélites «ágiles» de
   observación (los Pléiades de la diapositiva 14), y por eso las diapositivas
   lo llaman el caso más extremo de usar una rueda.
+
+  *Torque de salida y amplificación de torque* (los dos nombres que Aníbal
+  dio para el parcialito del cap. 18). En un CMG hay dos torques sobre ejes
+  distintos. El *de entrada* lo pone el motor del gimbal, sobre el eje del
+  gimbal, y sólo tiene que vencer la inercia y el rozamiento del gimbal en
+  ese eje: con el gimbal girando a velocidad constante, idealmente cero. El
+  *de salida* es el que recibe el satélite, $bold(Omega) times bold(H)$, de
+  módulo $H dot(delta)$, sobre el tercer eje, perpendicular al gimbal y al
+  rotor. Con este volante ($H = 1000$ kg·m²/s) y el gimbal a $0,5$ rad/s,
+  salen $500$ N·m. Si además el motor tiene que llevar el gimbal de cero a
+  $0,5$ rad/s en un segundo (supuesto, para poner un número), le alcanza con
+  $I_x dot.double(delta) = 5 dot.op 0,5 = 2,5$ N·m: entra $2,5$, salen
+  $500$, una *amplificación* de $200$. No es magia: lo que el CMG le pasa al
+  satélite es momento angular, sacado de *girar la dirección* de un
+  $bold(H)$ grande que ya estaba ahí; el rotor no se frena. Una rueda de
+  reacción, en cambio, da torque frenándose o acelerándose, y su torque de
+  salida es igual al del motor: amplificación uno.
 ]
 
 #posta[

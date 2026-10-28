@@ -1,5 +1,13 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-10-28 (tarde) — modelo de parcialito 5, guía v2, cap. 18 completo.**
+> Publicado y verificado (ver ESTADO). **Queda:** lo que diga la corrección
+> del parcialito del 29/10 entra a `catedras` como ANI-R14 y se contrastan
+> ANI-61 a 70; las 7 filas de `SIN_MEDIR` siguen. **Trampa pagada:** un
+> control nuevo en `c_modelos()` de `validar.py` no corre si el archivo no
+> está en `PARCIALES_NUEVOS` (ahora da rojo); y el número que aparece dos
+> veces en un documento (paso y control) se sabotea en las dos copias.
+
 > **2026-10-28 — guía del parcialito de CR y notación del Beer.** Hecho y
 > publicado (ver ESTADO). **Queda:** (1) las 7 filas de `SIN_MEDIR` en
 > `verificar-anexos.py` (Anexo D) dicen «igual» a un libro sin página: se

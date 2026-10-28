@@ -38,11 +38,78 @@
   torque externo», la hoja de la derivada en sistemas rotantes y el
   cuaderno del Beer 18.127.
 
-  *Qué esperar* (leído de los cuatro parcialitos anteriores, no dicho por
-  él): un tema, preguntas cortas encadenadas, *el dibujo es la respuesta*, y
-  casi sin cuentas. Lo anunció «más conceptual». Igual van algunos números
-  al final de cada tema, por las dudas.
+  *Qué esperar.* Aníbal dijo que el parcialito es del *capítulo 18 del
+  Beer*, que pueden entrar cosas relacionadas, y mandó a hacer el *Problema
+  Resuelto 18.6* (el meteorito), a revisar los conos de §18.11 y a mirar el
+  *torque de salida* y la *amplificación de torques* (lo contó Fran de la
+  clase). De los parcialitos anteriores: preguntas cortas encadenadas, *el
+  dibujo es la respuesta*, poca cuenta. Esta vez puede venir un problema con
+  números como el 18.6: está en la sección 8 y en el modelo de parcialito 5.
 ]
+
+= 0. Lo que quiere Aníbal: siete ideas, dichas simple y después demostradas
+#origen[Sus criterios: concepto antes que deducción, «no se compliquen», intuición en lo antiintuitivo, la analogía giróscopo–órbita, la simetría para no calcular. Cada idea va primero en palabras y después con vectores.]
+
+*1. Sin cupla, el momento angular no se mueve.* En palabras: nadie lo
+empuja, así que $bold(H)_G$ apunta siempre al mismo lugar del cielo, y todo
+lo que se mueva se mueve *alrededor* de él. Con vectores: $sum bold(M)_G =
+dot(bold(H))_G = 0 arrow.r.double bold(H)_G = "cte"$ (Beer §18.11). Es la
+«dirección fija» de las figuras del libro.
+
+*2. El momento angular no tiene por qué apuntar para donde gira el
+cuerpo.* En palabras: el cuerpo es más «pesado de girar» en una dirección
+que en otra, así que por cada rad/s de giro guarda más momento angular en
+la dirección más pesada; $bold(H)_G$ se inclina hacia el eje de mayor
+inercia y se separa de $bold(omega)$. Con vectores: en ejes principales
+$H_x = I' omega_x$, $H_z = I omega_z$; si $I != I'$, $bold(H)_G$ y
+$bold(omega)$ sólo son paralelos cuando $bold(omega)$ va sobre un eje
+principal.
+
+*3. Si $bold(H)_G$ no está sobre el eje del cuerpo, el cuerpo se bambolea.*
+En palabras: el eje de simetría, $bold(omega)$ y $bold(H)_G$ quedan en un
+mismo plano, y ese plano da vueltas alrededor de $bold(H)_G$: el eje del
+cuerpo barre un cono. Eso es la precesión libre, y no hace falta nadie que
+la sostenga. Con vectores: $tan gamma = (I \/ I') tan theta$ y $dot(phi) =
+H_G \/ I'$ (Beer ecs. 18.49 y siguientes).
+
+*4. Un golpe de costado inclina el momento angular, como un empujón
+lateral le dobla la velocidad a un satélite.* En palabras: el meteorito le
+suma a $bold(H)_G$ un pedacito perpendicular, $bold(H)_G$ queda torcido
+respecto del eje, y desde ese instante el satélite se bambolea alrededor de
+la nueva dirección. Es la analogía que pidió Aníbal: una fuerza
+perpendicular a $bold(p)$ le cambia la dirección y no el tamaño; un impulso
+angular perpendicular a $bold(H)$, lo mismo. Con vectores: $bold(H)_G^+ =
+bold(H)_G^- + bold(r) times m_0 bold(v)_0$ (Beer §18.3: sin impulso externo,
+antes y después son equipolentes).
+
+*5. La precesión y el giro se sacan con un triángulo.* En palabras:
+$bold(omega)$ se puede ver como la suma de dos giros, uno alrededor del eje
+de precesión y otro alrededor del eje del cuerpo; como esos dos ejes no son
+perpendiculares, es un triángulo cualquiera, y se resuelve con el teorema
+del seno. Ésa es toda la matemática del 18.6. Con vectores: $bold(omega) =
+dot(phi) bold(K) + dot(psi) hat(k)$, y $omega \/ sin theta = dot(phi) \/
+sin gamma = dot(psi) \/ sin(theta - gamma)$. Y por componentes, sin
+triángulo: $dot(phi) = H_G \/ I'$ y, como la componente axial de
+$bold(omega)$ junta el giro y un pedazo de la precesión, $dot(psi) =
+omega_z - dot(phi) cos theta$. Los dos caminos dan el mismo número; el del
+triángulo es el del libro, el de componentes es el que no necesita dibujo.
+
+*6. Cuanto más rápido gira, menos lo tuerce un golpe.* En palabras: el
+mismo empujón de costado inclina menos a un momento angular grande, como el
+mismo viento desvía menos a una bala que a una pelota. Por eso los satélites
+se estabilizan haciéndolos girar, y sobre el eje de *mayor* inercia (el
+Explorer 1, alargado y con antenas que disipaban, terminó dando tumbos). Con
+vectores: después de un golpe paralelo al eje a distancia $d$, $tan theta =
+m_0 v_0 d \/ (I omega_0)$.
+
+*7. Girarle la dirección a un momento angular grande cuesta, o da, un
+torque grande.* En palabras: el giróscopo no se resiste a girar, se
+resiste a que le cambien el eje, y contesta a $90degree$. Si uno le gira el
+eje a la fuerza, aparece un torque perpendicular (giro de entrada, torque
+de salida: el CMG); si uno le aplica un torque, el eje gira perpendicular
+(torque de entrada, giro de salida: la precesión). Con vectores: $sum
+bold(M) = bold(Omega) times bold(H)$, la misma ecuación leída para los dos
+lados.
 
 #notacion[
   *Las letras de la cátedra, que son las del Beer:* $bold(H)_G$ (Beer) $=$
@@ -282,6 +349,29 @@ $gamma = 43,2degree$; precesa a $dot(phi) = 0,946$ rad/s con spin $dot(psi)
 El Problema 4 de la guía es el mismo tema: período de precesión $1,832$ s,
 spin negativo.
 
+*La receta del Problema Resuelto 18.6* (el que mandó a hacer Aníbal: «es
+aprender a hacer el resto»). Cuatro pasos, siempre los mismos:
+
++ *Ejes e impulso.* Ejes principales con $z$ sobre el eje de simetría. Sin
+  impulso externo, $bold(H)_G$ después $=$ $bold(H)_G$ antes $+ bold(r)
+  times m_0 bold(v)_0$. Decir el supuesto: la masa del meteorito no cambia
+  ni $G$ ni los momentos de inercia.
++ *De $bold(H)_G$ a $bold(omega)$*, componente a componente: $omega_x =
+  H_x \/ I'$, $omega_z = H_z \/ I$. Sale $gamma$ (entre $bold(omega)$ y el
+  eje).
++ *El eje de precesión* es $bold(H)_G$; $theta$ (entre $bold(H)_G$ y el eje)
+  sale de $tan theta = H_x \/ H_z$.
++ *Ley de los senos* en el triángulo $bold(omega) = dot(phi) bold(K) +
+  dot(psi) hat(k)$: $dot(phi) = omega sin gamma \/ sin theta$, $dot(psi) =
+  omega sin(theta - gamma) \/ sin theta$. Dibujar los conos.
+
+Con los números del libro (dos discos de radio $0,8$ m, $60$ rpm, meteorito
+de $m\/1000$ a $2000$ m/s): $omega_x = 2$ rad/s, $gamma = 17,7degree$,
+$theta = 38,5degree$; con los ángulos redondeados como el libro, $dot(phi)
+= 30,8$ rpm y $dot(psi) = 35,9$ rpm; sin redondear, $30,7$ y $36,0$ rpm.
+Las dos positivas: directa, porque dos discos separados por una barra son
+un cuerpo alargado ($I = 1/2 m a^2 < I' = 5/4 m a^2$).
+
 #trampa[
   Directa/retrógrada se mide *desde el espacio* (giro contra precesión). El
   bamboleo de Chandler de la Tierra se llama «progrado» porque se mide
@@ -301,6 +391,43 @@ spin negativo.
   eje menor, y en una órbita ya daba tumbos. El Sputnik, no.
 - *Para controlar la actitud*: volantes y CMG (el Ejercicio 3 leído al
   revés), y el gradiente de gravedad.
+
+= 10. Torque de salida y amplificación de torques
+#origen[Lo nombró Aníbal para el parcialito · material del 28/09 (actuador y sensor, Lappas 2002) · apunte, módulos 17 y 20]
+
+*La idea.* Un CMG es un rotor que gira siempre igual (momento angular
+$bold(h)$ grande) montado en un gimbal que un motor puede girar. Hay dos
+torques en ejes distintos:
+
+- *De entrada*: el del motor, sobre el eje del gimbal. Sólo vence la inercia
+  y el rozamiento del gimbal; con el gimbal girando parejo, casi nada.
+- *De salida*: el que recibe el satélite, sobre el tercer eje, de módulo
+  $h dot(delta)$: el rotor cambia su momento a razón $dot(bold(delta)) times
+  bold(h)$ y el satélite se lleva el opuesto.
+
+La *amplificación* es salida sobre entrada. Con el volante del Ejercicio 3
+($h = 1000$ kg·m²/s) y el gimbal llevado a $0,5$ rad/s en un segundo:
+entran $2,5$ N·m, salen $500$, una amplificación de $200$. Una rueda de
+reacción da torque cambiando el *tamaño* de su momento angular: su salida es
+la del motor, amplificación uno.
+
+#trampa[
+  El torque de salida no aparece sobre el eje del gimbal ni sobre el del
+  rotor: sobre el tercero. Es la misma regla de siempre (giro, par y
+  precesión forman una tríada derecha), leída al revés.
+]
+
+= 11. Cuando $theta$ también se mueve: el trompo
+#origen[Beer, recuadro de resolución de §18.9–18.11, caso 3 (pág. 1194) · apunte, módulo 21]
+
+Un trompo con un punto fijo en su eje, sólo con su peso, puede cambiar
+$theta$: precesa, nuta y gira, y nada es constante. Las ecuaciones no son
+lineales; el Beer aconseja usar lo que se conserva, que son tres cosas:
+la *energía* (el peso es conservativo), el *momento angular sobre el eje
+vertical* (ni el peso ni el apoyo hacen momento alrededor de él) y el
+*momento angular sobre el eje del trompo*, $I omega_z$ (el apoyo y $G$ están
+sobre ese eje). Con eso, $theta$ queda oscilando entre dos valores: la
+nutación. La precesión estable es el caso en que esa oscilación es cero.
 
 #pagebreak(weak: true)
 = Cómo pregunta Aníbal en un parcialito
@@ -360,6 +487,15 @@ spin negativo.
 #pregunta(10, [Una hormiga camina hacia afuera por un radio de una calesita que gira. Visto desde afuera, ¿qué aceleraciones tiene?],
   [Centrípeta, $-Omega^2 r$ hacia el centro, y de Coriolis, $2 Omega v$ de costado. Desde la calesita, ninguna. Para que siga el radio, la calesita la empuja de costado con $2 m Omega v$; ella lo siente al revés: la «fuerza» de Coriolis.])
 
+#pregunta(11, [Después de que lo golpea el meteorito, nadie le aplica torque al satélite. ¿Por qué se bambolea?],
+  [Porque el golpe le dejó el momento angular inclinado respecto de su eje. Sin torque, $bold(H)_G$ queda fijo en esa dirección nueva, y el eje del satélite (con $bold(omega)$) da vueltas alrededor de él: un cono. El bamboleo es la precesión libre, y nadie la sostiene.])
+
+#pregunta(12, [Prediga sin cuentas: si el mismo meteorito pegara sobre el eje de simetría, o con la velocidad apuntando a $G$, ¿habría bamboleo? ¿Y si pegara en el punto simétrico del otro lado?],
+  [Sobre el eje o apuntando a $G$, $bold(r)$ es paralelo a $bold(v)_0$ y $bold(r) times m_0 bold(v)_0 = 0$: $bold(H)_G$ no se inclina y no hay bamboleo (el satélite sólo cambia un poquito su velocidad). Del otro lado, por simetría, el mismo $theta$ con el eje de precesión del lado opuesto: cambia el signo de la componente transversal, no su tamaño.])
+
+#pregunta(13, [En un CMG, ¿por qué con un motor chico se saca un torque grande?],
+  [Porque el motor sólo gira el gimbal; el torque de salida, $h dot(delta)$, sale de girarle la dirección a un momento angular grande que ya estaba guardado en el rotor. Sale sobre el tercer eje. Una rueda de reacción, en cambio, da como mucho el torque de su motor.])
+
 = Las fórmulas, juntas
 
 #tabla((auto, auto),
@@ -375,4 +511,8 @@ spin negativo.
   [precesión estable], [$sum bold(M)_O = (I omega_z - I' dot(phi) cos theta) dot(phi) sin theta thin hat(j); quad theta = 90degree: I dot(psi) dot(phi) hat(j)$],
   [libre de cuplas], [$tan gamma = (I\/I') tan theta, quad dot(phi) = H_G\/I', quad dot(psi)\/dot(phi) = ((I' - I)\/I) cos theta$],
   [directa / retrógrada], [$I < I'$ (alargado): directa; $I > I'$ (achatado): retrógrada],
+  [impulso (choque)], [$bold(H)_G^+ = bold(H)_G^- + bold(r) times m_0 bold(v)_0, quad omega_x = H_x \/ I', quad omega_z = H_z \/ I$],
+  [ley de los senos], [$omega \/ sin theta = dot(phi) \/ sin gamma = dot(psi) \/ sin(theta - gamma)$],
+  [CMG], [$tau_"salida" = h dot(delta)$ sobre el tercer eje; amplificación $= tau_"salida" \/ tau_"motor"$],
+  [trompo ($theta$ variable)], [se conservan $E$, $bold(K) dot.op bold(H)_O$ e $I omega_z$],
 )

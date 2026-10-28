@@ -401,7 +401,7 @@ def c_parciales():
 
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
                     'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ',
-                    'resueltos-cr-1-a-4.typ')
+                    'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ')
 
 
 def c_modelos():
@@ -548,7 +548,37 @@ def c_modelos():
         ('-0,159$ rad/s:', norm(w127) * m.sin(th127 - ga127) / m.sin(th127)),
         ('1,832$ s', 2 * m.pi / abs(fi4)),
     ]
+    # Modelo de parcialito 5 (2026-10-28): el meteorito sobre un satelite
+    # achatado (mismo camino que el PR 18.6 del Beer) y el CMG de Lappas.
+    I5, Ip5 = 400.0, 250.0
+    H5 = tuple(a + b for a, b in zip((0, 0, I5 * 1.0), cruz((0, 1.2, 0), (0, 0, 0.05 * -3000))))
+    th5 = m.atan2(m.hypot(H5[0], H5[1]), H5[2])
+    w5 = (H5[0] / Ip5, H5[1] / Ip5, H5[2] / I5)
+    ga5 = m.atan2(m.hypot(w5[0], w5[1]), w5[2])
+    fi5 = norm(w5) * m.sin(ga5) / m.sin(th5)
+    ps5 = norm(w5) * m.sin(th5 - ga5) / m.sin(th5)
+    parcialito5 = [
+        ('-180; 0; 0)$', H5[0]), ('438,6 " kg"', norm(H5)), ('24,2degree$.', deg(th5)),
+        ('-0,72$ rad/s', w5[0]), ('1,232$ rad/s', norm(w5)), ('35,8degree$.', deg(ga5)),
+        ('1,754$ rad/s, y', fi5), ('-0,600$ rad/s. El', ps5), ('3,58$ s', 2 * m.pi / fi5),
+        ('0,30$ m/s', 0.05 * 3000 / 500.05), ('0,042$ N·m, sobre', 0.35 * 0.12),
+        ('2,4 times 10^(-5)$ N·m. Ampl', 1.0e-4 * 0.12 / 0.5), ('1750$', 0.35 * 0.12 / (1.0e-4 * 0.12 / 0.5)),
+    ]
+    # El Problema Resuelto 18.6 del Beer, en el apunte y en la guia: exacto
+    # (30,7 y 36,0 rpm) y con los angulos redondeados como el libro (30,8 y 35,9).
+    rpm = 60 / (2 * m.pi)
+    wx6, wz6 = 4 / 5 * 1e-3 * 2000 / 0.8, 60 / rpm
+    w6 = m.hypot(wx6, wz6)
+    ga6, th6 = m.atan(wx6 / wz6), m.atan(2.5 * wx6 / wz6)
+    guia_cr += [
+        ('17,7degree$', deg(ga6)), ('38,5degree$', deg(th6)), ('30,7$ y', w6 * m.sin(ga6) / m.sin(th6) * rpm),
+        ('36,0$ rpm', w6 * m.sin(th6 - ga6) / m.sin(th6) * rpm),
+        ('30,8$ rpm', 63.0 * m.sin(rad(17.7)) / m.sin(rad(38.5))),
+        ('35,9$ rpm', 63.0 * m.sin(rad(20.8)) / m.sin(rad(38.5))),
+        ('200$', 0.5 * 1000 / (5 * 0.5)),
+    ]
     return {
+        'parcialito-5-cuerpo-rigido.typ': parcialito5,
         'resumen-cuerpo-rigido.typ': guia_cr,
         'resueltos-cr-1-a-4.typ': resueltos_cr,
         'parcialito-4-momento-angular.typ': parcialito4,
@@ -761,6 +791,13 @@ def main():
     # parciales
     cuentas = dict(c_parciales())
     cuentas.update(c_modelos())
+    # Un documento con controles cargados y fuera de PARCIALES_NUEVOS no se mide
+    # NUNCA, y el resultado sigue en verde (2026-10-28: los de la guia de CR
+    # vivieron asi un dia, con «11 numeros en validar.py» escrito en el ESTADO).
+    medidos = {'parcialito', 'modelo', *PARCIALES_NUEVOS}
+    for clave in sorted(set(cuentas) - medidos):
+        rojos.append('%s: tiene controles en validar.py pero no esta en PARCIALES_NUEVOS: '
+                     'nadie los mira' % clave)
     for clave, archivo in (('parcialito', 'parcialito-momento-angular.typ'), ('modelo', 'modelo-parcial-integrador.typ'),
                            *((a, a) for a in PARCIALES_NUEVOS)):
         f = os.path.join(AQUI, archivo)

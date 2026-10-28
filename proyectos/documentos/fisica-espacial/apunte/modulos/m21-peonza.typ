@@ -310,6 +310,123 @@ caso: achatado y retrógrado, con el cono espacial adentro del corporal
   no cambia.
 ]
 
+== La receta del Beer: impulso, $bold(H)_G$, ángulos y la ley de los senos
+
+Los dos satélites con meteorito —el de arriba y el de la página siguiente—
+son el mismo procedimiento, y Aníbal lo dijo sin vueltas al mandar a hacer
+el segundo: «hacer este problema es aprender a hacer el resto». El Beer lo
+deja escrito en el recuadro de resolución de problemas de §18.11 (pág. 1194,
+caso 2b). Son cuatro pasos, y el primero no es de esta sección sino de la
+§18.3.
+
+*Paso 1, el impulso* (Beer §18.3, pág. 1155–1156, fig. 18.6). Para un
+rígido, las cantidades de movimiento de todas sus partículas se reducen a
+$m overline(bold(v))$ aplicado en $G$ más el par $bold(H)_G$, y vale la misma
+relación de siempre: cantidades de movimiento antes, más impulsos externos,
+igual a cantidades de movimiento después. En un choque sin impulso externo
+—el satélite y el meteorito como un solo sistema— lo de antes y lo de después
+son *equipolentes*: misma cantidad de movimiento lineal y mismo momento
+respecto de $G$. Por eso $bold(H)_G$ después del choque es el del satélite
+antes más $bold(r) times m_0 bold(v)_0$ del meteorito.
+
+*Paso 2, de $bold(H)_G$ a $bold(omega)$*, componente a componente en los
+ejes principales: $omega_x = H_x \/ I'$, $omega_y = H_y \/ I'$, $omega_z =
+H_z \/ I$. De ahí el módulo $omega$ y el ángulo $gamma$ con el eje de
+simetría.
+
+*Paso 3, el eje de precesión* es la dirección de $bold(H)_G$, fija desde ese
+instante, y $theta$ (entre $bold(H)_G$ y el eje) sale de $tan theta =
+H_"transv" \/ H_z$ o de la @peon-tan-gamma.
+
+*Paso 4, la ley de los senos.* $bold(omega) = dot(phi) bold(K) + dot(psi)
+hat(k)$ es una suma de dos vectores *oblicuos*: uno sobre el eje de
+precesión, el otro sobre el eje de simetría. Dibujados punta con cola forman
+un triángulo con lados $dot(phi)$, $dot(psi)$ y $omega$, en el que el ángulo
+opuesto a $dot(phi)$ es $gamma$, el opuesto a $dot(psi)$ es $theta - gamma$, y
+el opuesto a $omega$ es $180degree - theta$. El teorema del seno da todo de
+una:
+
+$ omega / (sin theta) = dot(phi) / (sin gamma) = dot(psi) / (sin(theta - gamma)) $
+
+Si el cuerpo es achatado, $gamma > theta$ y $sin(theta - gamma) < 0$: la
+fórmula misma da el spin negativo, la precesión retrógrada. Nadie tiene que
+acordarse del signo.
+
+#ejemplo("El satélite de dos discos y el meteorito (Problema Resuelto 18.6 del Beer)", nivel: "a fondo")[
+  _(Beer, Problema Resuelto 18.6, pág. 1192 —la página 618 del PDF—,
+  mandado a hacer por Aníbal para el parcialito del cap. 18.)_ Un satélite de
+  masa $m$ es dinámicamente equivalente a dos discos delgados de masa $m\/2$
+  y radio $a = 0,8$ m, unidos por una barra liviana de largo $2 a$. Gira
+  libre alrededor de su eje de simetría $z$ a $omega_0 = 60$ rpm $= 6,283$
+  rad/s. Un meteorito de masa $m_0 = m\/1000$, a $v_0 = 2000$ m/s paralelo
+  a $z$ y relativo al satélite, se incrusta en $C$, a distancia $a$ del eje
+  sobre $y$.
+
+  *Momentos de inercia.* Axial, dos discos sobre su propio eje: $I = 2 dot.op
+  1/2 (m/2) a^2 = 1/2 m a^2$. Transversal, cada disco sobre un diámetro más
+  Steiner hasta $G$, a distancia $a$: $I' = 2 [1/4 (m/2) a^2 + (m/2) a^2] =
+  5/4 m a^2$. Como $I < I'$, se puede adelantar el final: directa.
+
+  *Paso 1.* El meteorito pega a distancia $a$ del eje con cantidad de
+  movimiento paralela a él, así que le agrega momento angular *transversal*:
+  $ bold(H)_G = a hat(j) times m_0 v_0 hat(k) + I omega_0 hat(k) = m_0 v_0 a thin hat(i) + I omega_0 hat(k) $
+  (Supuesto, dicho: $m_0 = m\/1000$ no cambia ni $G$ ni los momentos de
+  inercia.)
+
+  *Paso 2.* $omega_x = m_0 v_0 a \/ I' = 4/5 (m_0/m) (v_0/a) = 2$ rad/s;
+  $omega_z = omega_0 = 6,283$ rad/s. Entonces $omega = 6,594$ rad/s
+  $= 63,0$ rpm, y $tan gamma = 2 \/ 6,283$, $gamma = 17,7degree$.
+
+  *Paso 3.* $tan theta = H_x \/ H_z = (I' omega_x)\/(I omega_z) = 2,5 dot.op
+  0,3183 = 0,796$: el eje de precesión forma $theta = 38,5degree$ con el eje
+  del satélite, en el plano $x z$.
+
+  *Paso 4.* Con la ley de los senos, $dot(phi) = omega sin gamma \/ sin
+  theta$ y $dot(psi) = omega sin(theta - gamma) \/ sin theta$. Con los
+  ángulos redondeados a un decimal, como hace el libro, sale $dot(phi) =
+  30,8$ rpm y $dot(psi) = 35,9$ rpm; sin redondear nada, $30,7$ y $36,0$
+  rpm, que es lo que dan también $dot(phi) = H_G\/I'$ y la relación entre spin
+  y precesión de más arriba. Los dos son el mismo resultado: la diferencia es
+  el redondeo del libro, y es exactamente por qué Aníbal dice que no le tiene
+  confianza a los números.
+
+  #clave[
+    *Las dos velocidades salen positivas: precesión directa*, como
+    anticipaban $I < I'$ y $gamma < theta$. Los conos son los de la figura
+    18.23 del Beer (pág. 1191, la 617 del PDF, la que Aníbal mandó a
+    revisar): el corporal, afinado alrededor del eje del satélite, rueda
+    *por afuera* del espacial, que rodea a $bold(H)_G$. El 18.127 de más
+    arriba es el mismo problema con el cuerpo achatado, y ahí el corporal
+    envuelve al espacial.
+  ]
+]
+
+== Cuando $theta$ también se mueve: el trompo y las tres conservaciones
+
+La precesión estable del módulo #M("euler-giroscopo") y la peonza libre de este módulo
+son los dos casos en que $theta$ queda fijo. El tercero que el Beer
+nombra en su recuadro (pág. 1194, caso 3) es el *trompo* con un punto fijo
+$O$ sobre su eje y sólo el peso como carga, con $theta$ que puede cambiar:
+precesión, nutación y giro, ninguna constante. Es el «bamboleo» de verdad.
+Las ecuaciones generales (las del giróscopo del módulo #M("euler-giroscopo")) no son
+lineales, así que el Beer aconseja no resolverlas sino usar lo que se
+conserva:
+
+- *La energía*, porque el peso es conservativo y el apoyo en $O$ no hace
+  trabajo. Con $c$ la distancia de $O$ a $G$:
+  $ 1/2 [I' (dot(phi)^2 sin^2 theta + dot(theta)^2) + I omega_z^2] + m g c cos theta = E $
+- *El momento angular sobre el eje vertical fijo $Z$*, porque el peso y la
+  reacción en $O$ son verticales y no hacen momento alrededor de $Z$:
+  $ bold(K) dot.op bold(H)_O = I' dot(phi) sin^2 theta + I omega_z cos theta = "cte" $
+- *El momento angular sobre el eje de giro $z$*, porque $O$ y $G$ están los
+  dos sobre él: $I omega_z = "cte"$.
+
+Con tres cantidades fijas y tres incógnitas ($dot(phi)$, $dot(theta)$,
+$dot(psi)$) para cada $theta$, el trompo queda acotado: $theta$ oscila entre
+dos valores, y eso es la nutación (Beer, problemas 18.139 y 18.140). La
+precesión estable es el caso particular en que esa oscilación tiene amplitud
+cero.
+
 == Cierre de la Parte V, y del apunte
 
 La Parte V es, de punta a punta, el Beer: los capítulos 15 y 18, en el

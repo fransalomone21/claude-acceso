@@ -272,6 +272,16 @@ a dos días de un parcialito. Se corrigió en 9 archivos y la fila de
 toda fila nueva del Anexo D y para toda caja `#notacion` que diga «como el
 libro».
 
+**12. Todo documento nuevo de `practica/` con números entra el día que nace a
+`PARCIALES_NUEVOS` de `validar.py` (con sus controles en `c_modelos()`) y,
+si tiene ejercicios, a `OBLIGADOS` de `verificar-consignas.py`; y al
+agregar controles se mira que el contador de `validar.py` SUBA en esa
+cantidad.** Decisión del 2026-10-28: la guía del parcialito de CR tuvo sus
+controles cargados y fuera de la lista un día entero, con «todo en verde» y
+«11 números en `validar.py`» escrito en el ESTADO; lo delató el contador,
+clavado en 591. Desde ese día `validar.py` da rojo si un documento tiene
+controles y nadie los mira (sabotaje 15 de `probar-validar.py`).
+
 ## Dónde está cada cosa
 
 ```

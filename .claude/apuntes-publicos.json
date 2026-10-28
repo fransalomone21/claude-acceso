@@ -8,7 +8,7 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Fisica Espacial.pdf",
-      "estado": "2026-10-28 -- 21 modulos, 216 pag., con todo lo que dio la catedra hasta el material del 27/10 (la hormiga en m18, el Ej. 3 sin cupla y las ecs. 18.39 en m20, el Beer 18.127 en m21); I axial e I' transversal como el Beer y Anibal (estaban al reves hasta el 27/10); L es el momento angular (C1, 13/10); en mantenimiento (fase 17)"
+      "estado": "2026-10-28 -- 21 modulos, 218 pag., con todo lo que dio la catedra hasta el material del 27/10 y el cap. 18 del Beer completo (la hormiga en m18; el Ej. 3 sin cupla, las ecs. 18.39 y el torque de salida del CMG en m20; el Beer 18.127, el PR 18.6 con la ley de los senos y el trompo en m21); I axial e I' transversal como el Beer y Anibal (estaban al reves hasta el 27/10); L es el momento angular (C1, 13/10); en mantenimiento (fase 17)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
@@ -51,7 +51,13 @@
       "materia": "Fisica Espacial/Modelos de Parcial/5 - Parcialito de cuerpo rigido (29-10)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-cuerpo-rigido.pdf",
       "nombre-en-drive": "Guia para el parcialito - Cuerpo rigido.pdf",
-      "estado": "2026-10-28 -- 6 pag. para estudiar el parcialito del 29/10 (tema: hipotesis, cuerpo rigido): la lista de temas de CR renglon por renglon (idea, formula, trampa), el material de Anibal del 27/10 (resumen del cap. 18, Ej. 3 sin cupla, derivada en sistemas rotantes, Beer 18.127), como pregunta y 10 preguntas con respuesta corta; numeros en practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/resumen-cuerpo-rigido.typ)"
+      "estado": "2026-10-28 (v2) -- 8 pag. para el parcialito del 29/10, del cap. 18 del Beer (lo dijo Anibal, ANI-R13): siete ideas dichas simple y demostradas con vectores, la lista de CR renglon por renglon, la receta del PR 18.6 (ley de los senos), torque de salida y amplificacion, el trompo, como pregunta y 13 preguntas con respuesta; 18 numeros medidos por practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/resumen-cuerpo-rigido.typ)"
+    },
+    {
+      "materia": "Fisica Espacial/Modelos de Parcial/5 - Parcialito de cuerpo rigido (29-10)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-5-cuerpo-rigido.pdf",
+      "nombre-en-drive": "Modelo de parcialito 5 - Cuerpo rigido (con resolucion).pdf",
+      "estado": "2026-10-28 -- 6 pag.: parte A conceptual (angulos de Euler, ecuaciones de Euler, precesion estable, conos, torque de salida y girocompas) y parte B numerica (meteorito sobre un satelite achatado por la ley de los senos y por componentes, con discuta y opine; CMG y amplificacion); 13 numeros medidos por practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/parcialito-5-cuerpo-rigido.typ)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial/4 - 2do Parcial (19-11) y recuperatorio (26-11)",

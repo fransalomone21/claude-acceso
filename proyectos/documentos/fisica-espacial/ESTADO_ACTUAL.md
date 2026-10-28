@@ -1,5 +1,28 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-28 (tarde): el parcialito es del cap. 18 — modelo, guía v2 y apunte completo
+
+- **Lo que dijo Aníbal** (de memoria, por Fran; `catedras` ANI-R13): el
+  parcialito del 29/10 es del cap. 18 del Beer; mandó a hacer el Problema
+  Resuelto 18.6 (el meteorito, ley de los senos), a revisar los conos de
+  §18.11, y nombró el torque de salida y la amplificación.
+- **Modelo de parcialito 5** (`practica/parcialito-5-cuerpo-rigido.typ`, 6
+  págs., con resolución): parte A conceptual (ángulos de Euler, ecuaciones de
+  Euler, precesión estable, conos, CMG y girocompás) y parte B numérica (un
+  meteorito sobre un satélite achatado, por la ley de los senos y por
+  componentes, con «discuta» y «opine»; un CMG). 13 números medidos.
+- **Guía v2** (8 págs.): arranca con siete ideas dichas simple y demostradas
+  con vectores (pedido de Fran: los dos enfoques), la receta del PR 18.6, el
+  torque de salida, el trompo, 13 preguntas. 18 números medidos.
+- **Apunte** (218 págs.): en m21, el principio del impulso (§18.3), la receta
+  con la ley de los senos, el PR 18.6 resuelto y el trompo con sus tres
+  conservaciones; en m20, torque de salida y amplificación del CMG. Con esto
+  el cap. 18 del Beer está entero.
+- **Corrección:** la entrada de abajo decía «11 números en `validar.py`» para
+  la guía, y no corrían: el archivo estaba fuera de `PARCIALES_NUEVOS`.
+  Arreglado (regla propia 12, guardia en `validar.py`, sabotaje 15); ahora
+  son 622 controles en verde.
+
 ## 2026-10-28: guía del parcialito de CR, material del 27/10 y la notación del Beer
 
 - **Guía para el parcialito** (`practica/resumen-cuerpo-rigido.typ`, 6 págs.):

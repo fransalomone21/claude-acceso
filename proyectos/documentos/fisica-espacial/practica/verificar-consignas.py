@@ -41,7 +41,8 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 
 # Los que ya cumplen la regla. Todo modelo o parcialito NUEVO entra aca el dia
 # que nace; los viejos, cuando se vuelvan a tocar.
-OBLIGADOS = ('parcialito-4-momento-angular.typ', 'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ')
+OBLIGADOS = ('parcialito-4-momento-angular.typ', 'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ',
+             'parcialito-5-cuerpo-rigido.typ')
 
 
 def cobertura(texto):
