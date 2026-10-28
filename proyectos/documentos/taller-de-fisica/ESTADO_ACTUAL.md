@@ -2,6 +2,22 @@
 
 **Última actualización:** 2026-10-28
 
+## 2026-10-28 (tarde) — clase 2 corregida en el mismo archivo
+
+- **Pedido de Fran:** la clase 2, con el mismo criterio, **sin copia**. Antes
+  de pisarla se midió que nadie la había tocado (MD5 de Drive = el local de
+  ayer). Mismo id (`1wZyZ8EVVqQuLMiZeNBUi0_ec_h4FBej6`), MD5 igual al local.
+- **Cambios:** Figs. 2-13 y 2-17 sin el epígrafe impreso, la foto de
+  Anderson sin los párrafos celestes, punteos numerados, «marcar dónde nace
+  el par», «Va la que confirme Aníbal», «(segunda clase)» y «Cada figura
+  cita…» fuera de la diapositiva, título de la sección transversal en un
+  renglón, el exponente de la capa hemirreductora como superíndice.
+  21 diapositivas mirados en el render; `validate.py` en verde.
+- **Lo de Agustín en la clase 1** (pedido de Fran: sumarlo a la corregida):
+  midiendo el original contra la copia de las 14:30, cambió sólo la
+  diapositiva 8 (agrandó la figura del Sears y centró la fórmula). En la
+  corregida esa figura ya va a todo el ancho: no hubo nada que sumar.
+
 ## 2026-10-28 (día de la clase 1) — power corregido e imágenes en alta
 
 - **Pedido de Fran:** las imágenes del power de la clase 1 en una carpeta de
