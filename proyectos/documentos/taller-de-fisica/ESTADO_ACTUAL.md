@@ -1,6 +1,31 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-10-27
+**Última actualización:** 2026-10-28
+
+## 2026-10-28 (día de la clase 1) — power corregido e imágenes en alta
+
+- **Pedido de Fran:** las imágenes del power de la clase 1 en una carpeta de
+  Drive, en buena resolución (el espectro no se leía), sin tocar el power
+  (Agustín lo está editando); después, una **copia corregida** del power con
+  una lectura crítica: la miniatura ilegible de la Fig. 2-5, los punteos
+  feos, el gráfico exacto del libro con mejores textos, y nada de «lo que
+  mostró Santi» en la diapositiva.
+- **Hecho:** en Drive, `3 - Presentacion/Power - Clase 1 (28-10) - rayos X y
+  Compton (version corregida).pptx` y `3 - Presentacion/Imagenes - Clase 1/`
+  (6 PNG numerados por diapositiva). MD5 iguales al local. El power original
+  no se tocó: se leyó de una copia (lo editaba Agustín a las 14:30-14:35).
+- **Qué cambió en la copia:** figuras del Eisberg sin el epígrafe impreso
+  adentro (se tapa por la capa de texto, `figuras-limpias.py`), el Sears sin
+  los párrafos celestes, el espectro **redibujado** (`espectro.typ`: el libro
+  lo trae a 665 × 328 px), punteos como lista numerada con la entrada en
+  negrita, la diapositiva del aparato sin la miniatura y con el «Ojo» en una
+  franja, títulos de un renglón, 10⁻¹⁰ con superíndice real, la línea de
+  tiempo y los números centrados, y fuera de la diapositiva lo que era para
+  el grupo (Santi y Dante, cómo abrir la simulación, la disculpa del cristal
+  de sal): sigue en las notas.
+- **Verificado:** render de las 19 diapositivas mirado, `validate.py` en
+  verde. **No incluye** lo que Agustín haya cambiado en el original después
+  de las 14:30.
 
 ## 2026-10-27 (noche, después) — simulación v3, formato PhET
 

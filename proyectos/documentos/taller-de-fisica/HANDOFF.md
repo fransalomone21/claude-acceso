@@ -3,6 +3,21 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-10-28 — power corregido de la clase 1
+
+- `referencia.js` v6: `lista()` (punteos numerados), `figura()` usa
+  `figuras/limpias/` si existe y centra la imagen con las medidas del PNG.
+  Se generó sólo la clase 1 (`... 1`); la referencia y la clase 2 en Drive
+  siguen siendo las de v5 (no se regeneraron ni subieron).
+- `figuras-limpias.py`: el epígrafe del Eisberg se tapa por PALABRAS de la
+  capa OCR (en la Fig. 2-10 el epígrafe y el rótulo del eje comparten bloque).
+  En el Sears NO usar redacción: se lleva el dibujo que toca; va un
+  rectángulo blanco encima de los spans celestes.
+- `espectro.typ` → `figuras/espectro-redibujado.png` a 300 ppi (comando en
+  el encabezado). El diagrama de Compton para el power, a 400 ppi en
+  `figuras/limpias/`.
+- Para renderizar sin `pdftoppm`: soffice a PDF y pymupdf.
+
 ## 2026-10-27 (noche, después) — simulación v3
 
 - Estado único `S` en `plantilla.html`; cada pantalla tiene su función de
