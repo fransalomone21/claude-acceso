@@ -357,3 +357,72 @@
   flecha3(v, (0, 1.2, 2.0), (0, 1.2, 0.45), etiqueta: $bold(v)_0$, color: c-dato, lado: "west", pos: 0%)
   rotulo3(v, (0, 0.6, -1.1), [$C$ a 1,2 m del eje $z$], ancla: "north")
 })
+
+// ---------------------------------------------------------------------
+// La mancuerna inclinada (guia, seccion 4): gira alrededor de la vertical
+// con la barra torcida. Cada pesa tiene r x m v perpendicular a la barra,
+// asi que H_G sale perpendicular a la BARRA, no sobre omega.
+// ---------------------------------------------------------------------
+#let fig-mancuerna = esquema(escala: 1.0cm, {
+  let G = (0, 0)
+  auxiliar((0, -2.0), (0, 2.6))
+  rotulo((0, -2.05), text(fill: luma(90), size: 7.5pt)[eje de giro], ancla: "north")
+  let A = (1.5, 1.0)
+  let B = (-1.5, -1.0)
+  cetz.draw.line(A, B, stroke: 1.6pt + c-trazo)
+  cetz.draw.circle(A, radius: 0.2, fill: luma(60), stroke: none)
+  cetz.draw.circle(B, radius: 0.2, fill: luma(60), stroke: none)
+  cetz.draw.circle(G, radius: 0.05, fill: black, stroke: none)
+  rotulo((0.15, -0.1), [$G$], ancla: "north-west")
+  rotulo((1.8, 1.0), [$m$, con $bold(v)$ ⊗ (entra a la hoja)], ancla: "west")
+  rotulo((-1.8, -1.0), [$bold(v)$ ⊙ (sale de la hoja), $m$], ancla: "east")
+  flecha(G, (0, 2.3), color: c-aux)
+  rotulo((0, 2.3), text(fill: c-aux)[$bold(omega)$], ancla: "south")
+  flecha(G, (-1.15, 1.75), color: c-verde)
+  rotulo((-1.15, 1.75), text(fill: c-verde)[$bold(H)_G$], ancla: "south-east")
+  rotulo((0.4, -1.5), text(size: 7.5pt, fill: luma(60))[$bold(H)_G perp$ barra: no va sobre $bold(omega)$], ancla: "north-west")
+})
+
+// ---------------------------------------------------------------------
+// La hormiga sobre la calesita (guia, seccion 3), vista desde arriba: camina
+// por un radio hacia afuera mientras el disco gira antihorario.
+// ---------------------------------------------------------------------
+#let fig-hormiga = esquema(escala: 1.0cm, {
+  let O = (0, 0)
+  cetz.draw.circle(O, radius: 2.4, stroke: 0.8pt + c-trazo, fill: rgb("#F4F6F7"))
+  cetz.draw.circle(O, radius: 0.05, fill: black, stroke: none)
+  rotulo((0.1, -0.12), [$O$], ancla: "north-west")
+  let d = (calc.cos(40deg), calc.sin(40deg))
+  let t = (-calc.sin(40deg), calc.cos(40deg))
+  let P = (1.3 * d.at(0), 1.3 * d.at(1))
+  let en(a, k) = (P.at(0) + k * a.at(0), P.at(1) + k * a.at(1))
+  cetz.draw.line(O, (2.4 * d.at(0), 2.4 * d.at(1)), stroke: (paint: c-guia, dash: "dashed"))
+  cetz.draw.circle(P, radius: 0.08, fill: c-trazo, stroke: none)
+  flecha(P, en(d, 1.0), color: c-aux)
+  rotulo(en(d, 1.0), text(fill: c-aux, size: 7.5pt)[$bold(v)_C$ (la ve el disco)], ancla: "west")
+  flecha(P, en(t, 1.2), color: c-verde)
+  rotulo(en(t, 1.2), text(fill: c-verde, size: 7.5pt)[$bold(Omega) times bold(r)$ (arrastre)], ancla: "south")
+  flecha(P, en(d, -0.9), color: c-dato)
+  rotulo(en(d, -0.9), text(fill: c-dato, size: 7.5pt)[centrípeta], ancla: "north-west")
+  flecha(en(d, 0.25), (en(d, 0.25).at(0) + 0.7 * t.at(0), en(d, 0.25).at(1) + 0.7 * t.at(1)), color: c-ambar)
+  rotulo((en(d, 0.25).at(0) + 0.7 * t.at(0), en(d, 0.25).at(1) + 0.7 * t.at(1)), text(fill: c-ambar, size: 7.5pt)[Coriolis], ancla: "east")
+  rotulo((-2.0, 2.0), text(size: 7.5pt)[$bold(Omega)$ ⊙ (gira antihorario)], ancla: "south-east")
+})
+
+// ---------------------------------------------------------------------
+// El CMG (guia, seccion 10), con el eje del gimbal saliendo de la hoja: el
+// motor gira h con delta-punto; el rotor cambia su h hacia delta x h y el
+// satelite recibe el opuesto, sobre el tercer eje.
+// ---------------------------------------------------------------------
+#let fig-cmg = esquema(escala: 1.0cm, {
+  let C = (0, 0)
+  cetz.draw.rect((-0.25, -1.0), (0.25, 1.0), stroke: 0.8pt + c-trazo, fill: luma(225))
+  rotulo((0, -1.05), text(size: 7.5pt)[rotor, de canto], ancla: "north")
+  flecha(C, (2.4, 0), color: c-verde)
+  rotulo((2.4, 0), text(fill: c-verde)[$bold(h)$], ancla: "west")
+  rotulo((-0.35, 0.3), text(size: 7.5pt)[⊙ $dot(bold(delta))$: eje del gimbal, sale de la hoja], ancla: "south-east")
+  flecha((2.4, 0.08), (2.4, 1.3), color: c-aux)
+  rotulo((2.4, 1.3), text(fill: c-aux, size: 7.5pt)[cambio de $bold(h)$: $dot(bold(delta)) times bold(h)$], ancla: "south")
+  flecha((1.2, -0.12), (1.2, -1.4), color: c-dato)
+  rotulo((1.2, -1.4), text(fill: c-dato, size: 7.5pt)[$tau_"salida"$ sobre el satélite: el opuesto], ancla: "north")
+})

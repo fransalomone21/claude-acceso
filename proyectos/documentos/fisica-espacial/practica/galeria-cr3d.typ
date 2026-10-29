@@ -19,3 +19,9 @@
 #fig-disco-torcido(respuesta: true)
 #pagebreak()
 #fig-meteorito
+#pagebreak()
+#fig-mancuerna
+#pagebreak()
+#fig-hormiga
+#pagebreak()
+#fig-cmg

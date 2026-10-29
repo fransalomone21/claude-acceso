@@ -17,7 +17,7 @@
 // =====================================================================
 #import "estilo.typ": *
 #import "../apunte/biblioteca/figuras.typ": fig-conos, fig-omega-vector, fig-suma-omegas, fig-steiner, fig-giroscopo-pivote
-#import "figuras-cr3d.typ": fig-cardanes, fig-precesion-estable, fig-precesiones, fig-HO, fig-disco-torcido, fig-meteorito
+#import "figuras-cr3d.typ": fig-cardanes, fig-precesion-estable, fig-precesiones, fig-HO, fig-disco-torcido, fig-meteorito, fig-mancuerna, fig-hormiga, fig-cmg
 
 #show: documento.with(
   titulo: [Guía para el parcialito — cuerpo rígido],
@@ -352,6 +352,11 @@ existe sólo si los ejes aceleran su giro.
 disco que gira a $1$ rad/s. A los $2$ s, desde afuera, su velocidad es
 $(0,5; 1,0)$ m/s ($1,12$ m/s de módulo) y su aceleración $(-1,0; 1,0)$ m/s²
 ($1,41$ m/s²): centrípeta más Coriolis. Desde el disco, aceleración cero.
+#figure(fig-hormiga, caption: [La hormiga, vista desde arriba. El disco ve
+sólo $bold(v)_C$, por el radio. Desde afuera se suma el arrastre
+$bold(Omega) times bold(r)$, y la aceleración tiene la centrípeta (hacia el
+centro) y la de Coriolis (de costado, en el sentido del giro).])
+
 Un proyectil hacia el norte a $300$ m/s (su rapidez $v$) en Buenos Aires
 ($35degree$ S), con $Omega_T$ la velocidad angular de la Tierra (una vuelta
 // simbolos: Omega_T
@@ -459,6 +464,13 @@ ec. 18.13).
   de $bold(omega)$ separadas: sólo coinciden si el pulgar va sobre un eje
   principal (la mancuerna derecha, perpendicular al eje).
 ]
+
+#figure(fig-mancuerna, caption: [La mancuerna inclinada, girando alrededor de
+la vertical. En este instante una pesa entra a la hoja y la otra sale: cada
+una aporta un momento de su cantidad de movimiento perpendicular a la barra,
+y la suma, $bold(H)_G$, queda torcida respecto de $bold(omega)$. Si la barra
+estuviera horizontal (eje principal), $bold(H)_G$ caería sobre
+$bold(omega)$.])
 
 = 4 bis. Impulso y energía en tres dimensiones
 #origen[Beer §18.3 (fig. 18.6, pág. 1156) y §18.4 (ecs. 18.14 a 18.17 y 18.20, pág. 1157)]
@@ -959,6 +971,11 @@ con $tau_"motor"$ el torque de entrada. Con el volante del Ejercicio 3
 entran $2,5$ N·m, salen $500$, una amplificación de $200$. Una rueda de
 reacción da torque cambiando el *tamaño* de su momento angular: su salida es
 la del motor, amplificación uno.
+
+#figure(fig-cmg, caption: [El CMG con el eje del gimbal saliendo de la hoja.
+El motor gira $bold(h)$ con $dot(bold(delta))$; el rotor cambia su momento
+hacia $dot(bold(delta)) times bold(h)$, y el satélite recibe el opuesto,
+$tau_"salida"$, sobre el tercer eje.])
 
 #trampa[
   El torque de salida no aparece sobre el eje del gimbal ni sobre el del
