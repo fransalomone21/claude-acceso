@@ -564,6 +564,39 @@ def c_modelos():
         ('0,30$ m/s', 0.05 * 3000 / 500.05), ('0,042$ N·m, sobre', 0.35 * 0.12),
         ('2,4 times 10^(-5)$ N·m. Ampl', 1.0e-4 * 0.12 / 0.5), ('1750$', 0.35 * 0.12 / (1.0e-4 * 0.12 / 0.5)),
     ]
+    # Parte C (2026-10-29, unificado con el modelo del 26/10): Euler con un
+    # thruster, el disco torcido en sus cojinetes y la precesion estable.
+    Ix9, Iy9, Iz9, w9 = 120, 80, 200, (0.05, 0.10, 0.40)
+    H9 = (Ix9 * w9[0], Iy9 * w9[1], Iz9 * w9[2])
+    wxH9 = cruz(w9, H9)
+    m10, r10, b10 = 4, 0.15, rad(5)
+    I10, Ip10, w10 = 0.5 * m10 * r10 ** 2, 0.25 * m10 * r10 ** 2, 1800 * 2 * m.pi / 60
+    Md10 = (I10 - Ip10) * w10 ** 2 * m.sin(b10) * m.cos(b10)
+    m11, r11, c11, ps11 = 1.5, 0.06, 0.10, 300
+    I11, Wc11 = 0.5 * m11 * r11 ** 2, m11 * G0 * c11
+    fi11 = Wc11 / (I11 * ps11)
+    IpO11 = 0.25 * m11 * r11 ** 2 + m11 * c11 ** 2
+    A11 = (I11 - IpO11) * m.cos(rad(60))
+    d11 = m.sqrt((I11 * ps11) ** 2 + 4 * A11 * Wc11)
+    lenta11, rapida11 = (-I11 * ps11 + d11) / (2 * A11), (-I11 * ps11 - d11) / (2 * A11)
+    parcialito5 += [
+        ('-0,0233$ rad/s²', (2 + (Iy9 - Iz9) * w9[1] * w9[2]) / Ix9),
+        ('0,0200$ rad/s²', (Iz9 - Ix9) * w9[2] * w9[0] / Iy9),
+        ('0,0010$ rad/s²', (Ix9 - Iy9) * w9[0] * w9[1] / Iz9),
+        ('-4,8$ N·m, le', (Iy9 - Iz9) * w9[1] * w9[2]), ('+0,0167$ rad/s²', 2 / Ix9),
+        ('4,8; -1,6; -0,2)$', wxH9[0]), ('-1,6; -0,2)$', wxH9[1]), ('-0,2)$ N·m. Es', wxH9[2]),
+        ('0,0450$ kg·m², $I', I10), ('0,0225$ kg·m², $omega', Ip10), ('188,5$ rad/s; ', w10),
+        ('8,450$ sobre', I10 * w10 * m.cos(b10)), ('0,370$ de costado', Ip10 * w10 * m.sin(b10)),
+        ('8,46$ kg·m²/s, a', m.hypot(I10 * w10 * m.cos(b10), Ip10 * w10 * m.sin(b10))),
+        ('2,50 degree$ del eje', deg(m.atan(Ip10 / I10 * m.tan(b10)))), ('69,4 "N·m"', Md10),
+        ('173,5$ N, contra', Md10 / 0.40), ('19,6$ N de peso', m10 * G0 / 2), ('43,4$ N. Con', Md10 / 0.40 / 4),
+        ('0,00270$ kg·m², $I', I11), ('0,810$ kg·m²/s y', I11 * ps11), ('1,4715$ N·m. Con', Wc11),
+        ('1,82$ rad/s, $T', fi11), ('3,46$ s. La', 2 * m.pi / fi11), ('165$ veces', ps11 / fi11),
+        ('14,7$ N ($G$', m11 * G0), ('0,495$ N, hacia', m11 * fi11 ** 2 * c11),
+        ('0,01635$ kg·m². Con', IpO11), ('-0,006825 thin', A11), ('1,845$ rad/s ($T', lenta11),
+        ('3,40$ s) y', 2 * m.pi / lenta11), ('116,8$ rad/s. Es', rapida11), ('1,82$ rad/s) en', fi11),
+        ('1,6$ %: con', (lenta11 - fi11) / fi11 * 100),
+    ]
     # El Problema Resuelto 18.6 del Beer, en el apunte y en la guia: exacto
     # (30,7 y 36,0 rpm) y con los angulos redondeados como el libro (30,8 y 35,9).
     rpm = 60 / (2 * m.pi)

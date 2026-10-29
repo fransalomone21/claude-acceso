@@ -38,13 +38,18 @@
   torque externo», la hoja de la derivada en sistemas rotantes y el
   cuaderno del Beer 18.127.
 
-  *Qué esperar.* Aníbal dijo que el parcialito es del *capítulo 18 del
-  Beer*, que pueden entrar cosas relacionadas, y mandó a hacer el *Problema
-  Resuelto 18.6* (el meteorito), a revisar los conos de §18.11 y a mirar el
-  *torque de salida* y la *amplificación de torques* (lo contó Fran de la
-  clase). De los parcialitos anteriores: preguntas cortas encadenadas, *el
-  dibujo es la respuesta*, poca cuenta. Esta vez puede venir un problema con
-  números como el 18.6: está en la sección 8 y en el modelo de parcialito 5.
+  *Qué esperar.* Aníbal habló del parcialito dos veces (lo contó Fran de la
+  clase). La primera: «*18.6 y precesión estable*, y capaz todo el 18»:
+  §18.6 son las ecuaciones de Euler (sección 5) y §18.10 la precesión
+  estable (sección 7). La segunda: que es del *capítulo 18 del Beer*, que
+  pueden entrar cosas relacionadas, y mandó a hacer el *Problema Resuelto
+  18.6* (el meteorito), a revisar los conos de §18.11 y a mirar el *torque de
+  salida* y la *amplificación de torques*. Ojo: «18.6» es a la vez la sección
+  y el problema resuelto; acá están los dos. De los parcialitos anteriores:
+  preguntas cortas encadenadas, *el dibujo es la respuesta*, poca cuenta.
+  Esta vez puede venir un problema con números: el 18.6 está en la sección 8,
+  y en el modelo de parcialito 5 hay de todo (la parte C, Euler y precesión
+  estable con números).
 ]
 
 = 0. Lo que quiere Aníbal: siete ideas, dichas simple y después demostradas
@@ -264,6 +269,19 @@ resolvió Aníbal: $dot(Omega)_x = -100$ rad/s² en $t = 0$. El gimbal suelto
 arranca solo, buscando poner el eje del volante paralelo al giro de la
 plataforma; se pasa y *oscila*. Es el girocompás del GIF.
 
+*La otra mitad de §18.6: la extensión de d'Alembert.* Las fuerzas externas
+sobre un rígido equivalen a $m overline(bold(a))$ aplicada en $G$ más una
+cupla $dot(bold(H))_G$. Sirve para sacar reacciones. El caso de §18.7–18.8 es
+el *eje fijo*: un disco montado torcido un ángulo $beta$ en un eje que gira
+con $omega$ constante tiene $bold(H)_G$ fuera de $bold(omega)$, que da vueltas
+con el eje, y los cojinetes tienen que hacer la cupla
+
+$ abs(dot(bold(H))_G) = abs(bold(omega) times bold(H)_G) = (I - I') omega^2 sin beta cos beta $
+
+con dos fuerzas opuestas que *giran con el eje* (el desbalance dinámico,
+módulo 19). Crece con $omega^2$ y desaparece si el eje de giro es principal
+($beta = 0$). Con números, en el Ejercicio 10 del modelo de parcialito 5.
+
 = 6. El giróscopo y los ángulos de Euler
 #origen[Beer §18.9, figs. 18.15–18.16 · resumen manuscrito de Aníbal, hoja 2 · apunte, módulo 20]
 
@@ -316,6 +334,18 @@ eje de giro*. Giro, par y precesión forman una tríada derecha (Beer fig.
 18.19): el spin «persigue» al par. Con el peso de palanca, $M g l = I
 omega_"spin" omega_"prec"$, que es el $Omega = tau \/ L$ del Sears (Aníbal
 remite al giróscopo del parcialito 3).
+
+*Con el eje inclinado y el peso* (el trompo o el giróscopo apoyado en $O$):
+el par del peso es $W c sin theta$, el $sin theta$ se simplifica y queda
+
+$ W c = (I omega_z - I'_O dot(phi) cos theta) dot(phi) quad arrow.r.double quad (I - I'_O) cos theta thin dot(phi)^2 + I dot(psi) thin dot(phi) - W c = 0 $
+
+Es *cuadrática*: hay dos precesiones estables posibles, una lenta (la que se
+ve, $dot(phi) approx W c \/ (I dot(psi))$ si $dot(phi) << dot(psi)$) y una
+rápida. $I'_O$ es respecto del pivote (Steiner, $I'_G + m c^2$), y $omega_z$
+lleva el $dot(phi) cos theta$. Con menos spin la lenta se *acelera*, hasta
+que deja de haber solución y el trompo cae. Con números, en el Ejercicio 11
+del modelo de parcialito 5.
 
 #trampa[
   El giróscopo no cae para el lado del par: precesa perpendicular a él. Y

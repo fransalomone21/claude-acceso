@@ -1,5 +1,28 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-29: un solo parcialito 5 (unificado con el del 26/10)
+
+- **Lo que había:** en Drive convivían dos juegos para el mismo parcialito:
+  «3.5 - Parcialito 5 (29-10, escrito 1 h)», tres Google Docs del 26/10
+  hechos **fuera del repo** (guía, modelo conceptual y modelo mixto, sobre lo
+  primero que dijo Aníbal: «18.6 y precesión estable»), y «5 - Parcialito de
+  cuerpo rígido (29-10)», los PDF del repo del 28/10 (lo segundo: cap. 18, PR
+  18.6, conos, torque de salida). Fran: es un solo parcialito, y lo tiene hoy.
+- **Modelo unificado** (`practica/parcialito-5-cuerpo-rigido.typ`, 7 págs.):
+  parte C nueva con lo que sólo tenían los Docs: verdadero o falso, Euler con
+  un thruster, el disco torcido en sus cojinetes (d'Alembert, §18.7-18.8) y
+  la precesión estable con números ($theta$ = 90° y 60°, la cuadrática).
+  Las cuentas de los Docs se rehicieron y dan; 34 controles nuevos, 656 en
+  verde; 38 consignas sin partir.
+- **Guía v3** (`practica/resumen-cuerpo-rigido.typ`, 9 págs.): las dos cosas
+  que dijo Aníbal, la extensión de d'Alembert con el eje fijo y la precesión
+  estable inclinada (dos soluciones).
+- **Drive:** los dos PDF publicados en «5 - …», mismo id. **La carpeta «3.5»
+  con los tres Docs sigue ahí**: mandarla a la papelera necesita el sí de Fran.
+- **Apunte:** cubre todos los temas salvo dos, que están sólo en la guía y el
+  modelo: la extensión de d'Alembert por su nombre (el desbalance de m19 es
+  el mismo caso) y las dos soluciones de la precesión estable inclinada.
+
 ## 2026-10-28 (tarde): el parcialito es del cap. 18 — modelo, guía v2 y apunte completo
 
 - **Lo que dijo Aníbal** (de memoria, por Fran; `catedras` ANI-R13): el

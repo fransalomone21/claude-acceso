@@ -1,5 +1,15 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-10-29 — parcialito 5 unificado.** **Queda:** (1) con el sí de Fran,
+> mandar a la papelera la carpeta de Drive «3.5 - Parcialito 5 (29-10,
+> escrito 1 h)» (tres Docs del 26/10, ya absorbidos en la parte C); (2) lo
+> que traiga del parcialito de hoy entra a `catedras` como ANI-R14; (3) si
+> se toca m20 o m21: la extensión de d'Alembert por su nombre y las dos
+> soluciones de la precesión estable inclinada, que hoy sólo están en
+> `practica/`. **Trampa pagada:** material de la materia hecho como Google
+> Docs directo en Drive no lo ve ninguna sesión que lea el repo; antes de
+> producir para un parcialito, listar la carpeta de Drive de esa materia.
+
 > **2026-10-28 (tarde) — modelo de parcialito 5, guía v2, cap. 18 completo.**
 > Publicado y verificado (ver ESTADO). **Queda:** lo que diga la corrección
 > del parcialito del 29/10 entra a `catedras` como ANI-R14 y se contrastan
