@@ -282,6 +282,22 @@ controles cargados y fuera de la lista un día entero, con «todo en verde» y
 clavado en 591. Desde ese día `validar.py` da rojo si un documento tiene
 controles y nadie los mira (sabotaje 15 de `probar-validar.py`).
 
+**13. Ningún símbolo en el aire: cada letra de una fórmula se presenta en
+palabras donde aparece por primera vez, y se firma con `// simbolos: ...`.**
+Pedido de Fran, 2026-10-29, sobre la guía del parcialito 5: *«me tiraste esa
+$v_A$ y $v_B$ de la nada; que no se repita con ningún otro tema, que no quede
+nada en el aire»*. La regla 4 ya lo pedía y no frenaba: ningún paso de la
+escritura listaba los símbolos nuevos. Ahora `practica/verificar-simbolos.py`
+recorre toda la matemática del documento, normaliza cada símbolo
+($bold(H)_G$ → `H_G`, $dot(phi)$ → `phidot`) y da rojo si su primera
+aparición no tiene a menos de 12 renglones un comentario `// simbolos:` que
+lo nombre (o si se declara uno que no aparece, o lejos). La declaración es la
+firma del autor de que *al lado, en palabras*, dice qué es: eso el script no
+lo puede leer. `--listar archivo.typ` da la lista para auditar; corre en
+`compilar.ps1`; sabotaje: `python practica\verificar-simbolos.py --sabotaje`.
+Todo documento nuevo de `practica/` entra a su `OBLIGADOS` el día que nace;
+al 2026-10-29 cumple sólo la guía del parcialito 5.
+
 ## Dónde está cada cosa
 
 ```

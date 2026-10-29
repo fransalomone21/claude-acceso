@@ -1,5 +1,16 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-10-29 (noche) — guía v5, ningún símbolo en el aire.** Hecho y
+> publicado (ver ESTADO). **Queda:** (1) el modelo de parcialito 5 y los
+> demás documentos de `practica/` no están en `OBLIGADOS` de
+> `verificar-simbolos.py`: entran cuando se toquen (`--listar` da la
+> auditoría hecha); (2) los SVG de `practica/figuras-cr/` salen distintos en
+> cada `compilar.ps1` sin cambio de contenido: quedaron modificados sin
+> commitear (la sesión no los descartó); hacerlos deterministas. **Trampas
+> pagadas:** una línea `// simbolos:` en medio de un párrafo no lo corta (medido
+> en el render); la declaración es estricta, sin prosa al lado (un paréntesis
+> explicativo dio ocho «declaraciones muertas»).
+
 > **2026-10-29 (tarde) — guía v4 y modelo con figuras.** Hecho y publicado
 > (ver ESTADO). **Queda:** (1) la figura «Precesiones» y la errata de la hoja
 > 1 entran a `catedras/fisica-espacial/REGISTRO.md` junto con lo del

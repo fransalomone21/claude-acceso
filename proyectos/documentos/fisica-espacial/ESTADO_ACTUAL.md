@@ -1,5 +1,21 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-29 (noche): guía v5 — ningún símbolo en el aire
+
+- **Guía** (`practica/resumen-cuerpo-rigido.typ`, 16 págs.): Fran marcó que
+  $bold(v)_A$ y $bold(v)_B$ (sección 2) aparecían sin presentar. Auditada
+  entera con la herramienta nueva: **121 símbolos**, cada uno presentado en
+  palabras donde aparece primero. Caja «Las letras de toda la guía» antes de
+  la primera fórmula ($G$, $m$, la barra, $bold(omega)$, $bold(H)_G$,
+  $bold(Omega)$, $I$/$I'$, $theta$/$gamma$, $dot(phi)$/$dot(psi)$, $bold(K)$);
+  la sección 2 deduce $bold(v)_B = bold(v)_A + bold(omega) times
+  bold(r)_(B\/A)$ desde $bold(v) = bold(omega) times bold(r)$; el Ejercicio 3
+  trae sus datos; el meteorito, Coriolis, Steiner, Euler, el trompo, el CMG,
+  los radios de giro del 18.127 y las letras de Aníbal, presentados.
+- **`practica/verificar-simbolos.py`** (regla propia 13), en `compilar.ps1`,
+  con sabotaje (control positivo + 5 mutantes, cada uno rojo por su motivo).
+- 656 números y 42 consignas en verde; Drive republicado.
+
 ## 2026-10-29 (tarde): guía v4 y modelo con figuras — el material de Aníbal, entero
 
 - **Guía** (`practica/resumen-cuerpo-rigido.typ`, 15 págs.): las cuatro hojas
