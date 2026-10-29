@@ -1,5 +1,27 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-10-29 (tarde): guía v4 y modelo con figuras — el material de Aníbal, entero
+
+- **Guía** (`practica/resumen-cuerpo-rigido.typ`, 15 págs.): las cuatro hojas
+  manuscritas del cap. 18 y la figura suelta «Precesiones» explicadas renglón
+  por renglón (cajas violetas, con la errata de la hoja 1: $sum M_3$ lleva
+  $(I_1 - I_2)$); el **cap. 18 sección por sección** (§18.1–18.11, ecuación y
+  página medidas en el PDF del Beer); lo que faltaba: $bold(H)_O = overline(
+  bold(r)) times m overline(bold(v)) + bold(H)_G$, el tensor con productos de
+  inercia, impulso y energía en 3D (§18.3–18.4), punto fijo y eje fijo
+  (18.28–18.29), las 18.39 escritas; y en cada tema **la versión con las
+  manos** (cajas ámbar; pedido de Fran). 16 preguntas.
+- **Modelo** (`practica/parcialito-5-cuerpo-rigido.typ`, 10 págs.): figuras
+  en los ejercicios 1, 6 y 10 y en las resoluciones 1, 3, 4 y 10; ejercicio
+  12 nuevo sobre la figura «Precesiones» ($I_0$ = $I'$, $beta$ contra
+  $gamma$). 42 consignas sin partir, 656 números en verde.
+- **Figuras** nuevas en `practica/figuras-cr3d.typ` (giróscopo en cardanes,
+  precesión estable, «Precesiones», $bold(H)_O$, disco torcido, meteorito),
+  con galería `galeria-cr3d.typ` y **`verificar-figuras.py`**: mide en el PDF
+  que ningún rótulo esté pisado ni tachado (sabotaje con 2 mutantes, en rojo
+  por su motivo); corre en `compilar.ps1`. Los rótulos llevan halo.
+- **Drive:** los dos PDF republicados en «5 - Parcialito de cuerpo rígido».
+
 ## 2026-10-29: un solo parcialito 5 (unificado con el del 26/10)
 
 - **Lo que había:** en Drive convivían dos juegos para el mismo parcialito:

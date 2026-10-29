@@ -22,6 +22,10 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'validar.py en rojo' }
     python figuras-cr.py
     if ($LASTEXITCODE -ne 0) { throw 'figuras-cr.py fallo' }
+    # Los rotulos de las figuras 3D del cap. 18 se leen: ninguno pisado ni
+    # tachado por una linea (pedido de Fran, 2026-10-29; sabotaje: --sabotaje)
+    python verificar-figuras.py galeria-cr3d.typ
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo: un rotulo pisado o cruzado (lista arriba)' }
     New-Item -ItemType Directory -Force salida | Out-Null
     $trabajos = @(
         @('guia.typ', 'salida\guia-con-resultados.pdf', 'resultados=si'),

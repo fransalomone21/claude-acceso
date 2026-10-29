@@ -17,6 +17,7 @@
 // =====================================================================
 #import "estilo.typ": *
 #import "../apunte/biblioteca/figuras.typ" as figs
+#import "figuras-cr3d.typ": fig-cardanes, fig-precesion-estable, fig-precesiones, fig-disco-torcido, fig-meteorito
 
 #show: documento.with(
   titulo: [Modelo de parcialito 5 — cuerpo rígido (Beer, cap. 18)],
@@ -47,7 +48,7 @@
       ([Extensión de d'Alembert; eje fijo y reacciones en los cojinetes], [§18.6–18.8], [módulo 19, «desbalance dinámico»], [C10]),
       ([Giróscopo y ángulos de Euler], [§18.9], [módulo 20], [A1]),
       ([Precesión estable], [§18.10], [módulo 20], [A3, C8, C11]),
-      ([Cuerpo simétrico sin cupla, conos, directa y retrógrada], [§18.11, PR 18.6], [módulo 21], [A4, B6]),
+      ([Cuerpo simétrico sin cupla, conos, directa y retrógrada], [§18.11, PR 18.6], [módulo 21], [A4, B6, C12]),
       ([Torque de salida, amplificación (CMG)], [—, material de la cátedra], [módulos 17 y 20], [A5, B7]),
     ).flatten().map(c => text(size: 8pt, c)),
   )
@@ -79,9 +80,11 @@
 #origen[Beer §18.9, figs. 18.15 y 18.16; el resumen manuscrito de Aníbal, hoja 2.]
 
 Un rotor simétrico está montado en dos cardanes (balancines), con su centro
-de masa fijo.
+de masa fijo, como en la figura (Beer fig. 18.15).
 
-+ Dibuje el giróscopo y marque los tres ángulos de Euler $phi$, $theta$ y
+#figure(fig-cardanes(rotulos: false, escala: 0.62cm))
+
++ Sobre el dibujo, marque los tres ángulos de Euler $phi$, $theta$ y
   $psi$, diciendo qué pieza gira cada uno y alrededor de qué eje. Nombre las
   tres velocidades $dot(phi)$, $dot(theta)$, $dot(psi)$.
 + Con ejes $x y z$ pegados al balancín interior ($z$ sobre el eje del
@@ -163,6 +166,8 @@ meteorito de $50$ g, que viaja a $3000$ m/s relativo al satélite en el
 sentido de $-z$, se incrusta en el punto $C$, en $bold(r)_C = (0; 1,2; 0)$ m
 desde el centro de masa $G$.
 
+#figure(fig-meteorito)
+
 + Justifique qué se conserva en el choque y por qué se puede despreciar la
   masa del meteorito.
 + Calcule $bold(H)_G$ después del choque. ¿Cuál es el eje de precesión? Halle
@@ -234,6 +239,8 @@ Por un error de montaje, el eje de simetría del disco forma $beta = 5degree$
 con el eje de giro. Disco: $I = 1/2 m r^2$ (axial), $I' = 1/4 m r^2$
 (diametral).
 
+#figure(fig-disco-torcido())
+
 + Dibuje $bold(omega)$, el eje del disco y $bold(H)_G$. ¿$bold(H)_G$ queda
   entre $bold(omega)$ y el eje del disco, o del otro lado?
 + Si $bold(omega)$ es constante, ¿por qué los cojinetes tienen que hacer
@@ -261,11 +268,33 @@ $dot(psi) = 300$ rad/s.
   cambia?
 ]
 
+#consigna[
+#ejercicio(12, [la figura «Precesiones» que subió Aníbal], [1])
+#origen[La figura suelta «Precesiones» del Classroom (cuerpo alargado y achatado libres de cupla); Beer §18.11, ecs. 18.49 y siguientes, págs. 1190–1191.]
+
+La figura dibuja dos cuerpos simétricos libres de cupla, con $bold(H)_G$
+vertical. Usa $I$ para el momento axial e $I_0$ para el transversal, y llama
+$beta$ al ángulo entre $bold(omega)$ y $bold(H)_G$.
+
+#figure(fig-precesiones(enunciado: true))
+
++ Traduzca la notación a la del Beer: ¿qué es $I_0$? ¿Cómo se relaciona
+  $beta$ con los ángulos $theta$ y $gamma$ del Beer, en cada cuerpo?
++ ¿Por qué el cilindro tiene $dot(psi) > 0$ y el disco $dot(psi) < 0$?
+  Justifique con una ecuación y en palabras.
++ Explique con la mano derecha (qué dedo es qué vector) cómo se mueve el eje
+  del disco alrededor de $bold(H)_G$ y para qué lado gira sobre sí mismo.
+]
+
 #pagebreak()
 
 = Resolución
 
 == Ejercicio 1
+
+#figure(fig-cardanes(escala: 0.78cm), caption: [La respuesta del inciso 1:
+balancín exterior (verde) girado $phi$, interior (bordó) girado $theta$, rotor
+girando $psi$; los ejes $x y z$ pegados al balancín interior.])
 
 + *Balancín exterior:* gira $phi$ alrededor del eje fijo (vertical); es la
   *precesión*, $dot(phi)$. *Balancín interior:* gira $theta$ alrededor de su
@@ -312,7 +341,9 @@ $dot(psi) = 300$ rad/s.
   $ sum bold(M)_O = I dot(psi) dot(phi) thin hat(j) $
   Sobre la línea de nodos: perpendicular al eje de precesión (vertical) y al
   de giro (horizontal). Giro, par y precesión forman una tríada derecha: el
-  spin «persigue» al par.
+  spin «persigue» al par. Con la mano derecha: pulgar = giro, índice = par,
+  mayor = precesión (figura b).
+  #figure(fig-precesion-estable)
 + Con el mismo par, $dot(phi) = M \/ (I dot(psi))$: el doble de spin da *la
   mitad* de precesión. Si se duplica la masa con el mismo brazo, el par del
   peso se duplica y $I$ también: la precesión *no cambia*.
@@ -332,10 +363,10 @@ theta$ y precesión directa. La c) es el error de pensar que la precesión
 necesita una cupla: sin cupla $bold(H)_G$ queda fijo y el eje igual precesa
 a su alrededor. La d) es falsa: el signo lo decide $I' - I$, la forma.
 
-#figure(figs.fig-conos, caption: [Los conos del caso alargado (precesión
-directa, Beer fig. 18.23): tangentes por afuera a lo largo de
-$bold(omega)$. En el achatado de la opción b), el corporal envuelve al
-espacial.])
+#figure(fig-precesiones(), caption: [Los dos casos (Beer figs. 18.23 y 18.24;
+la figura «Precesiones» de Aníbal). Verde: cono espacial, alrededor de
+$bold(H)_G$; azul: cono corporal, alrededor del eje. En el achatado de la
+opción b) el corporal envuelve al espacial.])
 
 == Ejercicio 5
 
@@ -478,6 +509,10 @@ mueva).
 Ejes clavados al disco (giran con $bold(omega)$, constante). Supuestos: disco
 delgado y rígido, $G$ sobre el eje, así que $overline(bold(a)) = 0$.
 
+#figure(fig-disco-torcido(respuesta: true), caption: [$bold(H)_G$ entre
+$bold(omega)$ y el eje del disco, más cerca del eje; los cojinetes hacen
+$bold(F)$ y $-bold(F)$, que giran con el eje ($beta$ exagerado).])
+
 + En ejes del disco, $bold(omega)$ tiene $omega cos beta$ sobre el eje
   (inercia $I$) y $omega sin beta$ sobre un diámetro (inercia $I' = I\/2$).
   La componente de costado pesa la mitad, así que $bold(H)_G$ queda *entre*
@@ -531,3 +566,28 @@ rozamiento, y $theta$, $dot(phi)$, $dot(psi)$ constantes.
   momento angular el eje gira más rápido. Cuando $dot(phi)$ deja de ser chica
   frente a $dot(psi)$ la aproximación se rompe, aparece la nutación y el
   trompo termina cayendo.
+
+== Ejercicio 12
+
++ $I_0$ es el momento *transversal*: el $I'$ del Beer ($I$, el axial, es el
+  mismo). El $theta$ de la figura es el del Beer (entre el eje del cuerpo y
+  $bold(H)_G$), pero $beta$ va de $bold(omega)$ a $bold(H)_G$, mientras que
+  el $gamma$ del Beer va de $bold(omega)$ al eje. Los tres están en un mismo
+  plano, así que se restan: en el cilindro $bold(omega)$ queda en el medio,
+  $beta = theta - gamma$; en el disco queda afuera, $beta = gamma - theta$.
+  Es ANI-08 en estado puro: cada libro llama distinto a lo mismo.
++ Sin cupla, $dot(psi) \/ dot(phi) = ((I' - I)\/I) cos theta$ (Beer
+  §18.11). El cilindro es alargado, $I < I'$: el cociente es positivo,
+  $dot(psi) > 0$, spin y precesión para el mismo lado, *directa*. El disco es
+  achatado, $I > I'$: $dot(psi) < 0$, *retrógrada*. En palabras: el disco es
+  más «pesado de girar» sobre su eje, así que $bold(H)_G$ se le pega al eje y
+  $bold(omega)$ queda del otro lado; el cono corporal envuelve al espacial y
+  rueda sobre él por adentro, lo que obliga al cuerpo a girar al revés de
+  como avanza.
++ Mano izquierda con el pulgar para arriba: $bold(H)_G$, quieto (nadie
+  empuja). Pulgar de la derecha inclinado un ángulo $theta$: el eje del disco.
+  El pulgar derecho da vueltas alrededor del izquierdo sin cambiar la
+  inclinación: la precesión $dot(phi)$, con el sentido que marcan los dedos
+  de la izquierda. Mientras, la mano derecha gira sobre su propio pulgar: el
+  spin, que en el disco va *al revés* de los dedos de la izquierda. En el
+  cilindro, para el mismo lado.

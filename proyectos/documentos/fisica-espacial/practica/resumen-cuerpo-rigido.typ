@@ -8,9 +8,16 @@
 //  criterios de evaluación, de catedras/fisica-espacial/CRITERIOS.md.
 //  Cada número, en validar.py; cada pregunta, en una página
 //  (verificar-consignas.py).
+//  2026-10-29 (v4): las cuatro hojas manuscritas del cap. 18 y la figura
+//  «Precesiones» que subió Aníbal, explicadas hoja por hoja; el capítulo 18
+//  sección por sección (§18.1 a 18.11, con ecuación y página medidas en el
+//  PDF del Beer); las figuras de figuras-cr3d.typ; y en cada tema la versión
+//  formal, la simple y la de las manos (pedido de Fran: «que se pueda
+//  explicar con los dedos y las manos»).
 // =====================================================================
 #import "estilo.typ": *
 #import "../apunte/biblioteca/figuras.typ": fig-conos
+#import "figuras-cr3d.typ": fig-cardanes, fig-precesion-estable, fig-precesiones, fig-HO
 
 #show: documento.with(
   titulo: [Guía para el parcialito — cuerpo rígido],
@@ -24,6 +31,8 @@
   align(center, table(columns: cols, inset: (x: 6pt, y: 3.5pt), align: left,
     ..celdas.pos().map(c => text(size: 9.5pt, c))))
 }
+#let manos(cuerpo) = caja([Con las manos], c-ambar, cuerpo)
+#let hoja(cuerpo) = caja([La hoja de Aníbal, renglón por renglón], c-viole, cuerpo)
 #let pregunta(n, q, r) = consigna[
   #block(above: 10pt, below: 6pt, sticky: true, text(fill: c-azul, weight: "bold")[#(n). #q])
   #r
@@ -50,6 +59,14 @@
   Esta vez puede venir un problema con números: el 18.6 está en la sección 8,
   y en el modelo de parcialito 5 hay de todo (la parte C, Euler y precesión
   estable con números).
+
+  *Lo último que subió Aníbal* (el resumen manuscrito del capítulo 18, cuatro
+  hojas, y la figura suelta «Precesiones») está entero acá, *hoja por hoja*,
+  en las cajas violetas: la hoja 1 en las secciones 4 y 5, las hojas 2 y 3 en
+  la 6, la hoja 4 en la 7 y la figura en la 8. Y cada tema viene en tres
+  capas: *la idea* en simple, *la fórmula* formal y una caja ámbar *con las
+  manos*, para poder explicarlo con los dedos delante de Aníbal, que es como
+  más se entiende un giróscopo.
 ]
 
 = 0. Lo que quiere Aníbal: siete ideas, dichas simple y después demostradas
@@ -127,6 +144,44 @@ lados.
   apunte los tuvo al revés hasta el 27/10; desde ahí usa las del Beer. Y
   *«razón de cambio»* es derivada respecto del tiempo.
 ]
+
+#manos[
+  *Las dos reglas de la mano derecha que alcanzan para todo el capítulo.*
+
+  *1. Un giro es un vector (una mano).* Cerrá la mano derecha con el pulgar
+  parado: los dedos doblados siguen el sentido en que gira el cuerpo y el
+  pulgar es el vector ($bold(omega)$, $bold(H)$, $dot(psi) hat(k)$, $dot(phi)
+  bold(K)$). Para leer un dibujo, al revés: poné el pulgar sobre la flecha y
+  los dedos te dicen para dónde gira.
+
+  *2. Un producto vectorial son tres dedos.* Pulgar, índice y mayor abiertos
+  en ángulo recto, como los ejes $x$, $y$, $z$: *pulgar $times$ índice $=$
+  mayor* (y en rueda: índice $times$ mayor $=$ pulgar, mayor $times$ pulgar
+  $=$ índice). Con eso sale el giróscopo entero: *pulgar = el giro*
+  ($dot(psi) hat(k)$, o $bold(H)$), *índice = el par* ($sum bold(M)$),
+  *mayor = la precesión* ($dot(phi) bold(K)$). Giro por par da precesión: el eje
+  del rotor «persigue» al par. Y leído en rueda, precesión por giro da el par:
+  $bold(Omega) times bold(H) = sum bold(M)$, la fórmula de la precesión
+  estable.
+]
+
+= El capítulo 18 entero, sección por sección
+#origen[Secciones, ecuaciones y páginas medidas en el PDF del Beer (9.ª ed. en castellano), no copiadas de una lista. La última columna dice dónde está cada una en esta guía.]
+
+#tabla((auto, 1fr, auto, auto),
+  [*§*], [*qué dice, en una línea*], [*ec. / pág.*], [*acá*],
+  [18.1], [Introducción: $sum bold(F) = m overline(bold(a))$ y $sum bold(M)_G = dot(bold(H))_G$ siguen valiendo; lo nuevo es calcular $bold(H)_G$ y su derivada en 3D.], [18.1–18.2], [1, 5],
+  [18.2], [$bold(H)_G$ de un rígido con el tensor de inercia (con productos de inercia); en ejes principales, diagonal; $bold(H)_O = overline(bold(r)) times m overline(bold(v)) + bold(H)_G$; con punto fijo, $bold(H)_O = bold(I)_O bold(omega)$.], [18.7, 18.11, 18.13; págs. 1152–1155], [4],
+  [18.3], [Impulso y cantidad de movimiento en 3D: antes $+$ impulsos $=$ después, para $m overline(bold(v))$ y para $bold(H)_G$ a la vez (fig. 18.6).], [pág. 1156], [4 bis, 8],
+  [18.4], [Energía cinética en 3D: la del centro de masa más la de rotación, con productos de inercia o, en ejes principales, sin ellos.], [18.14–18.17, 18.20; pág. 1157], [4 bis],
+  [18.5], [La derivada de $bold(H)_G$ con ejes que giran: $dot(bold(H))_G = (dot(bold(H))_G)_(G x y z) + bold(Omega) times bold(H)_G$; los ejes pueden girar *menos* que el cuerpo.], [18.22; pág. 1169], [3, 5],
+  [18.6], [Ecuaciones de Euler (ejes principales, $bold(Omega) = bold(omega)$) y la extensión de d'Alembert: las fuerzas externas equivalen a $m overline(bold(a))$ en $G$ más la cupla $dot(bold(H))_G$.], [18.25; pág. 1170], [5],
+  [18.7], [Punto fijo $O$: momentos respecto de $O$ (la reacción no aparece), $sum bold(M)_O = (dot(bold(H))_O)_(O x y z) + bold(Omega) times bold(H)_O$.], [18.28; pág. 1172], [5],
+  [18.8], [Eje fijo: con $omega$ constante, si hay productos de inercia los cojinetes hacen cupla (desbalance dinámico).], [18.29; pág. 1172], [5],
+  [18.9], [El giróscopo en cardanes y los ángulos de Euler; $bold(omega)$, $bold(Omega)$ y $bold(H)_O$ en los ejes del balancín interior; las ecuaciones generales.], [18.33–18.39; págs. 1187–1188], [6],
+  [18.10], [Precesión estable: $theta$, $dot(phi)$, $dot(psi)$ constantes; $sum bold(M)_O = bold(Omega) times bold(H)_O$; con $theta = 90degree$, $I dot(psi) dot(phi)$.], [18.40–18.45; pág. 1189], [7],
+  [18.11], [Cuerpo simétrico sin cupla: $bold(H)_G$ fijo, precesión libre, conos, directa y retrógrada.], [18.46–18.52; págs. 1190–1191], [8],
+)
 
 = 1. Sistemas de partículas: lo que se arrastra del cap. 14
 #origen[Beer §14.2 a 14.6, 14.9 y 14.12 — «ojo!!! notación: L es H y P es L»]
@@ -232,6 +287,85 @@ eje principal.
 - El momento de inercia *aparece* al escribir la energía cinética (lo
   preguntó así en el parcialito 4: «haga surgir»).
 
+*Formal, el caso general (Beer ec. 18.7, pág. 1152).* Con ejes cualesquiera
+por $G$ aparecen los *productos de inercia* ($I_(x y) = integral x y thin d
+m$, etc.):
+
+$ mat(H_x; H_y; H_z) = mat(I_x, -I_(x y), -I_(x z); -I_(x y), I_y, -I_(y z); -I_(x z), -I_(y z), I_z) mat(omega_x; omega_y; omega_z) $
+
+La matriz es simétrica, así que *siempre se puede diagonalizar*: hay tres
+ejes perpendiculares (los principales) en los que los productos de inercia
+son cero. Eso es lo que Aníbal escribe arriba de todo en su hoja 1.
+
+*Respecto de otro punto* (Beer ec. 18.11, pág. 1154): el momento angular
+respecto de un punto fijo $O$ es el «orbital» del centro de masa más el
+«propio» alrededor de $G$:
+
+$ bold(H)_O = overline(bold(r)) times m overline(bold(v)) + bold(H)_G $
+
+#figure(fig-HO, caption: [La hoja 1 de Aníbal (Beer fig. 18.26): el sistema
+de cantidades de movimiento de un rígido se reduce a $m overline(bold(v))$
+aplicado en $G$ más el par $bold(H)_G$. Respecto de $O$, la cantidad de
+movimiento suma su momento $overline(bold(r)) times m overline(bold(v))$.])
+
+Y si el cuerpo gira alrededor de un punto fijo $O$, se puede ir directo:
+$bold(H)_O = bold(I)_O thin bold(omega)$ con el tensor respecto de $O$ (Beer
+ec. 18.13).
+
+#hoja[
+  *Hoja 1, primera mitad.* $sum bold(F) = m bold(a)$ y $sum bold(M)_G = d
+  bold(L)\/d t |_G$ (centro de masa: «C: c.g.»). $bold(L) = bold(I)
+  bold(omega)$ con la nota «se puede diagonalizar», y la matriz diagonal
+  $"diag"(I_1, I_2, I_3)$: entonces $bold(L) = (I_1 omega_x; I_2 omega_y; I_3
+  omega_z)$ y *$bold(L) parallel.not bold(omega)$* — tachó el paralelo: con
+  momentos distintos, $bold(L)$ no es paralelo a $bold(omega)$. Abajo, el
+  dibujo de este cuadro: $bold(L)_O = bold(R) times m bold(v) + bold(L)_G$.
+  Ojo con las letras: su $bold(L)$ es el $bold(H)$ del Beer.
+]
+
+#manos[
+  Pulgar de la mano derecha sobre $bold(omega)$ (los dedos, girando como el
+  cuerpo). Ahora imaginá que el cuerpo es una mancuerna inclinada: cada pesa
+  tiene $bold(r) times m bold(v)$ perpendicular a su brazo, y la suma te
+  queda *inclinada respecto del pulgar*. Ésa es la mano de $bold(H)_G$ y la
+  de $bold(omega)$ separadas: sólo coinciden si el pulgar va sobre un eje
+  principal (la mancuerna derecha, perpendicular al eje).
+]
+
+= 4 bis. Impulso y energía en tres dimensiones
+#origen[Beer §18.3 (fig. 18.6, pág. 1156) y §18.4 (ecs. 18.14 a 18.17 y 18.20, pág. 1157)]
+
+*En simple.* Lo de siempre, con un vector más. En un choque o un golpe
+corto: lo que el cuerpo tenía antes, más lo que le dieron, es lo que tiene
+después; vale *a la vez* para la cantidad de movimiento (que va en $G$) y para
+el momento angular. Y la energía cinética es la de $G$ corriendo más la de
+girar alrededor de $G$.
+
+*Formal.*
+
+$ m overline(bold(v))_1 + sum integral bold(F) d t = m overline(bold(v))_2, quad quad (bold(H)_G)_1 + sum integral bold(M)_G thin d t = (bold(H)_G)_2 $
+
+$ T = 1/2 m overline(v)^2 + 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) quad "(ejes principales, Beer 18.17)" $
+
+y con ejes cualesquiera se suman los términos $-I_(x y) omega_x omega_y$
+(etc.) de los productos de inercia (Beer 18.16). En forma compacta, $T = 1/2
+m overline(v)^2 + 1/2 bold(omega) dot.op bold(H)_G$. Con un punto fijo $O$,
+$T = 1/2 bold(omega) dot.op bold(H)_O$ con los momentos respecto de $O$ (Beer
+18.20).
+
+*Para qué sirve en el parcialito:* el meteorito (sección 8) es este
+principio con $integral bold(M)_G d t = bold(r) times m_0 bold(v)_0$; y la
+energía es la que se conserva en el trompo (sección 11) o la que *baja*
+cuando un satélite disipa (sección 9).
+
+#manos[
+  *El golpe:* pulgar sobre el $bold(H)_G$ del satélite (para arriba). El
+  meteorito le agrega un pedacito de costado: poné el índice de la otra mano
+  saliendo de la punta del pulgar, hacia el costado. El $bold(H)_G$ nuevo va
+  de la base del pulgar a la punta del índice: inclinado. Ese ángulo es el
+  $theta$ del bamboleo.
+]
+
 = 5. Ecuaciones del movimiento y ecuaciones de Euler
 #origen[Beer §18.5–18.6 · resumen manuscrito de Aníbal, hoja 1 · apunte, módulo 20]
 
@@ -242,7 +376,7 @@ ahí $bold(I)$ es constante. La regla de la sección 3 lo resuelve:
 $ sum bold(M)_G = (dot(bold(H))_G)_"móvil" + bold(Omega) times bold(H)_G $
 
 *Ejes clavados al cuerpo* ($bold(Omega) = bold(omega)$), principales, dan
-las *ecuaciones de Euler* (Beer §18.6, ec. 18.25; así las escribe Aníbal):
+las *ecuaciones de Euler* (Beer §18.6, ec. 18.25, pág. 1170):
 
 $ sum M_x = I_x dot(omega)_x - (I_y - I_z) omega_y omega_z $
 $ sum M_y = I_y dot(omega)_y - (I_z - I_x) omega_z omega_x $
@@ -251,6 +385,57 @@ $ sum M_z = I_z dot(omega)_z - (I_x - I_y) omega_x omega_y $
 Los términos cruzados son los *giroscópicos*: aunque no haya cupla, una
 componente de $bold(omega)$ le cambia a otra. Son no lineales: se estudian
 casos particulares.
+
+#hoja[
+  *Hoja 1, segunda mitad.* «Es necesario un sist. referencia que siga al
+  cuerpo (para que $bold(L)$, $bold(I)$ sean constantes)»: en ejes fijos al
+  espacio el tensor cambia cada vez que el cuerpo se da vuelta; en ejes que
+  lo siguen, no. Después, la regla del transporte con los nombres del Beer:
+  la derivada con «orientación fija, centrado en $G$» (el sistema $G X Y Z$
+  del Beer, que se traslada con $G$ pero no gira) es la derivada en los ejes
+  del cuerpo más $bold(Omega) times bold(L)_G$, y eso es $sum bold(M)_G$.
+  $bold(Omega)$: «vel. angular sist. cuerpo respecto al sist. fijo». Al lado,
+  *«comentar sobre "razón de cambio" en Beer»*: el Beer llama *razón de
+  cambio* a la derivada respecto del tiempo, y tiene *dos*: $dot(bold(H))_G$,
+  la razón de cambio respecto de $G X Y Z$ (la que manda en la ley), y
+  $(dot(bold(H))_G)_(G x y z)$, la razón de cambio *respecto del sistema en
+  rotación*, que es derivar las componentes y nada más (ec. 18.21, pág.
+  1169). Confundirlas es el error número uno de la hoja de sistemas rotantes.
+  Abajo, subrayado: *«no siempre $bold(Omega) = bold(omega)$»*; a la derecha,
+  $bold(Omega) times bold(L)_G$ como determinante, y de ahí las tres
+  ecuaciones de Euler.
+
+  *Ojo con una errata de la hoja:* la tercera dice $sum M_3 = I_3
+  dot(omega)_3 - omega_x omega_y (I_1 - I_3)$. Por la rueda $x arrow.r y
+  arrow.r z$ es $(I_1 - I_2)$, como en el Beer 18.25; se comprueba con el
+  determinante de la misma hoja, cuya componente $hat(k)$ es $I_2 omega_2
+  omega_1 - I_1 omega_1 omega_2$. Las otras dos están bien.
+]
+
+#manos[
+  *Por qué aparece el término giroscópico, con un libro.* Tené un libro con
+  las dos manos y hacelo girar a la vez sobre dos ejes (por ejemplo, el lomo
+  y el que sale de la tapa). Vas a sentir que se quiere torcer hacia un
+  tercer lado que vos no estás empujando: es $(I_y - I_z) omega_y omega_z$,
+  la parte de $bold(Omega) times bold(H)$ que existe sólo porque $bold(H)$ no
+  es paralelo a $bold(omega)$. Si el cuerpo fuera una esfera (momentos
+  iguales), la mano no sentiría nada: el término se anula.
+]
+
+*Con un punto fijo y con un eje fijo* (Beer §18.7 y 18.8, ecs. 18.28 y
+18.29, pág. 1172). Si el cuerpo está sujeto en $O$, se toman momentos
+respecto de $O$ y la reacción desaparece de la cuenta: $sum bold(M)_O =
+(dot(bold(H))_O)_(O x y z) + bold(Omega) times bold(H)_O$. Si además gira
+alrededor de un eje fijo $z$ con $bold(omega) = omega hat(k)$ y $alpha =
+dot(omega)$, con ejes pegados al cuerpo:
+
+$ sum M_x = -I_(x z) alpha + I_(y z) omega^2, quad sum M_y = -I_(y z) alpha - I_(x z) omega^2, quad sum M_z = I_z alpha $
+
+La tercera es la de siempre ($tau = I alpha$). Las dos primeras dicen que,
+*aunque $omega$ sea constante*, si el cuerpo tiene productos de inercia
+respecto del eje (está torcido o desbalanceado) los cojinetes tienen que
+hacer momento: $omega^2$ por el producto de inercia. Es el disco torcido de
+abajo.
 
 #trampa[
   *«No siempre $bold(Omega) = bold(omega)$»* (subrayado en la hoja de
@@ -306,8 +491,60 @@ $ bold(H)_O = -I' dot(phi) sin theta thin hat(i) + I' dot(theta) hat(j) + I (dot
 La única diferencia entre $bold(Omega)$ y $bold(omega)$ es el spin (la nota
 de Aníbal: «ojo, no gira en $psi$»). Metidas en $sum bold(M)_O =
 (dot(bold(H))_O)_"móvil" + bold(Omega) times bold(H)_O$ dan las tres
-ecuaciones del giróscopo (Beer 18.39): no lineales, sin solución general a
-mano.
+ecuaciones del giróscopo (Beer 18.39, pág. 1188; las pegó Aníbal en su hoja
+3):
+
+$ sum M_x = -I' (dot.double(phi) sin theta + 2 dot(theta) dot(phi) cos theta) + I dot(theta) (dot(psi) + dot(phi) cos theta) $
+$ sum M_y = I' (dot.double(theta) - dot(phi)^2 sin theta cos theta) + I dot(phi) sin theta (dot(psi) + dot(phi) cos theta) $
+$ sum M_z = I thin d/(d t) (dot(psi) + dot(phi) cos theta) $
+
+No lineales, sin solución general a mano: por eso los *casos particulares*
+(precesión estable, sección 7; sin cupla, sección 8). Fijate que $dot(psi)$
+nunca aparece suelto: siempre en $omega_z = dot(psi) + dot(phi) cos theta$,
+que es todo el giro sobre el eje del rotor.
+
+#figure(fig-cardanes(escala: 0.92cm), caption: [El giróscopo en cardanes
+(redibujado de Beer figs. 18.15 y 18.16, las de la hoja 2 de Aníbal).
+Balancín exterior (verde) girado $phi$ alrededor de $A A'$; interior (bordó)
+girado $theta$ alrededor de $B B'$; rotor (azul) girando $psi$ alrededor de $C
+C'$. Los ejes $x y z$ van pegados al balancín interior: $z$ sobre el rotor,
+$y$ sobre $B B'$.])
+
+#hoja[
+  *Hoja 2 (Fig. 18.15).* Arriba, el armado: «CM fijo al espacio», «$O x y z$
+  fijo al CM», «2 balancines», «eje $Z$ $parallel$ $A A'$», «$D D'$ dibujado
+  sobre el rotor» y en el plano $Y Z$ (una marca para poder ver cuánto giró).
+  Después, los once pasos: (1) $phi$ es la rotación del balancín exterior
+  alrededor de $A A'$; (2) $theta$, la del interior alrededor de $B B'$; (3)
+  $psi$, la del rotor alrededor de $C C'$; (4) son los ángulos de Euler; (5)
+  $dot(phi)$ precesión, $dot(theta)$ nutación, $dot(psi)$ spin; (6) el
+  sistema $O x y z$ va en el balancín interior; (7) $y parallel B B'$, $z
+  parallel C C'$; (8) en ese sistema «se ve girar al giróscopo con
+  $dot(psi)$» (lo único que se mueve respecto de esos ejes es el rotor); (9)
+  $bold(omega) = dot(phi) bold(K) + dot(theta) hat(j) + dot(psi) hat(k)$;
+  (10) $bold(K) = -sin theta thin hat(i) + cos theta thin hat(k)$ (el dibujito
+  de al lado: $bold(K)$ visto en el plano $x z$, a $theta$ de $z$); (11)
+  sustituyendo, $bold(omega)$ y $bold(L)$ en componentes.
+
+  *Hoja 3.* (12) $I_1 = I_2 = I'$, $I_3 = I$ (cuerpo de revolución) y
+  $bold(L)$; después $bold(Omega) = dot(phi) bold(K) + dot(theta) hat(j)$
+  «ojo, no gira en $psi$», la ley con la derivada «móvil», las 18.39, y tres
+  conclusiones: el mismo tratamiento sirve para *un trompo con un punto
+  fijo*; el giróscopo «ayuda» a visualizar los ángulos de Euler; ecuaciones no
+  lineales $arrow.r$ casos particulares.
+]
+
+#manos[
+  *Los tres ángulos con un lápiz.* El lápiz es el eje del rotor. *$phi$:* lo
+  girás alrededor de la vertical, como una aguja de reloj acostada, sin
+  cambiarle la inclinación (pulgar de la mano derecha para arriba: $dot(phi)
+  bold(K)$). *$theta$:* lo inclinás respecto de la vertical, como una barrera
+  que baja (el eje de giro es horizontal: la línea de nodos, $hat(j)$).
+  *$psi$:* lo hacés rodar entre los dedos sobre su propio largo (pulgar a lo
+  largo del lápiz: $dot(psi) hat(k)$). Los ejes $x y z$ son tu mano
+  sosteniendo el lápiz: siguen la aguja y la barrera, pero *no* ruedan con el
+  lápiz. Eso es $bold(Omega) = bold(omega) - dot(psi) hat(k)$.
+]
 
 *La pregunta orientadora de la clase de CR* (¿por qué a bordo se usan
 cuaterniones?): tres ángulos alcanzan, pero con $theta = 0$ el eje del
@@ -347,10 +584,52 @@ lleva el $dot(phi) cos theta$. Con menos spin la lenta se *acelera*, hasta
 que deja de haber solución y el trompo cae. Con números, en el Ejercicio 11
 del modelo de parcialito 5.
 
+#figure(fig-precesion-estable, caption: [La precesión estable (redibujada de
+Beer fig. 18.17, la de la hoja 4 de Aníbal). a) $bold(omega)$ es la suma de
+la precesión $dot(phi) bold(K)$ y el giro $dot(psi) hat(k)$; en los ejes
+móviles tiene $omega_z hat(k)$ sobre el eje y $-dot(phi) sin theta thin
+hat(i)$ de costado. b) Con el eje horizontal, giro, par y precesión son una
+tríada derecha: pulgar, índice y mayor.])
+
 #trampa[
   El giróscopo no cae para el lado del par: precesa perpendicular a él. Y
   la precesión estable es un caso *particular*: para mantenerla hace falta
   exactamente ese par; si no, aparece nutación.
+]
+
+#hoja[
+  *Hoja 4 (Fig. 18.17), paso por paso.* «$theta$, $dot(phi)$ y $dot(psi)$
+  constantes» y «quiere saber fuerzas aplicadas para esa condición»: la
+  pregunta es al revés que siempre, *qué par hace falta* para que el
+  movimiento sea ése. Con $dot(theta) = 0$: $bold(omega) = dot(phi) bold(K) +
+  dot(psi) hat(k)$ y $bold(Omega) = dot(phi) bold(K)$ — «el spin no aporta al
+  giro del sist. ref.». En componentes, $bold(omega) = -dot(phi) sin theta
+  thin hat(i) + omega_z hat(k)$, $bold(L)_O = -I' dot(phi) sin theta thin
+  hat(i) + I omega_z hat(k)$, $bold(Omega) = -dot(phi) sin theta thin hat(i) +
+  dot(phi) cos theta thin hat(k)$, con $omega_z = dot(psi) + dot(phi) cos
+  theta$. Como todo es constante, *$bold(L)$ es constante en los ejes
+  móviles*: $(d bold(L)_O \/ d t)_"móvil" = 0$, y queda $sum bold(M)_O =
+  bold(Omega) times bold(L)_O = (I omega_z - I' dot(phi) cos theta) dot(phi)
+  sin theta thin hat(j)$, «el par a aplicar». Caso «eje de precesión $perp$
+  eje de giro», $theta = 90degree$: $sum bold(M) = I dot(psi) dot(phi)
+  hat(j)$. Y la nota final, «ver problema quiz 3»: $"peso" dot.op l = I
+  omega_"spin" omega_"prec"$, el giróscopo del parcialito 3 (ahí el par lo
+  hace el peso con brazo $l$).
+]
+
+#manos[
+  *La tríada con tres dedos* (figura b). Pulgar a lo largo del eje del rotor,
+  hacia donde apunta su giro ($dot(psi) hat(k)$). Índice para donde empuja el
+  par ($sum bold(M)$: con el peso colgando de un extremo, el par es
+  horizontal y perpendicular al eje). El mayor te queda apuntando *para
+  arriba o para abajo*: ése es el sentido de la precesión. Probalo con el
+  ejemplo de siempre: rueda de bici sostenida de un extremo del eje, girando
+  hacia vos; el par del peso pide índice horizontal, y el mayor dice que la
+  rueda, en vez de caerse, gira alrededor de la cuerda. Al revés, con el
+  CMG: si vos le girás el eje (mayor = el giro que imponés) teniendo el
+  pulgar sobre $bold(H)$, el índice te dice para dónde *tenés que empujar*
+  ($dot(bold(delta)) times bold(h)$); lo que sentís en la mano, y lo que
+  recibe el satélite, es el opuesto: el torque de salida.
 ]
 
 = 8. Cuerpo simétrico sin cupla: precesión libre
@@ -362,6 +641,46 @@ $theta$ constante: nadie la sostiene, es automática. Dos ángulos contra el
 eje del cuerpo: $theta$ (a $bold(H)_G$) y $gamma$ (a $bold(omega)$):
 
 $ tan gamma = I/I' tan theta, quad quad dot(phi) = H_G/I', quad quad dot(psi)/dot(phi) = (I' - I)/I cos theta $
+
+#figure(fig-precesiones(), caption: [La figura «Precesiones» que subió Aníbal,
+redibujada. Cuerpo simétrico sin cupla: $bold(H)_G$ fijo (vertical, el eje
+$Z$), el eje del cuerpo $z$ y $bold(omega)$ en un mismo plano que da vueltas
+alrededor de $bold(H)_G$. Cono verde: el espacial (alrededor de $bold(H)_G$,
+semiángulo $beta$, quieto). Cono azul: el corporal (alrededor de $z$,
+semiángulo $gamma$, va con el cuerpo). Alargado: se tocan por afuera;
+achatado: el corporal envuelve al espacial.])
+
+#hoja[
+  *La figura «Precesiones», leída.* Dos cuerpos simétricos libres de cupla,
+  con $bold(H)_G$ vertical (su eje $Z$). *Las letras son de otro libro y hay
+  que traducirlas* (ANI-08, «ojo con las denominaciones»): $I$ es el momento
+  *axial* (como el Beer) e $I_0$ el *transversal*, que en el Beer es $I'$.
+  $theta$ es el ángulo entre el eje del cuerpo $z$ y $bold(H)_G$ (el mismo
+  $theta$ del Beer), y $beta$ es el ángulo entre $bold(omega)$ y
+  $bold(H)_G$ — no el $gamma$ del Beer, que se mide de $bold(omega)$ al eje
+  del cuerpo. Se pasa de uno a otro mirando quién queda en el medio:
+  alargado, $beta = theta - gamma$; achatado, $beta = gamma - theta$.
+  Izquierda: el cilindro, $I < I_0$ ($I < I'$), $bold(omega)$ queda *entre*
+  el eje y $bold(H)_G$, y $dot(psi) > 0$: spin y precesión del mismo signo,
+  *directa*. Derecha: el disco, $I > I_0$, $bold(H)_G$ queda entre el eje y
+  $bold(omega)$, y $dot(psi) < 0$: *retrógrada*. Las flechitas $dot(phi)$
+  (arriba de $bold(H)_G$) y $dot(psi)$ (sobre $z$) son los dos giros: en el
+  cilindro van para el mismo lado, en el disco al revés. Todo sale de $tan
+  gamma = (I\/I') tan theta$ y $dot(psi)\/dot(phi) = ((I' - I)\/I) cos theta$.
+]
+
+#manos[
+  *Los dos conos con las dos manos.* Mano izquierda cerrada con el pulgar
+  para arriba: es $bold(H)_G$, y no se mueve (nadie empuja). Mano derecha con
+  el pulgar inclinado: es el eje del cuerpo. Ahora llevá el pulgar derecho a
+  dar vueltas *alrededor* del izquierdo sin cambiar la inclinación: eso es la
+  precesión $dot(phi)$. Y mientras, hacé girar la mano derecha sobre su
+  propio pulgar: el spin $dot(psi)$. *Cilindro* (alargado): el giro sobre
+  el pulgar va para el mismo lado que la vuelta que da el pulgar —
+  directa. *Disco* (achatado): va al revés — retrógrada. Y si
+  dejás la derecha quieta respecto de la izquierda, no hay cono: el cuerpo
+  gira sobre un eje principal, sin bamboleo.
+]
 
 #tabla((auto, auto, auto),
   [*cuerpo*], [*achatado* (disco, moneda): $I > I'$], [*alargado* (varilla, cohete): $I < I'$],
@@ -526,6 +845,15 @@ nutación. La precesión estable es el caso en que esa oscilación es cero.
 #pregunta(13, [En un CMG, ¿por qué con un motor chico se saca un torque grande?],
   [Porque el motor sólo gira el gimbal; el torque de salida, $h dot(delta)$, sale de girarle la dirección a un momento angular grande que ya estaba guardado en el rotor. Sale sobre el tercer eje. Una rueda de reacción, en cambio, da como mucho el torque de su motor.])
 
+#pregunta(14, [En la figura «Precesiones», ¿qué son $I_0$ y $beta$? ¿Por qué en un cuerpo $dot(psi) > 0$ y en el otro $dot(psi) < 0$?],
+  [$I_0$ es el momento transversal (el $I'$ del Beer) e $I$ el axial. $beta$ es el ángulo entre $bold(omega)$ y $bold(H)_G$; el $gamma$ del Beer va de $bold(omega)$ al eje, así que $beta = abs(theta - gamma)$. Con $dot(psi)\/dot(phi) = ((I' - I)\/I) cos theta$: el cilindro ($I < I'$) da $dot(psi) > 0$, directa; el disco ($I > I'$), $dot(psi) < 0$, retrógrada.])
+
+#pregunta(15, [Escriba el momento angular respecto de un punto fijo $O$ de un cuerpo que se traslada y gira. ¿Cuándo $bold(H)_O = bold(H)_G$?],
+  [$bold(H)_O = overline(bold(r)) times m overline(bold(v)) + bold(H)_G$ (Beer 18.11): el «orbital» de $G$ más el «propio». Son iguales si $overline(bold(r)) times m overline(bold(v)) = 0$: $G$ quieto, $O$ en $G$, o $overline(bold(v))$ apuntando a $O$ o desde $O$.])
+
+#pregunta(16, [Explique con la mano derecha por qué un giróscopo colgado de un extremo de su eje no se cae.],
+  [Pulgar sobre el eje, hacia donde apunta el giro ($bold(H)$). El peso hace un par horizontal y perpendicular al eje: índice. El mayor queda vertical: el eje gira en el plano horizontal (precesa). El par no hace crecer $bold(H)$ hacia abajo sino que le cambia la dirección de costado: $d bold(H) = sum bold(M) d t$ es perpendicular a $bold(H)$, como la fuerza central con la velocidad en una órbita.])
+
 = Las fórmulas, juntas
 
 #tabla((auto, auto),
@@ -535,6 +863,9 @@ nutación. La precesión estable es el caso en que esa oscilación es cero.
   [sistema rotante], [$bold(a)_I = bold(a)_C + 2 bold(Omega) times bold(v)_C + bold(Omega) times (bold(Omega) times bold(r)) + dot(bold(Omega)) times bold(r)$],
   [momento angular], [$bold(H)_G = bold(I) bold(omega)$; en ejes principales, $H_x = I_x omega_x$, etc.; $T = 1/2 bold(omega) dot.op bold(H)_G$],
   [Steiner], [$I_P = I_G + m d^2$],
+  [respecto de $O$], [$bold(H)_O = overline(bold(r)) times m overline(bold(v)) + bold(H)_G$; punto fijo: $bold(H)_O = bold(I)_O bold(omega)$],
+  [energía en 3D], [$T = 1/2 m overline(v)^2 + 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) = 1/2 m overline(v)^2 + 1/2 bold(omega) dot.op bold(H)_G$],
+  [eje fijo ($bold(omega) = omega hat(k)$)], [$sum M_x = -I_(x z) alpha + I_(y z) omega^2, quad sum M_y = -I_(y z) alpha - I_(x z) omega^2, quad sum M_z = I_z alpha$],
   [ley con ejes móviles], [$sum bold(M)_G = (dot(bold(H))_G)_"móvil" + bold(Omega) times bold(H)_G$],
   [Euler ($bold(Omega) = bold(omega)$)], [$sum M_x = I_x dot(omega)_x - (I_y - I_z) omega_y omega_z$ y cíclicas],
   [giróscopo], [$bold(omega) = dot(phi) bold(K) + dot(theta) hat(j) + dot(psi) hat(k), quad bold(Omega) = bold(omega) - dot(psi) hat(k)$],

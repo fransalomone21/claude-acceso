@@ -1,5 +1,17 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-10-29 (tarde) — guía v4 y modelo con figuras.** Hecho y publicado
+> (ver ESTADO). **Queda:** (1) la figura «Precesiones» y la errata de la hoja
+> 1 entran a `catedras/fisica-espacial/REGISTRO.md` junto con lo del
+> parcialito (ANI-R14): esta sesión no abrió `catedras`; (2) las figuras del
+> apunte (`apunte/biblioteca/figuras.typ`) no pasan por `verificar-figuras.py`:
+> si se tocan, armarles galería y correrlo; (3) lo del 26/10 sigue igual
+> (d'Alembert y precesión inclinada sólo en `practica/`). **Trampas
+> pagadas:** en Typst, un renglón de prosa que empieza con `= ` es un título
+> (rompió la compilación en una caja); el rótulo de una figura que va en
+> enunciado y en resolución lleva un parámetro `enunciado:` para no regalar
+> la respuesta; los rótulos se miden con `verificar-figuras.py`, no a ojo.
+
 > **2026-10-29 — parcialito 5 unificado.** La carpeta de Drive «3.5 -
 > Parcialito 5 (29-10, escrito 1 h)» (tres Docs del 26/10, ya absorbidos en la
 > parte C) está en la papelera, con el sí de Fran: se recupera desde ahí si
