@@ -17,8 +17,9 @@
 - **Guía v3** (`practica/resumen-cuerpo-rigido.typ`, 9 págs.): las dos cosas
   que dijo Aníbal, la extensión de d'Alembert con el eje fijo y la precesión
   estable inclinada (dos soluciones).
-- **Drive:** los dos PDF publicados en «5 - …», mismo id. **La carpeta «3.5»
-  con los tres Docs sigue ahí**: mandarla a la papelera necesita el sí de Fran.
+- **Drive:** los dos PDF publicados en «5 - …», mismo id. La carpeta «3.5»
+  con los tres Docs, en la papelera (sí de Fran, medido con
+  `--drive-trashed-only`): queda una sola carpeta para el parcialito 5.
 - **Apunte:** cubre todos los temas salvo dos, que están sólo en la guía y el
   modelo: la extensión de d'Alembert por su nombre (el desbalance de m19 es
   el mismo caso) y las dos soluciones de la precesión estable inclinada.
