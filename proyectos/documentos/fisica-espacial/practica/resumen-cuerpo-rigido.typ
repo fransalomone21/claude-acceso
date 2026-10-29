@@ -16,8 +16,8 @@
 //  explicar con los dedos y las manos»).
 // =====================================================================
 #import "estilo.typ": *
-#import "../apunte/biblioteca/figuras.typ": fig-conos
-#import "figuras-cr3d.typ": fig-cardanes, fig-precesion-estable, fig-precesiones, fig-HO
+#import "../apunte/biblioteca/figuras.typ": fig-conos, fig-omega-vector, fig-suma-omegas, fig-steiner, fig-giroscopo-pivote
+#import "figuras-cr3d.typ": fig-cardanes, fig-precesion-estable, fig-precesiones, fig-HO, fig-disco-torcido, fig-meteorito
 
 #show: documento.with(
   titulo: [Guía para el parcialito — cuerpo rígido],
@@ -278,6 +278,11 @@ al eje. Eso es justo un producto vectorial:
 
 $ bold(v) = bold(omega) times bold(r) $
 
+#figure(fig-omega-vector, caption: [El disco gira alrededor de su eje y
+$bold(omega)$ va sobre el eje (mano derecha). Un punto a distancia $r$ del
+eje recorre su círculo con $bold(v) = bold(omega) times bold(r)$, tangente
+al círculo (como Sears-Zemansky fig. 9.5).])
+
 *Sin punto fijo* (el cuerpo además se traslada) se comparan dos puntos
 // simbolos: A, B, v_A, v_B, r_B/A
 cualesquiera del cuerpo, $A$ y $B$: $bold(v)_A$ y $bold(v)_B$ son sus
@@ -304,6 +309,11 @@ elija. Con $A$ fijo ($bold(v)_A = 0$) vuelve la primera.
   barre $bold(omega)$ visto desde afuera) y el *corporal* (visto desde el
   cuerpo). El movimiento es el cono corporal *rodando sin deslizar* sobre el
   espacial.
+
+#figure(fig-suma-omegas, caption: [El disco en la horquilla: la horquilla
+gira alrededor de la vertical y el disco sobre su propio eje. La velocidad
+angular del disco es la *suma* de las dos, y su dirección es el eje
+instantáneo de rotación.])
 
 #figure(fig-conos, caption: [Cono espacial y cono corporal, tangentes a lo
 largo de $bold(omega)$. Así se ve un cuerpo alargado en precesión libre
@@ -389,6 +399,10 @@ eje principal.
   que existe y qué dice.
 - El momento de inercia *aparece* al escribir la energía cinética (lo
   preguntó así en el parcialito 4: «haga surgir»).
+
+#figure(fig-steiner, caption: [Steiner con una varilla: un eje por $G$ y otro
+paralelo por un extremo, a una distancia $d$. El momento respecto del eje del
+extremo es el de $G$ más $m d^2$.])
 
 *Formal, el caso general (Beer ec. 18.7, pág. 1152).* Con ejes cualesquiera
 por $G$ aparecen los *productos de inercia*: $I_(x y) = integral x y thin d
@@ -482,6 +496,11 @@ cuando un satélite disipa (sección 9).
   de la base del pulgar a la punta del índice: inclinado. Ese ángulo es el
   $theta$ del bamboleo.
 ]
+
+#figure(fig-meteorito, caption: [El satélite achatado y el meteorito (el
+ejercicio 6 del modelo de parcialito 5). El meteorito pega lejos del eje: le
+suma a $bold(H)_G$ el pedazo transversal $bold(r) times m_0 bold(v)_0$, y
+$bold(H)_G$ queda inclinado respecto del eje del satélite.])
 
 = 5. Ecuaciones del movimiento y ecuaciones de Euler
 #origen[Beer §18.5–18.6 · resumen manuscrito de Aníbal, hoja 1 · apunte, módulo 20]
@@ -604,6 +623,11 @@ con dos fuerzas opuestas que *giran con el eje* (el desbalance dinámico,
 módulo 19). Crece con $omega^2$ y desaparece si el eje de giro es principal
 ($beta = 0$). Con números, en el Ejercicio 10 del modelo de parcialito 5.
 
+#figure(fig-disco-torcido(respuesta: true), caption: [El disco torcido, de
+costado: $bold(omega)$ sobre el eje, el eje del disco a $beta$ de él y
+$bold(H)_G$ entre los dos. Como $bold(H)_G$ da vueltas con el eje, los
+cojinetes tienen que hacer dos fuerzas opuestas que giran con él.])
+
 = 6. El giróscopo y los ángulos de Euler
 #origen[Beer §18.9, figs. 18.15–18.16 · resumen manuscrito de Aníbal, hoja 2 · apunte, módulo 20]
 
@@ -722,6 +746,11 @@ apoyo, $g$ la gravedad, $omega_"spin"$ su giro y $omega_"prec"$ su
 precesión), $M g l = I omega_"spin" omega_"prec"$, que es el $Omega = tau
 \/ L$ del Sears (ahí $Omega$ es la precesión, $tau$ el torque del peso y $L$
 el momento angular; Aníbal remite al giróscopo del parcialito 3).
+
+#figure(fig-giroscopo-pivote, caption: [La rueda colgada de un extremo de su
+eje: el peso en $G$ hace un torque horizontal, y en un $d t$ le agrega a
+$bold(L)$ un pedazo de costado. $bold(L)$ gira en el plano horizontal sin
+crecer: precesa, no se cae (Sears §10.7).])
 
 *Con el eje inclinado y el peso* (el trompo o el giróscopo apoyado en $O$):
 con $W$ el peso, que actúa en $G$, y $c$ la distancia de $O$ a $G$ sobre el
