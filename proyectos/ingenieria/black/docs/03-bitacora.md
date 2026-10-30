@@ -16,6 +16,29 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-30 — (133) Requisitos ampliados acordados; la plataforma instalada; el puente de mandos
+**Máquina:** notebook (MSI Sword 15, RTX 4060 Laptop, 1920×1080 a 144 Hz; el retome decía PC), con Fran en el chat ·
+**Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** el programa entero (PLAT-PreA, PDP §4); ningún nodo PS2 cambia de K.
+**Objetivo:** cerrar lo de Fran (el acuerdo de `docs/20` §10) y preparar el primer spike en vivo de la plataforma.
+**Resultado:** **Fran acordó los requisitos ampliados** («acuerdo los requisitos»; PDP §6): N-02, L0-05..08,
+L1-26..30 en línea base, L1-24 fuera de la v1, H-01 reemplazada por H-04, L1-23 nombra la plataforma. Y pidió que lo
+que le toque correr vaya en **un solo comando de PowerShell** (memoria `feedback_automatizar-lo-de-fran`).
+**Instalado** `black-seamless-coop` v2026.10.18.2 (bajado con su OK, 6,7 MB) en `C:\Games\BLACK\coop` con la ISO USA
+en `assets` (control: XBE `df2739c3…68f6`; `kb/ubicaciones.json` → `plataforma_coop`). **Leído en el código del coop
+(grado *leído*):** el release es el port entero con el coop; **con dos copias en una PC, la que no tiene el foco no lee
+ningún mando** (`CoopBackground`, a propósito); con `--coop-control` cada copia toma su mando del canal UDP local,
+adelante o atrás, y no se pausa. De ahí sale **`herramientas/puente_mandos.py`**: lee los dos mandos físicos (SDL por
+pygame) y le manda a cada copia el suyo; autotest con la frontera UDP real, tres sabotajes en rojo, enganchado en
+`pruebas/controles.py`. **Lanzadores de un comando** para Fran: `lanzadores\PROBAR-PLATAFORMA-S1.ps1` (S1: un
+jugador, contador de cuadros, foto cada 60 s, registros a `volcados\plataforma\`) y `lanzadores\PROBAR-COOP-PC.ps1`
+(S2: dos copias lado a lado + el puente; `-Control` sin puente, `-Cruzar` mandos cruzados). Predicciones antes de
+medir: `sesiones/PREDICCIONES-133.md`.
+**No funcionó:** SDL ve **0 mandos**: los dos «Wireless Controller» están emparejados por Bluetooth pero apagados. Un
+`--help` a `xbe_de_iso.py` (sin argparse) lo trató como ruta: inofensivo, la lección ya existía.
+**Sigue:** Fran corre S1 y después S2 (los dos mandos prendidos); la sesión lee fotos, registros y `estado.txt` y
+cierra las predicciones. Con eso, el KDP que cierra PLAT-PreA.
+
 ## 2026-10-30 — (132) Pre-Fase A de plataforma: el mapa del contexto, la Rosetta medida, un coop de terceros
 **Máquina:** PC, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** el programa entero (fase nueva PLAT-PreA, PDP §4); COOP-C en pausa. Ningún nodo del mapa de

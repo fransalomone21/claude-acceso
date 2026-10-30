@@ -123,6 +123,12 @@
    "critico": false,
    "que_es": "paquete armado por un tercero: black-pc 0.2.0 (black.exe y blackrt.dll IDENTICOS a la release oficial) + datos NTSC-U (xbe df2739c3...68f6, soportado). medido 2026-10-30 (131)"
   },
+  "plataforma_coop": {
+   "ruta": "C:\\Games\\BLACK\\coop\\BLACK.exe",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "la plataforma: black-seamless-coop v2026.10.18.2 (el port BLACK-XBERecomp con el coop adentro; zip sha256 7FABD5C6...9D21) con assets\\Black (USA).iso (xbe df2739c3...68f6, medido). black.toml al lado del exe. Lo abren los lanzadores PROBAR-PLATAFORMA-S1.ps1 y PROBAR-COOP-PC.ps1. instalado 2026-10-30 (133)"
+  },
   "referencias_black": {
    "ruta": "C:\\Users\\frans\\herramientas\\referencias-black",
    "tipo": "carpeta",

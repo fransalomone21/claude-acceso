@@ -118,8 +118,8 @@ instalar mods antes del sí de Fran. **La cierra** (las cuatro): (i) el mapa del
 `docs/20` §10, **acordados por Fran**; (iii) el trade de plataforma (`docs/22` §5) con criterios escritos antes,
 mandatorios que filtran, los pesos de Fran (§6, 2026-10-30) y **su sí** (KDP de plataforma, §6); (iv) el vigía
 (`herramientas/vigia.py`, DA-091) enganchado a `abrir-sesion.ps1`, con su saboteador en rojo probado. Estado al
-cierre de (132): (i), (iii) y (iv) hechos (KDP de plataforma: «Sí, XBERecomp», §6); (ii) escrito, espera el acuerdo
-de Fran. Con el KDP dado, el spike en vivo de (133) mide la base elegida y el coop de terceros.
+cierre de (132): (i), (iii) y (iv) hechos (KDP de plataforma: «Sí, XBERecomp», §6); (ii) **acordado por Fran en
+(133)** («acuerdo los requisitos», §6). Con el KDP dado, el spike en vivo de (133) mide la base elegida y el coop de terceros.
 
 ### Proyecto COOP
 
@@ -418,6 +418,7 @@ lo único que valida que sirve.
 | 2026-10-30 | **SRR del coop: Fran acordó la línea base de requisitos** ((130), `docs/20`). Fran: «Sí, acordada». Alcance, L0-01..L0-04, L1-01..L1-25 y L2-BAN-01..L2-BAN-10 pasan a línea base; un cambio desde acá se escribe en `docs/20` con su motivo y su fecha | seguir fabricando sin requisitos | el coop cruzó A, B y C sin el papel que dice qué es terminado (KDP-C1); el tramo 0 lo pedía. Quedan abiertos los TBR de `docs/20` §9 y cómo van a jugar (L1-24, `docs/21` §7) |
 | 2026-10-30 | **(132) Las respuestas de Fran para reabrir el concepto de plataforma** (meta ampliada: «la mejor experiencia de BLACK, coop y no coop: gráficos, jugabilidad y la mayor personalización y mods posibles; me da igual emulador o nativo»). (a) El coop se juega **en la misma PC con dos mandos** (pantalla dividida); L1-24 a distancia queda fuera de la v1. (b) Pesos del trade de plataforma, perfil **«la mejor base»**: jugabilidad estable 25, techo gráfico 20, techo de mods 20, coop alcanzable 20, costo en sesiones 15. (c) «Mods» = **texturas y gráficos, reglas del juego, controles e interfaz**; niveles nuevos no. (d) Si gana otra plataforma, el coop de PS2 se **congela jugable como respaldo** y su saber se porta con la Rosetta. Fran eligió cada opción en el cuestionario de (132) | «el coop antes» (coop 35); «mods y gráficos» (mods 30); jugar a distancia en la v1; niveles nuevos; seguir el coop PS2 en paralelo | pesos de Fran, no de la sesión; la meta pide la mejor base para coop y no coop, y el coop de a distancia se monta encima de la pantalla dividida |
 | 2026-10-30 | **KDP de plataforma ((132)): BLACK-XBERecomp es la base de BLACK; el coop de PS2 se congela jugable como respaldo.** Fran: «Sí, XBERecomp», sobre el trade de `docs/22` §5 (465/500 contra 415 de PS2, con sus pesos). El coop de la misma PC sale de medir primero `black-seamless-coop` en dos instancias (spike de (133)) | PS2 en PCSX2 (415), `black-pc` (355), `Black-2006-Recomp` (340), xemu (235) | XBERecomp gana en jugabilidad, gráficos y mods, y sigue arriba con cualquier coop; PS2 queda de respaldo sin sesiones nuevas. Sigue abierto el acuerdo de los requisitos ampliados (`docs/20` §10) |
+| 2026-10-30 | **(133) Fran acordó los requisitos ampliados** (`docs/20` §10): «acuerdo los requisitos». N-02, M-02..M-04, O-05..O-08, H-04/H-05, RS-04, L0-05..L0-08 y L1-26..L1-30 pasan a línea base; H-01 sale, L1-24 sale de la v1, L1-23 nombra la plataforma. Y su forma de trabajar: «decime cuando haya trabas como que no puedas abrir algo; si podés automatizar lo que deba hacer yo con comandos de PowerShell que yo sólo corra, hagámoslo. Adelante con todo»; con eso dio también el OK para bajar `black-seamless-coop` | dejar §10 en borrador | el PLAT-PreA pedía el acuerdo (ii); la meta ampliada es de Fran |
 
 ## 7. Verificación
 

@@ -39,7 +39,16 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(132), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: Pre-Fase A de plataforma** (`docs/22`, PDP §4
+> **(133), 2026-10-30, NOTEBOOK, con Fran en el chat — LO ÚLTIMO: la plataforma instalada, esperando el spike**
+> (bitácora (133), `sesiones/PREDICCIONES-133.md`). **Fase en curso: PLAT-PreA.**
+> - **Fran acordó los requisitos ampliados** (`docs/20` §10, PDP §6). Falta para cerrar la fase: el spike S1/S2.
+> - **Instalado** `black-seamless-coop` (el port con el coop) en `C:\Games\BLACK\coop` con la ISO USA (XBE medido).
+> - **Leído:** con dos copias en una PC sólo la del foco lee mandos; `--coop-control` lo salva →
+>   `herramientas/puente_mandos.py` (un mando a cada copia). Lanzadores: `lanzadores\PROBAR-PLATAFORMA-S1.ps1` y
+>   `lanzadores\PROBAR-COOP-PC.ps1`. **Traba:** los dos mandos Bluetooth están apagados (SDL ve 0).
+> - **Máquina:** PS2 sin tocar desde (128). Plataforma instalada, nunca corrida. **Sigue:** Fran corre S1 y S2.
+>
+> **(132), 2026-10-30, PC EN FRÍO, con Fran en el chat: Pre-Fase A de plataforma** (`docs/22`, PDP §4
 > «Plataforma — Pre-Fase A», bitácora (132), `sesiones/PREDICCIONES-132.md`). **Fase en curso: PLAT-PreA; COOP-C en pausa.**
 > - **Fran decidió** (PDP §6): coop en la misma PC con dos mandos; pesos «la mejor base» (jugabilidad 25, gráficos 20,
 >   mods 20, coop 20, costo 15); mods = texturas, reglas y controles (no niveles); PS2 se congela de respaldo.

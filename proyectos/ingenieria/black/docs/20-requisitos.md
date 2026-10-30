@@ -10,7 +10,8 @@
 >
 > **Grados de cada «Hoy»:** *medido* (se intervino y se vio, con control), *leído* (código leído, sin probar),
 > *sin medir*. **Estado de la línea base: ACORDADA por Fran el 2026-10-30** («Sí, acordada»; PDP §6). Un cambio
-> desde acá se escribe en este documento con su motivo y su fecha.
+> desde acá se escribe en este documento con su motivo y su fecha. **El cambio de §10 (la plataforma) también está
+> acordado**, el 2026-10-30 en (133): «acuerdo los requisitos»; sus efectos sobre §2-§4 ya están aplicados abajo.
 
 ## 1. Antecedentes
 
@@ -30,8 +31,8 @@ BLACK conserva restos de eso (el HUD de dos jugadores, la cuenta de jugadores, u
 | **Objetivo** (O-03) | Jugar de a dos con el ritmo de cuadros del juego de uno. |
 | **Objetivo** (O-04) | Que cada jugador vea y maneje su propia partida: vista, vida, munición y arma. |
 | **Criterio de éxito** | *Completa*: las 8 misiones terminadas de a dos desde el menú, sin caídas. *Mínima*: City Streets entera de a dos, desde el menú, sin caídas. |
-| **Misión** | Un mod de PCSX2 que agrega un segundo jugador en pantalla dividida a la campaña de BLACK. |
-| **Hipótesis** | H-01: PCSX2 sigue siendo la plataforma del juego (KDP-C1: «puede depender de PCSX2»). H-02: el segundo jugador usa un mando propio conectado a la misma PC. H-03: la otra persona juega en la PC de Fran o por una sesión remota que le entrega a la PC un mando más (Parsec o Sunshine). |
+| **Misión** | Un mod de la plataforma de BLACK que agrega un segundo jugador en pantalla dividida a la campaña de BLACK. |
+| **Hipótesis** | ~~H-01: PCSX2 sigue siendo la plataforma del juego~~ (reemplazada por H-04 de §10, acordado 2026-10-30). H-02: el segundo jugador usa un mando propio conectado a la misma PC. H-03: la otra persona juega en la PC de Fran o por una sesión remota que le entrega a la PC un mando más (Parsec o Sunshine). |
 | **Restricción** | RS-01: la versión del juego es la NTSC-U `SLUS-21376`, CRC `5C891FF1` (la impone el disco que tiene Fran). RS-02: el ISO original no se modifica (Fran, freno del repo). RS-03: el trabajo entra en el plan Pro de Claude de Fran (Fran; memoria `presupuesto-gana-sobre-ultracode`). |
 | **Autoridad y responsabilidad** | Fran decide alcance, prioridades y pesos, y valida jugando. La sesión diseña, fabrica y verifica. |
 | **ConOps** | Fran abre «JUGAR BLACK COOP» y el juego arranca con el coop activo; los dos eligen una misión desde el menú; cada uno juega en su mitad vertical con su mando; si uno muere pierden los dos y reintentan; la pausa es de J1; al terminar la misión pasan a la siguiente, o vuelven otro día desde el punto de control. No nominales: J2 se queda atrás en un cambio de zona o en un evento de guion; uno junta munición; se cae el juego; se juega a distancia por una sesión remota. |
@@ -103,8 +104,8 @@ El sujeto es **el mod coop**: el pnach del coop más su lanzador, tal como lo in
 
 | ID | Requisito | Padre | Verificación | Hoy |
 |---|---|---|---|---|
-| L1-23 | Cuando Fran abre el acceso del coop, el mod coop deberá arrancar el juego con el coop activo con PCSX2 como único programa abierto. | L0-01 | demostración | medido (88e) |
-| L1-24 | El mod coop deberá correr con el mando 2 entregado por una sesión remota de Parsec. [TBR: Parsec o Sunshine] | L0-01, H-03 | demostración | nunca probado |
+| L1-23 | Cuando Fran abre el acceso del coop, el mod coop deberá arrancar el juego con el coop activo con la plataforma de BLACK como único programa abierto. | L0-01 | demostración | medido en PCSX2 (88e); en la plataforma nueva, sin medir |
+| ~~L1-24~~ | ~~El mod coop deberá correr con el mando 2 entregado por una sesión remota de Parsec.~~ **Fuera de la v1** (§10, acordado 2026-10-30). | — | — | — |
 
 ## 5. Requisitos del sistema habilitante: el banco de prueba (L2-BAN)
 
@@ -173,14 +174,16 @@ Fran con otra persona, no la sesión. Se graba con `lanzadores/grabar-gameplay.p
 - [TBR] L1-02, L1-03: 28 y 22 cuadros por segundo salen de lo medido en (114) menos un margen de 2; los cierra la suite
   de regresión con su primera corrida (la sesión, tramo 1).
 - [TBR] L1-06: 5 s salen de lo que tarda hoy el «traer» medido; lo cierra el primer escenario de zona.
-- [TBR] L1-24: Parsec o Sunshine lo decide la prueba de Fran con su amigo (Fase D).
+- ~~[TBR] L1-24~~: fuera de la v1 (§10, acordado 2026-10-30).
+- [TBR] L1-26: 1920×1080 en la notebook, 2560×1440 en la PC; lo cierra el spike S1 de (133) con el monitor medido.
 - [TBR] L2-BAN-10: 45 min salen de la campaña por selector de (93); lo cierra la primera corrida de la suite.
 - ~~El acuerdo de Fran sobre §2 y §3~~: acordado el 2026-10-30.
 
-## 10. Propuesta de cambio (132), 2026-10-30 — PENDIENTE DEL ACUERDO DE FRAN
+## 10. Cambio (132), 2026-10-30 — ACORDADO por Fran el 2026-10-30 (133)
 
-> **KDP de plataforma dado** el 2026-10-30 (PDP §6: «Sí, XBERecomp»): H-04 deja de ser condicional. Lo que sigue
-> pendiente es el acuerdo de Fran sobre el alcance del programa y los requisitos L0-05..L0-08 y L1-26..L1-30.
+> **KDP de plataforma dado** el 2026-10-30 (PDP §6: «Sí, XBERecomp»): H-04 deja de ser condicional. **El alcance del
+> programa y los requisitos L0-05..L0-08 y L1-26..L1-30 quedan en línea base**: Fran, en (133), «acuerdo los
+> requisitos». El banco L2-BAN sigue escrito para PCSX2 y se rehace sobre la plataforma nueva en la fase siguiente.
 
 **Motivo:** la meta de Fran se amplió el 2026-10-30 («la mejor experiencia de BLACK, coop y no coop: gráficos,
 jugabilidad y la mayor personalización y mods posibles; me da igual emulador o nativo en PC»), y el trade de

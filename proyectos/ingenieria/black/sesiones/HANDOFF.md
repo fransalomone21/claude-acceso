@@ -4,7 +4,15 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(132), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (`docs/22`, bitácora (132)). Fase nueva
+> **(133), 2026-10-30, NOTEBOOK, con Fran en el chat — LO ÚLTIMO** (bitácora (133), `sesiones/PREDICCIONES-133.md`).
+> Requisitos ampliados **acordados** (PDP §6). Plataforma instalada en `C:\Games\BLACK\coop` (port + coop, ISO USA,
+> XBE medido). Con dos copias en una PC sólo la del foco lee mandos: el **puente de mandos**
+> (`herramientas/puente_mandos.py`, por `--coop-control`) le da uno a cada copia. **Pendiente de Fran:** prender los
+> dos mandos y correr `lanzadores\PROBAR-PLATAFORMA-S1.ps1`, después `lanzadores\PROBAR-COOP-PC.ps1`. **Sigue:** leer
+> `volcados\plataforma\<corrida>\` (fotos, `logs\`, `estado.txt`) y cerrar S1/S2 en las predicciones; con eso, el KDP
+> que cierra PLAT-PreA. Retome: `sesiones/RETOME-LOCAL.md`.
+>
+> **(132), 2026-10-30, PC EN FRÍO, con Fran en el chat** (`docs/22`, bitácora (132)). Fase nueva
 > **PLAT-PreA** (PDP §4); COOP-C en pausa. Fran decidió coop en la misma PC, pesos «la mejor base», mods sin niveles y
 > PS2 de respaldo (PDP §6). El vigía (`herramientas/vigia.py`) encontró **`black-seamless-coop`** (coop en red sobre
 > BLACK-XBERecomp, *fuente externa*). Trade: BLACK-XBERecomp 465/500. **KDP dado: «Sí, XBERecomp»** (PDP §6).

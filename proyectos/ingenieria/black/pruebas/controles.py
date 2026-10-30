@@ -28,6 +28,8 @@ CONTROLES = [
     # (124) lo que J2 hereda de J por ser copia del molde: el soporte de modelo (F7) tiene que salir, el arma no
     ("clon_comparte autotest", ["herramientas/clon_comparte.py", "--autotest"]),
     ("probar-clon-comparte", ["pruebas/probar-clon-comparte.py"]),
+    # (133) el puente de mandos de la plataforma: mapeo SDL -> canal de control y envio UDP a cada copia
+    ("puente_mandos autotest", ["herramientas/puente_mandos.py", "--autotest"]),
     ("prueba_herramientas", ["pruebas/prueba_herramientas.py"]),
     ("probar-controles", ["pruebas/probar-controles.py"]),
 ]
