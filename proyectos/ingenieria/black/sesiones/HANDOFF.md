@@ -6,7 +6,8 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 
 > **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (bitácora (130), `docs/20`, `docs/21`).
 > - **Requisitos del coop escritos** (`docs/20-requisitos.md`, declarado en la cascada): alcance, L0, L1, L2-BAN, V&V,
->   traza, riesgos. **Sin acordar con Fran**: sus dos preguntas están en `docs/21` §7.
+>   traza, riesgos. **Acordados por Fran el 2026-10-30** (PDP §6); queda abierta su respuesta sobre cómo van a jugar
+>   (`docs/21` §7, L1-24).
 > - **Prototipo del propio BLACK** (16/08/2005) y demos de 2005 en Hidden Palace; enlace caído, archive.org cero.
 >   Primer sondeo con el archivo en mano: las secciones del ELF.
 > - **Banco coop diseñado** (`docs/21` §4) para reemplazar los diez bancos sueltos; se construye como trazador con la

@@ -41,7 +41,7 @@ decía.
 
 > **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: requisitos + segundo MOMENTO LLUVIA DE IDEAS**
 > (`docs/20-requisitos.md`, `docs/21-lluvia-de-ideas-2026-10-30.md`, bitácora (130)).
-> - **Tramo 0 hecho (falta el acuerdo de Fran):** alcance (N-01, meta, 4 objetivos, criterios de éxito, hipótesis,
+> - **Tramo 0 hecho y ACORDADO por Fran el 2026-10-30 (SRR, PDP §6):** alcance (N-01, meta, 4 objetivos, criterios de éxito, hipótesis,
 >   restricciones, ConOps, qué entra y qué no), L0 ×4, L1 ×25, **L2-BAN ×10 (el banco de prueba)**, plan de V&V,
 >   traza de lo fabricado (el «saltear videos» es el único huérfano) y riesgos con el triángulo. 39 enunciados, 0
 >   VIOLA del GtWR. Declarado en `.claude/cascada.json`: la puerta ya exige leerlo.

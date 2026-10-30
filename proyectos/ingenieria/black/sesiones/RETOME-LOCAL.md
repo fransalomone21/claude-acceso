@@ -56,7 +56,8 @@ primera suite es la regresión de R4 en los 8 niveles.
    sin cambios devuelve sólo {"cambio": false}. Un GPR del EE es de 128 bits: las ÚLTIMAS 8 cifras. Commit con `*`
    en el mensaje: `git commit -F <archivo>`. Scripts con Write, nunca por heredoc. `python pruebas/controles.py`
    antes de commitear. `git add` sólo de lo propio; `git pull --rebase` antes del push.
-8. ABIERTO, no bloquea: el acuerdo de Fran sobre docs/20 y su respuesta sobre cómo van a jugar (docs/21 §7); el
+8. ABIERTO, no bloquea: docs/20 ya está ACORDADO por Fran (2026-10-30, PDP §6); falta su respuesta sobre cómo van a
+   jugar (docs/21 §7, L1-24); el
    prototipo de BLACK del 16/08/2005 (enlace de Hidden Palace caído, archive.org cero: probar espejos); N25; H-acc.
 9. MEDIR AL ENTRAR: la cascada de black imprime «lluvia de ideas: N de 10 sesiones auditadas desde la última
    (2026-10-30)». Si dice MOMENTO LLUVIA DE IDEAS, va antes que todo.

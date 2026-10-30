@@ -9,8 +9,8 @@
 > NASA**; igual el L0 queda sin números de desempeño, que bajan a L1.
 >
 > **Grados de cada «Hoy»:** *medido* (se intervino y se vio, con control), *leído* (código leído, sin probar),
-> *sin medir*. **Estado de la línea base:** escrita por la sesión, **sin acordar**; la acuerda Fran (GtWR p. 17: un
-> requisito no acordado no es requisito). Hasta su sí, esto es el borrador de la SRR.
+> *sin medir*. **Estado de la línea base: ACORDADA por Fran el 2026-10-30** («Sí, acordada»; PDP §6). Un cambio
+> desde acá se escribe en este documento con su motivo y su fecha.
 
 ## 1. Antecedentes
 
@@ -175,4 +175,4 @@ Fran con otra persona, no la sesión. Se graba con `lanzadores/grabar-gameplay.p
 - [TBR] L1-06: 5 s salen de lo que tarda hoy el «traer» medido; lo cierra el primer escenario de zona.
 - [TBR] L1-24: Parsec o Sunshine lo decide la prueba de Fran con su amigo (Fase D).
 - [TBR] L2-BAN-10: 45 min salen de la campaña por selector de (93); lo cierra la primera corrida de la suite.
-- **El acuerdo de Fran** sobre §2 y §3 (GtWR p. 17).
+- ~~El acuerdo de Fran sobre §2 y §3~~: acordado el 2026-10-30.
