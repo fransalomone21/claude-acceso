@@ -46,8 +46,8 @@ decía.
 > - **Ya existe un coop de BLACK: `black-seamless-coop`**, en red, hasta 8 jugadores, sobre BLACK-XBERecomp (*fuente
 >   externa*, sin correr). Y un tercer port (`Black-2006-Recomp`) y una decompilación PS2 byte a byte (`blackDecomp`).
 >   Lo trajo el **vigía** nuevo (`herramientas/vigia.py`, en `abrir-sesion.ps1`; DA-091).
-> - **Trade** (`docs/22` §5): **BLACK-XBERecomp 465/500**, PS2 415, `black-pc` 355. Espera el sí de Fran, igual que los
->   requisitos ampliados (`docs/20` §10).
+> - **Trade** (`docs/22` §5): **BLACK-XBERecomp 465/500**, PS2 415, `black-pc` 355. **KDP de plataforma dado por Fran:
+>   «Sí, XBERecomp»** (PDP §6); PS2 queda de respaldo. Falta su acuerdo sobre los requisitos ampliados (`docs/20` §10).
 > - **Medido:** las ISOs USA y Europa de Fran tienen el XBE que piden los ports (`xbe_de_iso.py`); la Rosetta por
 >   estructura casa la máquina del arma (`rosetta.py`); el arma en la mano es `+0x2A4` en PS2 y `+0x29C` en Xbox.
 > - **Máquina:** PS2 sin tocar desde (128). Nada instalado ni corrido de los ports. **Sigue:** `sesiones/RETOME-LOCAL.md`.

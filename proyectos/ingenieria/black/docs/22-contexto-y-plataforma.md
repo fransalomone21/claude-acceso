@@ -122,7 +122,8 @@ decide el primer spike en vivo (§6), contra L1-11/L1-12.
 
 ## 6. Lo que se le pide a Fran y lo que sigue
 
-1. **El sí del KDP de plataforma**: BLACK-XBERecomp como base; PS2 congelado jugable como respaldo (PDP §6, (d)).
+1. ~~**El sí del KDP de plataforma**~~: **dado el 2026-10-30, «Sí, XBERecomp»** (PDP §6). BLACK-XBERecomp es la
+   base; PS2 queda congelado jugable como respaldo.
 2. **El acuerdo sobre los requisitos ampliados** (`docs/20` §10).
 3. **El primer spike en vivo** (próxima sesión, con Fran): BLACK-XBERecomp V3 con la ISO USA (arranca, llega a la
    primera misión, cuadros por segundo, registro), y después `black-seamless-coop` en **dos instancias en la misma

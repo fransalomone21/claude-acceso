@@ -177,7 +177,10 @@ Fran con otra persona, no la sesión. Se graba con `lanzadores/grabar-gameplay.p
 - [TBR] L2-BAN-10: 45 min salen de la campaña por selector de (93); lo cierra la primera corrida de la suite.
 - ~~El acuerdo de Fran sobre §2 y §3~~: acordado el 2026-10-30.
 
-## 10. Propuesta de cambio (132), 2026-10-30 — PENDIENTE DEL SÍ DE FRAN
+## 10. Propuesta de cambio (132), 2026-10-30 — PENDIENTE DEL ACUERDO DE FRAN
+
+> **KDP de plataforma dado** el 2026-10-30 (PDP §6: «Sí, XBERecomp»): H-04 deja de ser condicional. Lo que sigue
+> pendiente es el acuerdo de Fran sobre el alcance del programa y los requisitos L0-05..L0-08 y L1-26..L1-30.
 
 **Motivo:** la meta de Fran se amplió el 2026-10-30 («la mejor experiencia de BLACK, coop y no coop: gráficos,
 jugabilidad y la mayor personalización y mods posibles; me da igual emulador o nativo en PC»), y el trade de

@@ -11,10 +11,9 @@ trade puntuó de oídas: si el port anda con la ISO de Fran y si ese coop sirve 
 
 0. EL LIBRO PRIMERO: si ~/.claude/CLAUDE.md no empieza con «# Perfil global», correr
    `bash .claude/nube/traer-perfil.sh` en claude-acceso y leer lo que liste (en la PC llega solo).
-1. LO DE FRAN, ANTES DE TODO: ¿dio el sí al KDP de plataforma (BLACK-XBERecomp de base, PS2 congelado de respaldo)
-   y a los requisitos ampliados (docs/20 §10)? Mirar PDP §6: si no está, preguntárselo en una línea con las dos
-   opciones. Su respuesta va al PDP §6 y a la memoria black-plataforma-pesos. Sin el sí, los spikes igual corren
-   (son evidencia para el KDP), pero nada se fabrica.
+1. LO DE FRAN, ANTES DE TODO: el KDP de plataforma YA ESTÁ DADO («Sí, XBERecomp», 2026-10-30, PDP §6): no se
+   repregunta. Falta su acuerdo sobre los requisitos ampliados (docs/20 §10): mirar PDP §6; si no está, preguntárselo
+   en una línea (sí / qué cambia). Su respuesta va al PDP §6 y a la memoria black-plataforma-pesos.
 2. LEER: `.\cascada.ps1 black -Necesidad diseno,investigar` y CON Read cada rango que imprima. Después docs/22
    entero, docs/20 §10 y sesiones/PREDICCIONES-132.md (resultados de R, X). NO leer la bitácora vieja, docs/14,
    docs/16 ni docs/21 (ya están destilados en docs/22).
