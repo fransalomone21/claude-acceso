@@ -102,11 +102,23 @@ puertas. N1 (capacidades A leer RAM, B leer código, D escribir) está
 | Pre-A | Estudio de conceptos del programa | la MCR (ver abajo) | `programa.py verificar` 0 rojos + `trade` 0 + `probar-programa.py` 9/9 | **cerrada 2026-09-27** (KDP-A en §6) |
 | **COOP-A** | **Proyecto coop, Fase A: concepto y desarrollo de tecnología** | ver «Proyecto COOP» abajo | los habilitadores en K5, cada uno por efecto | **cerrada 2026-09-27 (bitácora (83))**: los 7 habilitadores en su objetivo, prototipo hecho en (82), `verificar` 0 |
 | **COOP-B** | **Proyecto coop, Fase B: diseño preliminar** | ver «Proyecto COOP — Fase B» abajo | PDR recortada: los tres riesgos altos retirados por efecto + el diseño que nombra cada dirección, medido por `coop_diseno.py verificar` (desde (104)–(107) también el plan `coop-plan-b` contra el ELF) | abierta 2026-09-27 (84); alcance ampliado 2026-09-28 (106); **cerrada 2026-10-02 (114)**: PDR revisada por Fran (sus seis respuestas en `docs/18`), KDP-B en §6 |
-| **COOP-C** | **Proyecto coop, Fase C: diseño final y fabricación** | ver «Proyecto COOP — Fase C» abajo | por pieza: predicción escrita antes, control y dos cargas seguidas; al final la campaña 8/8 con todo prendido | **abierta 2026-10-02 (114)** |
+| **COOP-C** | **Proyecto coop, Fase C: diseño final y fabricación** | ver «Proyecto COOP — Fase C» abajo | por pieza: predicción escrita antes, control y dos cargas seguidas; al final la campaña 8/8 con todo prendido | abierta 2026-10-02 (114); **en pausa desde 2026-10-30 (132)** |
+| **PLAT-PreA** | **Plataforma, Pre-Fase A: estudio de conceptos** (la meta ampliada de Fran, §6) | ver «Plataforma — Pre-Fase A» abajo | el mapa del contexto escrito, los requisitos ampliados acordados, el trade con los pesos de Fran y su sí, el vigía con saboteador | **abierta 2026-10-30 (132)** |
 
-**Fase en curso: COOP-C**, abierta el 2026-10-02 (114) con su criterio escrito
-abajo **antes** de fabricar nada. La B (diseño preliminar) quedó cerrada por la
+**Fase en curso: PLAT-PreA**, abierta el 2026-10-30 (132): reabrir el concepto de plataforma con la meta
+ampliada de Fran. **COOP-C queda en pausa** (su criterio de abajo no cambia; lo que se fabricó en PS2 se congela
+jugable si gana otra plataforma, §6). La B del coop quedó cerrada por la
 PDR: [`docs/18-pdr-coop.md`](docs/18-pdr-coop.md).
+
+### Plataforma — Pre-Fase A (estudio de conceptos), abierta en (132)
+
+NASA Pre-Phase A, «Concept Studies»: estudiar alternativas y elegir. **No se hace:** fabricar, migrar código ni
+instalar mods antes del sí de Fran. **La cierra** (las cuatro): (i) el mapa del contexto escrito
+([`docs/22-contexto-y-plataforma.md`](docs/22-contexto-y-plataforma.md) §1-§3); (ii) los requisitos ampliados en
+`docs/20` §10, **acordados por Fran**; (iii) el trade de plataforma (`docs/22` §5) con criterios escritos antes,
+mandatorios que filtran, los pesos de Fran (§6, 2026-10-30) y **su sí** (KDP de plataforma, §6); (iv) el vigía
+(`herramientas/vigia.py`, DA-091) enganchado a `abrir-sesion.ps1`, con su saboteador en rojo probado. Estado al
+cierre de (132): (i) y (iv) hechos; (ii) y (iii) escritos, esperan el sí de Fran.
 
 ### Proyecto COOP
 
@@ -403,6 +415,7 @@ lo único que valida que sirve.
 | 2026-10-02 | **V4 («continuar misión») pasa a la C con otro banco** | medirla en la B con el selector | con el nivel cargado por el selector de depuración CONTINUE queda apagado **también sin el coop** (control de (114)): el banco no puede contestar la pregunta |
 | 2026-10-12 | **KDP-C1, después del primer momento lluvia de ideas** ((129), `docs/19` §7). Fran: «haz todo lo que apunte a conseguir el coop de todo BLACK, sin perder jugabilidad, coop funcional bueno quiero. Bajá cualquier herramienta oficial o no. Que corra en PCSX2 o en un osciloscopio si es necesario». Se lee como: (1) **el orden de la C pasa a ser de lo fundamental a lo específico** —estable, avanzar, sostener, ver al otro, y recién después fidelidad—, con «sin perder jugabilidad» como condición de cada tramo (el ritmo no baja, nada se cae); (2) **el coop puede depender de PCSX2** (la opción de 128 MB incluida); (3) **se bajan las herramientas y referencias que sirvan** (los builds de Burnout con símbolos, el SDK de RenderWare) | el orden de la PDR (114) («lo más visible primero»); un coop que corra en una PS2 real; trabajar sin referencias externas | la pieza 2 llevó 13 sesiones de fidelidad con lo que decide si se puede jugar sin medir; la meta la pone Fran y es jugar la campaña entera de a dos. La plataforma real nunca fue requisito (la D es PCSX2 y Parsec) |
 | 2026-10-30 | **SRR del coop: Fran acordó la línea base de requisitos** ((130), `docs/20`). Fran: «Sí, acordada». Alcance, L0-01..L0-04, L1-01..L1-25 y L2-BAN-01..L2-BAN-10 pasan a línea base; un cambio desde acá se escribe en `docs/20` con su motivo y su fecha | seguir fabricando sin requisitos | el coop cruzó A, B y C sin el papel que dice qué es terminado (KDP-C1); el tramo 0 lo pedía. Quedan abiertos los TBR de `docs/20` §9 y cómo van a jugar (L1-24, `docs/21` §7) |
+| 2026-10-30 | **(132) Las respuestas de Fran para reabrir el concepto de plataforma** (meta ampliada: «la mejor experiencia de BLACK, coop y no coop: gráficos, jugabilidad y la mayor personalización y mods posibles; me da igual emulador o nativo»). (a) El coop se juega **en la misma PC con dos mandos** (pantalla dividida); L1-24 a distancia queda fuera de la v1. (b) Pesos del trade de plataforma, perfil **«la mejor base»**: jugabilidad estable 25, techo gráfico 20, techo de mods 20, coop alcanzable 20, costo en sesiones 15. (c) «Mods» = **texturas y gráficos, reglas del juego, controles e interfaz**; niveles nuevos no. (d) Si gana otra plataforma, el coop de PS2 se **congela jugable como respaldo** y su saber se porta con la Rosetta. Fran eligió cada opción en el cuestionario de (132) | «el coop antes» (coop 35); «mods y gráficos» (mods 30); jugar a distancia en la v1; niveles nuevos; seguir el coop PS2 en paralelo | pesos de Fran, no de la sesión; la meta pide la mejor base para coop y no coop, y el coop de a distancia se monta encima de la pantalla dividida |
 
 ## 7. Verificación
 

@@ -39,7 +39,20 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(131), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: las otras compilaciones** (`docs/21` §6b).
+> **(132), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: Pre-Fase A de plataforma** (`docs/22`, PDP §4
+> «Plataforma — Pre-Fase A», bitácora (132), `sesiones/PREDICCIONES-132.md`). **Fase en curso: PLAT-PreA; COOP-C en pausa.**
+> - **Fran decidió** (PDP §6): coop en la misma PC con dos mandos; pesos «la mejor base» (jugabilidad 25, gráficos 20,
+>   mods 20, coop 20, costo 15); mods = texturas, reglas y controles (no niveles); PS2 se congela de respaldo.
+> - **Ya existe un coop de BLACK: `black-seamless-coop`**, en red, hasta 8 jugadores, sobre BLACK-XBERecomp (*fuente
+>   externa*, sin correr). Y un tercer port (`Black-2006-Recomp`) y una decompilación PS2 byte a byte (`blackDecomp`).
+>   Lo trajo el **vigía** nuevo (`herramientas/vigia.py`, en `abrir-sesion.ps1`; DA-091).
+> - **Trade** (`docs/22` §5): **BLACK-XBERecomp 465/500**, PS2 415, `black-pc` 355. Espera el sí de Fran, igual que los
+>   requisitos ampliados (`docs/20` §10).
+> - **Medido:** las ISOs USA y Europa de Fran tienen el XBE que piden los ports (`xbe_de_iso.py`); la Rosetta por
+>   estructura casa la máquina del arma (`rosetta.py`); el arma en la mano es `+0x2A4` en PS2 y `+0x29C` en Xbox.
+> - **Máquina:** PS2 sin tocar desde (128). Nada instalado ni corrido de los ports. **Sigue:** `sesiones/RETOME-LOCAL.md`.
+>
+> **(131), 2026-10-30, PC EN FRÍO, con Fran en el chat: las otras compilaciones** (`docs/21` §6b).
 > - **Prototipo PS2 de 08/2005: inconseguible** (Hidden Palace 404 en todo BLACK, archive.org cero, Myrient cerrado).
 >   **Demo PS2 USA de 11/2005 bajada: ELF sin símbolos.**
 > - **Apareció algo mejor: `black-pc`**, port nativo a PC de la versión **Xbox** (jugable, GPL), y `ReBLACK-XBOX`, el

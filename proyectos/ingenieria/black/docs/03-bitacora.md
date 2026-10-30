@@ -16,6 +16,33 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-30 — (132) Pre-Fase A de plataforma: el mapa del contexto, la Rosetta medida, un coop de terceros
+**Máquina:** PC, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** el programa entero (fase nueva PLAT-PreA, PDP §4); COOP-C en pausa. Ningún nodo del mapa de
+nivel 1 cambia de K (es de PS2).
+**Objetivo:** reabrir el concepto de plataforma con la meta ampliada de Fran (gráficos, jugabilidad, mods, coop y no
+coop): el mapa del contexto, los requisitos ampliados, el trade con sus pesos y el vigía (DA-091). Sin fabricar.
+**Resultado:** Fran contestó las cuatro preguntas (PDP §6, memoria `black-plataforma-pesos`): misma PC con dos mandos;
+pesos «la mejor base»; mods = texturas, reglas y controles; PS2 congelado de respaldo. **Rosetta por estructura**
+(`herramientas/rosetta.py`): la máquina del arma Xbox `FUN_001EEFD0` ↔ PS2 `0x001575A8`, primera en las dos
+direcciones entre ~3600 (J = 0,59) y escribe `+0xD8` = 0/28: confirmado en frío por dos métodos; la mira, probable;
+la pausa no discrimina. **Lo de (131) corregido:** el arma en la mano es `+0x2A4` en PS2 y `+0x29C` en Xbox. **ISOs**
+(`herramientas/xbe_de_iso.py`, sin extraer): USA = NTSC-U `df2739c3…68f6` y Europa = PAL `67f35121…30f0`, las dos
+soportadas; la demo no. **El vigía** (`herramientas/vigia.py`, en `abrir-sesion.ps1`, saboteador en rojo) trajo en su
+primera mirada 282 repos: entre ellos **`black-seamless-coop`** (coop en red de hasta 8 sobre BLACK-XBERecomp, «lo
+terminamos entre amigos»), un **tercer port** (`Black-2006-Recomp`, 201 estrellas) y una **decompilación PS2 byte a
+byte** (`blackDecomp`). **Trade** (`docs/22` §5): BLACK-XBERecomp 465/500 contra PS2 415, robusto a la
+sensibilidad. Requisitos ampliados en `docs/20` §10 (N-02, M-02..M-04, O-05..O-08, L0-05..08, L1-26..30; 0 VIOLA).
+**No funcionó:** la primera Rosetta excluía `ebp` en x86 (el XBE es MSVC sin frame pointer) y su control positivo,
+PS2 contra sí misma, era ciego a eso: arreglado con un control que cruza la plataforma. El pesado por rareza (IDF) no
+mejoró y quedó como método 2 descartado. El primer `vigia.py base` marcó como vistos 282 items sin mostrarlos (se
+tragaba justo lo nuevo): arreglado, la base se anota entera en `docs/vigia-novedades.md`. Los ports no se lanzaron:
+son ejecutables de terceros bajados de GitHub, los abre Fran.
+**Sigue:** el sí de Fran (KDP de plataforma y `docs/20` §10) y el primer spike en vivo: BLACK-XBERecomp con la ISO
+USA, y `black-seamless-coop` en dos instancias en la misma PC (`sesiones/RETOME-LOCAL.md`).
+
+---
+
 ## 2026-10-30 — (131) Las otras compilaciones: el prototipo no está, apareció la versión Xbox en PC
 **Máquina:** PC, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** COOP-C entero (la batería que ya existía, `docs/21` §2); ningún nodo del mapa cambia de K.

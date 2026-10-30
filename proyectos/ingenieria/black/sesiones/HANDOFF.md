@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(131), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (`docs/21` §6b). Búsqueda de otras
+> **(132), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (`docs/22`, bitácora (132)). Fase nueva
+> **PLAT-PreA** (PDP §4); COOP-C en pausa. Fran decidió coop en la misma PC, pesos «la mejor base», mods sin niveles y
+> PS2 de respaldo (PDP §6). El vigía (`herramientas/vigia.py`) encontró **`black-seamless-coop`** (coop en red sobre
+> BLACK-XBERecomp, *fuente externa*). Trade: BLACK-XBERecomp 465/500. **Pendiente de Fran:** el sí del KDP de
+> plataforma y de `docs/20` §10. **Sigue:** el primer spike en vivo (`sesiones/RETOME-LOCAL.md`, sesión 133): los
+> ejecutables de terceros los abre Fran. Herramientas nuevas: `rosetta.py`, `xbe_de_iso.py`, `vigia.py`.
+>
+> **(131), 2026-10-30, PC EN FRÍO, con Fran en el chat** (`docs/21` §6b). Búsqueda de otras
 > compilaciones: el prototipo PS2 no está en ningún espejo público; la demo PS2 USA (bajada) no trae símbolos.
 > Apareció `black-pc` (port nativo a PC de la versión Xbox) y `ReBLACK-XBOX` (el XBE en C), con los **mismos
 > offsets** que PS2 (*probable*). **Pendiente de Fran:** PS2 con Rosetta o coop sobre el port (disco Xbox propio).

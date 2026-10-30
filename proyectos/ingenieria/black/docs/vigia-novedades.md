@@ -1,0 +1,286 @@
+# Lo que el vigia encontro nuevo (generado por herramientas/vigia.py; se lee, no se edita)
+
+## 2026-10-30
+
+- [gh-black-criterion] (linea base, sin revisar) obrhubr/kelly-criterion-blackjack -- The Kelly Criterion applied to Blackjack and different true counts. (https://github.com/obrhubr/kelly-criterion-blackjack)
+- [gh-black-criterion] (linea base, sin revisar) maxsiguenza2003-alt/AI-Driven-Options-Trading -- AI-driven Python tool for high-probability options trading using RSI, MACD, VWAP, DMI, Bla (https://github.com/maxsiguenza2003-alt/AI-Driven-Options-Trading)
+- [gh-black-criterion] (linea base, sin revisar) DohmBoy64Bit/CriterionBlackRecomp --  (https://github.com/DohmBoy64Bit/CriterionBlackRecomp)
+- [gh-black-criterion] (linea base, sin revisar) samuelj1519/go-blackjack -- A fully-featured blackjack game written in Go, integrated with Monte Carlo probability ana (https://github.com/samuelj1519/go-blackjack)
+- [gh-black-criterion] (linea base, sin revisar) dimitris-markopoulos/quantitative-finance -- A collection of quantitative finance projects covering option pricing, risk analysis, vola (https://github.com/dimitris-markopoulos/quantitative-finance)
+- [gh-black-criterion] (linea base, sin revisar) Novice-Statistician/blackjack-simulator -- Blackjack simulator with card counting, Monte Carlo win probability modeling, and fraction (https://github.com/Novice-Statistician/blackjack-simulator)
+- [gh-black-criterion] (linea base, sin revisar) Ahmedgomaa1530/Comparing-Markowitz-Optimization-with-the-Black-Litterman-framework-and-the-Kelly-Criterion. -- This project evaluates multiple asset allocation methodologies, comparing classical Markow (https://github.com/Ahmedgomaa1530/Comparing-Markowitz-Optimization-with-the-Black-Litterman-framework-and-the-Kelly-Criterion.)
+- [gh-black-criterion] (linea base, sin revisar) owenparris/Reinforcement-Learning-Blackjack -- Monte Carlo simulation to optimise blackjack strategy and bet sizing using the Kelly Crite (https://github.com/owenparris/Reinforcement-Learning-Blackjack)
+- [gh-black-criterion] (linea base, sin revisar) RhysB-code/CHILLING-REQUIREMENT-ANALYSIS-FOR-BLACKBERRY-BREEDING-PROGRAMS -- Estimates the chilling requirement of any number of genotypes from forced budbreak data, u (https://github.com/RhysB-code/CHILLING-REQUIREMENT-ANALYSIS-FOR-BLACKBERRY-BREEDING-PROGRAMS)
+- [gh-black-criterion] (linea base, sin revisar) jsnider3/Blackjack -- Implement a blackjack system that uses Thorpe's system and the Kelly Criterion to recommen (https://github.com/jsnider3/Blackjack)
+- [gh-black-criterion] (linea base, sin revisar) fiftyfour544/Blackjack_Qlearning_Counter -- Blackjack model that utilizes Q learning and card counting with Kelly criterion to produce (https://github.com/fiftyfour544/Blackjack_Qlearning_Counter)
+- [gh-black-criterion] (linea base, sin revisar) kristjanakkermann/options-trading-system -- Options trading research & alert system with quantitative analysis (Black-Scholes, Greeks, (https://github.com/kristjanakkermann/options-trading-system)
+- [gh-black-criterion] (linea base, sin revisar) Problemsolver0070/Blackjack-card-scanner-and-counter -- Computer-vision card counter and Kelly-Criterion bet sizer for blackjack analysis. Real-ti (https://github.com/Problemsolver0070/Blackjack-card-scanner-and-counter)
+- [gh-black-criterion] (linea base, sin revisar) SirFrancisG/Blackjack-Monte-Carlo-Simulator-Hi-Lo-Card-Counting -- Monte Carlo blackjack simulator in Python. Compares Hi-Lo card counting vs flat betting ac (https://github.com/SirFrancisG/Blackjack-Monte-Carlo-Simulator-Hi-Lo-Card-Counting)
+- [gh-black-criterion] (linea base, sin revisar) edrf12/edb2-trees -- A AVL and Red-Black tree implementation in Rust for educational purposes. Also includes a  (https://github.com/edrf12/edb2-trees)
+- [gh-black-criterion] (linea base, sin revisar) emmanueladutwum123/quantlab-pro -- Institutional-grade quantitative finance calculator — Black-Scholes · Greeks · IV Solver · (https://github.com/emmanueladutwum123/quantlab-pro)
+- [gh-black-criterion] (linea base, sin revisar) arwells-research/dft-ringdown-diagnostics -- Operator-theoretic diagnostics for black hole ringdown using a Σ₂-motivated framework. Int (https://github.com/arwells-research/dft-ringdown-diagnostics)
+- [gh-black-criterion] (linea base, sin revisar) fishsuper/MCMC-BSmodel -- Based on the extended Black-Scholes model to quantitatively study corporate bounds. The in (https://github.com/fishsuper/MCMC-BSmodel)
+- [gh-black-criterion] (linea base, sin revisar) 0xbadc0ff3/Global-optimization -- A small utility project in Python whose purpose is to evaluate the global minimum of a giv (https://github.com/0xbadc0ff3/Global-optimization)
+- [gh-black-criterion] (linea base, sin revisar) smtoshniwal/Visual-Learning-based-Recommendation-System -- The recommendation System proposed makes use of social media analytics based centrality me (https://github.com/smtoshniwal/Visual-Learning-based-Recommendation-System)
+- [gh-black-criterion] (linea base, sin revisar) Aryia-Behroziuan/neurons -- An ANN is a model based on a collection of connected units or nodes called "artificial neu (https://github.com/Aryia-Behroziuan/neurons)
+- [gh-black-xbox] (linea base, sin revisar) portingpete/Black-2006-Recomp -- Native Windows recompilation of BLACK (2006) for original Xbox. Bring your own game files. (https://github.com/portingpete/Black-2006-Recomp)
+- [gh-black-xbox] (linea base, sin revisar) TGP482/BLACK-XBERecomp -- An unofficial original Xbox version PC port of BLACK (2006) via static recompilation. (https://github.com/TGP482/BLACK-XBERecomp)
+- [gh-black-xbox] (linea base, sin revisar) RanggaCasper/Black-Android -- An unofficial native Android port of the original Xbox version of Black, with touch contro (https://github.com/RanggaCasper/Black-Android)
+- [gh-black-xbox] (linea base, sin revisar) Spark198rus/black-pc -- Unofficial native Windows port of BLACK (Xbox, NTSC-U). Runs your own copy of the game's c (https://github.com/Spark198rus/black-pc)
+- [gh-black-xbox] (linea base, sin revisar) RanggaCasper/MostWanted-Android -- Unofficial native Android port of Need for Speed: Most Wanted (Xbox Black Edition). The x8 (https://github.com/RanggaCasper/MostWanted-Android)
+- [gh-black-xbox] (linea base, sin revisar) LJW-Dev/Black-Ops-3-GSC-Compiler -- A Black Ops 3 GSC Compiler and Injector for both PC and Xbox. (https://github.com/LJW-Dev/Black-Ops-3-GSC-Compiler)
+- [gh-black-xbox] (linea base, sin revisar) ohhsodead/arisen-gsc-injector -- Browse, Download and Install GSC Mods for Black Ops II (PlayStation 3 & Xbox 360) (https://github.com/ohhsodead/arisen-gsc-injector)
+- [gh-black-xbox] (linea base, sin revisar) officialmelon/bo2-recompiled -- Xbox 360 version of Black Ops 2 recompiled (https://github.com/officialmelon/bo2-recompiled)
+- [gh-black-xbox] (linea base, sin revisar) rheard/The-Tesseract-on-Xbox-360-for-Black-Ops-2 --  (https://github.com/rheard/The-Tesseract-on-Xbox-360-for-Black-Ops-2)
+- [gh-black-xbox] (linea base, sin revisar) gamboozino/ngbrecomp -- Ninja Gaiden Black (Xbox, 2005) statically recompiled into native Linux and Windows builds (https://github.com/gamboozino/ngbrecomp)
+- [gh-black-xbox] (linea base, sin revisar) elpetese/black-macos-recomp -- Black (Xbox, 2006) static recompilation to native macOS Apple Silicon. Project code only;  (https://github.com/elpetese/black-macos-recomp)
+- [gh-black-xbox] (linea base, sin revisar) gerisson1996/BLACK-NX-PORT -- Unofficial BLACK (PS2/Xbox) porting project for Nintendo Switch. Researching compatibility (https://github.com/gerisson1996/BLACK-NX-PORT)
+- [gh-black-xbox] (linea base, sin revisar) feudalnate/NinjaCrypt -- Encryption tool for Ninja Gaiden/Ninja Gaiden Black gamesaves for the original Xbox (https://github.com/feudalnate/NinjaCrypt)
+- [gh-black-xbox] (linea base, sin revisar) Benzolence/Cod-Bo3-MXT-Mod-Menu -- Cod Bo3 MXT Mod Menu 2025 – Download, Features, Installation Guide for Black Ops 3 Mods on (https://github.com/Benzolence/Cod-Bo3-MXT-Mod-Menu)
+- [gh-black-xbox] (linea base, sin revisar) angeldev07/ninja-gaiden-black-port -- Native PC port of Ninja Gaiden Black (Xbox). No game data included. (https://github.com/angeldev07/ninja-gaiden-black-port)
+- [gh-black-xbox] (linea base, sin revisar) LucioXerus/bo1-recomp -- An unofficial PC port of the Xbox 360 version of Call of Duty Black Ops (BO1) created thro (https://github.com/LucioXerus/bo1-recomp)
+- [gh-black-xbox] (linea base, sin revisar) jason-snell/Aspire-CE-v2 -- Xbox 360 Cheat for Black Ops 2, Modern Warfare 3, Modern Warfare 2, and Black Ops (https://github.com/jason-snell/Aspire-CE-v2)
+- [gh-black-xbox] (linea base, sin revisar) Katon17/black-linux -- Native Linux port of Black (Xbox, 2006) - static recompilation, Vulkan + SDL3, .deb for Ub (https://github.com/Katon17/black-linux)
+- [gh-black-xbox] (linea base, sin revisar) gdfurr98/Black-Xbox-Recomp-Linux-Setup-Script --  (https://github.com/gdfurr98/Black-Xbox-Recomp-Linux-Setup-Script)
+- [gh-black-xbox] (linea base, sin revisar) LJW-Dev/BO3_RTE_Tool -- Xbox 360 Real-Time-Editing tool for Black ops 3.  (https://github.com/LJW-Dev/BO3_RTE_Tool)
+- [gh-black-xbox] (linea base, sin revisar) piece333v-ship-it/black-android10 -- Black port Xbox for Android  (https://github.com/piece333v-ship-it/black-android10)
+- [gh-black-xbox] (linea base, sin revisar) cerroverb/espgaluda2-recomp -- Native Linux recompilation of Espgaluda II Black Label (Xbox 360) using ReXGlue (https://github.com/cerroverb/espgaluda2-recomp)
+- [gh-black-xbox] (linea base, sin revisar) Pixelplix93/NFS-Most-Wanted-Black-Edition-Xbox-360 -- NFS Most Wanted Black Edition for Xbox 360 (https://github.com/Pixelplix93/NFS-Most-Wanted-Black-Edition-Xbox-360)
+- [gh-black-xbox] (linea base, sin revisar) soldieg/ReBLACK-XBOX -- Public status and planning hub for the ReBLACK project focused on BLACK for the original X (https://github.com/soldieg/ReBLACK-XBOX)
+- [gh-black-xbox] (linea base, sin revisar) ThermiteK/Call-of-Duty-Black-Ops-2-Port-da-Localizacao-em-Portugues-do-Brasil-Xbox-360-Playstation-3-para-PC -- Port dos arquivos da localização oficial em Português do Brasil (PT-BR), originalmente lan (https://github.com/ThermiteK/Call-of-Duty-Black-Ops-2-Port-da-Localizacao-em-Portugues-do-Brasil-Xbox-360-Playstation-3-para-PC)
+- [gh-black-xbox] (linea base, sin revisar) batatinhafcbatatinha-pixel/black-xbox-pc -- Experimental Black (original Xbox) native PC port work. Bring your own disc; no game conte (https://github.com/batatinhafcbatatinha-pixel/black-xbox-pc)
+- [gh-black-xbox] (linea base, sin revisar) vivadrags/veruca-bo1 -- Black Ops 1 gsc azza trickshotting menu for PC, Xbox, and PS3. (https://github.com/vivadrags/veruca-bo1)
+- [gh-black-xbox] (linea base, sin revisar) AlvaroEPena/bo2-zm-nx -- Call of Duty: Black Ops II Zombies, from the Xbox 360, running natively on the Nintendo Sw (https://github.com/AlvaroEPena/bo2-zm-nx)
+- [gh-black-xbox] (linea base, sin revisar) Gamnem/XBOX360BLACK --  (https://github.com/Gamnem/XBOX360BLACK)
+- [gh-black-xbox] (linea base, sin revisar) proferabg/ZambiesV3 -- Black Ops 3 Real-Time Memory Editor for Xbox 360 (https://github.com/proferabg/ZambiesV3)
+- [gh-black-xbox] (linea base, sin revisar) soc-ananlyst/No-BlackXBox --  (https://github.com/soc-ananlyst/No-BlackXBox)
+- [gh-black-xbox] (linea base, sin revisar) MuriloDagustin/black-seamless-coop -- Networked two-player co-op mod for Black (Xbox, 2006) on the BLACK-XBERecomp PC port (https://github.com/MuriloDagustin/black-seamless-coop)
+- [gh-black-xbox] (linea base, sin revisar) zombiedestroyer29/T6-Xbox-Struct-Research -- Black Ops 2 Xbox 360 XAsset structure research, using PC structs as a base (https://github.com/zombiedestroyer29/T6-Xbox-Struct-Research)
+- [gh-black-xbox] (linea base, sin revisar) elpetese/black-macos-runtime -- Mirror of sp00nznet/xboxrecomp with the Black (Xbox) Apple Silicon port work (https://github.com/elpetese/black-macos-runtime)
+- [gh-black-xbox] (linea base, sin revisar) Tazhys/invalid-material-bo2 -- A handler for invalid materials for black ops 2 xbox 360. (https://github.com/Tazhys/invalid-material-bo2)
+- [gh-black-xbox] (linea base, sin revisar) soldieg/Project-ReBlack -- Foundation for the BLACK native PC port, following the ReBLACK-XBOX reconstruction project (https://github.com/soldieg/Project-ReBlack)
+- [gh-black-xbox] (linea base, sin revisar) DEadDRop470/Assassins-Creed-Black-Flag-Resynced-Haptics-Bridge -- AC Black Flag Resynced – Shadows Haptics Bridge  Adds Assassin’s Creed Shadows–derived hap (https://github.com/DEadDRop470/Assassins-Creed-Black-Flag-Resynced-Haptics-Bridge)
+- [gh-black-xbox] (linea base, sin revisar) PretendedLeaf/BLACK-SOULS-Xboxuwp --  (https://github.com/PretendedLeaf/BLACK-SOULS-Xboxuwp)
+- [gh-black-xbox] (linea base, sin revisar) Cwf1997/black -- A decompilation project of Black for the Xbox. (https://github.com/Cwf1997/black)
+- [gh-black-xbox] (linea base, sin revisar) Plasmanizer/BLACK-save-resigner -- Python script to make BLACK savedata from original XBOX work with BLACK-XBERecomp  (https://github.com/Plasmanizer/BLACK-save-resigner)
+- [gh-black-xbox] (linea base, sin revisar) byteloonNobbxx1/black-pc-enhanced -- Mods for the BLACK PC port 0.2.0: MODS menu (god mode, infinite ammo, ESP, aim assist, unl (https://github.com/byteloonNobbxx1/black-pc-enhanced)
+- [gh-black-xbox] (linea base, sin revisar) LJW-Dev/Black-Ops-3-GSC-Injector-for-Xbox-360 -- An Xbox 360 GSC injector for Black Ops 3 based on CraigChrist8239's BO2 Tesseract. (https://github.com/LJW-Dev/Black-Ops-3-GSC-Injector-for-Xbox-360)
+- [gh-black-xbox] (linea base, sin revisar) hshinosa/Black-macOS -- Unofficial native macOS port of the original Xbox game Black. Vulkan via MoltenVK, SDL3. T (https://github.com/hshinosa/Black-macOS)
+- [gh-black-xbox] (linea base, sin revisar) Coreyx86/T5GSCLoader-Xbox-360 -- A GameScript (GSC) mod loader for Call of Duty Black Ops (T5) on Xbox 360. This requires a (https://github.com/Coreyx86/T5GSCLoader-Xbox-360)
+- [gh-black-xbox] (linea base, sin revisar) Ticass/crybaby-t6-linker -- Xbox 360 Black Ops 2 FastFile scanner and script payload extractor (https://github.com/Ticass/crybaby-t6-linker)
+- [gh-black-xbox] (linea base, sin revisar) Ticass/T6-Asset-Terminal -- Standalone Xbox 360 Black Ops II Transit IPAK-to-DDS extractor (https://github.com/Ticass/T6-Asset-Terminal)
+- [gh-black-xbox] (linea base, sin revisar) alsadyzyzt968-arch/Play-Call-of-Duty-Black-Ops-6-with-Xbox-Cloud-Gaming. -- Play Call of Duty®: Black Ops 6 with Xbox Cloud Gaming. (https://github.com/alsadyzyzt968-arch/Play-Call-of-Duty-Black-Ops-6-with-Xbox-Cloud-Gaming.)
+- [gh-black-xbox] (linea base, sin revisar) jimbon25/Black-iOS -- An unofficial native Android port of the original Xbox version of Black, with touch contro (https://github.com/jimbon25/Black-iOS)
+- [gh-black-xbox] (linea base, sin revisar) mifada2543/black-pc-linux -- Unofficial native Linux port(WIP) of BLACK (Xbox, NTSC-U). Runs your own copy of the game' (https://github.com/mifada2543/black-pc-linux)
+- [gh-black-xbox] (linea base, sin revisar) Heaventh007/CG_RegisterItems-RCE-Patch -- This is an Xbox 360 tool to patch a buffer overflow present in CG_RegisterItems for Call O (https://github.com/Heaventh007/CG_RegisterItems-RCE-Patch)
+- [gh-black-ps2] (linea base, sin revisar) SirBraga/black-recomp -- Recompilação estática do Black (PS2) para macOS (https://github.com/SirBraga/black-recomp)
+- [gh-black-ps2] (linea base, sin revisar) gerisson1996/BLACK-NX-PORT -- Unofficial BLACK (PS2/Xbox) porting project for Nintendo Switch. Researching compatibility (https://github.com/gerisson1996/BLACK-NX-PORT)
+- [gh-black-ps2] (linea base, sin revisar) elyesseb/kh2fm-french-finalmix-voices-fix -- Fix for KH2FM PS2 French FANDUB black screen / PCSX2 VIF crashes and silent Final Mix cuts (https://github.com/elyesseb/kh2fm-french-finalmix-voices-fix)
+- [gh-black-ps2] (linea base, sin revisar) TRAPZNVL/black-card-ps2-android -- Project: black-card-ps2-android (https://github.com/TRAPZNVL/black-card-ps2-android)
+- [gh-black-ps2] (linea base, sin revisar) dpusceddu/blackDecomp -- Byte-matching decompilation for Black (PS2) (https://github.com/dpusceddu/blackDecomp)
+- [gh-black-ps2] (linea base, sin revisar) DannyGT97/black-ps2-decomp --  (https://github.com/DannyGT97/black-ps2-decomp)
+- [gh-black-ps2] (linea base, sin revisar) soldieg/ReBlack-PS2 -- Painel de progresso e documentação da engenharia reversa e decompilação de BLACK para Play (https://github.com/soldieg/ReBlack-PS2)
+- [gh-black-ps2] (linea base, sin revisar) snake759494/black-ps2-korean-patch -- PS2 BLACK 일본판 (SLPM-66354) 비공식 한글패치 — 화면 텍스트 전체 + 컷신 한국어 자막, xdelta 배포, 제작 소스·번역·자막·검증 자료  (https://github.com/snake759494/black-ps2-korean-patch)
+- [gh-black-ps2] (linea base, sin revisar) AlohaTexasTech/PS3HEN-PS2-PKG-On-PS3-Shutdown-Blackscreen-FIX---Easy-Method- --  (https://github.com/AlohaTexasTech/PS3HEN-PS2-PKG-On-PS3-Shutdown-Blackscreen-FIX---Easy-Method-)
+- [gh-black-ps2] (linea base, sin revisar) RSironi/ExerciciosFacul_antigos_inicio -- Aqui deixo antigos exercícios feitos para a Faculdade - em JAVA. Mais descontinuado que Bl (https://github.com/RSironi/ExerciciosFacul_antigos_inicio)
+- [gh-black-ps2] (linea base, sin revisar) michealthefox/70001-3.11U-slim-ps2-showing-black-screen-after-putting-a-burned-disc-in -- I need help with this (https://github.com/michealthefox/70001-3.11U-slim-ps2-showing-black-screen-after-putting-a-burned-disc-in)
+- [gh-black-ps2] (linea base, sin revisar) DavidWise01/the-psp -- SONY PSP (PSP) - a UD0 EXEREUNESIS console teardown + spec edition. Sony brought near-PS2  (https://github.com/DavidWise01/the-psp)
+- [gh-black-ps2] (linea base, sin revisar) DavidWise01/monster-hunter -- MONSTER HUNTER (MHN) - a UD0 hobby game-world charting Capcom's franchise across every con (https://github.com/DavidWise01/monster-hunter)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #42: 2 mistakes, and goodbye to my progress in the game. (https://github.com/Spark198rus/black-pc/issues/42)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #41: Feature requests: mouse menu navigation, faster UI, sprint/jump, mid-mission saves, cheat menu, grap (https://github.com/Spark198rus/black-pc/issues/41)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #40: More options for changing screen resolutions (https://github.com/Spark198rus/black-pc/issues/40)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #39: Hello (https://github.com/Spark198rus/black-pc/issues/39)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #38: Non-ASCII save/profile names are corrupted on load (RtlUnicodeStringToAnsiString mangles >0xFF to '? (https://github.com/Spark198rus/black-pc/issues/38)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #37: Black Port PC (https://github.com/Spark198rus/black-pc/issues/37)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #36: Problema no Black Pc windows 8.1 (https://github.com/Spark198rus/black-pc/issues/36)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #35: Crash (ACCESS_VIOLATION in igd9trinity32.dll) when a new first-person weapon is loaded, Intel Arc 14 (https://github.com/Spark198rus/black-pc/issues/35)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #34: Layar hitam di black pc port (https://github.com/Spark198rus/black-pc/issues/34)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #33: Add ultrawide aspect ratio support (https://github.com/Spark198rus/black-pc/pull/33)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #32: Ingame settings reset (https://github.com/Spark198rus/black-pc/issues/32)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #31: Query the host directory without an event so saving works on Wine (https://github.com/Spark198rus/black-pc/pull/31)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #30: Fix DrawIndexedPrimitiveUP reading before the vertex data (DXVK / Intel iGPU crash) (https://github.com/Spark198rus/black-pc/pull/30)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #29: Jogo fecha sozinho na 2º fase da floresta. (https://github.com/Spark198rus/black-pc/issues/29)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #28: Support the PAL Europe release alongside NTSC-U (https://github.com/Spark198rus/black-pc/pull/28)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #27: UNHANDLED ACCESS VIOLATION (https://github.com/Spark198rus/black-pc/issues/27)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #26: feat(platform): add native Linux x86 runtime (POSIX HLE, SDL2, DXVK-Native) (https://github.com/Spark198rus/black-pc/pull/26)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #25: I'm waiting for a European version of this great port (https://github.com/Spark198rus/black-pc/issues/25)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #24: I dumped my NTSC-U copy of the game but the .exe file still says otherwise. (https://github.com/Spark198rus/black-pc/issues/24)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #23: [Request] Mac version (https://github.com/Spark198rus/black-pc/issues/23)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #22: Disable reload blur, add tactical lean (https://github.com/Spark198rus/black-pc/pull/22)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #21: [Feature Request] Ultrawide resolution (https://github.com/Spark198rus/black-pc/issues/21)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #20: No surround sound (https://github.com/Spark198rus/black-pc/issues/20)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #19: Fixes profile/save handling under Wine/Proton. (https://github.com/Spark198rus/black-pc/pull/19)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #18: Black screen bug (https://github.com/Spark198rus/black-pc/issues/18)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #17: Crashes on Treneska Border Crossing Map (https://github.com/Spark198rus/black-pc/issues/17)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #16: Bigbuf (https://github.com/Spark198rus/black-pc/pull/16)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #15: reshade shader fix for removal of blur (https://github.com/Spark198rus/black-pc/issues/15)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #14: Online support (https://github.com/Spark198rus/black-pc/issues/14)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #13: Поддержка версии (https://github.com/Spark198rus/black-pc/issues/13)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #12: Support for higher FPS? (https://github.com/Spark198rus/black-pc/issues/12)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #11: Revise README for improved setup and instructions (https://github.com/Spark198rus/black-pc/pull/11)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #10: W32.Malware.1E0023F6 Malwarebytes MachineLearning/Anomalous.100% (https://github.com/Spark198rus/black-pc/issues/10)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #9: Trojan:Script/Wacatac.H!ml (https://github.com/Spark198rus/black-pc/issues/9)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #8: Less Bulletsponge enemies, red Blood and texture packs/mod support, LOD increase (https://github.com/Spark198rus/black-pc/issues/8)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #7: Flatpak version (https://github.com/Spark198rus/black-pc/issues/7)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #6: Crashes on save/autosave (https://github.com/Spark198rus/black-pc/issues/6)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #5: Support for ultrawide please (https://github.com/Spark198rus/black-pc/issues/5)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #4: Add selectable localized text banks (https://github.com/Spark198rus/black-pc/pull/4)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #3: Crashes on Autosave Prompt Screen and Manual Save (https://github.com/Spark198rus/black-pc/issues/3)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #2: AppImage + 64bit support? (https://github.com/Spark198rus/black-pc/issues/2)
+- [gh-issues-black-pc] (linea base, sin revisar) Spark198rus/black-pc #1: [Feature Request] Widescreen Fixes (https://github.com/Spark198rus/black-pc/issues/1)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #152: Texture Replacement not working (https://github.com/TGP482/BLACK-XBERecomp/issues/152)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #151: [Original Bug]: empty assets file at V3 version (https://github.com/TGP482/BLACK-XBERecomp/issues/151)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #150: Not a bug, but a question - where does the compiled data get stored? (https://github.com/TGP482/BLACK-XBERecomp/issues/150)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #149: [Recomp Bug]: BLACK fails to launch in V3, but works in V1 (https://github.com/TGP482/BLACK-XBERecomp/issues/149)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #148: [Feature Request]: Add subtitles in cutscenes. (https://github.com/TGP482/BLACK-XBERecomp/issues/148)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #147: A more in depth controller customization (https://github.com/TGP482/BLACK-XBERecomp/issues/147)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #146: How to dumps texture and replacement? (https://github.com/TGP482/BLACK-XBERecomp/issues/146)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #145: 武器换弹有bug (https://github.com/TGP482/BLACK-XBERecomp/issues/145)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #143: [Feature Request]: Option to play undubbed dialogs on non-English localizations (https://github.com/TGP482/BLACK-XBERecomp/issues/143)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #142: [Recomp Bug]: Can't create bind for aim on K&B (https://github.com/TGP482/BLACK-XBERecomp/issues/142)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #141: feat: Add Cheats Panel and Weapon Spawner (Ported from Black-Android) (https://github.com/TGP482/BLACK-XBERecomp/pull/141)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #140: Game Crashed after opening launcher (black.exe) (https://github.com/TGP482/BLACK-XBERecomp/issues/140)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #139: [Feature Request]: Increase the range of the weapons (https://github.com/TGP482/BLACK-XBERecomp/issues/139)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #138: Add a Linux Proton launcher and setup docs (https://github.com/TGP482/BLACK-XBERecomp/pull/138)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #136: Drop the local kFpsCapRefresh, the SDK's app.h now declares it (https://github.com/TGP482/BLACK-XBERecomp/pull/136)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #135: Custom Keybinds (Mouse and Keyboard, Controller) (https://github.com/TGP482/BLACK-XBERecomp/issues/135)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #134: [Original Bug]: Steam Deck Controller Scheme Is Broken (https://github.com/TGP482/BLACK-XBERecomp/issues/134)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #130: Checkpoint M2 for Linux port (https://github.com/TGP482/BLACK-XBERecomp/pull/130)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #127: Fix UZI audio bug, Add Texture pack support and more (https://github.com/TGP482/BLACK-XBERecomp/issues/127)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #122: [Feature Request]: Secondary objectives toggle (https://github.com/TGP482/BLACK-XBERecomp/issues/122)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #118: Ask for specifications (https://github.com/TGP482/BLACK-XBERecomp/issues/118)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #116: [Recomp Bug]: Bindings are Ignored After Restart (https://github.com/TGP482/BLACK-XBERecomp/issues/116)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #111: Add texture replacement and texture dump support (https://github.com/TGP482/BLACK-XBERecomp/pull/111)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #107: [Feature Request]: Add HUD/visual options: crosshair selection, UI opacity, and bullet decal size (https://github.com/TGP482/BLACK-XBERecomp/issues/107)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #106: [Feature Request]: Texture Pack Support (https://github.com/TGP482/BLACK-XBERecomp/issues/106)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #105: [Feature Request]: Add advanced gamepad sensitivity and deadzone settings (https://github.com/TGP482/BLACK-XBERecomp/issues/105)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #104: Black screen on windows 10 (https://github.com/TGP482/BLACK-XBERecomp/issues/104)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #103: [Feature Request]: Add Sprint or faster walk speed. (https://github.com/TGP482/BLACK-XBERecomp/issues/103)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #102: [Feature Request]: ADD A CHEAT MENU (https://github.com/TGP482/BLACK-XBERecomp/issues/102)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #98: the game is crash (https://github.com/TGP482/BLACK-XBERecomp/issues/98)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #97: [Recomp Bug]: Audio volume settings are not being saved (https://github.com/TGP482/BLACK-XBERecomp/issues/97)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #94: log a failed target's format and HRESULT (https://github.com/TGP482/BLACK-XBERecomp/pull/94)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #76: [Recomp Bug]: Broken Reverb (https://github.com/TGP482/BLACK-XBERecomp/issues/76)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #74: Re-sign Profile saves copied from a real Xbox at start (https://github.com/TGP482/BLACK-XBERecomp/pull/74)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #71: Bad sound when reverberation (echo) (https://github.com/TGP482/BLACK-XBERecomp/issues/71)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #70: [Feature Request]: Gyro support feedback & further improvements (https://github.com/TGP482/BLACK-XBERecomp/issues/70)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #69: [Recomp Bug]: blackscreen (https://github.com/TGP482/BLACK-XBERecomp/issues/69)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #68: [Recomp Bug]: Menu effects for new graphics settings not scaled properly (https://github.com/TGP482/BLACK-XBERecomp/issues/68)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #67: [Original Bug]: Incorrect weapon FOV for widescreen (https://github.com/TGP482/BLACK-XBERecomp/issues/67)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #66: [Feature Request]: Add independent Vertical/Horizontal ADS sensitivity scalers and filters toggles (https://github.com/TGP482/BLACK-XBERecomp/issues/66)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #65: [Feature Request]: Cross-region save file compatibility / importer (US / EU save loading) (https://github.com/TGP482/BLACK-XBERecomp/issues/65)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #64: [Recomp Bug]: Weapon collision/lowering animation instantly snaps and flickers near walls and window (https://github.com/TGP482/BLACK-XBERecomp/issues/64)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #63: [Recomp Bug]: World FOV > 114 causes smoke and fire effects to disappear (destroyed cars, buildings, (https://github.com/TGP482/BLACK-XBERecomp/issues/63)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #62: [Recomp Bug]: "Don't turn off the console PC" (https://github.com/TGP482/BLACK-XBERecomp/issues/62)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #61: [Recomp Bug]: Dualshock 4 Left Trigger input not sensed (https://github.com/TGP482/BLACK-XBERecomp/issues/61)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #60: [Recomp Bug]: Audio issues in v2 (https://github.com/TGP482/BLACK-XBERecomp/issues/60)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #59: feat(textures): add optional HD texture loading (https://github.com/TGP482/BLACK-XBERecomp/pull/59)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #58: fix(render): tone down excessive glow (https://github.com/TGP482/BLACK-XBERecomp/pull/58)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #49: [Feature Request]: hold to aim down sight also with gamepad (https://github.com/TGP482/BLACK-XBERecomp/issues/49)
+- [gh-issues-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp #48: [Doubt] What buttons map to black and white xbox og buttons? (https://github.com/TGP482/BLACK-XBERecomp/issues/48)
+- [gh-releases-black-pc] (linea base, sin revisar) Spark198rus/black-pc release v0.3.0: BLACK PC port 0.3.0 (https://github.com/Spark198rus/black-pc/releases/tag/v0.3.0)
+- [gh-releases-black-pc] (linea base, sin revisar) Spark198rus/black-pc release v0.2.0: BLACK PC port 0.2.0 (https://github.com/Spark198rus/black-pc/releases/tag/v0.2.0)
+- [gh-releases-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp release V3: BLACK XBERecomp V3 (https://github.com/TGP482/BLACK-XBERecomp/releases/tag/V3)
+- [gh-releases-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp release V2: BLACK XBERecomp V2 (https://github.com/TGP482/BLACK-XBERecomp/releases/tag/V2)
+- [gh-releases-xberecomp] (linea base, sin revisar) TGP482/BLACK-XBERecomp release V1: BLACK XBERecomp V1 (https://github.com/TGP482/BLACK-XBERecomp/releases/tag/V1)
+- [archive-black] (linea base, sin revisar) archive.org youtube-HnEDjWiF0is: Kid Claims He Works for @MinnesotaBurns | Black Ops 2
+- [archive-black] (linea base, sin revisar) archive.org zazeyhlkpgar9wrjupm3ovqng2jtm9at4ily2zx5: Earth's Unsung-est Heroes: Black Inventors, pt. 3 (ep. 183)
+- [archive-black] (linea base, sin revisar) archive.org youtube-ilvOJs-X2nA: Catch a Ledge - Assassin's Creed IV Black Flag (Glitch) - GameFails
+- [archive-black] (linea base, sin revisar) archive.org youtube-z_xM8SykCjc: Assassin's Creed IV: Black Flag - 2 Achievements
+- [archive-black] (linea base, sin revisar) archive.org call-of-duty-black-ops-ita-dlc-xbox-360: Call of Duty Black Ops 1 ITA DLC XBOX 360 TU 11
+- [archive-black] (linea base, sin revisar) archive.org youtube-gZPldiEObRQ: Call of Duty: Black Ops II - I'm Your Huckleberry Guide
+- [archive-black] (linea base, sin revisar) archive.org prototypepreservation-aISeOC0At38: Call of Duty Black Ops 1 Cut Suicide Animation for Last Stand
+- [archive-black] (linea base, sin revisar) archive.org youtube-d4uKizEPG8U: Call of Duty: Black Ops First Strike Trailer
+- [archive-black] (linea base, sin revisar) archive.org roosterteeth-29226: Black Ops 4 Wants ALL Your Money?! - Gaming Weekly
+- [archive-black] (linea base, sin revisar) archive.org dhfqzivmkilazaty8bctz5trlwz2bbiexvf1t2ob: CSB 167: I'm A Rare Shiny Black
+- [archive-black] (linea base, sin revisar) archive.org official-call-of-duty-black-ops-iii-10-18-black-market-trailer-jmKbDy45PXk: Official Call of Duty®: Black Ops III – 10/18 Black Market Trailer | @CallofDuty | YouTube
+- [archive-black] (linea base, sin revisar) archive.org youtube-1OJtmDmQrqI: Black Friday shopping at Best Buy in 2012
+- [archive-black] (linea base, sin revisar) archive.org roosterteeth-8580: Call of Duty: Black Ops III Vanishes From Xbox Store
+- [archive-black] (linea base, sin revisar) archive.org g4tv.com-video38455-flvhd: g4tv.com-video38455-flvhd: Brutal Legend Brutal Thoughts with Jack Black Part 1
+- [archive-black] (linea base, sin revisar) archive.org youtube-4RYsmNVNUiE: Xbox One Beats PS4 in Black Friday Sales & Big Destiny Patch! - GS Daily News
+- [archive-black] (linea base, sin revisar) archive.org jogando-todos-os-ninja-gaiden-5-ninja-gaiden-black-xbox: Jogando Todos Os Ninja Gaiden! # 5 Ninja Gaiden BLACK ( XBOX)
+- [archive-black] (linea base, sin revisar) archive.org jogando-todos-os-ninja-gaiden-9-trechao-final-do-ninja-gaiden-black: Jogando Todos Os Ninja Gaiden! # 9 Trechão Final Do Ninja Gaiden BLACK!
+- [archive-black] (linea base, sin revisar) archive.org m4t5snpemz7lyetnx4kg2qe7n8ffhipfqupznygx: Ep. 18 The Future of Bethesda's staples / Black Ops Zombies
+- [archive-black] (linea base, sin revisar) archive.org ps2_Getaway_The-_Black_Monday_USA: Getaway, The Black Monday (USA)
+- [archive-black] (linea base, sin revisar) archive.org youtube-3Ev-BLkLH1k: Game Fails: Call of Duty Black Ops "Surely that wouldn't happen if I tried it"
+- [archive-black] (linea base, sin revisar) archive.org youtube-7MF65ALAXLU: Call of Duty: Black Ops II - Overachiever and All Your Base Guide
+- [archive-black] (linea base, sin revisar) archive.org youtube-hbxsUbf0VIE: Game Fails: Black Ops II "Temptingly murderable"
+- [archive-black] (linea base, sin revisar) archive.org youtube-0dzvO-WolBc: Game Fails: Black Ops II "Just a step to the left"
+- [archive-black] (linea base, sin revisar) archive.org offizielles-call-of-duty-black-ops-ii-vengeance-dlc-pack-vorschauvideo-de-hawZZDBKPCY: Offizielles Call of Duty: Black Ops II Vengeance-DLC-Pack-Vorschauvideo DE | @CallofDuty |
+- [archive-black] (linea base, sin revisar) archive.org youtube-2swMbDjoTCI: Black Ops 2 Funny Moments - RPG 360 Suicide, Killcam Fail Rage, Crispy Fan Freakout (BO2 F
+- [archive-black] (linea base, sin revisar) archive.org official-call-of-duty-black-ops-iii-cyber-core-tutorial-and-co-op-play-through-RYY7A2xbnNs: Official Call of Duty®: Black Ops III - Cyber Core Tutorial and Co-Op Play Through | @Call
+- [archive-black] (linea base, sin revisar) archive.org youtube-EHZ72dYAS6A: Call of Duty: Black Ops III - Trailer Score - Shadows of Evil
+- [archive-black] (linea base, sin revisar) archive.org youtube-E1mmdOJeIKA: ASSASSIN'S CREED 4: BLACK FLAG E3 2013 (Escapist News Now)
+- [archive-black] (linea base, sin revisar) archive.org youtube-xF2C1RJxHU8: Marvel Rivals - Official Black Cat Character Reveal Trailer
+- [archive-black] (linea base, sin revisar) archive.org youtube-J6_zvERaIZE: Game Fails: Call of Duty Black Ops "Support has arrived!"
+- [archive-black] (linea base, sin revisar) archive.org youtube--J_MK6yjXak: Things to do in... Black Mesa - Science Abuse
+- [archive-black] (linea base, sin revisar) archive.org youtube-43DxQAOk8dU: Assassin's Creed IV: Black Flag - Siren Song Guide
+- [archive-black] (linea base, sin revisar) archive.org youtube-g_lJFlfFuoM: Der Eisendrache Song Easter Egg - Call of Duty: Black Ops III
+- [archive-black] (linea base, sin revisar) archive.org youtube-dym3k7irfJw: Black Ops 3: 50k Q&A! - (YouTube Famous, Favorite Video, I Like MONEY)
+- [archive-black] (linea base, sin revisar) archive.org youtube-hKCDEGEYpxA: Black Ops: 14 shitmarkers in 3 rounds of SnD! (second Chancers)
+- [archive-black] (linea base, sin revisar) archive.org 5C891FF1_201708: Black PS2 16:9 60fps
+- [archive-black] (linea base, sin revisar) archive.org youtube-WB0bzgBCFtQ: Black Ops 2 Rage Sessions | Double Feature Special (You Get a Quad Feed!)
+- [archive-black] (linea base, sin revisar) archive.org youtube-MoR7t7Q0ZuY: Game Fails: Assassin's Creed IV Black Flag "Man overboard!"
+- [archive-black] (linea base, sin revisar) archive.org youtube-c30Ntztwbks: Game Fails: Assassin's Creed IV Black Flag "Like a brick house"
+- [archive-black] (linea base, sin revisar) archive.org xjip6qklybdezkmwud3km8zpiiycqanefytgbnem: CSB 237: Anyone In This Room Might Be Secretly Black
+- [archive-black] (linea base, sin revisar) archive.org y6nl3kkasgcctjckjxwa1gznjof9hg29a8eam3ld: Episode 83 The End is Just the Beginning, Election Rejections and President-Elect Biden?, 
+- [archive-black] (linea base, sin revisar) archive.org retro-vw-game-streaming-radio-20-tbawv-ii-c-vs-baw-deluxe-bundle-with-track-1245: Retro VW GAME Streaming Radio Vol.20 The Black And White Vaporwave II Color VS Black And W
+- [archive-black] (linea base, sin revisar) archive.org youtube-2WkzH_3Yf74: Black Ops 2 Ragetage | I Work for Xbox Live!
+- [archive-black] (linea base, sin revisar) archive.org youtube-3h8jOqk4pt0: Call of Duty: Black Ops 7 Zombies - Official Totenreich Cinematic Trailer
+- [archive-black] (linea base, sin revisar) archive.org youtube-Bf1rZGf-_yk: Black Ops 2 Rage Sessions | Delusional Tryhard
+- [archive-black] (linea base, sin revisar) archive.org youtube-7o6wqsxJe2g: Fisticuffs - Call of Duty: Black Ops 3 - Things to do in
+- [archive-black] (linea base, sin revisar) archive.org TwistedMetalBlack20010412: Twisted Metal: Black (2001-04-12 prototype)
+- [archive-black] (linea base, sin revisar) archive.org blktjbwmblm1sct7nizrrwlxj6gz7a1tbatp1vym: CSB 099: Black Soulstice: Skunta Skinte
+- [archive-black] (linea base, sin revisar) archive.org paint-it-black-instrumental: The Rolling Stones - Paint It, Black (Instrumental)
+- [archive-black] (linea base, sin revisar) archive.org black_recomp_tn: [PC] Black (XBERecomp)
+- [archive-black] (linea base, sin revisar) archive.org guitar-hero-anime-2023-by-black-dj_202404: Guitar Hero Anime 2023 By Black DJ
+- [archive-black] (linea base, sin revisar) archive.org ps2_Twisted_Metal-_Black_ONLINE_USA: Twisted Metal Black ONLINE (USA)
+- [archive-black] (linea base, sin revisar) archive.org ps-2-c-00000-black-bruised-usa-ps-2-classic: [ PS 2 C 00000] Black & Bruised ( USA) [ PS 2 Classic]
+- [archive-black] (linea base, sin revisar) archive.org ps-2-c-00000-black-korea-ps-2-classic: [ PS 2 C 00000] Black ( Korea) [ PS 2 Classic]
+- [archive-black] (linea base, sin revisar) archive.org youtube-z7RZh5DAIJY: Game Fails: Black Ops "Dive for it!"
+- [archive-black] (linea base, sin revisar) archive.org vn70zrqxc12ukaom66negntbbfzqbs1u5lnoyasi: EvdWL: The Big Black Friday Edition - De vetste aanbiedingen besproken
+- [archive-black] (linea base, sin revisar) archive.org tgbm-ntsc-review: The Getaway Black Monday | 2004 | NTSC Review | 07.DEC.2004
+- [archive-black] (linea base, sin revisar) archive.org the-getaway-black-monday-preview-ntsc-2004: The Getaway: Black Monday Preview Build (Oct 2004)
+- [archive-black] (linea base, sin revisar) archive.org the-getaway-black-monday-ps2-jaquette: The Getaway Black Monday PS2 Jaquette
+- [archive-black] (linea base, sin revisar) archive.org turner_video_2577: Black Thunder
+- [archive-black] (linea base, sin revisar) archive.org youtube-RlHF6Cu2uUY: CALL OF DUTY: BLACK OPS 2 APOCALYPSE DLC (Escapist News Now)
+- [archive-black] (linea base, sin revisar) archive.org youtube-cUYcLITeRWs: Black Ops 3 Myths - Episode 9: Vonderhaar, Heat Wave Immunity, RAPS Camo and MORE! (Call o
+- [archive-black] (linea base, sin revisar) archive.org youtube-f72iNQd_oX8: Titanfall DLC Revealed! New Maps & Black Market Coming July 31st - GS News Update
+- [archive-black] (linea base, sin revisar) archive.org youtube-eNQ6uI9uwhs: Call of Duty: Black Ops II GC 2012: Cargo Hardpoint Gameplay
+- [archive-black] (linea base, sin revisar) archive.org youtube-kwhLt-YeT-o: Call of Duty Black Ops 2 - Gun Game TROLLING: Knife ONLY Reactions (BO2 Trolling)
+- [archive-black] (linea base, sin revisar) archive.org youtube-g4_9RmivHBQ: Game Fails: Call of Duty Black Ops "Underdog!"
+- [archive-black] (linea base, sin revisar) archive.org youtube-AxAZUOyk_Mg: Intel Locations - Missions 1-3 - Call of Duty: Black Ops 3
+- [archive-black] (linea base, sin revisar) archive.org youtube-IjeWqXRye9M: Game Fails: Black Ops "They even deployed the combat mimes"
+- [archive-black] (linea base, sin revisar) archive.org 03-n_20261015: BLACK - Xbox Classic
+- [archive-black] (linea base, sin revisar) archive.org youtube--xDRJOzImK8: EL BLACK #black #blackps2 #xbox #playstation2 #ps2 #ps2games #videojuego #humor #retro #re
+- [archive-black] (linea base, sin revisar) archive.org youtube-wU6dJE0kwAs: Assassin's Creed IV: Black Flag - Hungover and All Aboard! Guide
+- [archive-black] (linea base, sin revisar) archive.org youtube-gHeyJ_6rtmU: Black Ops 2 Ragetage | Skaggy-os
+- [archive-black] (linea base, sin revisar) archive.org black-moon-1975-criterion-1080p-x-265-10bit-tigole: Black Moon (1975 Blu-ray 1080p)
+- [archive-black] (linea base, sin revisar) archive.org youtube-Y6H1Q8B3LX8: Assassin's Creed Black Flag Resynced - Official PS5 Pro Immersion Trailer
+- [archive-black] (linea base, sin revisar) archive.org youtube-nH9lnTg7IJY: Call of Duty Black Ops 2: debut trailer, frame-by-frame analysis
+- [archive-black] (linea base, sin revisar) archive.org arxiv-0801.3663: X-ray emission from active galactic nuclei with intermediate mass black holes
+- [archive-black] (linea base, sin revisar) archive.org youtube-FWy2pUFpMqs: Black Ops 3 Myths - Episode 12: Trophy Systems, Overdrive, Flak Jacket, & More! (Call of D
+- [archive-black] (linea base, sin revisar) archive.org need-for-speed-most-wanted-be: Need for Speed: Most Wanted - Black Edition (PS2)
+- [archive-black] (linea base, sin revisar) archive.org arxiv-0902.1569: Are black holes in alternative theories serious astrophysical candidates? The case for Ein
+- [archive-black] (linea base, sin revisar) archive.org call-of-duty-black-ops-first-strike-trailer-official-hd-OMEeqWBWjv8: Call of Duty: Black Ops - First Strike Trailer [Official HD] | @CallofDuty | YouTube
+- [archive-black] (linea base, sin revisar) archive.org youtube-k0W01iF1V7Y: Youtube: k0W01iF1V7Y - Black Guy At GameStop Tries To Return A Used PSN Card
+- [archive-black] (linea base, sin revisar) archive.org youtube-_WQGFlAGkdo: Not Well Hidden - Assassins Creed IV Black Flag (Glitch) - GameFails
+- [archive-black] (linea base, sin revisar) archive.org arxiv-hep-th9810142: Microscopics of Rotating Black Holes: Entropy and Greybody Factors
+- [archive-black] (linea base, sin revisar) archive.org youtube-XCTQzz_PR4Y: Stumped - Assassin's Creed IV Black Flag (Glitch) - GameFails
+- [archive-black] (linea base, sin revisar) archive.org arxiv-1408.0801: Instabilities of extremal rotating black holes in higher dimensions
+- [archive-black] (linea base, sin revisar) archive.org youtube-T7VPII3toac: Craig Craig ft. Icy Black - STOMP - from TONY HAWK'S PRO SKATER 1+2
+- [archive-black] (linea base, sin revisar) archive.org unboxingrefurbishedxbox360s320gbmatteblackorsoithought: Unboxing Refurbished Xbox 360 S 320 GB Matte Black (or so I thought)
+- [archive-black] (linea base, sin revisar) archive.org arxiv-0707.2749: Black holes: interfacing the classical and the quantum
+- [archive-black] (linea base, sin revisar) archive.org youtube-dlYcBg1oKlY: Call of Duty: Black Ops 7 - Official Paradox Junction Cinematic Trailer
+- [archive-black] (linea base, sin revisar) archive.org youtube-kDDKqGZs0Dg: Call of Duty: Black Ops 2 Apocalypse Music Video Origins -- Archangel
+- [archive-black] (linea base, sin revisar) archive.org youtube-yFtoTl-9Gns: Black Ops 3 Myths - Episode 6: Invisible Killer, Robots, Crazy Clones, and MORE (Call of D
+- [archive-black] (linea base, sin revisar) archive.org call-of-duty-black-ops-top-10-greatest-freakout-reactions-episode-13-by-anoj: Call of Duty Black Ops: Top 10 Greatest Freakout Reactions: Episode 13 by Anoj
+- [archive-black] (linea base, sin revisar) archive.org youtube-6sRgF7fvYcE: Cyberpunk 2077: Phantom Liberty Black Market Overview and More | Xbox Games Showcase Exten
+- [archive-black] (linea base, sin revisar) archive.org ps2_Getaway_The-_Black_Monday_mini_guide_book_USA: Getaway, The Black Monday [mini guide book] (USA)
+- [archive-black] (linea base, sin revisar) archive.org osf-registrations-92f86-v1: Black/Asian prototype categorization & stereotyping task
+- [archive-black] (linea base, sin revisar) archive.org youtube--CrjazImxFw: Black Ops 3 Myths (Destroying Hellstorms, Electrocuting Darts, Underwater Killer and More)
+- [archive-black] (linea base, sin revisar) archive.org youtube-v_zHTgAjRjY: Flapping - Assassin's Creed IV: Black Flag - GameFails
+- [archive-black] (linea base, sin revisar) archive.org youtube-Dgj7HFRneHM: Game Fails: Call of Duty Black Ops "T1000 is having an off day"
+- [archive-black] (linea base, sin revisar) archive.org youtube-PYIpXCUt0WQ: Game Fails: Call of Duty Black Ops "If I were this flexible I'd never leave the house..."
+- [archive-black] (linea base, sin revisar) archive.org youtube-WNXb9iO24lU: Assassin's Creed IV: Black Flag - Devil of the Caribbean Guide
+- [hiddenpalace-black] (linea base, sin revisar) https://hiddenpalace.org/Black_(Aug_16,_2005_prototype) cambio sus enlaces (23 con '(?i)black', huella 172e46a4cf97)

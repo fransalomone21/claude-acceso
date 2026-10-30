@@ -176,3 +176,51 @@ Fran con otra persona, no la sesión. Se graba con `lanzadores/grabar-gameplay.p
 - [TBR] L1-24: Parsec o Sunshine lo decide la prueba de Fran con su amigo (Fase D).
 - [TBR] L2-BAN-10: 45 min salen de la campaña por selector de (93); lo cierra la primera corrida de la suite.
 - ~~El acuerdo de Fran sobre §2 y §3~~: acordado el 2026-10-30.
+
+## 10. Propuesta de cambio (132), 2026-10-30 — PENDIENTE DEL SÍ DE FRAN
+
+**Motivo:** la meta de Fran se amplió el 2026-10-30 («la mejor experiencia de BLACK, coop y no coop: gráficos,
+jugabilidad y la mayor personalización y mods posibles; me da igual emulador o nativo en PC»), y el trade de
+plataforma (`docs/22` §5) propone dejar PCSX2. Hasta el sí de Fran esto es **borrador**: la línea base de §2-§8 sigue
+vigente. El sujeto nuevo es **la plataforma de BLACK**: el programa con el que Fran juega BLACK en su PC (el
+ejecutable, sus ajustes y los mods que lleve).
+
+**Alcance del programa** (encima del alcance del coop de §2, que pasa a ser uno de sus proyectos):
+
+| Elemento | Enunciado |
+|---|---|
+| **Necesidad** (N-02) | Fran quiere jugar BLACK en su mejor versión, solo y de a dos. |
+| **Meta** (M-02) | BLACK se ve mejor que en su consola original. |
+| **Meta** (M-03) | BLACK se juega fluido y con los controles a gusto de cada jugador. |
+| **Meta** (M-04) | BLACK se personaliza: texturas, reglas del juego y controles. |
+| **Objetivo** (O-05) | Jugar la campaña a la resolución nativa del monitor de Fran, a 60 cuadros por segundo o más. |
+| **Objetivo** (O-06) | Reemplazar texturas del juego por archivos propios. |
+| **Objetivo** (O-07) | Cambiar reglas del juego (daño, munición, enemigos, armas) sin modificar los archivos originales del juego. |
+| **Objetivo** (O-08) | Reasignar cada acción del juego a teclado, mouse o mando. |
+| **Hipótesis** | H-04: la plataforma es el port BLACK-XBERecomp sobre la ISO Xbox USA de Fran (`docs/22`, si Fran da el sí); reemplaza a H-01. H-05: el coop de la misma PC sale de dos instancias del coop en red de un tercero o de una pantalla dividida propia; lo decide el primer spike en vivo. |
+| **Restricción** | RS-04: el `default.xbe` de la ISO de Fran es el NTSC-U `df2739c3…68f6` (lo imponen los ports; medido en (132)). RS-02 y RS-03 siguen. |
+| **No entra** | Niveles nuevos (Fran, 2026-10-30); jugar a distancia en la v1 (L1-24 queda fuera); Switch, macOS y Linux. |
+
+**Requisitos L0 nuevos** (la misión del programa; sin números, que bajan a L1):
+
+| ID | Requisito | Padre | Verificación |
+|---|---|---|---|
+| L0-05 | La plataforma de BLACK deberá correr la campaña completa de un jugador. | N-02, O-05 | demostración |
+| L0-06 | La plataforma de BLACK deberá permitir modificar la imagen del juego. | M-02, O-06 | demostración |
+| L0-07 | La plataforma de BLACK deberá permitir modificar las reglas del juego. | M-04, O-07 | demostración |
+| L0-08 | La plataforma de BLACK deberá permitir reasignar los controles del juego. | M-03, O-08 | demostración |
+
+**Requisitos L1 nuevos:**
+
+| ID | Requisito | Padre | Verificación |
+|---|---|---|---|
+| L1-26 | Mientras un jugador juega la campaña, la plataforma deberá mantener al menos 60 cuadros por segundo a la resolución nativa del monitor de Fran. [TBR: 1920×1080 en la notebook, 2560×1440 en la PC] | L0-05, O-05 | ensayo: contador de cuadros, 10 minutos por misión |
+| L1-27 | Mientras un jugador juega una misión, la plataforma deberá correr 60 minutos de juego sin caídas. | L0-05 | ensayo |
+| L1-28 | La plataforma deberá dibujar una textura del juego desde un archivo PNG o DDS provisto por el usuario. | L0-06, O-06 | demostración: una textura de control pintada de un color plano |
+| L1-29 | La plataforma deberá ejecutar una función propia en lugar de una función del juego elegida, sin modificar los archivos originales del juego. | L0-07, O-07 | demostración: un gancho de control que cambia el daño, con la función original como control |
+| L1-30 | La plataforma deberá asignar cada acción del juego a la tecla, el botón del mouse o el botón del mando que elija el usuario. | L0-08, O-08 | demostración |
+
+**Lo que cambia en §2-§8 si Fran da el sí:** la Misión de §2 («un mod de PCSX2…») pasa a «un mod de la plataforma de
+BLACK…»; H-01 se reemplaza por H-04; L1-23 cambia «con PCSX2 como único programa abierto» por «con la plataforma de
+BLACK»; L1-24 sale de la v1; el banco L2-BAN se rehace sobre la plataforma nueva (hoy es de PCSX2 por PINE). L0-01 a
+L0-04 y L1-01 a L1-22 no cambian de enunciado: son del coop y valen en cualquier plataforma.

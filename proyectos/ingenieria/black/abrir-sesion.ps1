@@ -114,6 +114,12 @@ try {
         if ($LASTEXITCODE -ne 0) { Linea 'FAIL' "decompilar.py info salio $LASTEXITCODE"; $fallas++ }
     }
 
+    # El vigia (DA-091, sesion 132): lo NUEVO alrededor de BLACK (ports, coop, decomps), cada 3 dias. Dos ports
+    # salieron el 2026-10-14/15 y el proyecto se entero el 30. No frena la apertura: una consulta caida dice SIN MIRAR.
+    Write-Output ""
+    Write-Output "el vigia -- lo nuevo afuera (vigia.py aviso; novedades en docs/vigia-novedades.md)"
+    & python herramientas/vigia.py aviso
+
     # El mapa de nivel 1, a la vista en la entrada (docs/11-programa.md s3):
     # el proyecto bajo 61 entradas al detalle sin ver que 31 de 37 subsistemas
     # no se habian tocado. Un medidor en el sotano no frena nada.
