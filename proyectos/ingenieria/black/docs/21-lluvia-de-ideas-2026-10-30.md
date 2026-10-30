@@ -183,6 +183,37 @@ pausa, la máquina de estados del arma y el reloj del mundo.
 máquina de estados del arma, la entrada del jugador, la pausa) y encontrar su par en `NOTES.md` por los offsets; si
 las tres casan, la Rosetta pasa a *confirmado* y entra en `docs/02-metodologia.md`.
 
+## 6c. (131, segunda parte) Lo que trajo Fran, ordenado, y el segundo port
+
+**El segundo port, más ambicioso: `BLACK-XBERecomp`** (GitHub `TGP482`, repo del 2026-10-03, V1 15/10, V2 18/10,
+**V3 29/10**, 819 estrellas; hecho con su herramienta `XboxXBE-Recomp`, MIT, 166 estrellas). **Recompilación
+estática** del XBE a ejecutable nativo, Direct3D 12. Trae resolución libre y escala de render, FOV de 45 a 140,
+cuadros sin tope, HDR10, MSAA y SMAA, filtro anisotrópico, distancia de dibujo hasta 16x, oclusión ambiental
+(SSAO o GTAO), **reemplazo y volcado de texturas** (la base de los packs y los mods), teclado y mouse,
+SDL3, giroscopio y saltear la intro. Acepta **la ISO** de USA o de Europa directamente. Bajados: la fuente, la
+herramienta y la release V3 (sha256 `dd4409e1…05e9`), a `referencias-black` (`kb/ubicaciones.json`).
+
+**Coop en los dos ports: nadie.** En `black-pc` #14 alguien pidió online o dos jugadores locales, y le
+contestaron que el juego no tiene código de red. En XBERecomp #16 se pidió soporte de mods (abierto). **El
+saber de meter un segundo jugador (J2 clonado, la IA a los dos, el HUD doble, la pantalla dividida) existe sólo en
+este proyecto**, y se puede llevar a la otra plataforma con la Rosetta de offsets (§6b).
+
+**Lo que Fran bajó, ordenado en `C:\Games\BLACK\`** (registrado en `kb/ubicaciones.json`, 20/20 verifican):
+
+| Clave | Qué es, medido |
+|---|---|
+| `xbox_iso_usa` | Xbox NTSC-U, imagen Redump completa (7 825 162 240 bytes) zipeada |
+| `xbox_iso_europa` | Xbox PAL Europa (5 idiomas), igual |
+| `xbox_iso_demo_eu_au` | demo Xbox Europa/Australia, igual; pesa más zipeada porque comprime peor, no porque sea más grande |
+| `xbox_hdd_modificado` | carpeta para disco duro; su `default.xbe` (`42eb02fc…3cf3`) **no** es ninguna versión soportada por los ports |
+| `port_paquete_tercero` | black-pc 0.2.0 de un tercero: `black.exe` y `blackrt.dll` **idénticos** a la release oficial, más los datos NTSC-U (xbe `df2739c3…68f6`, soportado) |
+
+Falta hashear el `default.xbe` adentro de cada ISO contra los dos ports.
+
+**Lo invertido en BLACK** (sin plata, Fran no lo pide medido): 131 sesiones numeradas, 157 entradas de bitácora,
+260 commits desde el 2026-08-27. De las sesiones, sólo 3 son posteriores a la salida del primer port: el ahorro
+posible era chico, y el saber de PS2 es lo que va a llevar el coop a PC.
+
 ## 7. Las decisiones de Fran
 
 1. **¿Acordás la línea base?** El alcance y los requisitos L0/L1 de `docs/20` (§2–§4): sí, o qué cambiás. Hasta tu sí

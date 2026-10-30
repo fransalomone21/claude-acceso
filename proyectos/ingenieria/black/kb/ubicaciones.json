@@ -92,6 +92,42 @@
    "tipo": "archivo",
    "critico": false,
    "que_es": "PCSX2 2.8.0 limpio, el de JUGAR. Es el que tiene ReShade 6.6.2 enganchado y el que usa la linea del Remaster. NO tiene DebugServer ni PINE: para reversing va pcsx2_exe (el fork MCP de Downloads). Son dos emuladores distintos a proposito."
+  },
+  "xbox_iso_usa": {
+   "ruta": "C:\\Games\\BLACK\\xbox\\iso-redump\\Black (USA).zip",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "Xbox NTSC-U, imagen Redump completa (Black (USA).iso, 7825162240 bytes) zipeada; la base de los dos ports a PC. medido 2026-10-30 (131)"
+  },
+  "xbox_iso_europa": {
+   "ruta": "C:\\Games\\BLACK\\xbox\\iso-redump\\Black (Europe) (En,Fr,De,Es,It).zip",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "Xbox PAL Europa (5 idiomas), imagen Redump completa zipeada. medido 2026-10-30 (131)"
+  },
+  "xbox_iso_demo_eu_au": {
+   "ruta": "C:\\Games\\BLACK\\xbox\\iso-redump\\Black (Europe, Australia) (Demo).zip",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "Xbox demo Europa/Australia, imagen Redump completa zipeada (pesa mas zipeada porque comprime peor: la ISO mide lo mismo que las otras). medido 2026-10-30 (131)"
+  },
+  "xbox_hdd_modificado": {
+   "ruta": "C:\\Games\\BLACK\\xbox\\hdd-xbe-modificado\\Black.7z",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "carpeta Xbox lista para disco duro; su default.xbe (sha256 42eb02fc...3cf3) NO es NTSC-U ni PAL: no lo aceptan los ports. medido 2026-10-30 (131)"
+  },
+  "port_paquete_tercero": {
+   "ruta": "C:\\Games\\BLACK\\xbox\\port-black-pc-paquete-0.2.0\\BLACK Port PC.zip",
+   "tipo": "archivo",
+   "critico": false,
+   "que_es": "paquete armado por un tercero: black-pc 0.2.0 (black.exe y blackrt.dll IDENTICOS a la release oficial) + datos NTSC-U (xbe df2739c3...68f6, soportado). medido 2026-10-30 (131)"
+  },
+  "referencias_black": {
+   "ruta": "C:\\Users\\frans\\herramientas\\referencias-black",
+   "tipo": "carpeta",
+   "critico": false,
+   "que_es": "investigacion externa (docs/21 6b): fuentes de black-pc, BLACK-XBERecomp, XboxXBE-Recomp, ReBLACK-XBOX, Project-ReBlack, releases y la demo PS2 USA. medido 2026-10-30 (131)"
   }
  },
  "montajes": {

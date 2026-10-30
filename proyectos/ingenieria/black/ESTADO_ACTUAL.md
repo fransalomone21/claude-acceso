@@ -46,6 +46,10 @@ decía.
 >   XBE reconstruido en C. Las estructuras Xbox y PS2 tienen **los mismos offsets** (*probable*, 5 coincidencias):
 >   las notas de Xbox son piedra Rosetta. Decide Fran: seguir en PS2 con la Rosetta, o el coop sobre el port de PC
 >   (pide el disco Xbox propio). Todo en `C:\Users\frans\herramientas\referencias-black\`, fuera del repo.
+> - **Segunda parte (`docs/21` §6c):** hay un **segundo port, `BLACK-XBERecomp`** (recompilación estática, D3D12,
+>   texturas reemplazables, AO, HDR, distancia de dibujo 16x). **Ninguno de los dos tiene coop.** Fran bajó las
+>   ISOs Xbox USA, Europa y demo EU/AU: ordenadas en `C:\Games\BLACK\` y registradas en `kb/ubicaciones.json`.
+>   **Sigue:** reabrir el concepto de plataforma (Pre-A) con el mapa del contexto primero: `sesiones/RETOME-LOCAL.md`.
 >
 > **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat: requisitos + segundo MOMENTO LLUVIA DE IDEAS**
 > (`docs/20-requisitos.md`, `docs/21-lluvia-de-ideas-2026-10-30.md`, bitácora (130)).
