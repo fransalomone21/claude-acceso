@@ -43,7 +43,14 @@ param(
     # arquitectura-se): en serie tardaban ~58 s contra un timeout de 60 y el
     # harness se corto en 13 de 30 sesiones -- y un hook cortado no entrega
     # NADA, ni lo que ya habia medido.
-    [int]$FechaLimite = 0
+    [int]$FechaLimite = 0,
+    # Con -FechaLimite: el instante ABSOLUTO (ISO 8601) en que se corta, en vez
+    # de "N segundos desde que este script arranca". Lo pasa el hook de
+    # arranque contado desde que ARRANCO EL HOOK: el 2026-10-29 la maquina
+    # arranco 7 veces mas lenta (hooks triviales de 7,6 s), los dos arranques
+    # de PowerShell se comieron ~14 s antes de que corriera el reloj de 40, y el
+    # hook llego a 60,8 s contra 60 de timeout: el harness no entrego nada.
+    [string]$Hasta = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -227,7 +234,8 @@ function CorrerConFecha($lista, $titulo, [int]$segundos) {
     New-Item -ItemType Directory -Path $dir -Force | Out-Null
     $res   = @{}
     $vivos = @{}
-    $reloj = [Diagnostics.Stopwatch]::StartNew()
+    $limite = if ($Hasta) { ([datetime]::Parse($Hasta, $null, 'RoundtripKind')).ToUniversalTime() }
+              else { [datetime]::UtcNow.AddSeconds($segundos) }
 
     function Lanzar($i) {
         $script = "Set-Location '$raiz'; $($lista[$i].cmd); exit `$LASTEXITCODE"
@@ -241,7 +249,10 @@ function CorrerConFecha($lista, $titulo, [int]$segundos) {
     }
 
     try {
-        for ($i = 0; $i -lt $lista.Count; $i++) { Lanzar $i }
+        for ($i = 0; $i -lt $lista.Count; $i++) {
+            if ([datetime]::UtcNow -ge $limite) { break }   # sin tiempo: lo que falta sale "no llego a arrancar"
+            Lanzar $i
+        }
         while ($vivos.Count -gt 0) {
             foreach ($k in @($vivos.Keys)) {
                 $v = $vivos[$k]
@@ -250,17 +261,21 @@ function CorrerConFecha($lista, $titulo, [int]$segundos) {
                 $res[$v.i] = @{ estado = 'fin'; seg = $v.sw.Elapsed.TotalSeconds; code = $v.p.ExitCode; out = $v.out }
                 $vivos.Remove($k)
             }
-            if ($reloj.Elapsed.TotalSeconds -ge $segundos) {
+            if ([datetime]::UtcNow -ge $limite) {
+                $kills = @()
                 foreach ($k in @($vivos.Keys)) {
                     $v = $vivos[$k]
                     # /T: matar powershell no mata a sus hijos (rclone, git, python)
                     # Y taskkill escribe a stderr por cada hijo que ya habia
                     # muerto: con EAP=Stop eso tiraba el chequeo entero, que
                     # es justo lo que la fecha limite existe para evitar.
-                    Start-Process taskkill -ArgumentList "/T /F /PID $($v.p.Id)" -NoNewWindow -Wait `
-                        -RedirectStandardOutput (Join-Path $dir 'tk.out') -RedirectStandardError (Join-Path $dir 'tk.err')
+                    # En PARALELO y con espera acotada: uno por uno y con -Wait,
+                    # en una maquina cargada, el corte mismo se pasaba del tiempo.
+                    $kills += Start-Process taskkill -ArgumentList "/T /F /PID $($v.p.Id)" -NoNewWindow -PassThru `
+                        -RedirectStandardOutput (Join-Path $dir "tk$k.out") -RedirectStandardError (Join-Path $dir "tk$k.err")
                     $res[$v.i] = @{ estado = 'corte'; seg = $v.sw.Elapsed.TotalSeconds }
                 }
+                if ($kills) { $kills | Wait-Process -Timeout 5 -ErrorAction SilentlyContinue }
                 $vivos.Clear()
                 break
             }

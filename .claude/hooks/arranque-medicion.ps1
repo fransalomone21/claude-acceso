@@ -15,7 +15,8 @@
 # 13 de las ultimas 30 sesiones. Un hook cortado no entrega NADA: se perdian
 # tambien las autorizaciones permanentes, que no tienen nada que ver. Ahora el
 # texto sale solo (arranque-proyecto.ps1, instantaneo) y esto corre la capa
-# rapida EN PARALELO con una fecha limite de 40 s: entrega lo que termino y
+# rapida EN PARALELO con una fecha limite (44 s desde que arranca el hook, ver
+# $hasta abajo): entrega lo que termino y
 # NOMBRA lo que no. No corre en compact: el estado de la maquina no cambio por
 # compactar la conversacion.
 #
@@ -25,7 +26,11 @@
 #
 # Sin acentos a proposito: la consola de Windows lo lee como cp1252.
 
-param([int]$FechaLimite = 40)
+# 44 s desde que arranca el hook (2026-10-30): con el corte en 40 desde el reloj
+# interno la sincronia con origin (~38 s) entraba; contado desde el hook, 40 la
+# dejaba afuera. Despues del corte quedan <= 5 s de taskkill y la impresion:
+# ~10 s de margen contra el timeout de 60 aun con la maquina cargada.
+param([int]$FechaLimite = 44)
 
 $ErrorActionPreference = 'Stop'
 
@@ -50,9 +55,17 @@ if (-not (Test-Path -LiteralPath $chequeo)) {
     exit 0
 }
 
+# La fecha limite cuenta desde que ARRANCO ESTE PROCESO, no desde que arranca
+# el reloj de chequeo-completo: el 2026-10-29, con la maquina cargada, los dos
+# arranques de PowerShell se comieron ~14 s antes de ese reloj y el hook llego
+# a 60,8 s contra 60 de timeout (el harness no entrego NADA). Con el instante
+# absoluto, lo que tarde en arrancar sale de la medicion, no del margen.
+try { $inicio = (Get-Process -Id $PID).StartTime.ToUniversalTime() } catch { $inicio = [datetime]::UtcNow }
+$hasta = $inicio.AddSeconds($FechaLimite).ToString('o')
+
 try {
     $salida = & powershell -NoProfile -ExecutionPolicy Bypass `
-                -File $chequeo -SoloMedidores -Compacto -FechaLimite $FechaLimite 2>&1 | Out-String
+                -File $chequeo -SoloMedidores -Compacto -FechaLimite $FechaLimite -Hasta $hasta 2>&1 | Out-String
     $code = $LASTEXITCODE
     Write-Output ($salida.TrimEnd())
     if ($code -ne 0) {
