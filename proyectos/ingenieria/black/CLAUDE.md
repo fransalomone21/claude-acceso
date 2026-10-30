@@ -22,6 +22,8 @@ una herramienta.
 |---|---|
 | **decidir qué hacer con el juego, qué mod sigue, o cualquier plan** | [`docs/11-programa.md`](docs/11-programa.md) (cómo se decide) y [`docs/12-estudio-de-conceptos.md`](docs/12-estudio-de-conceptos.md) (qué se puede hacer). El mapa: `python herramientas/programa.py resumen` |
 | **mirar el coop desde arriba antes de seguir ejecutando: la meta contra lo que anda, las palancas (memoria de 128 MB, símbolos del motor de Burnout, el censo del jugador, el trazador jugado), el orden de lo fundamental a lo específico y lo que espera decisión de Fran** | [`docs/19-lluvia-de-ideas-2026-10-12.md`](docs/19-lluvia-de-ideas-2026-10-12.md) (el primer **momento lluvia de ideas**; el próximo lo avisa la cascada a las 10 sesiones) |
+| **los requisitos del coop: alcance, L0-L2, el banco de prueba (L2-BAN), V&V, traza, riesgos** | [`docs/20-requisitos.md`](docs/20-requisitos.md) (lo exige la puerta) |
+| **el segundo momento lluvia de ideas: el prototipo del propio BLACK, el diseño del banco coop, el orden desde (130)** | [`docs/21-lluvia-de-ideas-2026-10-30.md`](docs/21-lluvia-de-ideas-2026-10-30.md) |
 | retomar el proyecto, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
 | saber qué cierra la fase abierta, o por qué se decidió algo | `PDP.md` |
 | **retomar una tanda: el mensaje exacto de la sesión que sigue** | `sesiones/RETOME-LOCAL.md` (caliente, con emulador), `sesiones/RETOME-LOCAL-FRIO.md` (notebook sin emulador), `sesiones/RETOME-NUBE.md` (nube) |

@@ -4,7 +4,15 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(129), 2026-10-12, NOTEBOOK EN FRÍO, con Fran en el chat — LO ÚLTIMO** (bitácora (129),
+> **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (bitácora (130), `docs/20`, `docs/21`).
+> - **Requisitos del coop escritos** (`docs/20-requisitos.md`, declarado en la cascada): alcance, L0, L1, L2-BAN, V&V,
+>   traza, riesgos. **Sin acordar con Fran**: sus dos preguntas están en `docs/21` §7.
+> - **Prototipo del propio BLACK** (16/08/2005) y demos de 2005 en Hidden Palace; enlace caído, archive.org cero.
+>   Primer sondeo con el archivo en mano: las secciones del ELF.
+> - **Banco coop diseñado** (`docs/21` §4) para reemplazar los diez bancos sueltos; se construye como trazador con la
+>   regresión de R4. **Sigue:** `sesiones/RETOME-LOCAL.md`. **Máquina:** sin tocar desde (128).
+
+> **(129), 2026-10-12, NOTEBOOK EN FRÍO, con Fran en el chat** (bitácora (129),
 > `docs/19-lluvia-de-ideas-2026-10-12.md`).
 > - **Primer MOMENTO LLUVIA DE IDEAS:** de lo fundamental a lo específico, la C venía haciendo fidelidad (el arma de
 >   cada uno, 13 sesiones) con lo que decide si se puede jugar sin medir (N27, N21, munición de J2, continuar misión).

@@ -39,7 +39,24 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(129), 2026-10-12, NOTEBOOK EN FRÍO, con Fran en el chat — LO ÚLTIMO: el primer MOMENTO LLUVIA DE IDEAS**
+> **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: requisitos + segundo MOMENTO LLUVIA DE IDEAS**
+> (`docs/20-requisitos.md`, `docs/21-lluvia-de-ideas-2026-10-30.md`, bitácora (130)).
+> - **Tramo 0 hecho (falta el acuerdo de Fran):** alcance (N-01, meta, 4 objetivos, criterios de éxito, hipótesis,
+>   restricciones, ConOps, qué entra y qué no), L0 ×4, L1 ×25, **L2-BAN ×10 (el banco de prueba)**, plan de V&V,
+>   traza de lo fabricado (el «saltear videos» es el único huérfano) y riesgos con el triángulo. 39 enunciados, 0
+>   VIOLA del GtWR. Declarado en `.claude/cascada.json`: la puerta ya exige leerlo.
+> - **La batería que ya existía:** hay un **prototipo del propio BLACK** (16/08/2005, disco interno PAL) y demos PS2
+>   (25/11 y 05/12/2005) y Xbox en Hidden Palace (*fuente externa*); (129) buscó símbolos sólo en Burnout. El enlace
+>   está caído y archive.org da cero por identificador: falta conseguirlo y leer sus secciones.
+> - **La cueva del banco:** diez bancos sueltos, uno por pieza, 35 herramientas que relanzan el emulador. Diseño del
+>   **banco coop** (`docs/21` §4): sesión larga, fotos de precondición, escenarios como datos, control agrupado,
+>   guardián, cinco veredictos en ≤ 40 líneas, aguante con semilla para los dos jugadores, en segundo plano.
+> - **Medido:** el pnach del coop es `patch=1` (1116 de 1117 líneas): una foto de estado vieja vuelve a tener el
+>   código nuevo al cuadro siguiente.
+> - **Máquina:** sin tocar (fork cerrado; pnach 1059; COOP activo). **Sigue:** `sesiones/RETOME-LOCAL.md` (el banco
+>   coop con la regresión de R4) y, de Fran, el trazador jugado.
+
+> **(129), 2026-10-12, NOTEBOOK EN FRÍO, con Fran en el chat — el primer MOMENTO LLUVIA DE IDEAS**
 > (`docs/19-lluvia-de-ideas-2026-10-12.md`, bitácora (129)).
 > - **Fran frenó la ejecución** del retome para mirar el coop desde arriba, de lo fundamental a lo específico. Lo
 >   que anda, contra la meta (dos personas juegan la campaña): J2, dos vistas, IA a los dos, HUD, disparo con sonido.

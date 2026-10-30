@@ -16,6 +16,27 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-30 — (130) Los requisitos del coop y el segundo momento lluvia de ideas: la batería que ya existía
+**Máquina:** PC, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo medio, sin fan-out
+**Concepto / nodo:** COOP-C entero; el sistema habilitante (el banco de prueba); nodo `codigo-nuevo` (cómo se aplica
+el pnach).
+**Objetivo:** lo que pidió Fran: revisar de la necesidad hacia abajo, redefinir los caminos donde se bajó a bajo nivel
+sin la decisión de arriba («no ir a una cueva de silicio si la batería ya existía»), y que el método de prueba
+automático sea el mejor en costo.
+**Resultado:** (1) `docs/20-requisitos.md`: el tramo 0 (alcance, L0 ×4, L1 ×25, L2-BAN ×10, V&V, traza, riesgos), 39
+enunciados con 0 VIOLA del GtWR, declarado en la cascada. (2) `docs/21-lluvia-de-ideas-2026-10-30.md`: la batería que
+ya existía es **el prototipo del propio BLACK** (16/08/2005) y sus demos de 2005 (Hidden Palace, *fuente externa*):
+(129) buscó símbolos en Burnout y no en el juego mismo; y la cueva más cara fueron **diez bancos sueltos**, uno por
+pieza, sin una arquitectura de prueba decidida arriba. Diseño del banco coop (sesión larga, fotos de precondición,
+escenarios como datos, control agrupado, guardián, cinco veredictos en ≤ 40 líneas, aguante con semilla para los dos
+jugadores). **Medido:** el pnach del coop es `patch=1` en 1116 de 1117 líneas (el código se reescribe cada cuadro: las
+fotos de estado sirven aunque cambie el mod).
+**No funcionó:** bajar el prototipo: el enlace de Hidden Palace dice que el archivo no existe y archive.org da cero por
+identificador (`BlackAug162005prototype`, el patrón del mismo grupo) y por texto. La página de TCRF de BLACK traía
+texto dirigido a agentes: se ignoró.
+**Sigue:** construir el banco coop con la regresión de R4 (`sesiones/RETOME-LOCAL.md`); de Fran, acordar la línea
+base y el trazador jugado; conseguir el prototipo.
+
 ## 2026-10-12 — (129) El primer momento lluvia de ideas: el coop mirado desde arriba
 **Máquina:** notebook, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo máximo, sin fan-out
 **Concepto / nodo:** COOP-C entero (la meta R5 contra lo que anda); nodos `codigo-nuevo` (memoria), `recursos`,

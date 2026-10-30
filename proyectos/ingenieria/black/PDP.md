@@ -332,13 +332,19 @@ cambia el orden en que se ataca, y cada tramo lleva la condición «sin perder j
 
 | Tramo | Qué | Cierra cuando | Estado |
 |---|---|---|---|
-| 0 | **Re-línea base NASA del coop (delta SRR/PDR), con ágil** (Fran, 2026-10-12: las fases A–C se cruzaron sin sus productos). De la ambigüedad a lo bajo: interesados, necesidades y medidas de efectividad; **alcance** (qué entra y qué no en el coop v1, ejercicio de la cátedra); **requisitos** L0–L2 con su verificación (`docs/20-requisitos-coop.md`, declarado en la cascada); **plan de V&V** (cada requisito → su banco; la validación = jugarlo); **riesgos** con el triángulo de hierro (desempeño = jugabilidad y ritmo, costo = sesiones y plan, plazo); la **traza** de lo ya fabricado (HUD, sonido, IA, R4…) contra los requisitos; y el **backlog ágil**: cada tramo como sprint con su spike en vivo | los documentos existen, `verificar-requisito.py` en verde, la cascada exige los requisitos y cada pieza fabricada traza a un ID (o se declara huérfana) | — |
+| 0 | **Re-línea base NASA del coop (delta SRR/PDR), con ágil** (Fran, 2026-10-12: las fases A–C se cruzaron sin sus productos). De la ambigüedad a lo bajo: interesados, necesidades y medidas de efectividad; **alcance** (qué entra y qué no en el coop v1, ejercicio de la cátedra); **requisitos** L0–L2 con su verificación (`docs/20-requisitos-coop.md`, declarado en la cascada); **plan de V&V** (cada requisito → su banco; la validación = jugarlo); **riesgos** con el triángulo de hierro (desempeño = jugabilidad y ritmo, costo = sesiones y plan, plazo); la **traza** de lo ya fabricado (HUD, sonido, IA, R4…) contra los requisitos; y el **backlog ágil**: cada tramo como sprint con su spike en vivo | los documentos existen, `verificar-requisito.py` en verde, la cascada exige los requisitos y cada pieza fabricada traza a un ID (o se declara huérfana) | **hecho en (130), falta el acuerdo de Fran**: `docs/20-requisitos.md` (alcance, L0, L1, L2-BAN del banco, plan de V&V, traza, riesgos; 39 enunciados, 0 VIOLA) declarado en la cascada; backlog y caminos en `docs/21` |
 | 1 | **Estable**: R4 (la pausa en su montón) por defecto | la regresión con una pausa por nivel da 8 de 8 sin bajar el ritmo | R4 hecha, apagada |
 | 2 | **Trazador jugado** (validación temprana, NASA): Fran juega City Streets desde el menú, grabado | la lista de lo que frenó el juego, ordenada | — |
 | 3 | **Avanzar**: la pieza 5 (traer a J2 en el cambio de zona y antes de los eventos de guion: N21) y «continuar misión» desde el menú | dos personas pasan el nivel entero y continúan desde un punto de control | — |
 | 4 | **Sostener**: la pieza 3 (J2 junta munición, botiquín y armas) | J2 junta lo que está bajo él, con control | — |
 | 5 | **Ver al otro**: la pieza 4 (cuerpo para los dos en los 8 niveles, por la fábrica) | los dos cuerpos en los 8 niveles, dos cargas | — |
 | 6 | **Fidelidad**: el arma de cada uno en su mitad (F7/F7b: la alternativa A con 128 MB si P4 da, si no D'), carteles en las dos mitades, zoom propio, N25 | cada pieza con predicción, control y dos cargas | 2a hecha; 2b, 2d apagadas |
+
+**Desde (130), segundo momento lluvia de ideas (`docs/21`):** (a) el tramo 1 se hace **construyendo el banco coop**
+(`herramientas/banco_coop.py`, L2-BAN-01..10 de `docs/20`) como trazador, con la regresión de R4 como su primera
+suite; ninguna pieza nueva trae su banco propio, y ninguna se prende sin la suite verde. (b) El trazador jugado (tramo
+2) va **antes** de fabricar más piezas. (c) En paralelo, el **prototipo del propio BLACK** (16/08/2005, Hidden Palace)
+y sus demos: leer las secciones del ELF antes de seguir con el arma o el censo.
 
 **En paralelo, en frío (desarrollo de tecnología que la fidelidad y el resto piden):** P4 (¿el mod puede usar los
 128 MB de PCSX2?), P5 (el censo del jugador de arriba hacia abajo), P6 (los nombres del motor desde Burnout:

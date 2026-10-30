@@ -293,6 +293,7 @@
                               }},
     "black":                 {"necesidades": ["ingenieria-inversa"],
                               "lluvia": {"cada": 10},
+                              "requisitos": "docs/20-requisitos.md",
                               "comandos": ["ingenieria/black/abrir-sesion.ps1"],
                               "vistas": {"ESTADO_ACTUAL.md": {"vista_h2": 3, "tope": 300}},
                               "senales": ["(?-i:BLACK)", "pcsx2"]},
