@@ -20,6 +20,22 @@ Medido en la notebook el 2026-10-30: RTX 4060 Laptop, 1080p → render 150 %, MS
 distancia 8x, GTAO, tope de cuadros = la frecuencia del monitor. Con dos copias en la misma máquina el render baja a
 100 %. Los cuadros por segundo con esa calidad **no se midieron todavía**.
 
+## Pasarle todo a la PC sin internet (la PC sólo tiene cable)
+
+Con la PC enchufada por cable directo a la notebook, la PC no tiene internet, pero sí ve a la notebook: alcanza para
+pasarle todo y para jugar. Windows les da a las dos una IP `169.254.x.x` sola, en un minuto, y el coop se une a esa.
+
+- **Por el cable** (más rápido, y sirve para cualquier carpeta en el futuro): en la notebook
+  `lanzadores\SERVIR-A-LA-PC.ps1` (arma el paquete y lo sirve, sólo lectura y sólo en la IP del cable, hasta Ctrl+C);
+  imprime el comando exacto para pegar en la PC. Para otra carpeta: `-Carpeta "D:\lo que sea"`.
+- **Por pendrive** (exFAT o NTFS, 16 GB o más): `lanzadores\PAQUETE-PC.ps1 -Destino E:\`, y en la PC el comando que
+  imprime.
+
+En la PC, `TRAER.ps1` copia y verifica cada archivo por sha256 (si se corta, se vuelve a correr y retoma), instala
+Python si falta y pygame sin internet, pone el repo al día desde un git bundle (si la PC tiene cambios propios no lo
+toca y usa los lanzadores sueltos del paquete), corre `PREPARAR-BLACK.ps1` y anota la IP de la notebook para «BLACK
+coop - unirse». Paquete medido el 2026-10-30: 7,6 GB (el disco es 7,3).
+
 ## Tres maneras de jugar de a dos, de mejor a peor
 
 | | Cómo | Ventaja | Medido |

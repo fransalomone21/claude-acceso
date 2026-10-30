@@ -6,6 +6,7 @@ $Script:Exe      = Join-Path $Juego 'BLACK.exe'
 $Script:Toml     = Join-Path $Juego 'black.toml'
 $Script:Black    = Split-Path $PSScriptRoot -Parent
 $Script:Volcados = Join-Path $Black 'volcados\plataforma'
+New-Item -ItemType Directory -Force $Volcados | Out-Null  # en la copia suelta de la PC (sin repo) no existe
 
 # El release del coop que se instalo y probo en (133). Las dos maquinas tienen que tener EL MISMO (lo exige el coop).
 $Script:CoopUrl    = 'https://github.com/MuriloDagustin/black-seamless-coop/releases/download/v2026.10.18.2/BLACK-Seamless-Coop-8226900.zip'

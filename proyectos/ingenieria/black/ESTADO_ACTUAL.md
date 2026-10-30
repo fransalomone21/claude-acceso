@@ -48,6 +48,10 @@ decía.
 > - **Un comando por máquina:** `lanzadores\PREPARAR-BLACK.ps1` (instala, calidad por monitor y placa en
 >   `calidad.toml`, accesos en `Escritorio\Juegos\BLACK`). Corrido en la notebook; falta en la PC. Dificultad: la 3 es
 >   Black Ops; más difícil = mod de reglas (L1-29), fase siguiente (`docs/23`).
+> - **La PC no tiene Wi-Fi:** se le pasa todo sin internet por el cable directo (`SERVIR-A-LA-PC.ps1` en la
+>   notebook, sirve sólo en la IP del cable; reusable con `-Carpeta`) o por pendrive (`PAQUETE-PC.ps1 -Destino E:\`);
+>   en la PC `TRAER.ps1` verifica por sha256, instala Python/pygame sin internet, pone el repo al día por bundle y corre
+>   PREPARAR. Probado acá: el paquete (7,55 GB en 36 s), la copia por carpeta y por HTTP en 127.0.0.1 con sabotaje.
 > - **Falta para cerrar PLAT-PreA:** el KDP de Fran, después de jugar con Agustín (lo dijo él: «después de jugar
 >   validamos si el coop nos gusta»).
 >
