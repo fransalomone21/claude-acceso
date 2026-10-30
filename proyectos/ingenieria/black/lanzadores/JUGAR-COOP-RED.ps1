@@ -14,17 +14,28 @@
 # Si falta la instalacion en esa maquina, la hace sola (el coop se baja de GitHub con su sha256; la ISO sale de
 # C:\Games\BLACK\xbox\iso-redump\Black (USA).zip). Las dos maquinas tienen que tener el MISMO BLACK.exe: lo avisa.
 
-param([switch]$Anfitrion, [string]$Unirse, [switch]$Teclado, [switch]$Xbox)
+#   ... -Preguntar # pide la IP (recuerda la ultima en ultima-ip.txt): lo usa el acceso "BLACK coop - unirse"
+#   ... -Solo      # un jugador, sin coop (el acceso "BLACK solo")
+
+param([switch]$Anfitrion, [string]$Unirse, [switch]$Preguntar, [switch]$Solo, [switch]$Teclado, [switch]$Xbox)
 
 . (Join-Path $PSScriptRoot 'plataforma-comun.ps1')
-if (-not $Anfitrion -and -not $Unirse) {
-    Write-Host "Decime el rol: -Anfitrion (una maquina) o -Unirse <IP de la anfitriona> (la otra)." -ForegroundColor Red
+$ultima = Join-Path $Juego 'ultima-ip.txt'
+if ($Preguntar) {
+    $previa = if (Test-Path -LiteralPath $ultima) { (Get-Content -LiteralPath $ultima -TotalCount 1).Trim() } else { '' }
+    $resp = Read-Host "IP de la maquina que hostea$(if ($previa) { " (Enter = $previa)" })"
+    $Unirse = if ($resp) { $resp.Trim() } else { $previa }
+    if ($Unirse) { [IO.File]::WriteAllText($ultima, $Unirse) }
+}
+if (-not $Anfitrion -and -not $Unirse -and -not $Solo) {
+    Write-Host "Decime el rol: -Anfitrion (una maquina), -Unirse <IP de la anfitriona> (la otra) o -Solo." -ForegroundColor Red
     exit 1
 }
 if (-not (Install-Plataforma)) { exit 1 }
 
 $mon = (Get-Monitores)[0].Bounds
-Set-Toml @{ display_mode = 'borderless'; width = $mon.Width; height = $mon.Height; fps_counter = $true; pause_on_focus_loss = $false }
+Set-Calidad
+Set-Toml @{ display_mode = 'borderless'; width = $mon.Width; height = $mon.Height; pause_on_focus_loss = $false }
 
 $red = Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
     Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254.*' } |
@@ -36,9 +47,11 @@ if ($Anfitrion) {
     $red | ForEach-Object { Write-Host "    $_" }
     $publica = Get-NetConnectionProfile -ErrorAction SilentlyContinue | Where-Object { $_.NetworkCategory -eq 'Public' -and $_.InterfaceAlias -notlike 'ZeroTier*' }
     if ($publica) { Write-Host "AVISO: la red '$($publica.InterfaceAlias)' esta como Publica; si no conectan, cuando Windows pregunte, Permitir." -ForegroundColor Yellow }
-} else {
+} elseif ($Unirse) {
     $args_j += @('--coop', 'join', '--join', $Unirse)
     Write-Host "UNIRSE a $Unirse (puerto UDP 45410). Abri primero el juego en la anfitriona." -ForegroundColor Green
+} else {
+    Write-Host "UN JUGADOR." -ForegroundColor Green
 }
 
 $puente = Join-Path $Black 'herramientas\puente_mandos.py'
@@ -55,7 +68,8 @@ if (-not $Teclado) {
     }
 }
 
-$corrida = New-CarpetaCorrida $(if ($Anfitrion) { 'red-anfitriona' } else { 'red-unirse' })
+$rol = if ($Anfitrion) { 'anfitriona' } elseif ($Unirse) { 'unirse' } else { 'solo' }
+$corrida = New-CarpetaCorrida "red-$rol"
 $inicio = Get-Date
 $p = Start-Process -FilePath $Exe -ArgumentList $args_j -WorkingDirectory $Juego -PassThru
 if (-not $Teclado) {
@@ -74,6 +88,6 @@ while (-not $p.HasExited) {
 }
 if ($pp -and -not $pp.HasExited) { Stop-Process -Id $pp.Id -ErrorAction SilentlyContinue }
 Save-Registros $corrida $inicio
-"{0}`tRED-{1}`tsalida={2}`tminutos={3}" -f (Get-Date -Format s), $(if ($Anfitrion) { 'anfitriona' } else { 'unirse' }), $p.ExitCode, [math]::Round(((Get-Date) - $inicio).TotalMinutes, 1) |
+"{0}`tRED-{1}`tsalida={2}`tminutos={3}" -f (Get-Date -Format s), $rol, $p.ExitCode, [math]::Round(((Get-Date) - $inicio).TotalMinutes, 1) |
     Out-File -Append -Encoding utf8 (Join-Path $Volcados 'corridas.txt')
 Write-Host "Listo. Registro en $corrida" -ForegroundColor Green

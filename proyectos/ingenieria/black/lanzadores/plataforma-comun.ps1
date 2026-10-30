@@ -70,6 +70,40 @@ function Get-Monitores {
     return @([System.Windows.Forms.Screen]::AllScreens | Sort-Object { -not $_.Primary })
 }
 
+# La calidad grafica de ESTA maquina: la escribe PREPARAR-BLACK.ps1 (segun monitor y placa) en calidad.toml al lado
+# del exe, y los lanzadores la vuelven a poner antes de abrir (el black.toml es uno solo y cada lanzador lo toca).
+# Codigos del port (BLACK-XBERecomp src/common/menu.cpp): msaa 0/2/4/8, anisotropic_filtering 0/2/4/8/16,
+# draw_distance 1/2/4/8/12/16, ambient_occlusion 0 nada/1 SSAO/2 GTAO, fps_cap 1 = la frecuencia del monitor.
+$Script:Calidad = Join-Path $Juego 'calidad.toml'
+
+function Get-CalidadSugerida {
+    $mon = (Get-Monitores)[0].Bounds
+    $gpu = (Get-CimInstance Win32_VideoController | Sort-Object AdapterRAM -Descending | Select-Object -First 1).Name
+    $integrada = $gpu -match 'Intel|UHD|Iris|Radeon\(TM\) Graphics|Vega'
+    $render = if ($integrada) { 100 } elseif ($mon.Height -le 1080) { 150 } elseif ($mon.Height -le 1440) { 125 } else { 100 }
+    return [ordered]@{
+        render_percent = $render; msaa = $(if ($integrada) { 0 } else { 4 }); smaa = $true
+        anisotropic_filtering = 16; draw_distance = $(if ($integrada) { 2 } else { 8 })
+        ambient_occlusion = $(if ($integrada) { 0 } else { 2 }); fps_cap = 1; vsync = $true; skip_intros = $true
+    }, "$gpu, monitor $($mon.Width)x$($mon.Height)"
+}
+
+function Save-Calidad([System.Collections.IDictionary]$c) {
+    $l = foreach ($k in $c.Keys) { $v = $c[$k]; "$k = $(if ($v -is [bool]) { $v.ToString().ToLower() } else { $v })" }
+    [IO.File]::WriteAllText($Calidad, (($l -join "`n") + "`n"), (New-Object Text.UTF8Encoding($false)))
+}
+
+function Set-Calidad {
+    if (-not (Test-Path -LiteralPath $Calidad)) { return }
+    $c = @{}
+    foreach ($l in [IO.File]::ReadAllLines($Calidad)) {
+        if ($l -match '^\s*(\w+)\s*=\s*(\S+)') {
+            $c[$Matches[1]] = if ($Matches[2] -in 'true', 'false') { $Matches[2] -eq 'true' } else { [int]$Matches[2] }
+        }
+    }
+    if ($c.Count) { Set-Toml $c }
+}
+
 function Test-Instalacion {
     $iso = Get-ChildItem -LiteralPath (Join-Path $Juego 'assets') -Filter '*.iso' -ErrorAction SilentlyContinue
     if (-not (Test-Path -LiteralPath $Exe) -or -not $iso) {

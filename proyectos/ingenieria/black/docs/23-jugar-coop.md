@@ -4,6 +4,22 @@ La plataforma es **black-seamless-coop v2026.10.18.2**: el port nativo BLACK-XBE
 jugadores, por red), instalado en `C:\Games\BLACK\coop` con `assets\Black (USA).iso`. Lo medido está en
 `sesiones/PREDICCIONES-133.md`; acá va cómo se juega.
 
+## Preparar una máquina: un comando (desde (133b))
+
+En cada computadora (la notebook ya está hecha), en una consola de PowerShell:
+
+```powershell
+git -C "$env:USERPROFILE\Desktop\claude-acceso" pull; powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Desktop\claude-acceso\proyectos\ingenieria\black\lanzadores\PREPARAR-BLACK.ps1"
+```
+
+Instala lo que falte (coop con su sha256, la ISO desde su zip), controla que el `BLACK.exe` sea el mismo en las dos,
+instala pygame, **elige la calidad gráfica según el monitor y la placa** (guardada en `C:\Games\BLACK\coop\calidad.toml`
+y reaplicada por cada lanzador), mira red y firewall, y deja los accesos en `Escritorio\Juegos\BLACK`: **BLACK solo**,
+**coop - hostear**, **coop - unirse** (pide la IP y recuerda la última), **coop - misma maquina**, **coop - dos pantallas**.
+Medido en la notebook el 2026-10-30: RTX 4060 Laptop, 1080p → render 150 %, MSAA 4x + SMAA, anisotrópico 16x,
+distancia 8x, GTAO, tope de cuadros = la frecuencia del monitor. Con dos copias en la misma máquina el render baja a
+100 %. Los cuadros por segundo con esa calidad **no se midieron todavía**.
+
 ## Tres maneras de jugar de a dos, de mejor a peor
 
 | | Cómo | Ventaja | Medido |
@@ -26,7 +42,8 @@ no hay ese problema.
    verifica el sha256) y saca la ISO del zip (~1,5 min). Avisa si el `BLACK.exe` no es el mismo que el de la notebook.
 5. La anfitriona elige la misión; la otra entra sola, aunque sea a mitad de nivel.
 
-**Red:** el juego usa UDP 45410. En la notebook el firewall ya lo permite (regla «Black - XBE Recomp», red privada y
+**Por cable mejor:** con la PC y la notebook por Ethernet al mismo router se evita el retardo y los cortes del
+Wi-Fi; la notebook ya está por cable (`192.168.1.3`). **Red:** el juego usa UDP 45410. En la notebook el firewall ya lo permite (regla «Black - XBE Recomp», red privada y
 pública, medido); en la PC, la primera vez Windows pregunta: **Permitir**. **A distancia** (Agustín en su casa): la
 notebook está en una red ZeroTier (`10.147.20.2`, la del server de Minecraft); si la máquina de Agustín está en la
 misma red, `-Unirse 10.147.20.2`. Que la otra esté en esa red no se midió.
@@ -63,6 +80,15 @@ apuntar) se cambia en el menú: Recomp Settings → Controller.
 - Objetivos, recogibles, continuar y reiniciar valen para los dos. Cada uno guarda su progreso.
 - **Todavía no sincroniza:** las escenas (cutscenes) y los vehículos.
 - La anfitriona maneja a los enemigos: conviene que hostee la máquina más estable.
+
+## La dificultad
+
+El juego tiene cuatro (`*(0x2D45F0)+0x2014C` = 0..3, leído en el coop: `coop.cpp`, `LoadMission`); la que elige la
+**anfitriona** es la de los dos (la otra la copia al unirse). Fran jugó (133) en la 2 (Hard). La 3 es **Black Ops**:
+si el menú no la ofrece, está bloqueada (*hipótesis*: se desbloquea terminando en Hard; no se midió). **Más difícil que
+Black Ops** (más daño recibido, menos munición, más enemigos) no existe en el juego: es un mod de reglas, L0-07 /
+L1-29 de `docs/20` (una función propia en lugar de la del juego), y va en la fase que sigue a PLAT-PreA. Forzar la 3
+desde afuera tampoco se puede hoy: el canal de control del coop sólo escribe números con coma (`pokef`), no enteros.
 
 ## Ajustes de imagen recomendados (Recomp Settings, F10 o el menú de opciones)
 

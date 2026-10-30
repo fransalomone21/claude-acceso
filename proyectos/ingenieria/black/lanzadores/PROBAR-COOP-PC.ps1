@@ -32,6 +32,10 @@ if (-not $Control) {
     }
 }
 
+# La calidad de esta maquina (PREPARAR-BLACK.ps1), con el render al 100 %: son dos juegos a la vez en la misma placa.
+Set-Calidad
+Set-Toml @{ render_percent = 100 }
+
 # Donde va cada ventana: lado a lado en la pantalla principal, o una por monitor.
 $pantallas = Get-Monitores
 $b1 = $pantallas[0].Bounds

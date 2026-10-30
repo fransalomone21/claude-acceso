@@ -45,7 +45,11 @@ decía.
 > - Arreglado: la copia 2 abría muda (J2 no oía su escopeta). Pedido de Fran: el puente traduce a **sus controles de PS2**.
 > - **Para hoy:** `docs/23-jugar-coop.md` y `lanzadores\JUGAR-COOP-RED.ps1` (dos computadoras; instala solo lo que falte
 >   en la otra) y `PROBAR-COOP-PC.ps1 -DosMonitores`. El coop **por red real** no se midió (sólo 127.0.0.1).
-> - **Falta para cerrar PLAT-PreA:** el KDP de Fran (este coop + el puente como el de la misma PC).
+> - **Un comando por máquina:** `lanzadores\PREPARAR-BLACK.ps1` (instala, calidad por monitor y placa en
+>   `calidad.toml`, accesos en `Escritorio\Juegos\BLACK`). Corrido en la notebook; falta en la PC. Dificultad: la 3 es
+>   Black Ops; más difícil = mod de reglas (L1-29), fase siguiente (`docs/23`).
+> - **Falta para cerrar PLAT-PreA:** el KDP de Fran, después de jugar con Agustín (lo dijo él: «después de jugar
+>   validamos si el coop nos gusta»).
 >
 > **(133), 2026-10-30, NOTEBOOK, con Fran en el chat: la plataforma instalada, esperando el spike**
 > (bitácora (133), `sesiones/PREDICCIONES-133.md`). **Fase en curso: PLAT-PreA.**
