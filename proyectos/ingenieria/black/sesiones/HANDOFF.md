@@ -4,7 +4,12 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(133), 2026-10-30, NOTEBOOK, con Fran en el chat — LO ÚLTIMO** (bitácora (133), `sesiones/PREDICCIONES-133.md`).
+> **(133b), misma sesión — LO ÚLTIMO.** S1 y S2 cumplidas (`sesiones/PREDICCIONES-133.md`). Puente con los controles
+> de PS2 de Fran; la copia 2 con sonido. Para jugar con Agustín: `docs/23-jugar-coop.md` + `lanzadores\JUGAR-COOP-RED.ps1`
+> (sin medir por red real) y `PROBAR-COOP-PC.ps1 -DosMonitores` (sin medir con monitor). **Pendiente de Fran:** el KDP
+> que cierra PLAT-PreA. **Sigue:** leer `volcados\plataforma\corridas.txt` de lo que jueguen hoy.
+>
+> **(133), 2026-10-30, NOTEBOOK, con Fran en el chat** (bitácora (133), `sesiones/PREDICCIONES-133.md`).
 > Requisitos ampliados **acordados** (PDP §6). Plataforma instalada en `C:\Games\BLACK\coop` (port + coop, ISO USA,
 > XBE medido). Con dos copias en una PC sólo la del foco lee mandos: el **puente de mandos**
 > (`herramientas/puente_mandos.py`, por `--coop-control`) le da uno a cada copia. **Pendiente de Fran:** prender los

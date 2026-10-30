@@ -4,7 +4,9 @@ Pegar tal cual como primer mensaje del chat siguiente, en la máquina donde corr
 Los retomes anteriores están en el historial de git de este archivo.
 
 ```
-Retomo BLACK (proyectos/ingenieria/black). Sesión (134): LEER LOS SPIKES S1/S2 DE LA PLATAFORMA Y CERRAR PLAT-PreA.
+Retomo BLACK (proyectos/ingenieria/black). Sesión (134): LEER LO QUE SE JUGÓ Y CERRAR PLAT-PreA CON EL KDP DE FRAN.
+ACTUALIZADO en (133b): S1 y S2 YA ESTÁN CUMPLIDAS (resultados en PREDICCIONES-133.md); lo nuevo para leer son las
+corridas RED-* y S2b de la noche con Agustín (corridas.txt) y docs/23-jugar-coop.md. Lo que falta es el KDP.
 En (133) Fran acordó los requisitos ampliados (docs/20 §10), se instaló black-seamless-coop (el port BLACK-XBERecomp
 con el coop) en C:\Games\BLACK\coop con la ISO USA, y se escribió el puente de mandos (herramientas/puente_mandos.py):
 con dos copias en una PC sólo la del foco lee mandos, y el puente le da uno a cada copia por --coop-control.

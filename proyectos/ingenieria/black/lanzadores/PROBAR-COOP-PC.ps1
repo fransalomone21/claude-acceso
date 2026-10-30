@@ -6,12 +6,14 @@
 #   ... -Cruzar      # control del puente: mando 1 a la copia 2 y mando 2 a la copia 1
 #   ... -Xbox        # los botones de Xbox tal cual (por defecto, los de PS2 que Fran usaba: R1 dispara, L1 apunta...)
 #   ... -Mudo        # la copia 2 sin sonido (por defecto suenan las dos: cada uno escucha su arma)
+#   ... -DosMonitores # con un monitor enchufado a la notebook: la copia 1 ocupa la pantalla de la notebook y la 2
+#                       el monitor, cada una entera (si hay un solo monitor, vuelve a lado a lado)
 #
 # Que hace: abre dos copias en ventana, una al lado de la otra (la 1 es la anfitriona, la 2 se une sola), y el puente
 # que le da a cada copia SU mando aunque la ventana este atras. Con el puente no hay teclado ni mouse en el juego:
 # todo con los mandos. Para terminar: cerrar las dos ventanas.
 
-param([switch]$Control, [switch]$Cruzar, [switch]$Xbox, [switch]$Mudo)
+param([switch]$Control, [switch]$Cruzar, [switch]$Xbox, [switch]$Mudo, [switch]$DosMonitores)
 
 . (Join-Path $PSScriptRoot 'plataforma-comun.ps1')
 if (-not (Test-Instalacion)) { exit 1 }
@@ -30,7 +32,22 @@ if (-not $Control) {
     }
 }
 
-Set-Toml @{ display_mode = 'windowed'; width = 960; height = 1080; fps_counter = $true; pause_on_focus_loss = $false }
+# Donde va cada ventana: lado a lado en la pantalla principal, o una por monitor.
+$pantallas = Get-Monitores
+$b1 = $pantallas[0].Bounds
+if ($DosMonitores -and $pantallas.Count -lt 2) {
+    Write-Host "Veo un solo monitor: van lado a lado. Enchufa el monitor y volve a correrlo para tener una ventana por pantalla." -ForegroundColor Yellow
+    $DosMonitores = $false
+}
+if ($DosMonitores) {
+    $b2 = $pantallas[1].Bounds
+    $lugares = @(@($b1.X, $b1.Y, $b1.Width, $b1.Height), @($b2.X, $b2.Y, $b2.Width, $b2.Height))
+    Set-Toml @{ display_mode = 'windowed'; width = $b1.Width; height = $b1.Height; fps_counter = $true; pause_on_focus_loss = $false }
+} else {
+    $mitad = [int]($b1.Width / 2)
+    $lugares = @(@($b1.X, $b1.Y, $mitad, $b1.Height), @(($b1.X + $mitad), $b1.Y, $mitad, $b1.Height))
+    Set-Toml @{ display_mode = 'windowed'; width = $mitad; height = $b1.Height; fps_counter = $true; pause_on_focus_loss = $false }
+}
 $nombre = if ($Control) { 's2a-control' } elseif ($Cruzar) { 's2b-cruzado' } else { 's2b' }
 $corrida = New-CarpetaCorrida $nombre
 $inicio = Get-Date
@@ -46,14 +63,16 @@ Start-Sleep -Seconds 10
 Write-Host "S2: abriendo la copia 2 (se une a la 1)..." -ForegroundColor Cyan
 $p2 = Start-Process -FilePath $Exe -ArgumentList $a2 -WorkingDirectory $Juego -PassThru
 
-# Las dos ventanas lado a lado: la 1 a la izquierda, la 2 a la derecha.
+# Cada ventana a su lugar: la 1 a la izquierda (o la notebook), la 2 a la derecha (o el monitor).
 if (-not ('Win133' -as [type])) {
     Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class Win133 { [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr a, int x, int y, int cx, int cy, uint f); [DllImport("user32.dll")] public static extern bool SetProcessDPIAware(); }'
 }
 [Win133]::SetProcessDPIAware() | Out-Null
-foreach ($par in @(@($p1, 0), @($p2, 960))) {
-    for ($i = 0; $i -lt 30 -and $par[0].MainWindowHandle -eq 0; $i++) { Start-Sleep -Milliseconds 500; $par[0].Refresh() }
-    if ($par[0].MainWindowHandle -ne 0) { [Win133]::SetWindowPos($par[0].MainWindowHandle, [IntPtr]::Zero, $par[1], 0, 960, 1080, 0x0044) | Out-Null }
+$procs = @($p1, $p2)
+for ($k = 0; $k -lt 2; $k++) {
+    $pr = $procs[$k]; $l = $lugares[$k]
+    for ($i = 0; $i -lt 30 -and $pr.MainWindowHandle -eq 0; $i++) { Start-Sleep -Milliseconds 500; $pr.Refresh() }
+    if ($pr.MainWindowHandle -ne 0) { [Win133]::SetWindowPos($pr.MainWindowHandle, [IntPtr]::Zero, $l[0], $l[1], $l[2], $l[3], 0x0044) | Out-Null }
 }
 
 $pp = $null

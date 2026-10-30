@@ -39,7 +39,15 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(133), 2026-10-30, NOTEBOOK, con Fran en el chat — LO ÚLTIMO: la plataforma instalada, esperando el spike**
+> **(133b), 2026-10-30, misma sesión — LO ÚLTIMO: S1 y S2 CUMPLIDAS; listo para jugar con Agustín**
+> - **S1:** 10 min de la misión 1 a 60 cuadros por segundo a 1080p (tope de fábrica 60), cierre limpio. **S2:** dos copias
+>   en la notebook, ~145 c/s cada una, «cada mando mueve su ventana» (Fran). `sesiones/PREDICCIONES-133.md`.
+> - Arreglado: la copia 2 abría muda (J2 no oía su escopeta). Pedido de Fran: el puente traduce a **sus controles de PS2**.
+> - **Para hoy:** `docs/23-jugar-coop.md` y `lanzadores\JUGAR-COOP-RED.ps1` (dos computadoras; instala solo lo que falte
+>   en la otra) y `PROBAR-COOP-PC.ps1 -DosMonitores`. El coop **por red real** no se midió (sólo 127.0.0.1).
+> - **Falta para cerrar PLAT-PreA:** el KDP de Fran (este coop + el puente como el de la misma PC).
+>
+> **(133), 2026-10-30, NOTEBOOK, con Fran en el chat: la plataforma instalada, esperando el spike**
 > (bitácora (133), `sesiones/PREDICCIONES-133.md`). **Fase en curso: PLAT-PreA.**
 > - **Fran acordó los requisitos ampliados** (`docs/20` §10, PDP §6). Falta para cerrar la fase: el spike S1/S2.
 > - **Instalado** `black-seamless-coop` (el port con el coop) en `C:\Games\BLACK\coop` con la ISO USA (XBE medido).
