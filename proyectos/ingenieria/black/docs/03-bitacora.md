@@ -16,6 +16,21 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-30 — (131) Las otras compilaciones: el prototipo no está, apareció la versión Xbox en PC
+**Máquina:** PC, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** COOP-C entero (la batería que ya existía, `docs/21` §2); ningún nodo del mapa cambia de K.
+**Objetivo:** lo que pidió Fran: «investigá bien si existe y bajá cualquier versión que hipotéticamente pueda
+ayudarnos a lograr el coop». Puerta por excepción registrada (búsqueda web y bajada fuera del repo).
+**Resultado:** `docs/21` §6b. Demo PS2 USA del 25/11/2005 bajada (md5 = archive.org): ELF sin símbolos. `black-pc`
+(port nativo a PC de la versión Xbox, jugable, GPL) y `ReBLACK-XBOX` (las 13 676 funciones del XBE en C) bajados a
+`C:\Users\frans\herramientas\referencias-black\`. Cruce de offsets Xbox↔PS2: cinco coincidencias (`+0xD8`, `+0x2A4`,
+`+0x29C`, `u16 +0x18`, `+0x2E0`): *probable* que las notas de Xbox sirvan de piedra Rosetta.
+**No funcionó:** el prototipo del 16/08/2005: Hidden Palace da 404 en todos los archivos de BLACK, archive.org cero
+(identificador, título, fecha), Myrient cerró el 2026-03-31, redump.org rechaza la conexión. La copia retail de Xbox
+no se baja (el port exige la propia).
+**Sigue:** la decisión de Fran (PS2 con Rosetta, o el coop sobre el port de PC); en cualquiera, el sondeo de tres
+funciones por offsets (`docs/21` §6b). El tramo 1 de (130), el banco coop, sigue pendiente igual.
+
 ## 2026-10-30 — (130) Los requisitos del coop y el segundo momento lluvia de ideas: la batería que ya existía
 **Máquina:** PC, en frío (sin emulador), con Fran en el chat · **Modelo:** Opus, esfuerzo medio, sin fan-out
 **Concepto / nodo:** COOP-C entero; el sistema habilitante (el banco de prueba); nodo `codigo-nuevo` (cómo se aplica

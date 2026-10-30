@@ -4,7 +4,13 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (bitácora (130), `docs/20`, `docs/21`).
+> **(131), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO** (`docs/21` §6b). Búsqueda de otras
+> compilaciones: el prototipo PS2 no está en ningún espejo público; la demo PS2 USA (bajada) no trae símbolos.
+> Apareció `black-pc` (port nativo a PC de la versión Xbox) y `ReBLACK-XBOX` (el XBE en C), con los **mismos
+> offsets** que PS2 (*probable*). **Pendiente de Fran:** PS2 con Rosetta o coop sobre el port (disco Xbox propio).
+> El tramo 1 de (130) (banco coop) **no se hizo**: sigue igual en `sesiones/RETOME-LOCAL.md`. Máquina sin tocar.
+
+> **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat** (bitácora (130), `docs/20`, `docs/21`).
 > - **Requisitos del coop escritos** (`docs/20-requisitos.md`, declarado en la cascada): alcance, L0, L1, L2-BAN, V&V,
 >   traza, riesgos. **Acordados por Fran el 2026-10-30** (PDP §6); queda abierta su respuesta sobre cómo van a jugar
 >   (`docs/21` §7, L1-24).

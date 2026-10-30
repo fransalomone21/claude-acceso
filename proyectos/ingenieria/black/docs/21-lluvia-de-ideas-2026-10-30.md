@@ -146,6 +146,43 @@ el censo se arma con nombres y cuesta la mitad.
    Tracking antes de tocar el arma o el censo.
 5. **La suite de aguante** sobre lo que deje el trazador; después, los tramos 3–6 del PDP §4 en su orden.
 
+## 6b. (131) La búsqueda de las otras compilaciones, hecha — y lo que apareció en su lugar
+
+Pedido de Fran (2026-10-30): «investigá bien si existe y bajá cualquier versión que hipotéticamente pueda ayudarnos
+a lograr el coop». Todo lo bajado vive **fuera del repo**, en `C:\Users\frans\herramientas\referencias-black\`.
+
+| Qué | Resultado, con su parámetro | Grado |
+|---|---|---|
+| Prototipo PS2 del 16/08/2005 | Hidden Palace: **404** el archivo, y también las dos demos PS2 y la demo Xbox (todos sus enlaces de BLACK; la página pide «no subir builds de PS2 directo»). archive.org: cero por identificador, por título y por fecha. Myrient: **cerró el 2026-03-31**. Redump.org: rechaza la conexión. Sin espejo público encontrado | confirmado (no está en esos 4 lugares) |
+| Demo PS2 USA del 25/11/2005 (Redump 28438) | **Bajada** de archive.org (`BlackUSADemo`), md5 del 7z `b00cdb4f…060d` = el publicado. ELF `SLUS_291.80` (md5 `106a15a9…2c41`): **sin símbolos** (sin `.symtab`, `.mdebug.eabi64` de 0 bytes, `.debug_str` de 1); control positivo: `.text` 0x2616C8 y `.bss` se leen bien. Un nivel (LEVEL_00) | confirmado |
+| Demo PS2 PAL del 05/12/2005 y demo Xbox | sólo en Hidden Palace (404) | — |
+| **`black-pc`** (GitHub `Spark198rus/black-pc`, GPL-2.0, 2026-10-14, v0.3.0 del 24/10) | **port nativo a Windows de la versión XBOX**: `black.exe` carga el `default.xbe` propio y corre el código x86 original con HLE de Direct3D/DirectSound/entrada; «totalmente jugable», 60 fps, cualquier resolución, mouse, XInput, menú de opciones propio dentro del juego. Pide el disco Xbox **NTSC-U o PAL Europa** (SHA-256 del `default.xbe` en su README). Fuente y release bajados; **el .exe no se corrió** | confirmado que existe; jugable = *fuente externa* |
+| **`ReBLACK-XBOX`** (GitHub `soldieg`) | reconstrucción en C/asm de las **13 676 funciones** del XBE, cada una igual byte a byte tras recolocar (dicen ellos), nombres `sub_XXXXXXXX`; sigue en `Project-ReBlack` | *fuente externa* |
+
+**Lo que cambia decisiones — las estructuras de Xbox y de PS2 tienen los mismos offsets** (*probable*: cinco
+coincidencias independientes, sin medir en vivo). `black-pc/NOTES.md` documenta el código Xbox con direcciones y
+offsets, y cruzado contra `kb/estructuras.json`: estado del arma `+0xD8` (las dos), arma en la mano `jugador+0x2A4`
+(las dos), `jugador+0x29C` puntero (las dos), cargador `u16 +0x18` (las dos), campo `+0x2E0` del jugador (las dos). Es
+el mismo C++ de Criterion compilado para dos CPU de 32 bits: **las notas de Xbox sirven de piedra Rosetta para PS2**.
+Ya traen resuelto, del lado Xbox, buena parte de lo que el coop necesita: la cadena de entrada (lectura de **cuatro
+mandos** en entradas de 0x20 bytes, objeto canal por mando, tabla de acciones → canales), el controlador del jugador
+(giro y cabeceo), el gestor de cámara con sus 14 controladores, el viewport que el juego pone cada cuadro, la
+pausa, la máquina de estados del arma y el reloj del mundo.
+
+**Dos caminos que esto abre** (decide Fran: es de valor, no técnico):
+
+1. **Seguir en PS2 usando Xbox como piedra Rosetta.** Barato: leer `NOTES.md` y la reconstrucción en C antes de cada
+   pieza; la función Xbox con nombre por rol + los mismos offsets acortan la búsqueda en el ELF MIPS. No cambia nada
+   de lo fabricado.
+2. **Hacer el coop sobre `black-pc`** (x86 en PC, ganchos en C++ con un depurador de verdad, los cuatro mandos ya
+   leídos por el juego). Precio: el disco Xbox NTSC-U o PAL Europa **propio** y volcado a ISO (el port no trae el
+   juego), un proyecto de terceros de dos semanas, y rehacer en x86 lo que hoy anda en PS2. Una copia retail bajada
+   de internet no entra: la sesión no la baja.
+
+**Primer sondeo de cualquiera de los dos** (en frío, sin Fran): tomar tres funciones ya identificadas en PS2 (la
+máquina de estados del arma, la entrada del jugador, la pausa) y encontrar su par en `NOTES.md` por los offsets; si
+las tres casan, la Rosetta pasa a *confirmado* y entra en `docs/02-metodologia.md`.
+
 ## 7. Las decisiones de Fran
 
 1. **¿Acordás la línea base?** El alcance y los requisitos L0/L1 de `docs/20` (§2–§4): sí, o qué cambiás. Hasta tu sí
@@ -160,3 +197,6 @@ el censo se arma con nombres y cuesta la mitad.
 - PCSX2, informe de progreso 2018–2019 (grabación de entradas): https://pcsx2.net/blog/2019/from-q2-2018-to-q2-2019
 - PCSX2, PR de la grabación de entradas (`.p2m2`): https://github.com/PCSX2/pcsx2/pull/2412/files
 - Unseen64, Black beta: https://www.unseen64.net/2010/02/02/black-ps2-xbox-beta/
+- archive.org, Black (USA) (Demo): https://archive.org/details/BlackUSADemo
+- black-pc (port nativo de la versión Xbox): https://github.com/Spark198rus/black-pc
+- ReBLACK-XBOX (reconstrucción del XBE): https://github.com/soldieg/ReBLACK-XBOX ; Project-ReBlack: https://github.com/soldieg/Project-ReBlack

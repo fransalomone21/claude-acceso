@@ -7,11 +7,15 @@ Existe porque las salidas largas invitan a encadenar `control | tail && git comm
 salida es el de `tail` (siempre 0): en (111) se commiteo con `programa.py verificar` en rojo. Aca cada control corre
 solo, se mide SU codigo de salida y se muestra su ultima linea. No usa argparse a proposito: no toma argumentos.
 """
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
+# (131) en otra consola el Python no tenia capstone y tres controles salieron MAL con ModuleNotFoundError: un rojo
+# del ENTORNO que se lee igual que un rojo del mod. Lo que los controles importan se mide (e instala) antes.
+REQUERIDOS = ["capstone"]
 CONTROLES = [
     ("programa verificar", ["herramientas/programa.py", "verificar"]),
     ("coop_diseno verificar", ["herramientas/coop_diseno.py", "verificar"]),
@@ -25,6 +29,7 @@ CONTROLES = [
     ("clon_comparte autotest", ["herramientas/clon_comparte.py", "--autotest"]),
     ("probar-clon-comparte", ["pruebas/probar-clon-comparte.py"]),
     ("prueba_herramientas", ["pruebas/prueba_herramientas.py"]),
+    ("probar-controles", ["pruebas/probar-controles.py"]),
 ]
 
 
@@ -34,7 +39,22 @@ def correr(args):
     return r.returncode, (lineas[-1] if lineas else "(sin salida)")
 
 
-def main(controles=CONTROLES) -> int:
+def faltantes(requeridos, instalar=True):
+    """Los modulos que siguen faltando despues de intentar instalarlos (autorizacion permanente: pip sin preguntar)."""
+    falta = [m for m in requeridos if importlib.util.find_spec(m) is None]
+    if falta and instalar:
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q"] + falta, capture_output=True)
+        importlib.invalidate_caches()
+        falta = [m for m in falta if importlib.util.find_spec(m) is None]
+    return falta
+
+
+def main(controles=CONTROLES, requeridos=REQUERIDOS, instalar=True) -> int:
+    falta = faltantes(requeridos, instalar)
+    if falta:
+        print("ENTORNO: falta %s en %s -> python -m pip install %s (no se corrio ningun control)"
+              % (", ".join(falta), sys.executable, " ".join(falta)))
+        return 2
     malos = 0
     for nombre, args in controles:
         rc, ultima = correr(args)

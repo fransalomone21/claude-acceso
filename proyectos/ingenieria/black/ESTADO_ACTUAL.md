@@ -39,7 +39,15 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: requisitos + segundo MOMENTO LLUVIA DE IDEAS**
+> **(131), 2026-10-30, PC EN FRÍO, con Fran en el chat — LO ÚLTIMO: las otras compilaciones** (`docs/21` §6b).
+> - **Prototipo PS2 de 08/2005: inconseguible** (Hidden Palace 404 en todo BLACK, archive.org cero, Myrient cerrado).
+>   **Demo PS2 USA de 11/2005 bajada: ELF sin símbolos.**
+> - **Apareció algo mejor: `black-pc`**, port nativo a PC de la versión **Xbox** (jugable, GPL), y `ReBLACK-XBOX`, el
+>   XBE reconstruido en C. Las estructuras Xbox y PS2 tienen **los mismos offsets** (*probable*, 5 coincidencias):
+>   las notas de Xbox son piedra Rosetta. Decide Fran: seguir en PS2 con la Rosetta, o el coop sobre el port de PC
+>   (pide el disco Xbox propio). Todo en `C:\Users\frans\herramientas\referencias-black\`, fuera del repo.
+>
+> **(130), 2026-10-30, PC EN FRÍO, con Fran en el chat: requisitos + segundo MOMENTO LLUVIA DE IDEAS**
 > (`docs/20-requisitos.md`, `docs/21-lluvia-de-ideas-2026-10-30.md`, bitácora (130)).
 > - **Tramo 0 hecho y ACORDADO por Fran el 2026-10-30 (SRR, PDP §6):** alcance (N-01, meta, 4 objetivos, criterios de éxito, hipótesis,
 >   restricciones, ConOps, qué entra y qué no), L0 ×4, L1 ×25, **L2-BAN ×10 (el banco de prueba)**, plan de V&V,
