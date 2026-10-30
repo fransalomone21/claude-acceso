@@ -1,5 +1,29 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-10-30 (sesión lateral `266a0e9d`; plan: ventana 5 h al ~70 % al cerrar, compartida) — SIGUE: las seis
+> lecciones en rojo de `aprender.py sin-triage`**, cada una arreglada de verdad a su nivel (regla 15), no rotulada.
+> Hecho: el rojo de inyección (ESTADO, arriba). **Diagnóstico y diseño candidato** (todo `hipótesis` hasta medirlo):
+> (1) **#70** (herramienta; el camino legítimo de un freno sin probar, `actualizar-informe.ps1`): que el corredor de
+> saboteadores de `chequeo-completo` exija en la salida de cada uno al menos un CONTROL en verde, contado, o dé «sin
+> control positivo»; el caso de la recurrencia vive fuera de la lista: medir antes cuántos frenos no están registrados.
+> (2) **#230** (herramienta; una regla sin cotejar copiada a cuatro registros): mirar si el concepto `alcance` (DA-064,
+> `faff47a`) ya cubre la clase o sólo el caso; si sólo el caso, falta lo que frene registrar como regla algo sin fuente.
+> (3) **#297** (herramienta; Get/Set-Content de PS 5.1 sobre un archivo de otro): candidato, extender
+> `.claude/hooks/medir-reescritura.py` o un guardia por ROL (un comando de consola que escribe un archivo de texto
+> trackeado → usar Edit), con controles positivos. (4) **#346** (regla; la llamada antes que la definición, contenida por
+> el lanzador, costo cero): la viñeta ya está y se leyó; decidir si el arreglo es una regla de orden en un solo Edit o
+> si el nivel herramienta ya alcanza y la recurrencia sin costo se documenta. (5) **#416 y #418** (regla; trampas de
+> Typst que volvieron en una forma que el lint no tenía): la clase es «la regla del lint se escribe por el caso visto»;
+> candidato: toda regla de `lint-typst.py` se escribe por la gramática (cualquier expresión embebida seguida de `;`,
+> cualquier tupla bajo `show ","`), su sabotaje lleva variantes no vistas y el arreglo barre el repo el mismo día. Exige
+> el concepto `typst` (la skill `pdf-con-codigo` entera). **Para el que siga:** (a) el medidor de inyección ya se puede
+> correr a mano (fija `CLAUDE_PROJECT_DIR`); un `[info]` de cancelación no es rojo; (b) un hook del repo arreglado deja de
+> arrastrar su rojo viejo **cuando se commitea su script**; (c) **no reescrito**: el defecto del medidor nació el
+> 2026-10-02, cuando T7 pasó los hooks a `$CLAUDE_PROJECT_DIR` sin barrer lo que corre esos comandos; `medir-costo.py`
+> corre los hooks de los dos settings y no fija la variable (`probable`, por lectura; `verify-install.ps1` sólo corre
+> los del perfil, que no la usan) — barrerlo es candidato a defecto de arquitectura; (d) rojos del arranque que NO son de esta sesión:
+> sincronía con origin, T18 y lo de la nube por los SVG de fisica-espacial.
+
 > **2026-10-23 (sesión lateral de correcciones técnicas; plan: ventana 5 h al ~90 % al cerrar) — SIGUE: validar T19
 > en sesiones reales** (lo de antes), y el **MOMENTO LLUVIA DE IDEAS** de arquitectura-se (11 de 10 sesiones: la
 > cascada lo pide antes de seguir ejecutando). Hecho: **DA-079 y DA-080** (ESTADO, arriba). **Para el que siga:** (1)

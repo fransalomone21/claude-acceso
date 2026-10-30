@@ -3,6 +3,21 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-10-30 (sesión lateral `266a0e9d`, pedida desde BLACK 133) — EL ROJO DE INYECCIÓN CERRADO; EL DE LECCIONES
+NO.** `medir-inyeccion.py` (T1) tenía dos rojos y un amarillo que eran **del instrumento**: corrido a mano, los hooks del
+repo se resolvían contra la carpeta de Git Bash (sin `CLAUDE_PROJECT_DIR`: exit=2), y un `hook_cancelled` **sin
+`timedOut`** (el harness mandó un comando al fondo) contaba como hook lento —medido sobre las 15 cancelaciones de la
+máquina: las 8 por tiempo traen la marca—. Y uno **real**: el 2026-10-29 (sesión `39bacbaa`) el hook de medición llegó a
+60,8 s contra 60, porque la máquina arrancó 7× más lenta y la fecha límite de 40 s corría desde el reloj interno, después
+de dos arranques de PowerShell (normal, en 11 sesiones: 43-44 s). Arreglos: el medidor corre los hooks con la variable,
+informa las cancelaciones ajenas como `[info]` y cuenta la falla de un hook desde el último commit de su script; la fecha
+límite es **absoluta desde el inicio del hook** (`chequeo-completo.ps1 -Hasta`, 44 s) y el corte mata en paralelo con
+espera acotada. Medido: hook 44,7 s con la sincronía medida; plazo vencido → corta en 0,7 s. Saboteador 20/20 (casos
+15-19 nuevos; el 13 daba rojo con todo sano por el registro de retiro de T18), **5 de 5 mutantes vistos**. Lección 289
+repetida y subida a herramienta. Commits: perfil `d4438be`, acá `94eead5`. **Las seis lecciones de `sin-triage` (70, 230,
+297 a herramienta; 346, 416, 418 a regla) quedan en rojo**: no entraron por plan (ventana de 5 h al ~70 %, compartida);
+diagnóstico y diseño candidato de cada una en el HANDOFF.
+
 **2026-10-23 (sesión lateral de correcciones técnicas, pedida por Fran desde la guía del parcial de TDC) — DA-079 Y
 DA-080 ARREGLADOS (falta validarlos con 3 sesiones auditadas).** **DA-079**: `perfil-global/herramientas/lint-typst.py`
 (T1-T4, sigue los `#import`/`#include`, exención por renglón escrita en el fuente) y el guardia
