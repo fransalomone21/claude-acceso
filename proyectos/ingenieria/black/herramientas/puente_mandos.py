@@ -12,7 +12,14 @@ Formato del canal (coop_control.cpp, Run): `pad a,rt,up 60` (botones que vencen 
 (-1..1, y para arriba positivo), `state`. Los gatillos y A/B/X/Y/hombros pasan como todo-o-nada (el canal los pone en
 0xFF): un gatillo cuenta apretado desde el UMBRAL_GATILLO.
 
+Perfiles (sesion 133, pedido de Fran: "los controles iguales a los que usaba"): `ps2` (por defecto) es el de BLACK de
+PS2 que Fran jugaba en PCSX2 (docs/10-jugar.md): R1 dispara, L1 apunta, R2 granada, L2 agacharse; el resto en el mismo
+lugar. El juego de Xbox espera RT dispara, RS (click) apunta, LT granada, LS (click) agacharse (el mapa por defecto del
+port: BLACK-XBERecomp src/common/mouse_keyboard.cpp, kActions), asi que el perfil los traduce. `--xbox` deja el de Xbox.
+L3 y R3 siguen pasando tal cual: L3+R3 mantenidos es el "llevame con mi companero" del coop.
+
     python herramientas/puente_mandos.py                 # corre el puente hasta Ctrl+C (o hasta que cierren las copias)
+    python herramientas/puente_mandos.py --xbox          # el mapa de Xbox, sin traducir
     python herramientas/puente_mandos.py --cruzar        # control: mando 1 -> copia 2 y mando 2 -> copia 1
     python herramientas/puente_mandos.py --listar        # que mandos ve SDL, y sus valores en vivo 5 s (sin mandar nada)
     python herramientas/puente_mandos.py --estado        # pregunta `state` a las dos copias (el testigo)
@@ -46,16 +53,29 @@ BOTONES = (
 )
 
 
-def comandos(botones: dict[str, bool], ejes: dict[str, float]) -> list[str]:
+# boton fisico de SDL (o gatillo) -> nombre del canal, por perfil. Los gatillos van como "TRIGGERLEFT"/"TRIGGERRIGHT".
+PERFILES = {
+    "xbox": {**{sdl: canal for sdl, canal in BOTONES}, "TRIGGERLEFT": "lt", "TRIGGERRIGHT": "rt"},
+    "ps2": {**{sdl: canal for sdl, canal in BOTONES},
+            "RIGHTSHOULDER": "rt",   # R1 dispara
+            "LEFTSHOULDER": "rs",    # L1 apunta
+            "TRIGGERRIGHT": "lt",    # R2 granada
+            "TRIGGERLEFT": "ls"},    # L2 agacharse
+}
+
+
+def comandos(botones: dict[str, bool], ejes: dict[str, float], perfil: str = "ps2") -> list[str]:
     """Lo que se le manda a una copia en un tick, desde el estado crudo de SDL (ejes en -1..1, gatillos en 0..1).
 
     SDL tiene la Y de los sticks para abajo; el canal la quiere para arriba (input.cpp: ly = -1 - eje SDL).
     """
-    nombres = [canal for sdl, canal in BOTONES if botones.get(sdl)]
-    if ejes.get("TRIGGERLEFT", 0.0) >= UMBRAL_GATILLO:
-        nombres.append("lt")
-    if ejes.get("TRIGGERRIGHT", 0.0) >= UMBRAL_GATILLO:
-        nombres.append("rt")
+    mapa = PERFILES[perfil]
+    apretados = [sdl for sdl, _ in BOTONES if botones.get(sdl)]
+    apretados += [g for g in ("TRIGGERLEFT", "TRIGGERRIGHT") if ejes.get(g, 0.0) >= UMBRAL_GATILLO]
+    nombres = []
+    for sdl in apretados:
+        if mapa[sdl] not in nombres:  # L1 y R3 dan los dos "rs": va una vez
+            nombres.append(mapa[sdl])
     salida = []
     if nombres:
         salida.append(f"pad {','.join(nombres)} {VENCE_MS}")
@@ -106,7 +126,7 @@ def preguntar(puerto: int, texto: str, espera: float = 0.5) -> str | None:
         s.close()
 
 
-def correr(cruzar: bool, segundos: float | None) -> int:
+def correr(cruzar: bool, segundos: float | None, perfil: str = "ps2") -> int:
     pygame, controller = abrir_sdl()
     puertos = PUERTOS[::-1] if cruzar else PUERTOS
     dir_log = RAIZ / "volcados" / "puente"
@@ -115,14 +135,15 @@ def correr(cruzar: bool, segundos: float | None) -> int:
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.setblocking(False)
     lista = mandos(pygame, controller)
-    print(f"puente: {len(lista)} mando(s) -> copias en {puertos[:len(lista)]}{' (CRUZADO)' if cruzar else ''}")
+    print(f"puente: {len(lista)} mando(s) -> copias en {puertos[:len(lista)]}{' (CRUZADO)' if cruzar else ''}, "
+          f"controles {perfil.upper()}")
     for i, c in enumerate(lista[:2]):
         print(f"  mando {i + 1}: {c.as_joystick().get_name()} -> 127.0.0.1:{puertos[i]}")
     if len(lista) < 2:
         print("  AVISO: hace falta un segundo mando encendido; el puente lo toma apenas aparece")
     enviados, ultimo_seg, inicio = [0, 0], 0.0, time.monotonic()
     with open(log_path, "w", encoding="utf-8") as log:
-        log.write(f"puente {time.strftime('%Y-%m-%d %H:%M:%S')} cruzar={cruzar} puertos={puertos}\n")
+        log.write(f"puente {time.strftime('%Y-%m-%d %H:%M:%S')} cruzar={cruzar} puertos={puertos} perfil={perfil}\n")
         try:
             while segundos is None or time.monotonic() - inicio < segundos:
                 t0 = time.monotonic()
@@ -133,13 +154,14 @@ def correr(cruzar: bool, segundos: float | None) -> int:
                 resumen = []
                 for i, c in enumerate(lista[:2]):
                     b, ej = leer(pygame, c)
-                    for cmd in comandos(b, ej):
+                    cmds = comandos(b, ej, perfil)
+                    for cmd in cmds:
                         try:
                             s.sendto(cmd.encode(), ("127.0.0.1", puertos[i]))
                             enviados[i] += 1
                         except OSError:
                             pass
-                    resumen.append(comandos(b, ej)[0])
+                    resumen.append(cmds[0])
                 try:  # las respuestas del canal se descartan: que no se llene el buffer
                     while True:
                         s.recvfrom(65536)
@@ -185,9 +207,14 @@ def autotest() -> int:
     reposo = comandos({}, {})
     if reposo != [f"stick 0.0000 -0.0000 0.0000 -0.0000 {VENCE_MS}"] and reposo != [f"stick 0.0000 0.0000 0.0000 0.0000 {VENCE_MS}"]:
         fallas.append(f"reposo: {reposo}")
-    c = comandos({"A": True, "RIGHTSHOULDER": True, "START": True}, {"TRIGGERRIGHT": 0.9, "TRIGGERLEFT": 0.1, "LEFTY": -1.0})
+    c = comandos({"A": True, "RIGHTSHOULDER": True, "START": True}, {"TRIGGERRIGHT": 0.9, "TRIGGERLEFT": 0.1, "LEFTY": -1.0}, "xbox")
     if c[0] != f"pad a,black,start,rt {VENCE_MS}":
-        fallas.append(f"botones: {c[0]}")
+        fallas.append(f"botones xbox: {c[0]}")
+    # el perfil de PS2: R1 dispara (rt), L1 apunta (rs), R2 granada (lt), L2 agacharse (ls); L1 + R3 da "rs" una vez
+    p = comandos({"RIGHTSHOULDER": True, "LEFTSHOULDER": True, "RIGHTSTICK": True, "A": True},
+                 {"TRIGGERRIGHT": 0.9, "TRIGGERLEFT": 0.9})
+    if p[0] != f"pad a,rt,rs,ls,lt {VENCE_MS}":
+        fallas.append(f"botones ps2: {p[0]}")
     if not c[1].startswith("stick 0.0000 1.0000"):  # SDL arriba = -1 -> canal arriba = +1
         fallas.append(f"eje Y: {c[1]}")
     # 2) control negativo: el gatillo por debajo del umbral no aprieta
@@ -222,6 +249,7 @@ def autotest() -> int:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--cruzar", action="store_true")
+    ap.add_argument("--xbox", action="store_true", help="el mapa de botones de Xbox, sin traducir al de PS2")
     ap.add_argument("--listar", action="store_true")
     ap.add_argument("--estado", action="store_true")
     ap.add_argument("--autotest", action="store_true")
@@ -233,7 +261,7 @@ def main(argv: list[str]) -> int:
         return listar()
     if a.estado:
         return estado()
-    return correr(a.cruzar, a.segundos)
+    return correr(a.cruzar, a.segundos, "xbox" if a.xbox else "ps2")
 
 
 if __name__ == "__main__":

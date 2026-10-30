@@ -32,7 +32,12 @@ medición la contradice se corrige acá diciendo que se corrigió.
   resolución bajada antes de concluir nada sobre la notebook.
 
 ### Resultado de S1
-*(pendiente: lo corre Fran con `lanzadores\PROBAR-PLATAFORMA-S1.ps1`)*
+**Parcial, con el juego todavía abierto (19:43):** el release del coop **no compila nada** (el exe ya es nativo: la
+predicción de «la primera vez compila» era del V3 del port, no de este release). Arrancó con la ISO USA (log: «Game:
+default.xbe in ... Black (USA).iso»), misión 1 jugada desde los 62 s del log, ~4 min de combate sin una línea de error,
+y el contador marca **59,9–60,4 cuadros por segundo a 1920×1080** (fotos 01-07) — con `fps_cap = 60` de fábrica, o sea
+que 60 es el techo puesto, no el de la notebook. Fran subió el tope a 165 a las 19:41 (`black.toml`); las fotos
+siguientes dicen el margen. Falta: el cierre normal y el registro completo. Grado: *medido* para ≥ 60 con tope 60.
 
 ## S2 — dos personas en la misma PC, cada una con su mando (L1-11, L1-12 en la plataforma nueva)
 
@@ -47,5 +52,19 @@ medición la contradice se corrige acá diciendo que se corrigió.
 - **Testigo que no depende de la vista:** `state` por el canal de cada copia (posición y estado del jugador) antes
   y después de mover un solo mando: cambia la copia de ese mando y no la otra.
 
-### Resultado de S2
-*(pendiente: lo corre Fran con `lanzadores\PROBAR-COOP-PC.ps1`)*
+### Resultado de S1, cierre
+Cerrado por Fran con la cruz a los 564 s del log: «Exit (0)», sin error. 10 min, 9 fotos
+(`volcados/plataforma/20261030-193546-s1`). **S1 cumplida** (L1-26 a 1080p con tope 60; L1-27 sólo 10 de 60 min).
+Fran: «olvidate de los fps». Corregido: la predicción decía «la primera vez compila»; este release no compila.
+
+### Resultado de S2 (S2b, 2026-10-30 19:46, `volcados/plataforma/20261030-194616-s2b`)
+**Cumplida.** Las dos copias conectadas por 127.0.0.1 (log: «coop: joined 127.0.0.1:45410»), **cada una a ~145
+cuadros por segundo a la vez** (captura de Fran). La copia 2 entró sola a la misión de la anfitriona («joined host
+mission 0 difficulty 2 unit 1»). **Fran: «cada mando mueve su ventana», «funciona todo perfecto».** En `estado.txt`
+las dos copias en la misma misión (`level=0 unit=1`), con posiciones y vida distintas, y la copia 1 tocó 39 disparos
+del compañero (`gunshot=39 heard=39`). S2a (el control sin puente) y el control cruzado no se corrieron: lo que
+dice el código y la confirmación de Fran alcanzan para el KDP; quedan para cuando haga falta.
+**Defecto encontrado, de la sesión:** J2 no escuchaba su escopeta porque el lanzador abría la copia 2 con `--mute`
+(la copia 1 la toca como un disparo lejano, posicional). Arreglado: por defecto suenan las dos (`-Mudo` la apaga).
+**Pedido de Fran:** sus controles de PS2. El puente traduce por defecto (perfil `ps2`: R1 dispara, L1 apunta, R2
+granada, L2 agacharse; el resto ya coincidía), con autotest y dos sabotajes en rojo; `-Xbox` deja los de Xbox.

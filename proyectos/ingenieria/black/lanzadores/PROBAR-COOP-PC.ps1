@@ -4,12 +4,14 @@
 #   powershell -ExecutionPolicy Bypass -File "C:\Users\frans\Desktop\claude-acceso\proyectos\ingenieria\black\lanzadores\PROBAR-COOP-PC.ps1"
 #   ... -Control     # S2a: sin el puente; lo que trae el coop tal cual (solo la ventana con el foco lee mandos)
 #   ... -Cruzar      # control del puente: mando 1 a la copia 2 y mando 2 a la copia 1
+#   ... -Xbox        # los botones de Xbox tal cual (por defecto, los de PS2 que Fran usaba: R1 dispara, L1 apunta...)
+#   ... -Mudo        # la copia 2 sin sonido (por defecto suenan las dos: cada uno escucha su arma)
 #
 # Que hace: abre dos copias en ventana, una al lado de la otra (la 1 es la anfitriona, la 2 se une sola), y el puente
 # que le da a cada copia SU mando aunque la ventana este atras. Con el puente no hay teclado ni mouse en el juego:
 # todo con los mandos. Para terminar: cerrar las dos ventanas.
 
-param([switch]$Control, [switch]$Cruzar)
+param([switch]$Control, [switch]$Cruzar, [switch]$Xbox, [switch]$Mudo)
 
 . (Join-Path $PSScriptRoot 'plataforma-comun.ps1')
 if (-not (Test-Instalacion)) { exit 1 }
@@ -34,7 +36,9 @@ $corrida = New-CarpetaCorrida $nombre
 $inicio = Get-Date
 
 $a1 = @('--instance', '1', '--coop', 'host')
-$a2 = @('--instance', '2', '--coop', 'join', '--join', '127.0.0.1', '--mute')
+# (133) con --mute J2 no escuchaba su propia arma: la copia 1 la toca como un disparo de lejos. Por defecto suenan las dos.
+$a2 = @('--instance', '2', '--coop', 'join', '--join', '127.0.0.1')
+if ($Mudo) { $a2 += '--mute' }
 if (-not $Control) { $a1 += @('--coop-control', '45501'); $a2 += @('--coop-control', '45502') }
 Write-Host "S2: abriendo la copia 1 (anfitriona)..." -ForegroundColor Cyan
 $p1 = Start-Process -FilePath $Exe -ArgumentList $a1 -WorkingDirectory $Juego -PassThru
@@ -54,7 +58,7 @@ foreach ($par in @(@($p1, 0), @($p2, 960))) {
 
 $pp = $null
 if (-not $Control) {
-    $args_p = @("`"$puente`"") + $(if ($Cruzar) { @('--cruzar') } else { @() })
+    $args_p = @("`"$puente`"") + $(if ($Cruzar) { @('--cruzar') } else { @() }) + $(if ($Xbox) { @('--xbox') } else { @() })
     $pp = Start-Process -FilePath 'python' -ArgumentList $args_p -NoNewWindow -PassThru
     Write-Host "Puente de mandos andando: mando 1 -> ventana izquierda, mando 2 -> ventana derecha$(if ($Cruzar) { ' (CRUZADO)' })." -ForegroundColor Green
 }
