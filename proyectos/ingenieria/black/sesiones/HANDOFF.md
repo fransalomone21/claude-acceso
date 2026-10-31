@@ -4,7 +4,14 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(135c), 2026-10-31, NOTEBOOK — LO ÚLTIMO.** Fase **PLAT-PreA**, spike del parche 02 (F-RED-1/2 de `docs/24`).
+> **(135c, después) — jugando con el parche y la PC manejable.** Fran pidió jugar ya: el exe con 01+02
+> (`C420CBC5E5D1…`) está instalado en la notebook y en la PC (respaldo `BLACK-release.exe` en las dos), **sin el
+> ensayo** de `PREDICCIONES-135c.md`. Fran prendió en la notebook la **conexión compartida** (Wi-Fi 2 → Ethernet 2):
+> la notebook es `192.168.137.1` en el cable y la PC `192.168.137.51`, con internet. **Acceso a la PC medido:**
+> `ACCESO-PC.ps1 -Comando` entra como `pcfran\fran` (usuario y IP en `~\.ssh\pc-cable.json`). Por SSH no se abren
+> ventanas en la pantalla de la PC: el juego allá lo abre quien juega.
+>
+> **(135c), 2026-10-31, NOTEBOOK.** Fase **PLAT-PreA**, spike del parche 02 (F-RED-1/2 de `docs/24`).
 > El parche está escrito y compila (`parches-coop/02-disparadores-unidad-companero.patch`: `TestPartner` prueba las
 > dos listas, como el despachador del juego `0x1E7FF0`); **falta la prueba en vivo**, que la ejecuta Fran:
 > `lanzadores\COMPILAR-COOP.ps1` y después `lanzadores\PROBAR-PARCHE-COOP.ps1` (parche) y `-Control` (release), con el
