@@ -3,7 +3,7 @@
 #
 # Corre EN LA PC, con la linea que imprime ACCESO-PC.ps1 -Preparar en la notebook. Pide administrador (UAC: Si).
 # Deja: el servicio sshd (arranca solo con Windows), entrada SOLO con la llave de la notebook (sin contrasena) y SOLO
-# desde el cable (169.254.0.0/16). Se deshace con QUITAR-ACCESO-PC.ps1 (que la notebook puede correr sola).
+# desde la red de la casa o el cable directo (192.168/16, 169.254/16). Se deshace con QUITAR-ACCESO-PC.ps1.
 
 param([Parameter(Mandatory = $true)][string]$Origen, [string]$Usuario = $env:USERNAME)
 
@@ -62,12 +62,17 @@ New-Item -Path 'HKLM:\SOFTWARE\OpenSSH' -Force | Out-Null
 New-ItemProperty -Path 'HKLM:\SOFTWARE\OpenSSH' -Name DefaultShell -PropertyType String -Force `
     -Value "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" | Out-Null
 
-# firewall: solo el cable. Se saca la regla abierta que pueda haber puesto el instalador
+# firewall: solo la red de la casa y el cable directo (no ZeroTier: ahi estan los amigos). Se saca la regla abierta
+# que pueda haber puesto el instalador
 Get-NetFirewallRule -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'OpenSSH|sshd' -or $_.DisplayName -match 'OpenSSH|sshd' } |
     Remove-NetFirewallRule -ErrorAction SilentlyContinue
 Remove-NetFirewallRule -Name 'SSH-por-cable' -ErrorAction SilentlyContinue
-New-NetFirewallRule -Name 'SSH-por-cable' -DisplayName 'SSH por el cable (notebook)' -Direction Inbound -Protocol TCP `
-    -LocalPort 22 -RemoteAddress '169.254.0.0/16' -Action Allow -Profile Any | Out-Null
+# si la notebook llego por ZeroTier, se abre SOLO su direccion ahi, no la red entera
+$desde = @('192.168.0.0/16', '169.254.0.0/16')
+$nb = ([uri]$Origen).Host
+if ($nb -notmatch '^(192\.168|169\.254)\.') { $desde += $nb }
+New-NetFirewallRule -Name 'SSH-por-cable' -DisplayName 'SSH desde la notebook (casa, cable y su ZeroTier)' -Direction Inbound -Protocol TCP `
+    -LocalPort 22 -RemoteAddress $desde -Action Allow -Profile Any | Out-Null
 
 Set-Service sshd -StartupType Automatic
 Start-Service sshd
