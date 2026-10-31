@@ -9,11 +9,16 @@
 # Mision 1..8 -> nivel interno 0,1,3,4,5,6,7,8 (el 2 no es de la campana; CampaignLevel del mod). El orden de los
 # nombres es el de la campana segun docs/20 (probable, sin medir): el script imprime el nivel que quedo cargado.
 
-param([Parameter(Mandatory = $true)][ValidateRange(1, 8)][int]$Mision, [ValidateRange(-1, 3)][int]$Dificultad = -1,
-      [int]$Puerto = 45501)
+param([ValidateRange(0, 8)][int]$Mision = 0, [ValidateRange(-1, 3)][int]$Dificultad = -1, [int]$Puerto = 45501)
 
 $niveles = 0, 1, 3, 4, 5, 6, 7, 8
 $nombres = 'City Streets', 'Wilderness', 'Town', 'Docks', 'Gulag', 'Steelworks', 'Asylum', 'City Bridge'
+# sin numero (el acceso del Escritorio): la lista y se elige
+if ($Mision -eq 0) {
+    for ($i = 0; $i -lt 8; $i++) { Write-Host ("  {0}  {1}" -f ($i + 1), $nombres[$i]) }
+    $Mision = [int](Read-Host "Mision (1-8)")
+    if ($Mision -lt 1 -or $Mision -gt 8) { exit 1 }
+}
 
 function Ctl([string]$cmd) {
     $u = New-Object Net.Sockets.UdpClient
