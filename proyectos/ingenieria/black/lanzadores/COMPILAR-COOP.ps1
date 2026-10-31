@@ -31,6 +31,14 @@ if ($LASTEXITCODE -ne 0) { Falla "No pude poner el coop en $Tag." }
 Paso "El port, el SDK, el coop y el juego (setup.bat del mod)"
 # los arreglos de una corrida anterior se sacan antes: setup.bat vuelve a copiar los coop*.cpp originales
 if (Test-Path "$Port\.git") { git -C $Port checkout --quiet -- . 2>$null }
+# (135c) y los archivos que el parche del coop CREA: checkout no los saca (no son del port), y setup.bat no vuelve a
+# aplicar el parche sobre ellos ("already exists in working directory"). Se borran justo esos, leidos del parche.
+$upstream = "$Mod\patches\upstream.patch"
+if ((Test-Path "$Port\.git") -and (Test-Path $upstream)) {
+    foreach ($l in (git -C $Port apply --summary $upstream)) {
+        if ($l -match '^\s*create mode \d+ (.+)$') { Remove-Item -LiteralPath (Join-Path $Port $Matches[1].Trim()) -Force -ErrorAction SilentlyContinue }
+    }
+}
 cmd /c "`"$Mod\setup.bat`" `"$Port`" `"$Iso`"" 2>&1 | Tee-Object -FilePath $Log -Append
 if ($LASTEXITCODE -ne 0) { Falla "setup.bat fallo: lee lo de arriba." }
 
