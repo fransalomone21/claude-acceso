@@ -39,7 +39,17 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(134), 2026-10-30, NOTEBOOK, sin Fran — LO ÚLTIMO: instalar la PC con un doble clic (sin control remoto a medida)**
+> **(135c), 2026-10-31, NOTEBOOK — LO ÚLTIMO: el parche 02 del coop (disparadores del compañero), escrito, sin probar**
+> Fase **PLAT-PreA** (spike). **Leído:** el despachador del juego `0x1E7FF0` prueba **las dos** listas de disparadores
+> para su jugador; el mod, para el compañero, sólo la de la unidad del anfitrión. Releído el registro de la red: a los
+> 885 s cruzó primero **el anfitrión**; desde 911 las dos copias en la 6 y el compañero en la zona de la 7 (activa) sin
+> un disparador en 200 s (corrige `docs/24`). **Hecho:** `parches-coop/02-disparadores-unidad-companero.patch` (las dos
+> listas, como el juego; entra en el port y compila con sabotaje en rojo), `lanzadores\PROBAR-PARCHE-COOP.ps1`
+> (carpeta de prueba aparte, ISO por enlace; `-Control` = el release) y `sesiones/PREDICCIONES-135c.md` (P1–P5).
+> **Pendiente de Fran:** `COMPILAR-COOP.ps1`, después `PROBAR-PARCHE-COOP.ps1` y `-Control` con el ensayo de las
+> predicciones. **Máquina:** instalación de jugar sin tocar (release `62CC5819…`); el exe del port es de (135), sin el 02.
+>
+> **(134), 2026-10-30, NOTEBOOK, sin Fran — instalar la PC con un doble clic (sin control remoto a medida)**
 > Fase **PLAT-PreA**. El retome pedía «control total de la PC desde la notebook sin tipear». Reencuadrado como sistema
 > habilitante (`docs/20` §11, L2-INS-01..04): **no** se construye un agente de control remoto (más trabajo/riesgo,
 > contra cambios mínimos); el pendrive + `INSTALAR-BLACK.bat` de doble clic sobre `TRAER` (que ya existe y está

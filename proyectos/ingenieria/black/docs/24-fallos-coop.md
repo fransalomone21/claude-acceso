@@ -10,8 +10,12 @@ y la causa leída en el código del mod. Registro de la corrida: `volcados/plata
 veía y Agustín no.
 
 **Evidencia (registro del anfitrión):** los disparadores del compañero («trigger … fired at the partner») salen de
-corrido mientras van juntos: 47 entre el segundo 63 y el 844, y **ninguno después**. Desde el 885 el compañero entra
-primero a la unidad 6 y a la 7 («unit 7 activated, as the partner's», 911 s) mientras el anfitrión sigue atrás.
+corrido mientras van juntos: 47 entre el segundo 63 y el 844, y **ninguno después**. ~~Desde el 885 el compañero entra
+primero a la unidad 6~~ **Corregido en (135c), releyendo el registro:** a los 885 s el que cruzó primero fue el
+anfitrión («the advance to unit 6 waits for the partner») y a los 890 avanzaron juntos a la 6; a los 911 la copia del
+compañero activó la 7 («unit 7 activated, as the partner's»). Desde ahí las dos copias siguen en la 6 y el compañero
+camina la zona de la 7 (activa, sin «avanzar»), cuyos disparadores viven en la otra lista. El tope de esos mensajes
+(1500 líneas) no se alcanzó: el registro tiene 803.
 
 **Causa (`src/game/coop_world.cpp`, `TestPartner`, líneas 1403-1451 en HEAD):** el anfitrión prueba los disparadores
 del compañero **sólo en la lista de su PROPIA unidad actual** (`current`: la lista cuyo slot tiene
@@ -40,12 +44,15 @@ la 7 no se prueba. Y el caído vuelve «en el próximo checkpoint del equipo», 
 anfitrión cae, el compañero no avanza a una zona nueva hasta que vuelva. Vale para todos los niveles: el defecto no
 depende del nivel sino de quién está en qué unidad.
 
-## El arreglo (pendiente)
+## El arreglo (135c): escrito, compila; falta la prueba en vivo
 
-Parche `parches-coop/02-…`: probar los disparadores del compañero en la lista de la unidad **del compañero** (las dos
-listas del manager son las dos unidades cargadas), cuidando lo que el comentario advierte (las salidas de la otra
-unidad actúan sobre esa unidad). Se compila con `lanzadores/COMPILAR-COOP.ps1` y se prueba con la predicción y el
-control de arriba antes de usarlo para jugar.
+**El juego prueba las dos listas para su jugador** (el despachador `0x1E7FF0` recorre `mgr+0x48` y `mgr+0x4C`, leído en
+el código generado del port); el mod, para el compañero, sólo la de la unidad del anfitrión. El parche
+`parches-coop/02-disparadores-unidad-companero.patch` hace lo mismo que el juego: prueba las dos, y el mensaje dice de
+qué unidad era la lista. Entra limpio en el port y compila (sintaxis con `clang++`, sabotaje en rojo). Se compila con
+`lanzadores/COMPILAR-COOP.ps1` y se prueba con `lanzadores/PROBAR-PARCHE-COOP.ps1` (y `-Control`), con las
+predicciones de `sesiones/PREDICCIONES-135c.md`, antes de usarlo para jugar. Grado del diagnóstico: **probable** hasta
+esa prueba.
 
 ## Afuera (2026-10-31)
 

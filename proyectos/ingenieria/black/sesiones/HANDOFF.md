@@ -4,7 +4,15 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(134), 2026-10-30, NOTEBOOK, sin Fran — LO ÚLTIMO.** Fase **PLAT-PreA**. El retome pedía «control total de la PC
+> **(135c), 2026-10-31, NOTEBOOK — LO ÚLTIMO.** Fase **PLAT-PreA**, spike del parche 02 (F-RED-1/2 de `docs/24`).
+> El parche está escrito y compila (`parches-coop/02-disparadores-unidad-companero.patch`: `TestPartner` prueba las
+> dos listas, como el despachador del juego `0x1E7FF0`); **falta la prueba en vivo**, que la ejecuta Fran:
+> `lanzadores\COMPILAR-COOP.ps1` y después `lanzadores\PROBAR-PARCHE-COOP.ps1` (parche) y `-Control` (release), con el
+> ensayo y P1–P5 de `sesiones/PREDICCIONES-135c.md`. La sesión que sigue lee los `black.log` de las dos corridas
+> (`volcados\plataforma\<fecha>-parche02*`) y llena «Resultados». Sin commitear de (135) y no tocado acá:
+> `docs/23`, `docs/vigia-novedades.md`, `kb/vigia.json`, `lanzadores/JUGAR-COOP-RED.ps1`.
+>
+> **(134), 2026-10-30, NOTEBOOK, sin Fran.** Fase **PLAT-PreA**. El retome pedía «control total de la PC
 > desde la notebook sin tipear nada». Reencuadrado como **sistema habilitante** (`docs/20` §11, L2-INS): **no** se
 > construye un control remoto a medida (más trabajo y riesgo, contra cambios mínimos); el camino que Fran rankeó
 > primero —pendrive + `.bat` de doble clic sobre `TRAER`— ya instala la PC sin tipear. **Hecho:** `INSTALAR-BLACK.bat`

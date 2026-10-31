@@ -13,11 +13,14 @@
 # que le da a cada copia SU mando aunque la ventana este atras. Con el puente no hay teclado ni mouse en el juego:
 # todo con los mandos. Para terminar: cerrar las dos ventanas.
 
-param([switch]$Control, [switch]$Cruzar, [switch]$Xbox, [switch]$Mudo, [switch]$DosMonitores)
+#   ... -Carpeta <dir> -Etiqueta <nombre>  # (135c) otra carpeta del juego (la de prueba de un parche: PROBAR-PARCHE-COOP.ps1)
+
+param([switch]$Control, [switch]$Cruzar, [switch]$Xbox, [switch]$Mudo, [switch]$DosMonitores, [string]$Carpeta, [string]$Etiqueta)
 
 . (Join-Path $PSScriptRoot 'plataforma-comun.ps1')
+if ($Carpeta) { $Script:Juego = $Carpeta; $Script:Exe = Join-Path $Carpeta 'BLACK.exe'; $Script:Toml = Join-Path $Carpeta 'black.toml'; $Script:Calidad = Join-Path $Carpeta 'calidad.toml' }
 if (-not (Test-Instalacion)) { exit 1 }
-if (-not (Test-Path -LiteralPath (Join-Path $Juego 'logs\black.log'))) {
+if (-not $Carpeta -and -not (Test-Path -LiteralPath (Join-Path $Juego 'logs\black.log'))) {
     Write-Host "Primero S1 (PROBAR-PLATAFORMA-S1.ps1): la primera vez el juego compila, y dos copias a la vez se pisan." -ForegroundColor Red
     exit 1
 }
@@ -52,7 +55,7 @@ if ($DosMonitores) {
     $lugares = @(@($b1.X, $b1.Y, $mitad, $b1.Height), @(($b1.X + $mitad), $b1.Y, $mitad, $b1.Height))
     Set-Toml @{ display_mode = 'windowed'; width = $mitad; height = $b1.Height; fps_counter = $true; pause_on_focus_loss = $false }
 }
-$nombre = if ($Control) { 's2a-control' } elseif ($Cruzar) { 's2b-cruzado' } else { 's2b' }
+$nombre = if ($Etiqueta) { $Etiqueta } elseif ($Control) { 's2a-control' } elseif ($Cruzar) { 's2b-cruzado' } else { 's2b' }
 $corrida = New-CarpetaCorrida $nombre
 $inicio = Get-Date
 

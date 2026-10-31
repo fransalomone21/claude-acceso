@@ -1,0 +1,71 @@
+diff --git a/src/game/coop_shots.cpp b/src/game/coop_shots.cpp
+index 3baa35d..21df15f 100644
+--- a/src/game/coop_shots.cpp
++++ b/src/game/coop_shots.cpp
+@@ -2,6 +2,7 @@
+ // with a weapon of the same type whose owner is its own player: the bullet then runs the player's bullet code, which
+ // never hits the player itself (only rays with flag 8 test it, 0x1CDECB) and leaves its ammo, recoil and HUD alone.
+ // The partner's bullets live in a pool of our own, stepped beside the game's, so they never take the player's slots.
++#include <algorithm>
+ #include <bit>
+ #include <array>
+ #include "game/coop.h"
+@@ -286,7 +287,21 @@ void Flash(X86Context& ctx, const Event& e, uint32_t entry) {
+                                  double(p.origin[1]), double(p.origin[2]));
+ }
+ 
+-// a name the level's AI gun sounds have: the weapon's own, else one of the same ammo pool, else any
++// how unlike the weapon a stand-in sounds: its fire type first, then its fire interval and its clip (BLACK (135): with
++// "any", a pistol the level's enemies don't carry was heard as a shotgun)
++float Unlike(uint32_t d, uint32_t data) {
++    auto rel = [](float a, float b) {
++        float m = std::fmax(std::fabs(a), std::fabs(b));
++        return m > 0 && std::isfinite(a) && std::isfinite(b) ? std::fabs(a - b) / m : 1.0f;
++    };
++    float u = R32(d + kDataFireType) == R32(data + kDataFireType) ? 0.0f : 4.0f;
++    if (R32(d + kDataAmmo) != R32(data + kDataAmmo)) u += 2.0f;
++    u += rel(G<float>(d + kDataHold), G<float>(data + kDataHold));
++    u += rel(float(R16(d + kDataClip)), float(R16(data + kDataClip)));
++    return u;
++}
++
++// a name the level's AI gun sounds have: the weapon's own, else the most alike of the others
+ bool Bind(X86Context& ctx, uint32_t lo, uint32_t hi, uint32_t data) {
+     static constexpr hle::Map kBindMap = hle::Make({hle::eax, hle::stack, hle::stack, hle::stack, hle::stack});
+     auto bind = [&](uint32_t l, uint32_t h) {
+@@ -297,17 +312,29 @@ bool Bind(X86Context& ctx, uint32_t lo, uint32_t hi, uint32_t data) {
+     uint32_t table = TypeTable();
+     uint32_t n = table ? G<uint8_t>(table + kTypeCount) : 0;
+     uint32_t types = table ? R32(table + kTypes) : 0;
+-    for (int pass = 0; pass < 2; pass++)
+-        for (uint32_t i = 0; i < n; i++) {
+-            uint32_t entry = types + i * kTypeSize, d = R32(entry + kTypeData);
+-            if (!d || (pass == 0 && R32(d + kDataAmmo) != R32(data + kDataAmmo))) continue;
+-            if (bind(R32(entry), R32(entry + 4))) return true;
+-        }
++    std::array<std::pair<float, uint32_t>, 256> order{};
++    uint32_t m = 0;
++    for (uint32_t i = 0; i < n && m < order.size(); i++) {
++        uint32_t entry = types + i * kTypeSize, d = R32(entry + kTypeData);
++        if (d) order[m++] = {Unlike(d, data), entry};
++    }
++    std::sort(order.begin(), order.begin() + m);
++    for (uint32_t k = 0; k < m; k++) {
++        uint32_t entry = order[k].second;
++        if (!bind(R32(entry), R32(entry + 4))) continue;
++        static int told;
++        if (told++ < 8)
++            LOGR("coop: partner gunshot %08X:%08X stands in with %08X:%08X (unlike %.2f)", hi, lo, R32(entry + 4),
++                 R32(entry), double(order[k].first));
++        return true;
++    }
+     return false;
+ }
+ 
+ // The gunshot where the partner fires, as an enemy's gun sounds
+ void Gunshot(X86Context& ctx, const Event& e, uint32_t data) {
++    // a silenced shot: the level's AI gun sounds are all loud ones (no enemy carries a silencer), so none (BLACK (135))
++    if (e.bits & 1) return;
+     uint32_t mgr = SlotManager();
+     if (!mgr) return;
+     if (!SlotValid()) {

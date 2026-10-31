@@ -1,0 +1,48 @@
+diff --git a/src/game/coop_world.cpp b/src/game/coop_world.cpp
+index 7f01a0f..ad9917e 100644
+--- a/src/game/coop_world.cpp
++++ b/src/game/coop_world.cpp
+@@ -1398,8 +1398,10 @@ bool SetsTheScene(uint32_t t) {
+     return false;
+ }
+ 
+-// the one shot triggers of this copy's current unit tested on the way from one of the partner's points to the next:
+-// the manager's lists are the two units' (a unit slot's +0x48), the other one's outputs would act on this unit
++// the one shot triggers of this copy's two units tested on the way from one of the partner's points to the next:
++// the manager's lists are the two units' (a unit slot's +0x48), and the dispatcher 0x1E7FF0 tests both at the
++// player's (+0x48 and +0x4C). Only the current unit's left the partner's way through the next unit, already active,
++// untested: its waves and events came only when this copy's player went there (BLACK (135c))
+ void TestPartner(X86Context& ctx, uint32_t mgr, const float from[3], const float to[3]) {
+     static uint32_t pos = 0, saved = 0;
+     if (!pos) pos = mem::AllocSystem(16, 16), saved = mem::AllocSystem(16, 16);
+@@ -1417,10 +1419,10 @@ void TestPartner(X86Context& ctx, uint32_t mgr, const float from[3], const float
+     for (uint32_t list = 0; list < 2; list++) {
+         uint32_t n = G<uint16_t>(mgr + list * 2);
+         uint32_t triggers = R32(mgr + kTriggerLists + list * 4);
+-        bool current = false;
++        uint32_t list_unit = 0;  // the unit the list is of, for the log
+         for (uint32_t k = 0; k < 2; k++) {
+             uint32_t s = world + kUnitSlots + k * kUnitSlotSize;
+-            if (triggers && R32(s + kSlotTriggers) == triggers && R32(s + kSlotUnit) == unit) current = true;
++            if (triggers && R32(s + kSlotTriggers) == triggers) list_unit = R32(s + kSlotUnit);
+         }
+         for (uint32_t i = 0; i < n; i++) {
+             uint32_t t = R32(triggers + i * 4);
+@@ -1437,14 +1439,15 @@ void TestPartner(X86Context& ctx, uint32_t mgr, const float from[3], const float
+                 continue;
+             }
+             // the activations (action 1) follow the partner's state (FlowTick)
+-            if (!current || !G<uint8_t>(t + kTriggerArmed) || action != 0 || SetsTheScene(t)) continue;
++            if (!G<uint8_t>(t + kTriggerArmed) || action != 0 || SetsTheScene(t)) continue;
+             g_partner_test = true;
+             uint32_t fired = hle::Call(ctx, R32(R32(t) + kTriggerTest), kTestMap, {t, pos, Player()}) & 0xFF;
+             g_partner_test = false;
+             if (!fired) continue;
+             G<uint8_t>(t + kTriggerArmed) = 0;  // as the dispatcher disarms it (0x1E8055)
+             g_count.triggers++;
+-            PROBE("trigger %08X%08X fired at the partner", R32(t + 0x0C), R32(t + 0x08));
++            PROBE("trigger %08X%08X fired at the partner, unit %u's (this player's %u)", R32(t + 0x0C), R32(t + 0x08),
++                  list_unit, unit);
+         }
+     }
+     std::memcpy(HostPtr(last), HostPtr(saved), 16);
