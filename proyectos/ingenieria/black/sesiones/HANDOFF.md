@@ -4,7 +4,18 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
-> **(133b), misma sesión — LO ÚLTIMO.** S1 y S2 cumplidas (`sesiones/PREDICCIONES-133.md`). Puente con los controles
+> **(134), 2026-10-30, NOTEBOOK, sin Fran — LO ÚLTIMO.** Fase **PLAT-PreA**. El retome pedía «control total de la PC
+> desde la notebook sin tipear nada». Reencuadrado como **sistema habilitante** (`docs/20` §11, L2-INS): **no** se
+> construye un control remoto a medida (más trabajo y riesgo, contra cambios mínimos); el camino que Fran rankeó
+> primero —pendrive + `.bat` de doble clic sobre `TRAER`— ya instala la PC sin tipear. **Hecho:** `INSTALAR-BLACK.bat`
+> agregado a `lanzadores\PAQUETE-PC.ps1`; `TRAER` verificado en la notebook (copia por sha256, retoma, **sabotaje en
+> rojo**; `sesiones/PREDICCIONES-134.md`). **Control en vivo = RDP, decisión de Fran** (sólo si la PC es Pro; bloquea
+> la consola; no sirve para jugar). **Pendiente de Fran (E2):** `PAQUETE-PC.ps1 -Destino <pendrive>`, llevarlo a la PC,
+> doble clic en `INSTALAR-BLACK.bat`, abrir «coop - unirse». Después, el KDP que cierra PLAT-PreA. **Máquina:** PS2 sin
+> tocar desde (128); plataforma en la notebook sin correr esta sesión. **Rojos del arranque** (triage de lecciones,
+> sincronía, nube, T18): preexistentes del repo del método, no de BLACK; sin tocar.
+>
+> **(133b), misma sesión.** S1 y S2 cumplidas (`sesiones/PREDICCIONES-133.md`). Puente con los controles
 > de PS2 de Fran; la copia 2 con sonido. Para jugar con Agustín: `docs/23-jugar-coop.md` + `lanzadores\JUGAR-COOP-RED.ps1`
 > (sin medir por red real) y `PROBAR-COOP-PC.ps1 -DosMonitores` (sin medir con monitor). **Pendiente de Fran:** el KDP
 > que cierra PLAT-PreA. **Sigue:** leer `volcados\plataforma\corridas.txt` de lo que jueguen hoy.

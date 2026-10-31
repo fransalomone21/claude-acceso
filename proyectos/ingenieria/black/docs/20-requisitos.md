@@ -230,3 +230,35 @@ ejecutable, sus ajustes y los mods que lleve).
 BLACK…»; H-01 se reemplaza por H-04; L1-23 cambia «con PCSX2 como único programa abierto» por «con la plataforma de
 BLACK»; L1-24 sale de la v1; el banco L2-BAN se rehace sobre la plataforma nueva (hoy es de PCSX2 por PINE). L0-01 a
 L0-04 y L1-01 a L1-22 no cambian de enunciado: son del coop y valen en cualquier plataforma.
+
+## 11. Sistema habilitante: poner la plataforma en la PC sin tipear (L2-INS), (134), 2026-10-30
+
+**Motivo:** Fran, en el retome de (134): «control total de la PC desde la notebook, sin tipear nada en la PC». La PC
+sólo tiene Ethernet, va por cable directo a la notebook (IP `169.254.x.x` sola, sin internet) y Fran no puede pasarle
+texto. Sin esto, instalar la plataforma en la PC (L1-23) y después medirla ahí (L1-26, L1-27) depende de que Fran
+tipee comandos largos. Es un *enabling product*, como el banco (§5): no es parte del juego.
+
+**Lo que esto NO es, y por qué.** La primera lectura fue un agente de control remoto a medida en la PC (que ejecute
+lo que la sesión le mande). Se descartó: es la opción de **más** trabajo y más riesgo de las tres del retome, código
+sensible (ejecutar cualquier comando, servir archivos, autenticar) para algo que el transporte que ya existe resuelve
+casi entero, y choca con «cambios mínimos» y «lo que se instala solo se desinstala solo». Lo que Fran rankeó primero
+en su propio retome es el **pendrive con un `.bat` de doble clic que corre `TRAER`** — y eso ya deja la PC instalada,
+con su calidad gráfica y los accesos, **sin que Fran tipee nada**. El sujeto es el instalador: el `.bat` que la PC
+corre con un doble clic, encima de `TRAER.ps1`/`PAQUETE-PC.ps1`/`SERVIR-A-LA-PC.ps1`, que ya están probados en la
+notebook ((133b)).
+
+| ID | Requisito | Padre | Verificación | Hoy |
+|---|---|---|---|---|
+| L2-INS-01 | Cuando Fran hace doble clic en el instalador del pendrive en la PC, el instalador deberá copiar a la PC cada archivo de la plataforma con el mismo sha256 que en la notebook. | L1-23 | ensayo: corrida de `TRAER -SoloCopiar` contra un manifiesto, sha256 de los dos lados | `TRAER.ps1` lo hace; falta el `.bat` y la PC real |
+| L2-INS-02 | Cuando termina de copiar, el instalador deberá dejar en la PC los accesos del juego y la calidad gráfica de esa máquina, sin pedir texto. | L1-23, L1-26 | demostración en la PC: accesos en el Escritorio | `TRAER` corre `PREPARAR`; falta la PC real |
+| L2-INS-03 | Cuando una copia se corta, el instalador deberá retomar desde donde quedó al volver a correrlo. | L1-23 | ensayo: cortar y reanudar; sólo bajan los que faltan | `TRAER` saltea lo que ya coincide por sha256 |
+| L2-INS-04 | El instalador deberá correr en la PC con sólo lo que trae Windows 10 y 11 (ni internet ni programas de terceros). | L1-23 | inspección: `curl.exe`/`powershell` de Windows; Python y pygame van en el paquete | el paquete los trae (`PAQUETE-PC`) |
+
+**El control remoto en vivo queda como decisión de Fran, fuera de esta sesión.** Para (b) —poner todo en la PC— y (c)
+—jugar el coop por red— el instalador alcanza: Fran hace doble clic, la PC queda lista, y después abre el acceso
+«coop - unirse». Si en algún momento quiere manejar la PC en vivo (ver la pantalla, correr algo sin tocarla), sobre un
+cable sin internet eso es **Escritorio remoto (RDP)** y sólo si la PC es **Windows Pro**: lo prende Fran en
+Configuración → Sistema → Escritorio remoto, y la sesión se conecta con `mstsc` a la `169.254` de la PC. RDP **bloquea
+la consola de la PC** mientras está conectado (no se puede jugar en la PC a la vez) y pide contraseña en la cuenta: por
+eso no es el camino para jugar, sólo para administrar. Quick Assist / RustDesk / VNC quedan afuera: Quick Assist pide
+internet (la PC no tiene); los otros, instalar un tercero y abrir el firewall.

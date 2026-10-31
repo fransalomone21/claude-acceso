@@ -28,8 +28,10 @@ pasarle todo y para jugar. Windows les da a las dos una IP `169.254.x.x` sola, e
 - **Por el cable** (más rápido, y sirve para cualquier carpeta en el futuro): en la notebook
   `lanzadores\SERVIR-A-LA-PC.ps1` (arma el paquete y lo sirve, sólo lectura y sólo en la IP del cable, hasta Ctrl+C);
   imprime el comando exacto para pegar en la PC. Para otra carpeta: `-Carpeta "D:\lo que sea"`.
-- **Por pendrive** (exFAT o NTFS, 16 GB o más): `lanzadores\PAQUETE-PC.ps1 -Destino E:\`, y en la PC el comando que
-  imprime.
+- **Por pendrive** (exFAT o NTFS, 16 GB o más): `lanzadores\PAQUETE-PC.ps1 -Destino E:\`. En la PC, abrir el pendrive
+  y hacer **doble clic en `BLACK-para-la-PC\paquete-pc\INSTALAR-BLACK.bat`** (desde (134)): corre `TRAER` solo, sin
+  tipear nada. Para ver la PC en vivo y manejarla (no hace falta para jugar) está Escritorio remoto, y sólo si la PC
+  es Windows Pro: lo prende Fran en Configuración → Sistema → Escritorio remoto (`docs/20` §11).
 
 En la PC, `TRAER.ps1` copia y verifica cada archivo por sha256 (si se corta, se vuelve a correr y retoma), instala
 Python si falta y pygame sin internet, pone el repo al día desde un git bundle (si la PC tiene cambios propios no lo

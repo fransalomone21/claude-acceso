@@ -16,6 +16,27 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-10-30 — (134) Poner la plataforma en la PC sin tipear: instalador de doble clic (no un control remoto a medida)
+**Máquina:** notebook (MSI Sword 15), sin Fran en el chat · **Modelo:** Opus, esfuerzo alto, sin fan-out
+**Concepto / nodo:** PLAT-PreA (PDP §4); sistema habilitante (L2-INS de `docs/20` §11); ningún nodo del juego cambia de K.
+**Objetivo:** «control total de la PC desde la notebook sin tipear nada en la PC» (retome de (134)), para instalar la
+plataforma en la PC (cable directo, sin internet) y después jugar el coop por red.
+**Resultado:** reencuadrado como **sistema habilitante** (`docs/20` §11, L2-INS-01..04): el camino que Fran rankeó
+primero —pendrive con un `.bat` de doble clic que corre `TRAER`— ya deja la PC instalada, con calidad y accesos, sin
+que tipee. Agregado `INSTALAR-BLACK.bat` a `PAQUETE-PC.ps1` (resuelve su base con `%~dp0..`, no depende de la letra).
+**Medido** en la notebook con banco chico (`sesiones/PREDICCIONES-134.md`): `TRAER -SoloCopiar` copia por sha256
+idéntico y en la 2.ª corrida saltea; **sabotaje en rojo** (pisé un archivo con el mismo tamaño y otro sha → lo rebaja
+sólo a ese), la verificación por sha256 es load-bearing; el `.bat` 285 B, CRLF, sin BOM.
+**No funcionó:** la primera lectura fue un **agente de control remoto a medida** en la PC (ejecutar lo que la sesión
+mande). Lo frené: es la opción de más trabajo y riesgo, código sensible para algo que el transporte ya resuelve, y
+contra «cambios mínimos». El control **en vivo** sobre un cable sin internet es RDP (sólo si la PC es Pro) y es
+decisión de Fran; Quick Assist pide internet (la PC no tiene). Todo eso, con su rationale, en `docs/20` §11.
+**Sigue:** Fran pone el pendrive, doble clic en `INSTALAR-BLACK.bat`, abre «coop - unirse» y juegan (E2 de
+`PREDICCIONES-134`); después, el KDP que cierra PLAT-PreA. La corrida completa de `PAQUETE-PC` (hashea 7,3 GB) queda
+para cuando esté el pendrive.
+
+---
+
 ## 2026-10-30 — (133) Requisitos ampliados acordados; la plataforma instalada; el puente de mandos
 **Máquina:** notebook (MSI Sword 15, RTX 4060 Laptop, 1920×1080 a 144 Hz; el retome decía PC), con Fran en el chat ·
 **Modelo:** Opus, esfuerzo alto, sin fan-out

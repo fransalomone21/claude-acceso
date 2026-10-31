@@ -39,7 +39,17 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(133b), 2026-10-30, misma sesión — LO ÚLTIMO: S1 y S2 CUMPLIDAS; listo para jugar con Agustín**
+> **(134), 2026-10-30, NOTEBOOK, sin Fran — LO ÚLTIMO: instalar la PC con un doble clic (sin control remoto a medida)**
+> Fase **PLAT-PreA**. El retome pedía «control total de la PC desde la notebook sin tipear». Reencuadrado como sistema
+> habilitante (`docs/20` §11, L2-INS-01..04): **no** se construye un agente de control remoto (más trabajo/riesgo,
+> contra cambios mínimos); el pendrive + `INSTALAR-BLACK.bat` de doble clic sobre `TRAER` (que ya existe y está
+> probado) deja la PC instalada, con calidad y accesos, sin tipear. Agregado el `.bat` a `lanzadores\PAQUETE-PC.ps1`;
+> `TRAER` verificado en la notebook (copia por sha256, retoma, **sabotaje en rojo**: `sesiones/PREDICCIONES-134.md`).
+> **Control en vivo = RDP, decisión de Fran** (sólo si la PC es Windows Pro; bloquea la consola, no sirve para jugar).
+> **Pendiente de Fran (E2):** `PAQUETE-PC.ps1 -Destino <pendrive>`, doble clic en la PC, abrir «coop - unirse». Después
+> el KDP que cierra PLAT-PreA. **Máquina:** PS2 sin tocar desde (128); la plataforma no se corrió esta sesión.
+>
+> **(133b), 2026-10-30 — S1 y S2 CUMPLIDAS; listo para jugar con Agustín**
 > - **S1:** 10 min de la misión 1 a 60 cuadros por segundo a 1080p (tope de fábrica 60), cierre limpio. **S2:** dos copias
 >   en la notebook, ~145 c/s cada una, «cada mando mueve su ventana» (Fran). `sesiones/PREDICCIONES-133.md`.
 > - Arreglado: la copia 2 abría muda (J2 no oía su escopeta). Pedido de Fran: el puente traduce a **sus controles de PS2**.

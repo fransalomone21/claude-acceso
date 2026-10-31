@@ -35,6 +35,20 @@ if (-not (Test-Path -LiteralPath $py)) {
 Copy-Item "$PSScriptRoot\plataforma-comun.ps1", "$PSScriptRoot\PREPARAR-BLACK.ps1", "$PSScriptRoot\JUGAR-COOP-RED.ps1", "$PSScriptRoot\PROBAR-COOP-PC.ps1", "$PSScriptRoot\PROBAR-PLATAFORMA-S1.ps1" "$paq\scripts\lanzadores\" -Force
 Copy-Item "$black\herramientas\puente_mandos.py" "$paq\scripts\herramientas\" -Force
 Copy-Item "$PSScriptRoot\TRAER.ps1" "$paq\" -Force
+# el instalador de doble clic (134): Fran abre el pendrive, doble clic, y TRAER corre solo (sin tipear nada en la PC).
+# resuelve su propia carpeta base (%~dp0..), asi no depende de la letra del pendrive.
+$bat = @'
+@echo off
+title INSTALAR BLACK en esta PC
+pushd "%~dp0.."
+echo Instalando BLACK en esta PC (no cierres esta ventana)...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0TRAER.ps1" -Origen "%CD%"
+popd
+echo.
+echo Si arriba dice LISTO, ya podes cerrar esta ventana.
+pause
+'@
+[IO.File]::WriteAllText((Join-Path $paq 'INSTALAR-BLACK.bat'), ($bat -replace "`r?`n", "`r`n"), (New-Object Text.ASCIIEncoding))
 
 # el manifiesto: sha256, tamano y ruta relativa a C:\Games\BLACK, de cada archivo que va
 $fuera = '\\coop\\(logs|hdd\d*|CrashDumps)\\|\\coop\\(black\.toml|calidad\.toml|ultima-ip\.txt)$'
@@ -63,5 +77,6 @@ foreach ($f in $archivos) {
     Copy-Item -LiteralPath $f.FullName -Destination $d -Force
 }
 Copy-Item "$paq\manifiesto.txt" (Join-Path $base 'paquete-pc\') -Force
-Write-Host "LISTO en $base. En la PC, con el pendrive puesto (si la letra no es $letra, cambiala):" -ForegroundColor Green
-Write-Host "    powershell -ExecutionPolicy Bypass -File `"$base\paquete-pc\TRAER.ps1`" -Origen `"$base`"" -ForegroundColor White
+Write-Host "LISTO en $base." -ForegroundColor Green
+Write-Host "En la PC: abri el pendrive y hace DOBLE CLIC en  BLACK-para-la-PC\paquete-pc\INSTALAR-BLACK.bat" -ForegroundColor White
+Write-Host "(o por consola: powershell -ExecutionPolicy Bypass -File `"$base\paquete-pc\TRAER.ps1`" -Origen `"$base`")" -ForegroundColor DarkGray
