@@ -139,6 +139,25 @@ Caso 'enlace markdown roto en el contrato' {
     G $f.Raiz @('push', '-q')
 } 1 'ROTO: la cascada se corta'
 
+# DA-093 (L2-CAS-10, L2-CAS-11): otro clon empuja un commit; este no lo trajo. Antes la cascada decia AL DIA (solo
+# miraba lo sin pushear) y la sesion leia el contrato viejo: tiene que traer el remoto y dar ROJO con la cuenta.
+Caso 'DA-093: clon atrasado 1 commit de su remoto -> ROJO con la cuenta' {
+    param($f)
+    $otro = "$($f.Base)-otro"
+    & git clone -q $f.Remoto $otro *> $null
+    Escribir (Join-Path $otro 'proyectos\ingenieria\demo\docs\a.md') "# a desde la otra maquina`n"
+    G $otro @('add', '-A'); G $otro @('commit', '-q', '-m', 'la otra maquina') -Fecha '2026-01-02T10:00:00'
+    G $otro @('push', '-q')
+    Remove-Item -Recurse -Force $otro -ErrorAction SilentlyContinue
+} 1 'ATRAS 1 commit'
+
+Caso 'DA-093 CONTROL: el remoto traido y sin nada nuevo -> al dia' { param($f) } 0 'al dia con origin/main \(recien traido\)'
+
+# DA-093 (L2-CAS-12): sin red no es verde ni rojo: SIN MEDIR, y la cascada no se corta por eso.
+Caso 'DA-093: remoto inalcanzable -> SIN MEDIR, no al dia' {
+    param($f); G $f.Raiz @('remote', 'set-url', 'origin', (Join-Path $f.Base 'no-existe.git'))
+} 0 'SIN MEDIR \(no es al dia\)'
+
 Caso 'sin el libro de bolsillo (nivel 0b) la cascada se corta' {
     param($f); Remove-Item -Force (Join-Path $f.Raiz 'perfil-global\pilares\nucleo-ise.md')
 } 1 'nucleo-ise\.md  -- NO EXISTE'
@@ -164,6 +183,6 @@ if ($fallas -gt 0) {
     Write-Host ""
     exit 1
 }
-Write-Host "  probar-cascada: TODO BIEN (10 casos: los 2 controles y el dueno de la fase en verde, 7 fallas en rojo o aviso)" -ForegroundColor Green
+Write-Host "  probar-cascada: TODO BIEN (13 casos: los 3 controles y el dueno de la fase en verde, 9 fallas en rojo o aviso)" -ForegroundColor Green
 Write-Host ""
 exit 0

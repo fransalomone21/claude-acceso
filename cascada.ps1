@@ -31,6 +31,7 @@
 #   .\cascada.ps1 black -Mencion "motivo"     el pedido NOMBRA el proyecto sin pedirlo (T14b): libera lo de afuera
 #   .\cascada.ps1 -Ingenieria "que es"        T19: ingenieria de sistemas sin proyecto; imprime el TRONCO que se exige
 #   .\cascada.ps1 -Suelta "que es"            T19: pregunta suelta y especifica, sin ingenieria de sistemas ni tronco
+#   .\cascada.ps1 malena -Repo "motivo"       DA-096: operar el repo (git, mudar archivos) sin tronco ni rama; editar no
 #   .\cascada.ps1 arquitectura-se -Necesidad metodo -Tema t19
 #                                 T19, pieza C: el TEMA del pedido en un proyecto con mapa de temas (en la duda, todos)
 #
@@ -51,6 +52,8 @@ param(
     [string]$Ingenieria,        # T19: la clase del pedido, ingenieria de sistemas sin proyecto (carga el tronco)
     [string]$Suelta,            # T19: la clase del pedido, pregunta suelta y especifica (sin tronco)
     [string[]]$Tema,            # T19, pieza C: el tema del pedido en un proyecto con mapa de temas (la puerta lo exige)
+    [string]$Repo,              # DA-096: operar el repo git del proyecto (sincronia, estado, mudar archivos), sin tronco ni rama
+    [int]$PlazoRed = 20,        # DA-093: segundos por fetch (L2-CAS-12); la prueba lo baja
     [string]$Raiz = $PSScriptRoot
 )
 
@@ -73,6 +76,145 @@ function Hay($ruta, $nota) {
     if ($nota) { Write-Host ("        {0}" -f $nota) -ForegroundColor DarkGray }
     $script:faltantes++
     return $false
+}
+
+# En PS 5.1, con 'Stop', el stderr de un ejecutable nativo redirigido se vuelve
+# una excepcion: adentro de git se baja a 'Continue' y manda el codigo de salida.
+function Git-P {
+    param([string[]]$a, [string]$En = $pr.Ruta)
+    $ErrorActionPreference = 'Continue'
+    $o = & git -C $En @a 2>$null
+    if ($LASTEXITCODE -ne 0) { return $null }
+    return $o
+}
+
+# DA-093 (L2-CAS-10, L2-CAS-12): el fetch con plazo. Un remoto colgado (sin red, una credencial que pregunta) no
+# puede demorar la entrada: a los $Seg segundos se corta y el repo sale SIN MEDIR, nunca al dia.
+function Fetch-Con-Plazo([string]$Dir, [string]$Remoto, [int]$Seg) {
+    $psi = New-Object System.Diagnostics.ProcessStartInfo 'git'
+    $psi.Arguments = "-C `"$Dir`" fetch --quiet $Remoto"
+    $psi.UseShellExecute = $false; $psi.CreateNoWindow = $true
+    $psi.RedirectStandardOutput = $true; $psi.RedirectStandardError = $true
+    $psi.EnvironmentVariables['GIT_TERMINAL_PROMPT'] = '0'
+    try { $p = [System.Diagnostics.Process]::Start($psi) } catch { return $false }
+    if (-not $p.WaitForExit($Seg * 1000)) { try { $p.Kill() } catch {}; return $false }
+    return ($p.ExitCode -eq 0)
+}
+
+# DA-093 (L1-31, L2-CAS-11): lo que el remoto tiene y este clon no. 'Nada sin pushear' se leia AL DIA sobre un clon
+# 34 commits atras (2026-11-02, notebook de Male): la sesion leyo un contrato viejo. Se mide cada repo que la sesion
+# LEE -- el del proyecto, claude-acceso (enrutador, puerta, catalogo) y perfil-global (el libro) --, despues de traer.
+function Atras-Del-Remoto([string]$Dir, [string]$Nombre) {
+    $up = Git-P @('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}') -En $Dir
+    if (-not $up) {
+        Write-Host "    [~] $Nombre no sigue a ningun remote: lo que falta traer, SIN MEDIR" -ForegroundColor Yellow
+        $script:avisos++; return
+    }
+    $remoto = ($up -split '/')[0]
+    if (-not (Fetch-Con-Plazo $Dir $remoto $PlazoRed)) {
+        Write-Host "    [~] $Nombre`: no se pudo traer $remoto (sin red, sin acceso o mas de $PlazoRed s) -- lo que falta traer, SIN MEDIR (no es al dia)" -ForegroundColor Yellow
+        $script:avisos++; return
+    }
+    $n = [int](Git-P @('rev-list', '--count', "HEAD..$up") -En $Dir)
+    if ($n -gt 0) {
+        Write-Host ("    [ ] {0} ATRAS {1} commit(s) de {2}: traerlos ANTES de leer (git -C `"{3}`" pull --ff-only)" -f $Nombre, $n, $up, $Dir) -ForegroundColor Red
+        $script:atrasos++
+    } else { Write-Host "    [x] $Nombre al dia con $up (recien traido)" -ForegroundColor Green }
+}
+
+# ------------------------------------------------------------ AL DIA (git)
+# Que los archivos EXISTAN no dice que esten al dia. Lo que si se puede medir,
+# sin ninguna lista propia, es lo que el repo registro: (1) nada del proyecto
+# sin commitear, (2) nada sin pushear, (3) que el ultimo checkpoint haya tocado
+# ESTADO_ACTUAL y HANDOFF (regla 5: los cuatro), y (4) que la fila del
+# enrutador no sea mas vieja que el ESTADO_ACTUAL (regla 4 de CLAUDE.md).
+# Mide el REGISTRO, no el contenido: un ESTADO reescrito con datos viejos pasa.
+# Eso sigue siendo del que lo escribe; esto atrapa el que ni se escribio.
+# Y (5, DA-093) que ningun repo que la sesion lee este atras de su remoto. Es una funcion porque la usa tambien
+# -Repo (DA-096), que imprime solo esto.
+function Al-Dia {
+    Write-Host ""
+    Write-Host "  AL DIA -- lo que el repo registro (git), no lo que dice el disco" -ForegroundColor Cyan
+    $top = Git-P @('rev-parse', '--show-toplevel')
+    if (-not $top) {
+        Write-Host "    [ ] el proyecto no esta en ningun repo git: nada de esto quedo registrado" -ForegroundColor Red
+        $script:atrasos++
+        return
+    }
+    $sucio = @(Git-P @('status', '--porcelain', '--', '.'))
+    if ($sucio.Count -gt 0) {
+        Write-Host ("    [ ] {0} archivo(s) del proyecto SIN COMMITEAR:" -f $sucio.Count) -ForegroundColor Red
+        $sucio | Select-Object -First 8 | ForEach-Object { Write-Host "          $_" -ForegroundColor Red }
+        $script:atrasos++
+    } else { Write-Host "    [x] nada del proyecto sin commitear" -ForegroundColor Green }
+
+    $up = Git-P @('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
+    if (-not $up) {
+        Write-Host "    [~] la rama no sigue a ningun remote: lo commiteado no salio de esta maquina" -ForegroundColor Yellow
+        $script:avisos++
+    } else {
+        $sinPush = @(Git-P @('rev-list', "$up..HEAD", '--', '.'))
+        if ($sinPush.Count -gt 0) {
+            Write-Host ("    [ ] {0} commit(s) del proyecto SIN PUSHEAR a {1}" -f $sinPush.Count, $up) -ForegroundColor Red
+            $script:atrasos++
+        } else { Write-Host "    [x] nada del proyecto sin pushear a $up" -ForegroundColor Green }
+    }
+
+    # DA-093: los repos que la sesion lee, una vez cada uno (en el arbol de prueba, el proyecto y la raiz son el mismo).
+    $vistos = @()
+    $topRaiz = Git-P @('rev-parse', '--show-toplevel') -En $Raiz
+    $leidos = @(@($top, $pr.Nombre), @($Raiz, 'claude-acceso'),
+                @((Join-Path $Raiz 'perfil-global'), 'perfil-global (el libro)'),
+                @((Join-Path (Split-Path $Raiz -Parent) 'perfil-global'), 'perfil-global (el libro)'))
+    foreach ($par in $leidos) {
+        if (-not (Test-Path -LiteralPath $par[0])) { continue }
+        $t = Git-P @('rev-parse', '--show-toplevel') -En $par[0]
+        if (-not $t -or $vistos -contains $t) { continue }
+        $vistos += $t
+        Atras-Del-Remoto $t $(if ($t -eq $topRaiz) { 'claude-acceso' } else { $par[1] })
+    }
+
+    # El HANDOFF sale del disco, igual que en el nivel 5.
+    $hoRel = if (Test-Path -LiteralPath (Join-Path $pr.Ruta 'HANDOFF.md')) { 'HANDOFF.md' } else {
+        $h = @(Get-ChildItem -Path $pr.Ruta -Recurse -Filter 'HANDOFF.md' -File -ErrorAction SilentlyContinue | Select-Object -First 1)
+        if ($h.Count) { $h[0].FullName.Substring($pr.Ruta.Length).TrimStart('\') -replace '\\', '/' } else { $null } }
+    foreach ($doc in @('ESTADO_ACTUAL.md', $hoRel)) {
+        if (-not $doc -or -not (Test-Path -LiteralPath (Join-Path $pr.Ruta $doc))) { continue }
+        $ultimo = Git-P @('log', '-1', '--format=%H', '--', $doc)
+        if (-not $ultimo) {
+            Write-Host "    [ ] $doc nunca se commiteo" -ForegroundColor Red; $script:atrasos++; continue
+        }
+        $despues = @(Git-P @('log', '--format=%h %s', "$ultimo..HEAD", '--', '.', ":(exclude)$doc"))
+        if ($despues.Count -gt 0) {
+            Write-Host ("    [ ] {0} ATRASADO: {1} commit(s) del proyecto despues de su ultimo cambio" -f $doc, $despues.Count) -ForegroundColor Red
+            $despues | Select-Object -First 3 | ForEach-Object {
+                $l = if ($_.Length -gt 110) { $_.Substring(0, 110) + '...' } else { $_ }
+                Write-Host "          $l" -ForegroundColor Red }
+            $script:atrasos++
+        } else { Write-Host "    [x] $doc lo toco el ultimo commit del proyecto" -ForegroundColor Green }
+    }
+
+    # La fila del enrutador vive en OTRO archivo (y a veces en otro repo): se
+    # compara por fecha. Mas vieja que el ESTADO_ACTUAL = el enrutador no se
+    # entero del ultimo estado (regla 4: gana el proyecto, se corrige la fila).
+    # T12 (2026-10-02): la fila que NO copia el estado (solo que es y si esta activo) no tiene nada que se
+    # atrase, y exigirle la fecha obligaba a tocarla por tramite en cada checkpoint. Se vigila la que copia
+    # una fase, que es la que ya se contradijo con el proyecto (decia fase 5 cuando iba por la 7e).
+    $fila = @($script:fila | Where-Object { $_ })
+    $copiaEstado = ($fila.Count -gt 0) -and ($fila[0] -match '(?i)\bfase\b')
+    $tEstado = Git-P @('log', '-1', '--format=%ct', '--', 'ESTADO_ACTUAL.md')
+    $tFila = Git-P @('log', '-1', '--format=%ct', '-G', ([regex]::Escape($pr.Nombre + '/')), '--', 'CLAUDE.md') -En $Raiz
+    if ($fila.Count -eq 0) {
+        # sin fila: lo dice el contraste de las dos fuentes (o -Repo, que no la busca)
+    } elseif (-not $copiaEstado) {
+        Write-Host "    [x] la fila del enrutador no copia el estado (no nombra una fase): nada que se atrase" -ForegroundColor Green
+    } elseif ($tEstado -and $tFila) {
+        if ([long]$tFila -lt [long]$tEstado) {
+            $dias = [math]::Round(([long]$tEstado - [long]$tFila) / 86400, 1)
+            Write-Host ("    [ ] la fila del ENRUTADOR es mas vieja que el ESTADO_ACTUAL ({0} dias): corregirla" -f $dias) -ForegroundColor Red
+            $script:atrasos++
+        } else { Write-Host "    [x] la fila del enrutador se toco despues del ultimo ESTADO_ACTUAL" -ForegroundColor Green }
+    }
 }
 
 # --- el disco, medido. No se lee de ningun documento. ---
@@ -150,6 +292,17 @@ if ($Mencion) {
     Write-Host ""
     Write-Host "  MENCION de $($pr.Nombre) registrada: '$Mencion'." -ForegroundColor Cyan
     Write-Host "  Libera lo que cae FUERA de sus carpetas. Para trabajar EN el proyecto, igual: -Necesidad <a,b>."
+    Write-Host ""
+    exit 0
+}
+
+# DA-096 (L2-CAS-13): operar el repo del proyecto -- git, mudar archivos, mirar -- no produce contenido y no paga el
+# tronco ni la rama. La registra el HOOK leyendo esta linea de comando (L2-PTA-53); aca se imprime lo que la operacion
+# necesita, el AL DIA. Editar o escribir EN el proyecto sigue pidiendo -Necesidad (L2-PTA-52).
+if ($Repo) {
+    Write-Host ""
+    Write-Host "  CLASE REPO de $($pr.Nombre): '$Repo'. Git, mudanzas y lecturas pasan sin tronco ni rama; editar, no (DA-096)." -ForegroundColor Cyan
+    Al-Dia
     Write-Host ""
     exit 0
 }
@@ -330,88 +483,7 @@ if ($faDelPdp) {
     Write-Host "    proyecto  : sin ESTADO_ACTUAL.md -- no hay con que contrastar" -ForegroundColor Yellow
 }
 
-# ------------------------------------------------------------ AL DIA (git)
-# Que los archivos EXISTAN no dice que esten al dia. Lo que si se puede medir,
-# sin ninguna lista propia, es lo que el repo registro: (1) nada del proyecto
-# sin commitear, (2) nada sin pushear, (3) que el ultimo checkpoint haya tocado
-# ESTADO_ACTUAL y HANDOFF (regla 5: los cuatro), y (4) que la fila del
-# enrutador no sea mas vieja que el ESTADO_ACTUAL (regla 4 de CLAUDE.md).
-# Mide el REGISTRO, no el contenido: un ESTADO reescrito con datos viejos pasa.
-# Eso sigue siendo del que lo escribe; esto atrapa el que ni se escribio.
-Write-Host ""
-Write-Host "  AL DIA -- lo que el repo registro (git), no lo que dice el disco" -ForegroundColor Cyan
-# En PS 5.1, con 'Stop', el stderr de un ejecutable nativo redirigido se vuelve
-# una excepcion: adentro de git se baja a 'Continue' y manda el codigo de salida.
-function Git-P {
-    param([string[]]$a, [string]$En = $pr.Ruta)
-    $ErrorActionPreference = 'Continue'
-    $o = & git -C $En @a 2>$null
-    if ($LASTEXITCODE -ne 0) { return $null }
-    return $o
-}
-$top = Git-P @('rev-parse', '--show-toplevel')
-if (-not $top) {
-    Write-Host "    [ ] el proyecto no esta en ningun repo git: nada de esto quedo registrado" -ForegroundColor Red
-    $atrasos++
-} else {
-    $sucio = @(Git-P @('status', '--porcelain', '--', '.'))
-    if ($sucio.Count -gt 0) {
-        Write-Host ("    [ ] {0} archivo(s) del proyecto SIN COMMITEAR:" -f $sucio.Count) -ForegroundColor Red
-        $sucio | Select-Object -First 8 | ForEach-Object { Write-Host "          $_" -ForegroundColor Red }
-        $atrasos++
-    } else { Write-Host "    [x] nada del proyecto sin commitear" -ForegroundColor Green }
-
-    $up = Git-P @('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
-    if (-not $up) {
-        Write-Host "    [~] la rama no sigue a ningun remote: lo commiteado no salio de esta maquina" -ForegroundColor Yellow
-        $avisos++
-    } else {
-        $sinPush = @(Git-P @('rev-list', "$up..HEAD", '--', '.'))
-        if ($sinPush.Count -gt 0) {
-            Write-Host ("    [ ] {0} commit(s) del proyecto SIN PUSHEAR a {1}" -f $sinPush.Count, $up) -ForegroundColor Red
-            $atrasos++
-        } else { Write-Host "    [x] nada del proyecto sin pushear a $up" -ForegroundColor Green }
-    }
-
-    # El HANDOFF sale del disco, igual que en el nivel 5.
-    $hoRel = if (Test-Path -LiteralPath (Join-Path $pr.Ruta 'HANDOFF.md')) { 'HANDOFF.md' } else {
-        $h = @(Get-ChildItem -Path $pr.Ruta -Recurse -Filter 'HANDOFF.md' -File -ErrorAction SilentlyContinue | Select-Object -First 1)
-        if ($h.Count) { $h[0].FullName.Substring($pr.Ruta.Length).TrimStart('\') -replace '\\', '/' } else { $null } }
-    foreach ($doc in @('ESTADO_ACTUAL.md', $hoRel)) {
-        if (-not $doc -or -not (Test-Path -LiteralPath (Join-Path $pr.Ruta $doc))) { continue }
-        $ultimo = Git-P @('log', '-1', '--format=%H', '--', $doc)
-        if (-not $ultimo) {
-            Write-Host "    [ ] $doc nunca se commiteo" -ForegroundColor Red; $atrasos++; continue
-        }
-        $despues = @(Git-P @('log', '--format=%h %s', "$ultimo..HEAD", '--', '.', ":(exclude)$doc"))
-        if ($despues.Count -gt 0) {
-            Write-Host ("    [ ] {0} ATRASADO: {1} commit(s) del proyecto despues de su ultimo cambio" -f $doc, $despues.Count) -ForegroundColor Red
-            $despues | Select-Object -First 3 | ForEach-Object {
-                $l = if ($_.Length -gt 110) { $_.Substring(0, 110) + '...' } else { $_ }
-                Write-Host "          $l" -ForegroundColor Red }
-            $atrasos++
-        } else { Write-Host "    [x] $doc lo toco el ultimo commit del proyecto" -ForegroundColor Green }
-    }
-
-    # La fila del enrutador vive en OTRO archivo (y a veces en otro repo): se
-    # compara por fecha. Mas vieja que el ESTADO_ACTUAL = el enrutador no se
-    # entero del ultimo estado (regla 4: gana el proyecto, se corrige la fila).
-    # T12 (2026-10-02): la fila que NO copia el estado (solo que es y si esta activo) no tiene nada que se
-    # atrase, y exigirle la fecha obligaba a tocarla por tramite en cada checkpoint. Se vigila la que copia
-    # una fase, que es la que ya se contradijo con el proyecto (decia fase 5 cuando iba por la 7e).
-    $copiaEstado = ($fila.Count -gt 0) -and ($fila[0] -match '(?i)\bfase\b')
-    $tEstado = Git-P @('log', '-1', '--format=%ct', '--', 'ESTADO_ACTUAL.md')
-    $tFila = Git-P @('log', '-1', '--format=%ct', '-G', ([regex]::Escape($pr.Nombre + '/')), '--', 'CLAUDE.md') -En $Raiz
-    if (-not $copiaEstado -and $fila.Count -gt 0) {
-        Write-Host "    [x] la fila del enrutador no copia el estado (no nombra una fase): nada que se atrase" -ForegroundColor Green
-    } elseif ($tEstado -and $tFila) {
-        if ([long]$tFila -lt [long]$tEstado) {
-            $dias = [math]::Round(([long]$tEstado - [long]$tFila) / 86400, 1)
-            Write-Host ("    [ ] la fila del ENRUTADOR es mas vieja que el ESTADO_ACTUAL ({0} dias): corregirla" -f $dias) -ForegroundColor Red
-            $atrasos++
-        } else { Write-Host "    [x] la fila del enrutador se toco despues del ultimo ESTADO_ACTUAL" -ForegroundColor Green }
-    }
-}
+Al-Dia
 
 # ------------------------------------------- T11: lo que la PUERTA exige
 # No hay segunda lista: lo calcula cascada_puerta.py desde .claude/cascada.json, igual que la puerta.
@@ -457,7 +529,7 @@ if ($avisos -gt 0) {
     Write-Host "  $avisos aviso(s): documentos que existen y el contrato no nombra, o rama sin remote." -ForegroundColor Yellow
 }
 if ($atrasos -gt 0) {
-    Write-Host "  $atrasos atraso(s): el repo no registro el estado actual. Commit + push, y ESTADO/HANDOFF/enrutador al dia." -ForegroundColor Red
+    Write-Host "  $atrasos atraso(s): el repo no registro el estado actual. Commit + push (pull si esta ATRAS), y ESTADO/HANDOFF/enrutador al dia." -ForegroundColor Red
     if ($faltantes -eq 0) { Write-Host ""; exit 1 }
 }
 if ($faltantes -gt 0) {

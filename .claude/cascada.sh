@@ -9,6 +9,7 @@
 #   bash .claude/cascada.sh -Ingenieria "que es"            T19: ingenieria de sistemas sin proyecto; imprime el tronco
 #   bash .claude/cascada.sh -Suelta "que es"                T19: pregunta suelta y especifica, sin tronco
 #   bash .claude/cascada.sh <proyecto> -Necesidad a,b -Tema t   T19, pieza C: el tema, si el proyecto tiene mapa
+#   bash .claude/cascada.sh <proyecto> -Repo "motivo"       DA-096: operar el repo sin tronco ni rama (editar, no)
 #
 # Solo envuelve 'cascada_puerta.py --exige': los niveles, el ESTADO junto al enrutador y el AL DIA de git los sigue
 # dando cascada.ps1 en la PC (declarado: en la nube se lee lo que la puerta exige, que es lo que la puerta mide).
@@ -24,7 +25,7 @@ case "$proy" in
   "") echo "$USO"; exit 1 ;;
   *) shift ;;
 esac
-nec="" ; exc="" ; men="" ; ing="" ; sue="" ; tem=""
+nec="" ; exc="" ; men="" ; ing="" ; sue="" ; tem="" ; rep=""
 while [ $# -gt 0 ]; do
   case "$1" in
     -Necesidad|--necesidad) nec="${2:-}"; shift 2 || shift ;;
@@ -33,6 +34,7 @@ while [ $# -gt 0 ]; do
     -Mencion|--mencion) men="${2:-}"; shift 2 || shift ;;
     -Ingenieria|--ingenieria) ing="${2:-}"; shift 2 || shift ;;
     -Suelta|--suelta) sue="${2:-}"; shift 2 || shift ;;
+    -Repo|--repo) rep="${2:-}"; shift 2 || shift ;;
     *) echo "  argumento desconocido: $1"; echo "$USO"; exit 1 ;;
   esac
 done
@@ -55,6 +57,14 @@ if [ -n "$men" ]; then
 fi
 if [ -n "$exc" ]; then
   echo "  EXCEPCION a la puerta para $proy: '$exc'. Pasa en esta sesion y queda registrada."
+  exit 0
+fi
+if [ -n "$rep" ]; then   # DA-096: operar el repo sin tronco ni rama; aca solo lo que falta traer (DA-093)
+  echo "  CLASE REPO de $proy: '$rep'. Git, mudanzas y lecturas pasan sin tronco ni rama; editar, no."
+  d="$(ls -d "$RAIZ"/proyectos/*/"$proy" 2>/dev/null | head -1)"
+  if [ -n "$d" ] && timeout 20 git -C "$d" fetch --quiet 2>/dev/null; then
+    echo "    atras $(git -C "$d" rev-list --count 'HEAD..@{u}' 2>/dev/null || echo '?') commit(s) del remoto"
+  else echo "    lo que falta traer: SIN MEDIR"; fi
   exit 0
 fi
 set -- --exige "$proy"

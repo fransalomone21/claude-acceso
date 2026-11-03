@@ -35,6 +35,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | N-07 | **Que el costo escale con la necesidad**: una pregunta que no es de un proyecto se contesta en un párrafo sin leer «1000 párrafos»; la cascada escala conocimiento, memorias, hooks y complejidad según el proyecto, la necesidad y su naturaleza. | Fran, 2026-10-12 17:00 |
 | N-11 | **Que cada sesión entienda lo que Fran pide y salga con el conocimiento que ese pedido necesita, sin depender de cómo lo dijo.** | Fran, 2026-10-19 (`docs/t19-arbol-de-conocimiento.md` §3): «si no digo publicar, no sabés nada del Drive»; el L0 del TP de IISE; desempeño y riesgo antes que costo |
 | N-12 | **Que ningún procedimiento se corra sin antes preguntarse si produce lo que la necesidad pide.** | Fran, 2026-10-19 (t19 §3): el ensayo del coop de BLACK repetido moviendo a un jugador por vez |
+| N-13 | **Que cualquier proyecto se pueda seguir desde cualquiera de las máquinas de Fran.** | Fran, 2026-11-03: «arreglar los defectos de la segunda máquina» (DA-092..096, medidos en la notebook de Male el 2026-11-02 y en la PC el 2026-11-03) |
 
 ## 2. Nivel 0 — el método
 
@@ -50,6 +51,7 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | L0-07 | N-08 | El método deberá graduar el rigor NASA y el ritmo ágil de cada proyecto según la complejidad y la incertidumbre del proyecto. | inspección: la matriz de cumplimiento y el selector de rigor del PDP (P2, P3; DA-004, DA-005) |
 | L0-11 | N-11 | El método deberá entregar a cada sesión el conocimiento que exige la clase del pedido de la sesión. | demostración: una sesión real de cada clase (t19 §5, P10) |
 | L0-12 | N-12 | El método deberá exigir el contraste de cada procedimiento con la necesidad del procedimiento. | análisis: la auditoría de las sesiones |
+| L0-13 | N-13 | El método deberá entregar a cada sesión el estado vigente de cada repositorio Y de cada fuente que la sesión usa, en cada máquina de Fran. | demostración: una sesión en la segunda máquina (§16) |
 
 ## 3. Nivel 1 — el método como sistema
 
@@ -537,3 +539,54 @@ siguió sin ellos (P4 AMARILLO falso «TEMA SIN DECLARAR» en `125f02e6`). Dos i
 | L2-AUD-13 | L1-08, L1-27 | Cuando la auditoría calcula la Lectura_Exigida de la sesión auditada, la auditoría deberá usar la Función_De_Lo_Exigido. | DA-078. El parche de `4a1da036` pasó los temas en las dos llamadas de la auditoría; la clase seguía abierta, y el próximo cambio de la puerta la volvía a abrir. | ensayo: `probar-t19de.py`, con un mutante de la Función_De_Lo_Exigido visto en P4 y en P13 |
 
 La V de §14 y de esta sección vive en `docs/t11-cascada-obligatoria.md` §8-9 (un puntero, no una copia: T20).
+
+## 16. La segunda máquina (N-13; DA-092..096)
+
+Elementos: **CAS** la cascada (`cascada.ps1`), **PTA** la puerta, **SGU** el aviso de lo sin guardar
+(`.claude/hooks/sin-guardar.py`, hook Stop), **PER** el perfil global y **FUE** la herramienta de fuentes
+(`fuentes.py`). Los casos: el 2026-11-02, en la notebook de Male, la cascada dijo AL DIA con malena 7 commits atrás,
+claude-acceso 34 y perfil-global 13 (DA-093), la necesidad materia exigió el índice de un repo que esa máquina no
+clona (DA-092); el 2026-11-03 lo validado por Fran quedó en el chat de esa máquina (DA-094), las fuentes de Química
+estaban sólo en su disco (DA-095) y un `git fetch` de sólo lectura pagó el tronco entero (DA-096). Diseño y la V:
+`docs/da093-segunda-maquina.md`. Términos (R4):
+
+- **Repositorio_Leído**: cada repositorio git que la sesión lee al entrar a un proyecto: el del proyecto, el de
+  claude-acceso y el de perfil-global.
+- **Commit_Ausente**: un commit de la rama remota que sigue la rama local de un Repositorio_Leído, ausente de la rama
+  local, contado después de traer el remoto.
+- **Plazo_De_Red**: 20 s por repositorio (TBR).
+- **Índice_De_Cátedras**: el archivo `proyectos/documentos/catedras/CLAUDE.md`, del repo privado `catedras`.
+- **Clase_Repo**: el registro en la Caja_Negra, hecho con la cascada (`-Repo "motivo"`), de que la sesión opera el
+  repositorio git de un proyecto sin producir contenido.
+- **Operación_De_Repositorio**: un comando de Bash o PowerShell cuyo cada tramo es una invocación de git, una mudanza
+  de archivos (`Move-Item`, `mv`, `Rename-Item`) o una lectura pura, con filtros de lectura en sus tuberías.
+- **Declaración_De_Fuentes**: el archivo `fuentes.json` en la raíz de un proyecto: por cada materia, la carpeta del
+  Espejo_De_Fuentes y los Orígenes_De_Fuentes.
+- **Espejo_De_Fuentes**: la carpeta de Drive que la Declaración_De_Fuentes nombra para una materia.
+- **Copia_Local**: la carpeta `~/fuentes-espejo/<proyecto>/<materia>/` de cada máquina, fuera de todo repo.
+- **Orígenes_De_Fuentes**: las carpetas de la máquina donde llegan las fuentes (Descargas, Escritorio), que la
+  Declaración_De_Fuentes nombra.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L1-31 | L0-13 | Cuando la sesión declara un proyecto, la cascada deberá informar la cuenta de Commit_Ausente de cada Repositorio_Leído. | DA-093: el AL DIA medía lo sin pushear y nunca traía el remoto; en una máquina que no corre el arranque nada lo hacía. Un medidor que informa sin medir el estado real da OK sobre el defecto. | ensayo: `probar-cascada.ps1` |
+| L2-CAS-10 | L1-31 | Cuando la sesión declara un proyecto, la cascada deberá traer el remoto de cada Repositorio_Leído antes de contar los Commit_Ausente. | Sin traer el remoto, la cuenta es la del último fetch, que en la notebook tenía días. | ensayo: caso del clon atrasado de `probar-cascada.ps1` |
+| L2-CAS-11 | L1-31 | Cuando un Repositorio_Leído tiene 1 o más Commit_Ausente, la cascada deberá dar ROJO con el repositorio Y la cuenta de Commit_Ausente. | Leer un contrato viejo puso lo nuevo fuera de la regla 11 de malena. Rojo y no aviso: la sesión está por leer lo que el repo ya cambió. | ensayo: caso del clon atrasado, con mutante que no cuenta |
+| L2-CAS-12 | L1-31 | Cuando el remoto de un Repositorio_Leído excede el Plazo_De_Red, la cascada deberá informar el repositorio como sin medir. | Sin red no es verde (falla cerrado en el informe) ni rojo (un freno con falsos positivos se apaga): se dice. El plazo impide que un remoto colgado demore la entrada. | ensayo: caso del remoto inalcanzable |
+| L1-32 | L0-13 | Cuando un turno termina con cambios sin commitear O commits sin pushear en un Repositorio_Leído de un proyecto declarado, el aviso de lo sin guardar deberá mostrarle a Fran la cuenta de cada uno. | DA-094: el checkpoint de la regla 5 supone que la sesión llega a cerrar; en la notebook se cortó y lo validado quedó en el chat. El aviso va a Fran, no al contexto de la sesión (DA-043). TBR: se instala con el sí de Fran (corre solo). | ensayo: autotest de `sin-guardar.py`; demostración: un turno real |
+| L2-SGU-01 | L1-32 | Cuando el aviso de lo sin guardar avisó en los 30 min anteriores de la sesión, el aviso de lo sin guardar deberá omitir el aviso. | Un aviso que salta en cada turno deja de discriminar (chequeo-de-trabajo). TBR los 30 min. | ensayo: autotest |
+| L2-SGU-02 | L1-32 | Cuando el aviso de lo sin guardar falla al leer un repositorio, el aviso de lo sin guardar deberá terminar con código 0 sin bloquear el turno. | El hook Stop puede trabar el cierre de cada turno: un aviso roto no puede frenar el trabajo (lo que tiene que llegar siempre no comparte proceso con lo que puede tardar). | ensayo: autotest |
+| L2-PER-01 | L1-32 | Cuando Fran aprueba un paso de un proyecto, el perfil global deberá exigir el commit Y el push del paso en el turno de la aprobación. | DA-094: «cada sí de Fran es un commit, no el cierre». Lo que sobrevive a un corte es lo que ya estaba en el remoto. | inspección: regla 5 de `CLAUDE-global.md` |
+| L2-PER-02 | L1-32 | Cuando la sesión emite un mensaje de retome, el perfil global deberá exigir la escritura del retome en el HANDOFF del proyecto en el turno del retome. | DA-094: el retome existía, en el chat de la otra notebook. | inspección: regla 12 de `CLAUDE-global.md` |
+| L1-33 | L0-13 | Cuando la sesión declara un proyecto con Declaración_De_Fuentes, la cascada deberá informar por materia la cuenta de archivos del Espejo_De_Fuentes presentes en la Copia_Local con MD5 igual. | DA-095: las fuentes de Química vivían en Descargas de la notebook; desde la PC el apunte compilaba y el módulo siguiente no se podía escribir. `MATERIAL.md` lo decía en prosa y nada lo medía. | ensayo: autotest de `fuentes.py` |
+| L2-FUE-01 | L1-33 | Cuando el MD5 de un archivo de la Copia_Local difiere del MD5 del archivo de igual ruta en el Espejo_De_Fuentes, la herramienta de fuentes deberá contar el archivo como distinto. | Se compara por MD5, no por fecha ni nombre (la regla de lo publicado). | ensayo: autotest, con mutante que compara sólo nombres |
+| L2-FUE-02 | L1-33 | Cuando el Espejo_De_Fuentes de una materia excede el plazo de 30 s, la herramienta de fuentes deberá informar la materia como sin medir. | Falla cerrado en el informe: sin red no es «0 de 0». | ensayo: autotest |
+| L2-FUE-03 | L1-33 | Cuando el Espejo_De_Fuentes de una materia tiene 0 archivos, la herramienta de fuentes deberá informar la materia como espejo vacío. | Verde por vacío: nada que medir y todo bien se ven igual (lección de arquitectura-se). | ensayo: autotest |
+| L2-FUE-04 | L1-33 | Cuando la sesión pide traer las fuentes, la herramienta de fuentes deberá copiar a la Copia_Local cada archivo del Espejo_De_Fuentes ausente de la Copia_Local o con MD5 distinto. | La otra mitad: medir sin poder arreglar es un aviso que no se apaga. | ensayo: autotest |
+| L2-FUE-05 | L1-33 | Cuando la sesión pide subir las fuentes, la herramienta de fuentes deberá copiar al Espejo_De_Fuentes cada archivo de los Orígenes_De_Fuentes Y de la Copia_Local ausente del Espejo_De_Fuentes o con MD5 distinto. | Un solo comando en la máquina que las tiene (memoria «automatizar lo de Fran»). | ensayo: autotest |
+| L2-PTA-50 | L1-26 | Cuando la entrada del proyecto declarado nombra 1 o más cátedras, la puerta deberá exigir el Índice_De_Cátedras en la Rama_De_Naturaleza. | DA-092: el índice lo exigía la necesidad materia a todo proyecto, y malena declara `catedras: []` (sus criterios viven adentro). Un freno que falla cerrado sólo puede exigir lo que la máquina tiene. | ensayo: caso 27 del autotest de la puerta, con mutante |
+| L2-PTA-51 | L1-26 | Cuando la entrada del proyecto declarado nombra 0 cátedras, la puerta deberá omitir el Índice_De_Cátedras. | Control positivo: el caso de la notebook. | ensayo: caso 27 |
+| L1-34 | L0-06 | Cuando la sesión registra la Clase_Repo de cada proyecto que toca una Operación_De_Repositorio, la puerta deberá permitir la operación sin la necesidad declarada, sin las Lecturas_Del_Tronco Y sin la Rama_De_Naturaleza. | DA-096: un fetch de sólo lectura pagó ~40 K tokens del tronco; `-Excepcion` libera el proyecto y no el tronco, y `-Suelta` no despega la primera clasificación. Por permiso: sólo git, mudanzas y lecturas. | ensayo: caso 28 del autotest de la puerta, con mutante |
+| L2-PTA-52 | L1-34 | Cuando una acción sobre un proyecto con Clase_Repo difiere de una Operación_De_Repositorio, la puerta deberá exigir la necesidad declarada del proyecto. | La Clase_Repo no libera escribir contenido: es lo que la separa de la Excepción. | ensayo: sabotaje del caso 28 |
+| L2-PTA-53 | L1-34 | Cuando la sesión invoca la cascada con la Clase_Repo, la puerta deberá registrar la Clase_Repo antes de que el comando corra. | Lo que una puerta necesita saber de un comando se registra antes de que corra. | ensayo: caso 28 |
+| L2-CAS-13 | L1-34 | Cuando la sesión invoca la cascada con la Clase_Repo, la cascada deberá imprimir el estado git del proyecto sin la lectura exigida. | Lo que la operación necesita es el AL DIA (L1-31), no los niveles. | demostración: `cascada.ps1 malena -Repo` |

@@ -23,6 +23,7 @@
   "ramas": {
     "documentos": {"necesidades": ["materia", "publicar"], "conceptos": ["typst"],
                    "leer": [{"ruta": "perfil-global/aprendizaje/fichas/proyectos/{nombre}.md", "por": "las lecciones del proyecto, todas (generadas por aprender.py)"},
+                            {"ruta": "proyectos/documentos/catedras/CLAUDE.md", "con_catedra": true, "por": "lo que pide cada profesor, el indice: se lee ANTES de producir (DA-092: solo si el proyecto nombra una catedra; antes lo exigia la necesidad materia a todos)"},
                             {"ruta": "proyectos/documentos/catedras/{catedra}/CRITERIOS.md", "por": "lo que pide la catedra, textual y graduado: manda sobre el contrato del proyecto"}]},
     "ingenieria": {"leer": [{"ruta": "perfil-global/aprendizaje/fichas/proyectos/{nombre}.md", "por": "las lecciones del proyecto, todas (generadas por aprender.py)"}]},
     "seguimiento": {"leer": [{"ruta": "perfil-global/aprendizaje/fichas/proyectos/{nombre}.md", "por": "las lecciones del proyecto, todas (generadas por aprender.py)"}]}
@@ -34,7 +35,6 @@
       "al_tocar": ["alcance", "requisitos"],
       "herramientas": ["/pdf-con-codigo (Typst; el render se MIRA)", "catedras/verificar-criterios.py", "publicar-apuntes.ps1 -Verificar (MD5)", "respaldo: el PDF anterior en Drive; nada se pisa sin la version previa"],
       "leer": [
-        {"ruta": "proyectos/documentos/catedras/CLAUDE.md", "por": "lo que pide cada profesor: se lee ANTES de producir"},
         {"ruta": "proyectos/documentos/carrera/MATERIAS.md", "por": "que tiene y que le falta a cada materia contra sus contenidos minimos, y por donde se sigue (Fran, 2026-10-02)"},
         {"ruta": "plantillas/naturalezas/documentos.md", "por": "como se produce un documento"},
         {"ruta": "proyectos/documentos/fisica-espacial/CLAUDE.md", "desde": "^## Las reglas propias", "hasta": "^## ", "por": "el formato y la voz de la casa (deuda T2: viven en un proyecto ajeno)"},

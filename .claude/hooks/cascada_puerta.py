@@ -129,6 +129,28 @@ def es_lectura_pura(cmd: str) -> bool:
     return all(FILTRO.match(p) for p in partes[1:])
 
 
+# DA-096 (L1-34; proyectos/ingenieria/arquitectura-se/docs/10-requisitos.md §16): operar el repo de un proyecto --
+# sincronizar, mirar el estado git, mudar archivos -- no produce contenido. Medido el 2026-11-03: un git fetch de solo
+# lectura sobre malena pago ~40 K tokens del tronco. Por PERMISO (Saltzer): git, una mudanza o una lectura pura en
+# cada tramo, tuberias solo a filtros, sin redireccion a archivo ni subexpresiones. Lo demas no es una operacion.
+OP_REPO = re.compile(r"^\s*(&\s*)?(git|Move-Item|mv|move|Rename-Item|ren)\b", re.I)
+
+
+def es_operacion_repo(cmd: str) -> bool:
+    c = REDIRS_INOCUAS.sub(" ", sin_comillas(cmd))
+    if not c.strip() or re.search(r">|`|\$\(", c):
+        return False
+    for tramo in re.split(r";|&&|\|\||\n", c):
+        if not tramo.strip():
+            continue
+        partes = tramo.split("|")
+        if not (OP_REPO.match(partes[0]) or es_lectura_pura(partes[0])):
+            return False
+        if not all(FILTRO.match(p) for p in partes[1:]):
+            return False
+    return True
+
+
 def cargar_catalogo() -> dict:
     return json.loads(CATALOGO.read_text(encoding="utf-8"))
 
@@ -462,11 +484,17 @@ def exigido(cat: dict, proyecto: str | None, declaradas, conceptos, tronco: bool
                 for spec in nd.get("leer", []):
                     agregar(spec, "rama %s, %s: %s" % (nat, n, spec.get("por", "")), rama=True)
         for spec in rama.get("leer", []):
-            if "{catedra}" not in spec["ruta"]:
+            if "{catedra}" not in spec["ruta"] and not spec.get("con_catedra"):
                 agregar(spec, "rama %s: %s" % (nat, spec.get("por", "")), rama=True)
             elif "catedras" not in entrada:
                 notas.append("NO EXISTE: la clave 'catedras' de %s en .claude/cascada.json ([] si ninguna catedra "
                              "manda; T19, L2-VER-11)" % proyecto)
+            elif spec.get("con_catedra"):
+                # DA-092 (L2-PTA-50/51): el indice del repo privado de catedras, solo si el proyecto nombra alguna. Lo
+                # exigia la necesidad materia a todo proyecto, y malena (catedras: []) en la notebook de Male niega
+                # por un repo que esa maquina no clona: un freno que falla cerrado solo exige lo que la maquina tiene.
+                if entrada.get("catedras"):
+                    agregar(spec, "rama %s: %s" % (nat, spec.get("por", "")), rama=True)
             else:
                 for k in entrada.get("catedras") or []:
                     agregar(dict(spec, ruta=spec["ruta"].replace("{catedra}", k)),
@@ -803,7 +831,7 @@ def anotar(sid: str, ev: dict):
 
 def estado(sid: str) -> dict:
     st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "menciones": {}, "comandos": [],
-          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set(), "temas": {}}
+          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set(), "temas": {}, "repos": {}}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -829,6 +857,8 @@ def estado(sid: str) -> dict:
             st["excepciones"][ev["proy"]] = ev.get("motivo", "")
         elif t == "mencion":
             st["menciones"][ev["proy"]] = ev.get("motivo", "")
+        elif t == "repo":   # DA-096: la Clase_Repo de un proyecto
+            st["repos"][ev["proy"]] = ev.get("motivo", "")
         elif t == "clase" and ev.get("clase") in CLASES_PEDIDO:   # T19: la clase del pedido, sin proyecto
             st["clases"].add(ev["clase"])
         elif t == "tema":   # T19, pieza C: la ultima declaracion de temas de un proyecto reemplaza a la anterior
@@ -998,6 +1028,12 @@ def pre(ev: dict) -> int:
     tocados = proyectos_de(tool, inp, ev.get("cwd", ""), cat)
     sid = ev.get("session_id", "")
     st = estado(sid)
+    # DA-096 (L1-34): la Clase_Repo libera las operaciones de repositorio sobre SUS proyectos, sin necesidad, tronco ni
+    # rama, por accion y no por sesion: escribir en el proyecto sigue pidiendo su necesidad (L2-PTA-52), y un concepto
+    # que la operacion dispare se exige igual.
+    if tool in ("Bash", "PowerShell") and tocados and all(p in st["repos"] for p in tocados) \
+            and es_operacion_repo(cmd) and not conceptos_de(cat, tool, inp):
+        return 0
     # DA-070: si la accion toca varios proyectos, manda el primero que falte declarar (el que nadie libero); si estan
     # todos liberados, se exige lo de cada uno (abajo). Antes se miraba solo el primero y el resto pasaba.
     proyecto = next((p for p in tocados if p not in st["declaradas"] and p not in st["excepciones"]),
@@ -1028,6 +1064,10 @@ def pre(ev: dict) -> int:
             porque = ("\nEl PEDIDO de Fran lo nombra (senal '%s'): el contrato dice donde vive lo local y como se "
                       "trabaja, aunque sea un ejercicio de diez minutos." % st["inferidos"][proyecto]
                       if proyecto in st["inferidos"] else "")
+            if proyecto in st["repos"]:   # DA-096 (L2-PTA-52): -Repo no libera escribir contenido
+                porque += ("\n'%s' tiene la clase REPO ('%s'): libera solo git, mudanzas y lecturas, y esta accion es "
+                           "otra cosa. Para editar o producir en el proyecto, su necesidad." % (proyecto,
+                                                                                               st["repos"][proyecto]))
             return deny(
                 "PUERTA DE LA CASCADA (T11): vas a actuar sobre '%s' sin haber declarado la NECESIDAD.%s\n"
                 "Clasifica el pedido de Fran (puede ser mas de una) y corre:\n"
@@ -1197,6 +1237,9 @@ def registrar_invocacion(sid: str, cmd: str):
             mn = re.search(r"-Mencion\s+[\"']([^\"']+)[\"']", resto)
             if mn:
                 anotar(sid, {"t": "mencion", "proy": proy, "motivo": mn.group(1)})
+            rp = re.search(r"-Repo\s+[\"']([^\"']+)[\"']", resto)
+            if rp:   # DA-096 (L2-PTA-53): operar el repo del proyecto; antes de que el comando corra, como lo demas
+                anotar(sid, {"t": "repo", "proy": proy, "motivo": rp.group(1)})
             e = re.search(r"-Excepcion\s+[\"']([^\"']+)[\"']", resto)
             if e:
                 anotar(sid, {"t": "excepcion", "proy": proy, "motivo": e.group(1)})
@@ -2990,6 +3033,89 @@ def autotest() -> int:
             ("MUTANTE DA-078 (lo exigido a la sesion sin sus temas) -> lo ve el caso 8",
              [('    temas = st["temas"].get(proyecto)\n', "    temas = None\n")], 7)):
         mutar(nombre, cambios, sanos26, n, caso26, casos26[n][4], "t19c")
+
+    # 27. DA-092 (L2-PTA-50/51): el indice del repo de catedras se exige en la rama solo al proyecto que nombra una
+    # catedra. Antes lo exigia la necesidad materia a todos, y malena (catedras: []) en la notebook de Male niega por un
+    # repo que esa maquina no clona. Mismo arbol sintetico que el 26, con el indice y una materia sin catedras.
+    f_idx = esc("proyectos/documentos/catedras/CLAUDE.md")
+    f_fl = esc(fich + "demo-libre.md")
+    (r26 / "proyectos" / "documentos" / "demo-libre").mkdir(parents=True, exist_ok=True)
+
+    def con_indice(c):
+        c["ramas"]["documentos"]["leer"].insert(1, {"ruta": "proyectos/documentos/catedras/CLAUDE.md",
+                                                     "con_catedra": True, "por": "el indice"})
+        c["proyectos"]["demo-libre"] = {"catedras": []}
+    f27 = cat26("indice", con_indice)
+    casos27 = (   # (nombre, comandos, lecturas, niega, motivo)
+        ("DA-092 SABOTAJE: materia CON catedra, sin leer el indice -> deny", [dm], todo_mat, True, "CLAUDE.md"),
+        ("DA-092 CONTROL: materia con catedra y el indice leido -> pasa", [dm], todo_mat + [f_idx], False, None),
+        ("DA-092 CONTROL: materia SIN catedras, sin el indice -> pasa", [".\\cascada.ps1 demo-libre -Necesidad ninguna"],
+         [f_nec, f_con, f_fl], False, None))
+
+    def caso27(n, script=__file__):
+        s = "sin-clase-27-%d-%s" % (n, Path(script).stem)
+        _, coms, lect, _, _ = casos27[n]
+        e = {"CASCADA_CATALOGO": f27, "CASCADA_RAIZ": str(r26)}
+        for c in coms:
+            correr(pre_ev("PowerShell", {"command": c}, s, cwd=str(r26)), e, script)
+        for f in lect:
+            correr(post_ev("Read", {"file_path": str(f)}, s=s), e, script)
+        return correr(pre_ev(*mapa26, s=s, cwd=str(r26)), e, script)
+
+    sanos27 = {}
+    for n, (nombre, _, _, niega, motivo) in enumerate(casos27):
+        r = caso27(n)
+        sanos27[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    for nombre, cambios, n in (
+            ("MUTANTE DA-092 (el indice a todos, como antes) -> lo ve el caso 3",
+             [("                if entrada.get(\"catedras\"):\n", "                if True:\n")], 2),
+            ("MUTANTE DA-092 (el indice nunca) -> lo ve el caso 1",
+             [("                if entrada.get(\"catedras\"):\n", "                if False:\n")], 0)):
+        mutar(nombre, cambios, sanos27, n, caso27, casos27[n][3], "da092")
+
+    # 28. DA-096 (L1-34, L2-PTA-52/53): la clase REPO libera git, mudanzas y lecturas sobre SU proyecto sin necesidad,
+    # tronco ni rama; editar sigue pidiendo la necesidad. El caso del 2026-11-03: una sesion ya clasificada Ingenieria
+    # (tronco pendiente, sin leer) que solo quiere un git fetch. Proyecto real (black: tronco, rama y apertura), catalogo
+    # real; el deny solo puede venir de la clase.
+    g_b = 'git -C "%s" fetch --quiet' % black
+    ed28 = ("Edit", {"file_path": str(black / "docs" / "x-da096.md"), "old_string": "a", "new_string": "b"})
+    rep28 = '.\\cascada.ps1 black -Repo "autotest DA-096"'
+    ing28 = '.\\cascada.ps1 -Ingenieria "autotest DA-096"'
+    casos28 = (   # (nombre, comandos previos, accion, niega, motivo)
+        ("DA-096 CONTROL: -Repo y un git fetch sobre el proyecto -> pasa", [rep28], ("PowerShell", {"command": g_b}),
+         False, None),
+        ("DA-096 CONTROL: clasificada Ingenieria (tronco sin leer), -Repo y el fetch -> pasa", [ing28, rep28],
+         ("PowerShell", {"command": g_b}), False, None),
+        ("DA-096 SABOTAJE: -Repo y un Edit en el proyecto -> deny con la necesidad", [rep28], ed28, True, "clase REPO"),
+        ("DA-096 SABOTAJE: -Repo y un git encadenado con un borrado -> deny", [rep28],
+         ("PowerShell", {"command": g_b + '; Remove-Item "%s"' % (black / "x-da096.md")}), True, None),
+        ("DA-096 SABOTAJE: el fetch sin -Repo (Ingenieria) -> deny", [ing28], ("PowerShell", {"command": g_b}), True,
+         None),
+        ("DA-096 SABOTAJE: -Repo y git con redireccion a un archivo -> deny", [rep28],
+         ("PowerShell", {"command": g_b + ' > "%s"' % (black / "x-da096.txt")}), True, None))
+
+    def caso28(n, script=__file__):
+        s = "sin-clase-28-%d-%s" % (n, Path(script).stem)
+        _, coms, accion, _, _ = casos28[n]
+        for c in coms:
+            correr(pre_ev("PowerShell", {"command": c}, s), None, script)
+        return correr(pre_ev(*accion, s=s), None, script)
+
+    sanos28 = {}
+    for n, (nombre, _, _, niega, motivo) in enumerate(casos28):
+        r = caso28(n)
+        sanos28[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    for nombre, cambios, n in (
+            ("MUTANTE DA-096 (-Repo no se registra) -> lo ve el caso 2",
+             [("            if rp:   # DA-096", "            if False:   # DA-096")], 1),
+            ("MUTANTE DA-096 (todo comando es operacion de repo) -> lo ve el caso 4",
+             [("def es_operacion_repo(cmd: str) -> bool:\n", "def es_operacion_repo(cmd: str) -> bool:\n    return True\n")],
+             3),
+            ("MUTANTE DA-096 (sin mirar que el proyecto tenga -Repo) -> lo ve el caso 5",
+             [('and tocados and all(p in st["repos"] for p in tocados) \\', "and tocados \\")], 4)):
+        mutar(nombre, cambios, sanos28, n, caso28, casos28[n][3], "da096")
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
