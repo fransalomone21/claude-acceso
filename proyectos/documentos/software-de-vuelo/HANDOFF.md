@@ -14,6 +14,11 @@
   original. Si Fran abre el `.ioc` en CubeIDE y guarda, regenera bien (toolchain CubeIDE).
 - A probar en placa, en orden: telemetría sola (B1), después con el host (`TEMP B`), y el
   ejercicio 3 con osciloscopio (CS y MISO del payload no seleccionado).
+- **Medido 2026-11-03:** la placa de Fran (ST-LINK S/N `0671FF555670655067072659`, COM5)
+  corre `tp5_pl_b`: imprime «iniciando scheduler» y la telemetría cada 10 s («sensor sin
+  respuesta»: BMP180 sin conectar). Ese S/N es el que la consigna asigna al **Host**.
+  Run/Debug: `C:\stm32\tp5_pl_b\tp5_pl_b Debug.launch` con ese S/N; consola:
+  `TP5 - FreeRTOS\consola-placa.ps1` (miniterm, busca el COM solo).
 
 ## 2026-10-27 — TP4: Drive verificado al día, nada pendiente de subir
 
