@@ -1,5 +1,21 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-11-03 — TP5 (FreeRTOS, PL-B con Tomás): proyecto hecho, sin probar en placa
+
+- Trabajo de grupo (regla 2): vive en `Desktop\01 - UNSAM\Software de Vuelo\TP5 - FreeRTOS\`
+  (guía, `_catedra`, `_verificacion`, `_drive`) y en `C:\stm32\tp5_pl_b` (el proyecto,
+  importado en el workspace de CubeIDE). Fran y Tomás son **PL-B**; la tabla del PDF dice
+  otra cosa (LEA-R5).
+- **Medido:** `tp5_pl_b` con ejercicio 0, B1 y B2 compila con 0 warnings con
+  `-Wall -Wextra -Werror` (gcc de CubeIDE, `_verificacion/compilar.sh` con `PROY=`); el
+  headless de CubeIDE dio 0/0 con la configuración inicial. `bmp180.h` da 150 dC y 69 964 Pa
+  con el ejemplo de Bosch. Guía de 14 págs. con 8 dibujos, render mirado.
+- **Drive:** carpeta de GRUPOS «Software de Vuelo - TP5 FreeRTOS - PL-B - Ojeda, Salomone»,
+  compartida con Tomás (writer, declarada en `estructura-drive.json`); `rclone check` 0
+  diferencias, 160 archivos.
+- **Sin medir:** nada en placa. Hipótesis: el SPI esclavo del F4 no suelta MISO con NSS alto
+  (por eso `0xFF` mientras espera); `T_ESPERA_MS = 50` alcanza (cuenta, no medición).
+
 ## 2026-10-27 — TP4 (host y payload): el Drive del grupo, al día (medido)
 
 - `rclone check` del espejo local (`TP4 - Host y Payload\_drive\`) contra la

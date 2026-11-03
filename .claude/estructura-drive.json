@@ -126,6 +126,18 @@
         ]
       },
       {
+        "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Software de Vuelo - TP5 FreeRTOS - PL-B - Ojeda, Salomone",
+        "id": "1TbMSWnhw3uSZp0Km-MAGJMYu0-9-Nk1x",
+        "rol": "writer",
+        "por-que": "TP5 de Software de Vuelo (FreeRTOS), equipo PL-B (payload 2): Fran y su companero. Creada 2026-11-03 por el conector y compartida a pedido de Fran ('subi la guia y todo a un tp5 en la carpeta de grupos con el mail de tomas ojeda'); el mail es el unico Ojeda de la carpeta del TP4. Adentro: la guia, el proyecto tp5_pl_b, el codigo de verificacion y la consigna.",
+        "quien-sha256": [
+          "7a2939b38dfb6cb9"
+        ],
+        "quien-etiqueta": [
+          "companero del equipo PL-B del TP5 (el mismo del Cohete y del TP4)"
+        ]
+      },
+      {
         "sobre": "01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/IISE - TP Final MCR - Favazza, Groppa, Salomone",
         "id": "1xcK2AQAfziakJmutLsXx0ZaWUv2qQciW",
         "rol": "writer",

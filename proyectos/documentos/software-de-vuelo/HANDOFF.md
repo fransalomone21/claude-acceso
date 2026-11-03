@@ -1,5 +1,20 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-11-03 — TP5: lo que falta es la placa y el acuerdo con los otros equipos
+
+- `LEN_SPI 2`, `SIN_DATO -1`, `T_ESPERA_MS 50` no están en `protocolo.h`: acordarlos con el
+  equipo OBC y PL1 (o con Leandro). Si cambian, se tocan en `USER CODE BEGIN PD` de
+  `C:\stm32\tp5_pl_b\Core\Src\main.c` y en `_verificacion\tp5_pl_b\Core\Src\main.c` (la
+  guía lee el código de ahí: `typst compile --root . <ruta literal>\guia\guia.typ ...` desde
+  `TP5 - FreeRTOS`), y se vuelve a sincronizar `_drive` con `rclone sync` (el remote y la ruta,
+  en el ESTADO).
+- **CubeMX por consola** (`java -jar STM32CubeMX.jar -q`, el que trae CubeIDE) genera para
+  **IAR** aunque el `.ioc` diga STM32CubeIDE, y `project toolchain` no lo cambia: el código de
+  `Core/` sirve, el resto no. Se usó lo de `Core/` y los drivers SPI/I2C sobre el proyecto
+  original. Si Fran abre el `.ioc` en CubeIDE y guarda, regenera bien (toolchain CubeIDE).
+- A probar en placa, en orden: telemetría sola (B1), después con el host (`TEMP B`), y el
+  ejercicio 3 con osciloscopio (CS y MISO del payload no seleccionado).
+
 ## 2026-10-27 — TP4: Drive verificado al día, nada pendiente de subir
 
 - Para volver a medirlo: `rclone --config $env:USERPROFILE\.config\rclone\rclone.conf check "<TP4>\_drive" "drive-personal:01 - UNSAM - Ing. en Sistemas Espaciales/GRUPOS - trabajos por materia/Software de Vuelo - TP4 Host y Payload - Favazza, Ojeda, Salomone + Scafati, Diaz Segui, Groppa"` (dio 0 diferencias, 40 archivos). El espejo `_drive\` se rearma desde `guia\` y `codigo\` si cambian.
