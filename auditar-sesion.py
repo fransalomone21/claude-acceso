@@ -135,13 +135,20 @@ def preguntas_de_estado(g, cat, f: Path, evs: list) -> tuple:
         res.append(R("P1", "Corrio la puerta en esta sesion?", "VERDE", "medido",
                      "%s (sha256 %s): %d eventos, %d decisiones, de %s a %s"
                      % (f.name, sha, len(evs), len(dec), hora(evs[0].get("ts")), hora(evs[-1].get("ts")))))
-    toc, decl, exc = {}, {}, {}
+    toc, decl, exc, rep = {}, {}, {}, {}
     for e in evs:
         t = e.get("t")
         if t == "decide" and e.get("v") == "pasa":
             p = proyecto_de_decision(g, cat, e)
+            # DA-096 (L1-34): con la clase REPO registrada antes, una operacion de repositorio (git, mudanza, lectura)
+            # no es actuar sobre el proyecto: la puerta la deja pasar sin necesidad. Se mide con la regla de la puerta.
+            if p and p in rep and e.get("tool") in ("Bash", "PowerShell") and \
+                    getattr(g, "es_operacion_repo", lambda c: False)(e.get("obj", "")):
+                continue
             if p and p not in toc:
                 toc[p] = e
+        elif t == "repo":
+            rep.setdefault(e.get("proy"), e)
         elif t == "declara" and e.get("proy") not in decl:
             decl[e["proy"]] = e
         elif t == "excepcion":
@@ -679,6 +686,19 @@ def autotest() -> int:
     f = sesion("D", [grep, declara, lee_nuc, edit])
     res = preguntas_de_estado(g, cat, f, eventos(f))[0]
     caso("CONTROL: un grep (lectura pura) antes de declarar -> P2 VERDE", vered(res, "P2") == ["VERDE"], res)
+    # DA-096: con la clase REPO, un git sobre el proyecto no es actuar sin declarar; un Edit despues, si
+    repo = {"t": "repo", "proy": "telescopio", "motivo": "sincronia", "ts": 0.2}
+    fetch = {"t": "decide", "tool": "PowerShell", "obj": 'git -C "%s" fetch --quiet' % tel.as_posix(), "cwd": "",
+             "v": "pasa", "motivo": "", "ts": 0.4}
+    f = sesion("D2", [repo, fetch])
+    res = preguntas_de_estado(g, cat, f, eventos(f))[0]
+    caso("DA-096 CONTROL: -Repo y un git fetch sobre el proyecto -> P2 sin ROJO", "ROJO" not in vered(res, "P2"), res)
+    f = sesion("D3", [repo, fetch, edit])
+    res = preguntas_de_estado(g, cat, f, eventos(f))[0]
+    caso("DA-096: -Repo y despues un Edit sin declarar -> P2 ROJO", vered(res, "P2") == ["ROJO"], res)
+    f = sesion("D4", [fetch])
+    res = preguntas_de_estado(g, cat, f, eventos(f))[0]
+    caso("DA-096: el git fetch SIN -Repo ni declaracion -> P2 ROJO", vered(res, "P2") == ["ROJO"], res)
     # E: compactar borra lo leido
     f = sesion("E", [declara, lee_nuc, {"t": "reset", "ts": 2.5}, edit])
     res = preguntas_de_estado(g, cat, f, eventos(f))[0]
