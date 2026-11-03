@@ -19,6 +19,10 @@
   respuesta»: BMP180 sin conectar). Ese S/N es el que la consigna asigna al **Host**.
   Run/Debug: `C:\stm32\tp5_pl_b\tp5_pl_b Debug.launch` con ese S/N; consola:
   `TP5 - FreeRTOS\consola-placa.ps1` (miniterm, busca el COM solo).
+- **B1 medido en placa (2026-11-03):** con el BMP180 conectado en caliente siguió «sin
+  respuesta»; tras un reset por SWD, `TEMP = 25.3 C   PRES = 1007.2 hPa`. Causa `probable`:
+  el I2C quedó trabado al enchufar el sensor con la placa encendida. Falta el dedo (que suba la
+  temperatura) y B2 con el host.
 
 ## 2026-10-27 — TP4: Drive verificado al día, nada pendiente de subir
 
