@@ -107,6 +107,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$(command -v python || command -v python3)\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/sin-guardar.py\"",
+            "timeout": 15
+          }
+        ]
+      }
     ]
   }
 }
