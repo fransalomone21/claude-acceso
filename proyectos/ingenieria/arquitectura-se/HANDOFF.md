@@ -1,5 +1,16 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-11-03 (sesión `dc910b33`) — SIGUE: (1) el sí de Fran para instalar el aviso de lo sin guardar** (DA-094:
+> `.claude/hooks/sin-guardar.py` como hook `Stop` en `.claude/settings.json`, con `$CLAUDE_PROJECT_DIR` como los demás;
+> después, ver un aviso real y `defectos.py arreglar DA-094 --nivel flujo`); **(2) validar DA-092/093/095/096** con 3
+> sesiones auditadas cada uno (la primera natural: una sesión en la notebook de Male que entre a malena con la cascada
+> nueva y corra `fuentes.py subir malena`); **(3) el MOMENTO LLUVIA DE IDEAS** de arquitectura-se (13 de 10 sesiones).
+> **Para el que siga:** (a) para sincronizar o mirar el git de un proyecto, `.\cascada.ps1 <p> -Repo "motivo"`: no paga
+> tronco ni rama; editar sigue pidiendo `-Necesidad`; (b) el AL DÍA ahora trae el remoto: un «ATRAS N» en rojo se arregla
+> con `git pull --ff-only` ANTES de leer; (c) un mensaje de commit que nombra la ruta de otro proyecto se niega (DA-083):
+> el mensaje va en un archivo y `git commit -F`; (d) rojos del arranque que NO son de esta sesión: las lecciones 70, 230,
+> 297, 346 (y 416, 418), el presupuesto de inyección, la nube y T18.
+
 > **2026-10-30 (sesión lateral `266a0e9d`; plan: ventana 5 h al ~70 % al cerrar, compartida) — SIGUE: las seis
 > lecciones en rojo de `aprender.py sin-triage`**, cada una arreglada de verdad a su nivel (regla 15), no rotulada.
 > Hecho: el rojo de inyección (ESTADO, arriba). **Diagnóstico y diseño candidato** (todo `hipótesis` hasta medirlo):

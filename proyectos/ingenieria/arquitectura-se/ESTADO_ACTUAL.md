@@ -3,6 +3,21 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-11-03 (sesión `dc910b33`) — LA SEGUNDA MÁQUINA: DA-093, 092, 096 Y 095 ARREGLADOS (falta validarlos con 3
+sesiones auditadas); DA-094 A MEDIAS, ESPERANDO EL SÍ DE FRAN.** Requisitos antes: N-13, L0-13 y
+[`docs/10-requisitos.md`](docs/10-requisitos.md) §16 (22 enunciados, 0 VIOLA). **DA-093**: la cascada trae el remoto de
+los tres repos que la sesión lee y da ROJO «ATRAS N»; sin red, SIN MEDIR (efecto real: un clon con `reset --hard
+HEAD~1` da «ATRAS 1» en rojo). **DA-092**: el índice de cátedras va en la rama, sólo a quien nombra una cátedra.
+**DA-096**: `cascada.ps1 <p> -Repo "motivo"` deja pasar git, mudanzas y lecturas sin necesidad, tronco ni rama (efecto
+por la frontera: el fetch sobre malena niega pidiendo el tronco sin `-Repo` y pasa con él; la puerta vieja negaba en
+los dos). **DA-095**: `fuentes.py` y `fuentes.json` en malena: el espejo de las fuentes de Química en Drive, por MD5 (hoy
+vacío: se llena con un `subir` en la notebook). **DA-094**: la regla 5 y la 12 del perfil (cada sí de Fran es commit y
+push en ese turno; el retome al HANDOFF) y el hook `Stop` `.claude/hooks/sin-guardar.py` construido y probado, **sin
+instalar**. Pruebas: autotest de la puerta BIEN (casos 27 y 28, 5 mutantes), `probar-cascada.ps1` 13 casos (los 3
+nuevos, rojos con la versión vieja), `fuentes.py` 8 casos y 4 mutantes, `sin-guardar.py` 7 casos y 4 mutantes. Diseño
+y V: [`docs/da093-segunda-maquina.md`](docs/da093-segunda-maquina.md). Commits: acá `af20b97`, `aa99fac`; perfil
+`52e0827`; malena el del espejo. De paso, **DA-083 volvió** (un mensaje de commit que nombraba una ruta).
+
 **2026-10-30 (sesión lateral `266a0e9d`, pedida desde BLACK 133) — EL ROJO DE INYECCIÓN CERRADO; EL DE LECCIONES
 NO.** `medir-inyeccion.py` (T1) tenía dos rojos y un amarillo que eran **del instrumento**: corrido a mano, los hooks del
 repo se resolvían contra la carpeta de Git Bash (sin `CLAUDE_PROJECT_DIR`: exit=2), y un `hook_cancelled` **sin
