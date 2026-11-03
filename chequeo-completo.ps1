@@ -193,6 +193,10 @@ $saboteadores = @(
     # T19, piezas D y E: P12 (la quinta pregunta), P13 y la muestra de uso en la auditoria, y el lazo (uso-lecturas.py):
     # los dos autotests sanos y 14 mutantes, cada uno visto en SU caso. ~40 s.
     @{ nombre = 'el arbol: procedimiento y lazo (T19)'; cmd = 'python proyectos\ingenieria\arquitectura-se\probar-t19de.py' }
+    # DA-095: el espejo de fuentes sobre un espejo local sintetico (8 casos) y 4 mutantes, cada uno visto en SU caso.
+    @{ nombre = 'el espejo de fuentes (DA-095)';  cmd = 'python fuentes.py --sabotaje' }
+    # DA-094: el aviso de lo sin guardar (hook Stop, se instala con el si de Fran): 7 casos y 4 mutantes.
+    @{ nombre = 'el aviso de lo sin guardar (DA-094)'; cmd = 'python .claude\hooks\sin-guardar.py --sabotaje' }
 )
 
 function Correr($lista, $titulo) {

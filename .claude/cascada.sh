@@ -76,4 +76,6 @@ rc=$?
 [ -f "$RAIZ/uso-lecturas.py" ] && "$PY" "$RAIZ/uso-lecturas.py" proponer --proyecto "$proy"
 # DA-080: los problemas tecnicos abiertos del proyecto (su PROBLEMAS.md)
 [ -f "$RAIZ/problemas.py" ] && "$PY" "$RAIZ/problemas.py" aviso "$proy"
+# DA-095: las fuentes del proyecto contra su espejo (sin rclone, SIN MEDIR)
+[ -f "$RAIZ/fuentes.py" ] && "$PY" "$RAIZ/fuentes.py" aviso "$proy"
 exit $rc

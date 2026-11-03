@@ -514,6 +514,10 @@ if ($Excepcion) {
     # sesion encontro y no arreglo ya no se pierde en un HANDOFF que se reescribe.
     $pb = Join-Path $Raiz 'problemas.py'
     if (Test-Path -LiteralPath $pb) { & python $pb aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
+    # DA-095 (L1-33): las fuentes del proyecto en ESTA maquina contra su espejo en Drive, por MD5. Sin fuentes.json en
+    # el proyecto no imprime nada; sin red dice SIN MEDIR. Informa y no corta: traerlas es un comando.
+    $fz = Join-Path $Raiz 'fuentes.py'
+    if (Test-Path -LiteralPath $fz) { & python $fz aviso $pr.Nombre 2>&1 | ForEach-Object { Write-Host $_ } }
     $ErrorActionPreference = 'Stop'
 } else {
     # aviso y no faltante: en un repo sintetico (probar-cascada.ps1) no esta, y en el real lo mide --verificar
