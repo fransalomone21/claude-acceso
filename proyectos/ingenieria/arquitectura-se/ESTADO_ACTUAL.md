@@ -4,7 +4,8 @@ La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
 **2026-11-03 (sesión `dc910b33`) — LA SEGUNDA MÁQUINA: DA-093, 092, 096 Y 095 ARREGLADOS (falta validarlos con 3
-sesiones auditadas); DA-094 A MEDIAS, ESPERANDO EL SÍ DE FRAN.** Requisitos antes: N-13, L0-13 y
+sesiones auditadas); DA-094 INSTALADO CON EL SÍ DE FRAN Y ARREGLADO (`f2721de`); DA-098 NUEVO: el `pull` que pide el
+AL DÍA lo niega la puerta (orden 28e2).** Requisitos antes: N-13, L0-13 y
 [`docs/10-requisitos.md`](docs/10-requisitos.md) §16 (22 enunciados, 0 VIOLA). **DA-093**: la cascada trae el remoto de
 los tres repos que la sesión lee y da ROJO «ATRAS N»; sin red, SIN MEDIR (efecto real: un clon con `reset --hard
 HEAD~1` da «ATRAS 1» en rojo). **DA-092**: el índice de cátedras va en la rama, sólo a quien nombra una cátedra.

@@ -1,8 +1,10 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
-> **2026-11-03 (sesión `dc910b33`) — SIGUE: (1) el sí de Fran para instalar el aviso de lo sin guardar** (DA-094:
-> `.claude/hooks/sin-guardar.py` como hook `Stop` en `.claude/settings.json`, con `$CLAUDE_PROJECT_DIR` como los demás;
-> después, ver un aviso real y `defectos.py arreglar DA-094 --nivel flujo`); **(2) validar DA-092/093/095/096** con 3
+> **2026-11-03 (sesión `dc910b33`, después de compactar) — DA-094 INSTALADO Y ARREGLADO** (`f2721de`, con el sí de
+> Fran): `sin-guardar.py` es hook `Stop`; por su línea de comando real calla sin pendientes, avisa con uno y calla en la
+> espera. Falta ver el aviso del harness en un turno real (no verificado: si el harness relee settings.json a mitad de
+> sesión). **DA-098 nuevo** (orden 28e2): el `pull` que pide el AL DÍA en la raíz lo niega la puerta pidiendo el tronco;
+> ni `-Excepcion` ni `-Repo` lo liberan. **SIGUE: (1) arreglar DA-098 junto con DA-086**; **(2) validar DA-092/093/094/095/096** con 3
 > sesiones auditadas cada uno (la primera natural: una sesión en la notebook de Male que entre a malena con la cascada
 > nueva y corra `fuentes.py subir malena`); **(3) el MOMENTO LLUVIA DE IDEAS** de arquitectura-se (13 de 10 sesiones).
 > **Para el que siga:** (a) para sincronizar o mirar el git de un proyecto, `.\cascada.ps1 <p> -Repo "motivo"`: no paga
