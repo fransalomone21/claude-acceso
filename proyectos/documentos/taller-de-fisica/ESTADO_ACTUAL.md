@@ -33,8 +33,13 @@
 - **Verificado:** `validar.py` en verde con 9 cuentas nuevas; `validate.py` del
   skill en verde; `verificar-solapes.py` 0 solapes y su sabotaje en rojo donde
   corresponde; render mirado, en LibreOffice: **no** se abrió en PowerPoint.
-- **Falta:** repartir quién dice qué (las notas dicen «a repartir»), y preguntarle
-  a Aníbal la L. La referencia de `9 - Versiones viejas` sigue en v5.
+- **Repartija de la clase 2, propuesta** en el Doc de temas (mismo id, en
+  `9 - Versiones viejas`), con el criterio de la clase 1: Fran abre, cierra y lee
+  los gráficos; Agustín el mecanismo; lo que va con el curso, de a dos. Con los
+  tiempos de las notas: Fran ~52 min, Agustín ~50, los dos ~13 (115 en total).
+  **No está acordada con Agustín**, y las notas del power siguen en «a repartir».
+- **Falta:** acordarla, y preguntarle a Aníbal la L. La referencia de
+  `9 - Versiones viejas` sigue en v5.
 
 ## 2026-10-28 (tarde) — clase 2 corregida en el mismo archivo
 

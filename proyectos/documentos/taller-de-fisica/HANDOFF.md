@@ -3,6 +3,14 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-11-04 — repartija en el Doc de temas
+
+- **Trampa pagada:** reimportar el HTML que exporta Docs pierde la negrita (viene
+  por clase CSS) y duplica los espacios. Antes de subir: `<b>` explícito y
+  `p,h1,h2{margin:0}` al principio del `<style>`. Se mide exportando de vuelta.
+- El Doc vive en `9 - Versiones viejas` (id `1N9rUB-…`, sin cambiar). rclone lo ve
+  con la extensión del formato de exportación que se le pida (`.html`, `.pdf`).
+
 ## 2026-11-04 — clase 2 v7, simulación v4, guía v6
 
 - `referencia.js ... 2` genera la clase 2 (29 diapos). Las figuras nuevas salen de
