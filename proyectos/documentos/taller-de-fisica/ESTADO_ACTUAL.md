@@ -40,6 +40,12 @@
   C4, C2 y C5 con dibujo y respuesta, la pared y la curva del N5. Las notas dicen
   quién da cada diapositiva, cuánto dura y la data clave. La larga (29) quedó en
   `9 - Versiones viejas`.
+- **Dos podcasts de Gemini** en la carpeta nueva `5 - Podcasts` (local y Drive): el
+  repaso completo (19 min, id `1JvTPFl-…`) y el de la clase 2 (25 min, id
+  `1w9DeyJj…`). Nombres puestos transcribiéndolos con Whisper local. Agustín los ve
+  por la carpeta del grupo. No se contrastaron línea por línea con la guía: el de la
+  clase 2 cuenta al revés los dientes de la Fig. 2.17 (min 18:44; probable por la
+  transcripción automática).
 - **Repartija, propuesta** en el Doc de temas (mismo id, en `9 - Versiones viejas`):
   Fran ~26 min, Agustín ~29, los dos ~5. **No está acordada con Agustín.**
 - **Falta:** acordarla, preguntarle a Aníbal la L. La guía v6 sigue con los tiempos
