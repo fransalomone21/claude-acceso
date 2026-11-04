@@ -3,6 +3,21 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-11-04 — clase 2 v7, simulación v4, guía v6
+
+- `referencia.js ... 2` genera la clase 2 (29 diapos). Las figuras nuevas salen de
+  `figuras-clase2.py`, cada una del tamaño con que se usa. `c2-sim-pares.png` es
+  una captura: `msedge --headless=new --window-size=1500,860 --screenshot=...
+  compton.html#p6` (la página abre la pantalla que diga el `#`). Si se regenera
+  `referencia.js ... 1`, revisar que no cambie la corregida que está en Drive.
+- `verificar-solapes.py <pptx>` mide cajas: no ve lo de adentro de una imagen.
+- `figuras-limpias.py` tapó trazas en la Fig. 2-13 con franjas grises: no usar esa
+  versión. La guía y el power van con la 44.3 del Sears.
+- Tras la clase: lo que diga Aníbal entra como TAL-R9 y se contrasta TAL-15 y
+  TAL-20; con eso cierra E2 (PDP §4).
+- Local y Drive: mismo orden (`4 - Imagenes`, `9 - Versiones viejas`). Lo de
+  `9 - Versiones viejas` se puede borrar si Fran lo pide.
+
 ## 2026-10-28 — power corregido de la clase 1
 
 - `referencia.js` v6: `lista()` (punteos numerados), `figura()` usa

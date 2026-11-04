@@ -1,6 +1,40 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-10-28
+**Última actualización:** 2026-11-04
+
+## 2026-11-04 — clase 2 lista (el día de la clase)
+
+- **Primera clase:** Aníbal dijo que estuvo muy bien, sin correcciones puntuales
+  que Fran haya traído (TAL-R8, TAL-20). La L de «P y L» sigue sin contestar.
+- **Carpeta ordenada** (Drive y local, mismo orden; ids sin cambiar, 23 de 23):
+  `3 - Presentacion` deja la clase 1 corregida, la clase 2 y `compton.html`;
+  `4 - Imagenes/Clase 1`; `9 - Versiones viejas` (clase 1 original, referencia,
+  esqueleto, Doc del orden). Lo viejo se movió, no se borró. La carpeta local
+  estaba atrasada contra Drive en la clase 1 corregida, la simulación y el
+  diagrama: se trajo lo de Drive.
+- **Power de la clase 2: de 21 a 29 diapositivas**, mismo archivo (id
+  `1wZyZ8EV…`). Esquemas propios (`figuras-clase2.py`): Dirac, el par con su
+  balance, E contra pc, aniquilación y PET, sección transversal, atenuación,
+  tres finales, satélite; Figs. 2-17 y 9.4 del libro con rótulos; sello
+  MEDIDO/MODELO; respuestas y resoluciones de los ejercicios; 20 notas con «Si
+  Aníbal pregunta».
+- **Errores que se corrigieron:** la foto de cámara de burbujas tenía sello 1933
+  y es muy posterior; la aniquilación llevaba un año que los libros no dan; el
+  N5 aparecía resuelto dos diapositivas antes; la Fig. 2-13 «limpia» tenía
+  franjas grises sobre las trazas (va la 44.3 del Sears; `figuras-limpias.py`
+  sigue con ese defecto); en la 9.4 los cruces medidos dan 0,6 y 4,7 MeV en el
+  plomo y 0,057 y 19 MeV en el aluminio (se decía «~15»).
+- **Simulación v4:** cinco pantallas nuevas (Anderson, Pares, Aniquilación,
+  Secciones, Mapa). Probada en el navegador: sin errores de consola; 3,2 MeV da
+  los 2,5 cm del Ej. 2-6.
+- **Guía v6 (46 págs.):** lo nuevo de cada parte, tiempos de la clase 2, tabla
+  diapositiva por diapositiva y «La segunda clase, mirada con sus criterios»
+  (18 preguntas).
+- **Verificado:** `validar.py` en verde con 9 cuentas nuevas; `validate.py` del
+  skill en verde; `verificar-solapes.py` 0 solapes y su sabotaje en rojo donde
+  corresponde; render mirado, en LibreOffice: **no** se abrió en PowerPoint.
+- **Falta:** repartir quién dice qué (las notas dicen «a repartir»), y preguntarle
+  a Aníbal la L. La referencia de `9 - Versiones viejas` sigue en v5.
 
 ## 2026-10-28 (tarde) — clase 2 corregida en el mismo archivo
 
@@ -286,7 +320,7 @@
 | 0 — Estructura y fuentes | **CERRADA** |
 | 1 — Escribir | **bloqueada a propósito, sin fecha** |
 | E1 — Exposición: el material para decidir (Pre-A) | **CERRADA (2026-10-27)**: orden B con el marco del espectro y la comparación; alcance acotado a la bibliografía |
-| E2 — Exposición: la presentación armada | **en curso**: power de referencia v5; 1.ª clase el 28/10 |
+| E2 — Exposición: la presentación armada | **en curso**: 1.ª clase dada el 28/10; la 2.ª, hoy 4/11, con el material listo. La cierra darla |
 
 **La fase 0 cerró con el recorte de Pisacane confirmado por Fran:**
 "correlativo = continúa un tema ya confirmado, sumá el 5" → 7 capítulos —

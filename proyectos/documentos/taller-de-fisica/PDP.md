@@ -70,8 +70,8 @@ entender de dónde sale una fórmula.
 | E1 | **Exposición de Compton y pares: el material para decidir** (tipo: **Fase Pre-A**, estudios de concepto) — un tramo aparte del apunte, no lo abre | la carpeta del grupo en Drive tiene la bibliografía recortada (Eisberg págs. 55-75), la guía y el esqueleto de la presentación, compartida con Agustín como editor; **y** Fran y Agustín eligieron el orden y el alcance, escritos en `ESTADO_ACTUAL.md` | **CERRADA (2026-10-27)**: orden B con el espectro de apertura y la comparación de cierre; alcance acotado a la bibliografía |
 | E2 | Exposición: la presentación armada (tipo: **Fase C**) | la presentación dada en las dos clases (28/10 y 4/11), con las correcciones de Aníbal de la primera registradas en `catedras` y aplicadas en la segunda | **en curso** (2026-10-27: power de referencia v5) |
 
-**Fase en curso:** E1 — la exposición de Compton y pares (Fase Pre-A). La 1
-(el apunte) sigue bloqueada a propósito hasta que Fran diga «arrancamos».
+**Fase en curso:** E2 — la presentación armada (Fase C). La 1 (el apunte) sigue
+bloqueada a propósito hasta que Fran diga «arrancamos».
 
 > **Tipo Pre-A en E1:** se producen las opciones (órdenes, alcance,
 > ejercicios) y el material para elegir entre ellas; **no** se arman las
