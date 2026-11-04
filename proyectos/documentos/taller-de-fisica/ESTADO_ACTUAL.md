@@ -33,13 +33,17 @@
 - **Verificado:** `validar.py` en verde con 9 cuentas nuevas; `validate.py` del
   skill en verde; `verificar-solapes.py` 0 solapes y su sabotaje en rojo donde
   corresponde; render mirado, en LibreOffice: **no** se abrió en PowerPoint.
-- **Repartija de la clase 2, propuesta** en el Doc de temas (mismo id, en
-  `9 - Versiones viejas`), con el criterio de la clase 1: Fran abre, cierra y lee
-  los gráficos; Agustín el mecanismo; lo que va con el curso, de a dos. Con los
-  tiempos de las notas: Fran ~52 min, Agustín ~50, los dos ~13 (115 en total).
-  **No está acordada con Agustín**, y las notas del power siguen en «a repartir».
-- **Falta:** acordarla, y preguntarle a Aníbal la L. La referencia de
-  `9 - Versiones viejas` sigue en v5.
+- **Power recortado a una hora** (estimación de Fran para hoy, hasta 70 min): 27
+  diapositivas, 59,7 min sumando las notas, mismo id. Salen C3, N2 y la tabla de
+  los tres (queda el dibujo de los tres finales). Quedan 3 conceptuales y 1 con
+  números: sigue cumpliendo TAL-19. Gráficos nuevos: conservación por proceso,
+  C4, C2 y C5 con dibujo y respuesta, la pared y la curva del N5. Las notas dicen
+  quién da cada diapositiva, cuánto dura y la data clave. La larga (29) quedó en
+  `9 - Versiones viejas`.
+- **Repartija, propuesta** en el Doc de temas (mismo id, en `9 - Versiones viejas`):
+  Fran ~26 min, Agustín ~29, los dos ~5. **No está acordada con Agustín.**
+- **Falta:** acordarla, preguntarle a Aníbal la L. La guía v6 sigue con los tiempos
+  y la tabla de la versión larga. La referencia de `9 - Versiones viejas` sigue en v5.
 
 ## 2026-10-28 (tarde) — clase 2 corregida en el mismo archivo
 

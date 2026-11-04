@@ -3,6 +3,13 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-11-04 — clase 2 de una hora
+
+- `referencia.js ... 2corta` genera la versión de una hora; `... 2` sigue dando la
+  larga, y `figuras-clase2.py corta` sólo los gráficos nuevos. Las notas salen de
+  `notas-clase2-corta.js`, por título: si falta o sobra una, el script corta con error.
+- La guía v6 no se tocó: sus tiempos y su tabla de diapositivas son de la larga.
+
 ## 2026-11-04 — repartija en el Doc de temas
 
 - **Trampa pagada:** reimportar el HTML que exporta Docs pierde la negrita (viene
