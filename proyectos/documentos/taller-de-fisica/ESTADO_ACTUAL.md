@@ -40,6 +40,7 @@
   C4, C2 y C5 con dibujo y respuesta, la pared y la curva del N5. Las notas dicen
   quién da cada diapositiva, cuánto dura y la data clave. La larga (29) quedó en
   `9 - Versiones viejas`.
+- **Última versión del power (lo de abajo queda atrás):** 28 diapositivas, ~61 min, con el estacionamiento (4), Anderson rotulada (6) y las notas como guion en prosa, sin quién da ni tiempos. El reparto sólo está en el Doc de temas (Fran ~26, Agustín ~30, los dos ~5), que sigue en `9 - Versiones viejas`: moverlo pide declarar `3 - Presentacion` en `estructura-drive.json`.
 - **Dos podcasts de Gemini** en la carpeta nueva `5 - Podcasts` (local y Drive): el
   repaso completo (19 min, id `1JvTPFl-…`) y el de la clase 2 (25 min, id
   `1w9DeyJj…`). Nombres puestos transcribiéndolos con Whisper local. Agustín los ve
