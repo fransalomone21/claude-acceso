@@ -16,9 +16,11 @@
   elige electrón libre o ligado (Thomson); orden de pestañas cronológico.
 - **Verificado:** todos los botones «Probá» y las animaciones en Edge, sin errores;
   `validar.py` con 9 cuentas más. **Sin ver con el panel visible a tiempo real** (se
-  probó con un reloj propio) **ni subida a Drive**: en Drive sigue la v4.
-- **Falta:** subirla (mismo id), la sección «La simulación» de la guía describe nueve
-  pantallas, y lo que haya dicho Aníbal de la clase 2 (TAL-R9, cierra E2).
+  probó con un reloj propio).
+- **Drive:** subida con el sí de Fran; mismo id (`1sL9ZE3M…`), MD5 igual al local
+  (`a940b0f4…`).
+- **Falta:** la sección «La simulación» de la guía describe nueve pantallas, y lo que
+  haya dicho Aníbal de la clase 2 (TAL-R9, cierra E2).
 
 ## 2026-11-04 — clase 2 lista (el día de la clase)
 
