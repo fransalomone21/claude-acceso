@@ -3,6 +3,17 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-11-04 (noche) — simulación v5
+
+- El texto de cada pantalla vive en `EX`, adentro de `plantilla.html`; los botones
+  «Probá» usan `data-do` (`ir:p1;th:90;val:secT:2`). `armar.py` suma cuatro figuras.
+- **Trampa pagada:** con el panel del navegador oculto `requestAnimationFrame` no corre,
+  y en Edge sin ventana tampoco con `--dump-dom`: para probar animaciones se reemplaza
+  por un `setTimeout` en una copia. `--user-data-dir` va con ruta absoluta: con una
+  relativa, Edge le abre un cartel a Fran.
+- Un `range` con `step` redondea el valor que le asigna un botón: si el valor importa
+  exacto, `step="any"`.
+
 ## 2026-11-04 — clase 2 de una hora
 
 - `referencia.js ... 2corta` genera la versión de una hora; `... 2` sigue dando la

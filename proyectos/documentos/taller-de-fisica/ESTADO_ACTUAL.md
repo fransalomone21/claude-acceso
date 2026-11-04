@@ -2,6 +2,24 @@
 
 **Última actualización:** 2026-11-04
 
+## 2026-11-04 (noche) — simulación v5, para Aníbal, con la física explicada
+
+- **Auditoría de la v4:** sin errores de consola, pero con 5 fallas medidas: el botón
+  de 1,02 MeV decía «no alcanza» (el deslizador redondeaba el valor), a 3,2 MeV daba
+  2,6 cm y no los 2,5 del Ej. 2-6 (lo que decía este archivo no era cierto), las flechas
+  cambiaban θ desde otra pantalla, con luz verde el Cristal mostraba un ángulo viejo y
+  reiniciar dejaba Secciones en pausa. Cinco pantallas no tenían ninguna explicación.
+- **Nuevo:** panel «Física» en cada pantalla (idea, qué entra y qué sale, física,
+  botones para probar, dónde deja de valer, medido o modelo, página del libro).
+  Pantallas nuevas: Inicio, Espectro, Dirac, Tres finales (con la tabla de lo que se
+  conserva), Satélite y Para pensar (C4, C2, C5, N5). Tubo por dentro; en Experimento se
+  elige electrón libre o ligado (Thomson); orden de pestañas cronológico.
+- **Verificado:** todos los botones «Probá» y las animaciones en Edge, sin errores;
+  `validar.py` con 9 cuentas más. **Sin ver con el panel visible a tiempo real** (se
+  probó con un reloj propio) **ni subida a Drive**: en Drive sigue la v4.
+- **Falta:** subirla (mismo id), la sección «La simulación» de la guía describe nueve
+  pantallas, y lo que haya dicho Aníbal de la clase 2 (TAL-R9, cierra E2).
+
 ## 2026-11-04 — clase 2 lista (el día de la clase)
 
 - **Primera clase:** Aníbal dijo que estuvo muy bien, sin correcciones puntuales
