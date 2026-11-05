@@ -33,7 +33,7 @@ echo.
 echo   Compilando el apunte completo (123 paginas, unos 20 segundos)...
 echo.
 REM La llave fija de Typst (DA-079): las trampas que compilan sin error, medidas antes.
-python "%USERPROFILE%\.claude\herramientas\lint-typst.py" apunte.typ
+python "%USERPROFILE%\.claude\herramientas\lint-typst.py" apunte.typ --t6 --t7 --t8
 if errorlevel 1 goto :fallo_lint
 typst compile apunte.typ apunte.pdf
 if errorlevel 1 goto :fallo
@@ -48,7 +48,7 @@ goto :fin
 echo.
 echo   Compilando solo la galeria de figuras...
 echo.
-python "%USERPROFILE%\.claude\herramientas\lint-typst.py" biblioteca\galeria.typ
+python "%USERPROFILE%\.claude\herramientas\lint-typst.py" biblioteca\galeria.typ --t6 --t7 --t8
 if errorlevel 1 goto :fallo_lint
 typst compile biblioteca\galeria.typ biblioteca\galeria.pdf
 if errorlevel 1 goto :fallo

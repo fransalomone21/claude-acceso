@@ -159,7 +159,7 @@ vuelven como la cuarta fila: una oscilación amortiguada (Nilsson §12.7, p. 582
 
   *6. Segundo camino: la ecuación diferencial integrada numéricamente*, sin Laplace. Las
   dos ecuaciones de estado, $L thin dif i\/dif t = 12 - R i - v_C$ y
-  $C thin dif v_C\/dif t = i$, integradas paso a paso desde $(0, 0)$, dan los mismos
+  $C thin dif v_C\/dif t = i$, integradas paso a paso desde $(0; 0)$, dan los mismos
   valores que las fórmulas en $t = 0,1$; $0,35$; $1$ y $2$ s, con diferencias por debajo
   de una parte en mil (`fase3-cuentas.py`, ejercicio 16.1).
 
