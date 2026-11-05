@@ -426,9 +426,10 @@ medirlos desde el centro.
   [$e=0,215$, $nu=63,8°$.],
 )
 
-#subtitulo-anexo("A.5 — Cuerpo rígido (Problemas 1 a 9)")
+#subtitulo-anexo("A.5 — Cuerpo rígido (Problemas 1 a 9 y los dos adicionales)")
 
-Todo del Beer, capítulo 18. Antes de mirar cualquier respuesta de acá:
+Los Problemas 1 a 9 son del Beer, capítulo 18; los dos adicionales, del
+módulo #M("actitud"). Antes de mirar cualquier respuesta de acá:
 *alargado ($I' > I$) precesa directo; achatado ($I' < I$), retrógrado*
 (Beer §18.11, pág. 1191). Es la línea que más fácil se da vuelta, y este
 anexo ya la dio vuelta una vez.
@@ -519,4 +520,25 @@ anexo ya la dio vuelta una vez.
   *8)* Calcular explícitamente 2 a 5.],
   resuelve: [el gas sale hacia $+y$, así que al satélite lo empuja $bold(F) = -J hat(j)$ (ese es el signo que se da vuelta). Es *paralela* al eje de simetría: $bold(r) times bold(F) = J (z, thin 0, thin -x)$ no usa la coordenada $y$ de ningún thruster (mismo truco que los Problemas 7 y 8). Con eso, 1 a 7 salen sin la figura; el 8 la necesita, y la figura es la P18.125 del Beer (pág. 1198), que es este mismo problema con $omega_0 = 36$ rev/h —el dato que la guía no copió— y respuestas al final del libro (pág. 1360). Leída ahí: la cara entre $A$ y $B$ mira hacia $+z$, $bold(R)_A = (-0,6;thin 1,2;thin 1,449)$ m y $bold(R)_B = (0,6;thin 1,2;thin 1,449)$ m, con $1,449$ m la apotema del octógono de lado $1,2$ m. #M("inercia") para el impulso, #M("peonza") para los ángulos.],
   [*1)* $I_y=2400 > I_x=2000$ (axial mayor que transversal, "achatado"): precesión *retrógrada*. *2)* $bold(H) = (0,thin I_y omega_0,thin 0) + J T [z_A + z_B, thin 0, thin -(x_A + x_B)]$. *3)* $bold(omega) = (H_x \/ I_x,thin omega_0,thin H_z\/I_x)$. *4)* $cos theta_H = (I_y omega_0)\/abs(bold(H))$. *5)* $cos theta_omega = omega_0 \/ abs(bold(omega))$. *6-7)* $bold(H)$, $bold(omega)$ y el eje $y$ quedan en un mismo plano, inclinados hacia $+x$, con $bold(H)$ entre el eje y $bold(omega)$ ($theta_omega > theta_H$ porque $I_y > I_x$); visto desde afuera, $bold(H)$ queda fijo y el eje de simetría y $bold(omega)$ giran alrededor de él —precesión retrógrada: el cono espacial queda adentro del corporal— mientras el satélite gira sobre sí. *8)* con $omega_0 = 36$ rev/h $= 0,0628$ rad/s: $x_A + x_B = 0$ y $z_A + z_B = 2,897$ m, así que $bold(H) = (115,9;thin 150,8;thin 0)$ kg·m²/s, $abs(bold(H)) = 190,2$ kg·m²/s; $bold(omega) = (0,0579;thin 0,0628;thin 0)$ rad/s; $theta_H = 37,5°$ y $theta_omega = 42,7°$. Precesión $dot(phi) = abs(bold(H))\/I_x = 0,0951$ rad/s ($54,5$ rev/h); spin $dot(psi) = omega_0 (I_x - I_y)\/I_x = -0,0126$ rad/s ($-7,2$ rev/h). _(verificada: recalculada por separado, y la misma cuenta con los radios de giro del Beer, $I_x = 2025$ e $I_y = 2401$ kg·m², da las respuestas del libro: $theta_x = 52,5°$, $theta_y = 37,5°$, $53,8$ y $6,68$ rev/h; con $A$ y $D$, las del 18.126)_],
+)
+
+#disparador(
+  [Adicional 1 — los brazos telescópicos],
+  [Nave que gira a $omega_0 = 1,25$ rad/s alrededor de $z$; dos brazos con un
+  módulo de 10 kg en la punta se estiran de $r_1 = 1,2$ m a $r_2 = 4,5$ m, a
+  velocidad constante, en 2 minutos. Dos propulsores a 1,1 m del eje mantienen
+  $omega_0$. Empuje $T(t)$ de cada uno.],
+  resuelve: [con $omega_0$ fija, $H_z = (I_0 + 2 m r^2) omega_0$ crece porque crece $r$; derivando, la cupla externa necesaria es $4 m r dot(r) omega_0$, y la pone la pareja de propulsores, $2 dot.op 1,1 thin T$. El mismo resultado sale por Coriolis: cada módulo necesita $2 m dot(r) omega_0$ de costado, a brazo $r$ (#M("actitud"), con la conservación de #M("rotacion") y el Coriolis de #M("cinematica-cr")).],
+  [$dot(r) = 0,0275$ m/s; $T = 0,625 thin r$, o sea $T(t) = 0,75 + 0,0172 thin t$ N: de $0,75$ N a $2,81$ N. El $I_0$ de la nave no hace falta. _(verificado por los dos caminos, y en `practica/validar.py`)_],
+)
+
+#disparador(
+  [Adicional 2 — la rueda de reacción],
+  [Nave simétrica con una rueda sobre su eje $z$, movida por un motor clavado a
+  la nave; todo parte del reposo y el motor hace un par constante $M$ durante
+  un tiempo $T$. $I$: toda la nave, rueda incluida; $I_R$: la rueda sola (la
+  figura le dice $I_w$). Velocidad angular final de la nave y de la rueda
+  respecto de la nave.],
+  resuelve: [el par del motor es interno: el momento angular total sigue en cero. Cada cuerpo por separado: la rueda recibe $M T = I_R (omega_"nave" + omega_"rel")$, y la nave sin la rueda, $-M T = (I - I_R) omega_"nave"$ (#M("actitud")). Es el ejemplo 12.10 del Curtis con otras letras.],
+  [*a)* $omega_"nave" = -M T \/ (I - I_R)$, al revés que la rueda. *b)* $omega_"rel" = I M T \/ (I_R (I - I_R))$. Control: $I omega_"nave" + I_R omega_"rel" = 0$. _(verificado contra el Curtis, ec. del ejemplo 12.10, pág. 676)_],
 )

@@ -1,5 +1,15 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-05 (noche, en la nube) — fase 18 cerrada, sin publicar.** El estado, en `ESTADO_ACTUAL.md`. **Queda para la
+> PC, en este orden:** (1) `.\compilar.bat` y `.\practica\compilar.ps1` (ya con los recortes de CR medidos contra la (5)
+> y `guia_md5`: la guía de Downloads tiene que ser la (5), MD5 `9c2a642b…`), mirar el render de la guía completa y
+> publicar; (2) los SVG de `practica/figuras-cr/` siguen sin ser deterministas (lo de abajo). **Lo que cambió de lugar:**
+> `fig-precesiones` y `fig-disco-torcido` viven ahora en `apunte/biblioteca/figuras-precesion.typ` y `practica/` las
+> importa de ahí (la guía y el modelo salieron idénticos al byte). **Trampas pagadas esta noche:** (a) una línea
+> `// simbolos:` insertada a mitad de un renglón se come el resto del renglón en el PDF —el comentario de Typst llega
+> hasta el fin de línea—: va siempre en su propio renglón; (b) `probar-validar.py` no puede probar nada sin los recortes
+> (su control positivo da rojo), así que en una máquina sin la guía primero va `recortar.py`.
+
 > **2026-11-05 — llegó la guía (5), y la propuesta espera el sí de Fran.** Trae dos ejercicios nuevos de cuerpo
 > rígido (los brazos telescópicos y la rueda de reacción, ya transcriptos en `fuentes/GUIA-ENUNCIADOS.md`), una errata
 > corregida y corre de página lo que va del Problema 2 de CR en adelante. **No correr `.\practica\compilar.ps1` hasta volver

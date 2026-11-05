@@ -66,6 +66,12 @@ SABOTAJES = [
     ('impulso angular por L en el modelo 1', 'modelo-parcial-1.typ',
      'El módulo de $bold(r) times bold(p)$ es $p$ por el *brazo*',
      'El impulso angular $bold(r) times bold(p)$ vale $p$ por el *brazo*', 'validar.py', 'terminologia'),
+    # 2026-11-05: el control por segundo camino (Coriolis) del Adicional 1 tiene que poder fallar.
+    ('segundo camino que no cierra', 'validar.py', 'abs(2 * 1.2 * (2 * 10', 'abs(3 * 1.2 * (2 * 10',
+     'validar.py', 'segundo camino'),
+    # DA-102: una guia con otro MD5 que el que dice el toml no se recorta.
+    ('guia con otro MD5', 'ejercicios.toml', 'guia_md5 = "9c2a', 'guia_md5 = "0c2a',
+     'recortar.py', 'tiene MD5'),
     ('recorte que parte un renglon', 'ejercicios.toml', 'recortes = [[3, 381, 399]]',
      'recortes = [[3, 381, 390]]', 'recortar.py', 'vec-11 recorte 1'),
     ('numero mal en el modelo de parcialito 5 (la precesion)', 'parcialito-5-cuerpo-rigido.typ',

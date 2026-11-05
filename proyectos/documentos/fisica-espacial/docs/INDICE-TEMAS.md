@@ -417,18 +417,23 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso**
   - *(de donde sale)* de dónde sale la relación general entre cupla y H
 - **Las ecuaciones de Euler ($bold(Omega) = bold(omega)$, ejes clavados al cuerpo)**
+  - **La otra mitad de §18.6: la extensión de d'Alembert**
+  - *(de donde sale)* el disco torcido en sus cojinetes
+  - **Las dos reglas de la mano derecha, y el giróscopo con tres dedos**
   - *(guia de la catedra)* qué ejercicios cubre este módulo
   - *(ejemplo)* El disco en la horquilla: la cupla que sostiene el movimiento
   - *(ejemplo)* El volante en el gimbal: por qué 600 N·m dan sólo 20 rad/s²
 - **Los ángulos de Euler: cómo describir la orientación de un giróscopo**
 - **Precesión estable: el caso que sí se resuelve a mano**
   - *(de donde sale)* de dónde sale la cupla que sostiene una precesión constante
+  - **Con el eje inclinado y el peso: una cuadrática, dos precesiones**
+  - *(ejemplo)* El giróscopo de mesa a 60 grados: las dos raíces
 - **¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1**
   - *(de donde sale)* cuál de los tres ejes principales es inestable
   - *(de donde sale)* por qué un cuerpo que pierde energía termina girando sobre su eje mayor
 - **Lo que se usa después**
 
-  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`
+  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`, `<euler-precesion-inclinada>`
 
 ### 21. Peonza simétrica, precesión directa y retrógrada  ·  `peonza`
 
@@ -439,6 +444,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **El ángulo del eje instantáneo: $tan gamma = (I/I') tan theta$**
 - **Precesión directa y precesión retrógrada**
   - *(de donde sale)* de dónde sale el criterio del signo
+  - **La figura «Precesiones» de Aníbal: $beta$ contra $gamma$**
   - *(guia de la catedra)* qué ejercicios cubre este módulo
   - *(ejemplo)* El satélite achatado: el período de una precesión que nadie sostiene
   - *(ejemplo)* El cilindro de paredes delgadas: el umbral entre directa y retrógrada
@@ -446,9 +452,24 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **La receta del Beer: impulso, $bold(H)_G$, ángulos y la ley de los senos**
   - *(ejemplo)* El satélite de dos discos y el meteorito (Problema Resuelto 18.6 del Beer)
 - **Cuando $theta$ también se mueve: el trompo y las tres conservaciones**
-- **Cierre de la Parte V, y del apunte**
 
   Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-conos-directa>`
+
+### 22. El cuerpo que cambia de forma, y la actitud que se controla desde adentro  ·  `actitud`
+
+<small>`apunte/modulos/m22-actitud.typ`</small>
+
+- **Masa que se aleja con la velocidad angular fija: el Adicional 1**
+  - **Primer camino: el momento angular que crece**
+  - **Segundo camino: Coriolis, módulo por módulo**
+- **El mismo mecanismo sin propulsores: el yo-yo**
+  - *(ejemplo)* Un yo-yo de verdad: cuánto hilo para parar un satélite
+- **La rueda de reacción: el Adicional 2**
+  - *(ejemplo)* La rueda con números: girar un microsatélite noventa grados
+- **Rueda, CMG y propulsor: quién cambia $bold(H)$ y quién lo reparte**
+- **Cierre de la Parte V, y del apunte**
+
+  Ecuaciones: `<fig-act-brazos>`, `<act-hz>`, `<act-tau-brazos>`, `<fig-act-pareja>`, `<act-empuje>`, `<fig-act-hz>`, `<fig-act-coriolis>`, `<fig-act-yoyo>`, `<act-yoyo>`, `<fig-act-rueda-corte>`, `<fig-act-par>`, `<act-rueda>`, `<act-nave>`, `<act-rel>`, `<fig-act-reparto>`, `<fig-act-saturacion>`, `<fig-act-actuadores>`
 
 ## Anexo A — la guía de la cátedra, ficha por ficha
 
@@ -456,7 +477,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **A.2 — Conservación de cantidad de movimiento (Ej. 1 a 9, más tres adicionales)**
 - **A.3 — Conservación de impulso angular (Problemas 1 a 7)**
 - **A.4 — Conservación de la energía y gravitación (Problemas 0 a 10, más cinco adicionales)**
-- **A.5 — Cuerpo rígido (Problemas 1 a 9)**
+- **A.5 — Cuerpo rígido (Problemas 1 a 9 y los dos adicionales)**
 
 Los enunciados completos están transcriptos en
 `fuentes/GUIA-ENUNCIADOS.md`; las fichas del anexo son

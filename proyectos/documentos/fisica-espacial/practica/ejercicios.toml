@@ -17,6 +17,13 @@
 #  donde el enunciado lo dice, la nota lo aclara. validar.py lo mide.
 # =====================================================================
 
+# La guia de la catedra contra la que estan medidos los recortes (DA-102,
+# 2026-11-05). recortar.py da ROJO si la guia que encuentra tiene otro MD5:
+# una guia nueva corre las paginas en silencio y publicaria enunciados mal
+# cortados. Con una guia nueva: medir los recortes otra vez y cambiar esto.
+guia = "PROBLEMAS FÍSICA ESPACIAL (5).pdf"
+guia_md5 = "9c2a642b6111def5c9ed7bd11bc5d662"
+
 [[seccion]]
 id = "vec"
 titulo = "Vectores"
@@ -40,7 +47,7 @@ bajada = '''Problemas 0 a 10 y los cinco ejercicios adicionales. Salvo que el en
 [[seccion]]
 id = "cr"
 titulo = "Cuerpo rígido"
-bajada = '''Problemas 1 a 9. Donde la guía dice «impulso angular» $bold(H)_G$ o $bold(L)_G$, léase *momento angular* respecto del centro de masa. Los sentidos de precesión: *directa* si el cuerpo es alargado ($I_"axial" < I_"transversal"$) y *retrógrada* si es achatado.'''
+bajada = '''Problemas 1 a 9 y los dos adicionales de la guía (5). Donde la guía dice «impulso angular» $bold(H)_G$ o $bold(L)_G$, léase *momento angular* respecto del centro de masa. Los sentidos de precesión: *directa* si el cuerpo es alargado ($I_"axial" < I_"transversal"$) y *retrógrada* si es achatado.'''
 
 # ------------------------------------------------------------ VECTORES
 
@@ -444,7 +451,7 @@ resultado = '''$I = 80$ kg·m²; con el thruster en el vértice $(1, 1, 1)$ m em
 id = "cr-2"
 seccion = "cr"
 titulo = "Problema 2 — el disco en la horquilla"
-recortes = [[18, 79, 338]]
+recortes = [[18, 79, 432]]
 nota = '''Donde dice «impulso angular $bold(L)_G$», léase *momento angular* respecto de $G$. El enunciado dice «eje vertical» pero la figura muestra el eje del disco horizontal: se resuelve con la figura.'''
 tip = '''En ejes principales del disco, $bold(L)_G = I_x omega_x hat(i) + I_y omega_y hat(j) + I_z omega_z hat(k)$, y como $bold(L)_G$ gira con la horquilla, $dif bold(L)_G\/dif t = bold(omega)_2 times bold(L)_G$.'''
 resultado = '''$bold(L)_G = 1\/4 m r^2 omega_2 hat(j) + 1\/2 m r^2 omega_1 hat(k)$ (no paralelo a $bold(omega)$). $dif bold(L)_G\/dif t = 1\/2 m r^2 omega_1 omega_2 hat(i)$.'''
@@ -453,7 +460,7 @@ resultado = '''$bold(L)_G = 1\/4 m r^2 omega_2 hat(j) + 1\/2 m r^2 omega_1 hat(k
 id = "cr-3"
 seccion = "cr"
 titulo = "Problema 3 — el volante en el gimbal"
-recortes = [[18, 402, 711]]
+recortes = [[18, 466, 598], [19, 93, 294]]
 tip = '''$bold(M) = I_x alpha hat(i) + bold(omega)_p times bold(H)$: parte del torque se va en girar la dirección de $bold(H)$ y sólo el resto acelera al gimbal.'''
 resultado = '''$600 = 5 alpha + 0,5 dot 10 dot 100$, así que $alpha = 20$ rad/s²: $500$ N·m sostienen el giro de $bold(H)$ y sólo $100$ aceleran.'''
 
@@ -461,7 +468,7 @@ resultado = '''$600 = 5 alpha + 0,5 dot 10 dot 100$, así que $alpha = 20$ rad/s
 id = "cr-4"
 seccion = "cr"
 titulo = "Problema 4 — el spacecraft que precesa"
-recortes = [[19, 79, 376]]
+recortes = [[19, 303, 612]]
 nota = '''Donde dice «impulso angular ($bold(H)_G$)», léase *momento angular*.'''
 tip = '''Libre de torques y simétrico, el spin y la precesión cumplen $dot(psi) = (I' - I)\/I,dot(phi) cos theta$ con $I$ el axial e $I'$ el transversal.'''
 resultado = '''$abs(dot(phi)) = 3,431$ rad/s, período de precesión $1,832$ s. El spin es *negativo* (sentido $-z$): el cuerpo es achatado ($I > I'$) y la precesión es retrógrada.'''
@@ -470,7 +477,7 @@ resultado = '''$abs(dot(phi)) = 3,431$ rad/s, período de precesión $1,832$ s. 
 id = "cr-5"
 seccion = "cr"
 titulo = "Problema 5 — M 7.99, la estación de cinco esferas"
-recortes = [[19, 415, 650]]
+recortes = [[19, 622, 743], [20, 93, 231]]
 tip = '''Con $I_"axial" = 2 I_"transversal"$ la misma relación entre spin y precesión del Problema 4 da la precesión directamente en función del spin.'''
 resultado = '''$dot(chi) = 2 times 3 = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s), retrógrada.'''
 
@@ -478,7 +485,7 @@ resultado = '''$dot(chi) = 2 times 3 = 6$ rev/min $= 0,628$ rad/s (período $10,
 id = "cr-6"
 seccion = "cr"
 titulo = 'Problema 6 — la relación $ell\/r$'
-recortes = [[19, 689, 719], [20, 95, 255]]
+recortes = [[20, 240, 469]]
 tip = '''Compará $I_"axial" = m r^2$ con $I_"transversal" = 1\/2 m r^2 + 1\/12 m ell^2$ del tubo delgado: directa si el axial es el menor.'''
 resultado = '''Retrógrada para $ell\/r < sqrt(6) approx 2,45$ (corto, tipo disco) y directa para $ell\/r > sqrt(6)$ (largo, tipo varilla).'''
 
@@ -486,7 +493,7 @@ resultado = '''Retrógrada para $ell\/r < sqrt(6) approx 2,45$ (corto, tipo disc
 id = "cr-7"
 seccion = "cr"
 titulo = "Problema 7 — la cápsula espacial"
-recortes = [[20, 294, 512]]
+recortes = [[20, 478, 555], [21, 79, 421]]
 tip = '''El impulso angular del cohete, $bold(r)_A times bold(F),Delta t$, es el momento angular final, y $bold(omega)$ sale componente a componente dividiendo por cada momento de inercia.'''
 resultado = '''$bold(H) = (0; -62,5; -100)$ kg·m²/s, $bold(omega) = (0; -0,0625; -0,064)$ rad/s. El eje de precesión es $bold(H)$, a $148,0°$ del eje $z$. Precesión $dot(phi) = 0,118$ rad/s; spin $dot(psi) = 0,036$ rad/s.'''
 
@@ -494,7 +501,7 @@ resultado = '''$bold(H) = (0; -62,5; -100)$ kg·m²/s, $bold(omega) = (0; -0,062
 id = "cr-8"
 seccion = "cr"
 titulo = "Problema 8 — Beer 18.126"
-recortes = [[20, 551, 581]]
+recortes = [[21, 454, 515]]
 tip = '''Ahora el momento angular final es el inicial, $(0; I_x omega_y; I_z omega_z)$, más el impulso angular del cohete $B$.'''
 resultado = '''$bold(H)_f = (0; 120; 93,75)$ kg·m²/s, $bold(omega)_f = (0; 0,12; 0,06)$ rad/s; eje de precesión a $52,0°$ del eje $z$; $dot(phi) = 0,152$ rad/s; $dot(psi) = -0,034$ rad/s.'''
 
@@ -502,7 +509,27 @@ resultado = '''$bold(H)_f = (0; 120; 93,75)$ kg·m²/s, $bold(omega)_f = (0; 0,1
 id = "cr-9"
 seccion = "cr"
 titulo = "Problema 9 — el satélite octogonal (Beer 18.125)"
-recortes = [[20, 617, 771], [21, 79, 475]]
+recortes = [[21, 522, 767], [22, 79, 416]]
 nota = '''Donde dice «impulso angular», léase *momento angular*. El dato $omega_0$ no está en la guía: es el del Beer 18.125, $36$ rev/h.'''
 tip = '''El disparo de $A$ y $B$ agrega $J T (z_A + z_B)$ sobre $x$ al $I_y omega_0$ que ya había sobre $y$, y todo lo demás sale de dividir por los momentos de inercia.'''
 resultado = '''*1)* retrógrada ($I_y > I_x$). *2)* $bold(H) = (J T (z_A + z_B); I_y omega_0; -J T (x_A + x_B))$. *3)* $bold(omega) = (H_x\/I_x; omega_0; H_z\/I_x)$. *4)* $cos theta_H = I_y omega_0\/abs(bold(H))$. *5)* $cos theta_omega = omega_0\/abs(bold(omega))$. *8)* con $z_A + z_B = 2,897$ m: $bold(H) = (115,9; 150,8; 0)$ kg·m²/s, $bold(omega) = (0,0580; 0,0628; 0)$ rad/s, $theta_H = 37,5°$, $theta_omega = 42,7°$; precesión $0,0951$ rad/s y spin $-0,0126$ rad/s.'''
+
+# Los dos adicionales existen sólo en la guía (5) (2026-11-05). Sus recortes, y
+# los de CR del Problema 2 en adelante (que en la (5) cambiaron de página), se
+# midieron sobre la (5) con los bloques de texto e imagen de pymupdf (DA-102).
+[[ej]]
+id = "cr-ad1"
+seccion = "cr"
+titulo = "Adicional 1 — los brazos telescópicos"
+recortes = [[23, 115, 662]]
+tip = '''Con $omega_0$ fija, $H_z = (I_0 + 2 m r^2) omega_0$ crece porque crece $r$, y lo que lo hace crecer es la cupla de la pareja de propulsores, $2 dot.op 1,1 thin T$.'''
+resultado = '''$T(t) = 0,75 + 0,0172 thin t$ N en cada propulsor ($t$ en s): de $0,75$ N al arrancar a $2,81$ N a los $120$ s. Con $dot(r) = 0,0275$ m/s, la cupla neta es $4 m r dot(r) omega_0 = 1,375 thin r$ N·m (lo mismo por Coriolis: $2 m dot(r) omega_0 = 0,6875$ N de costado en cada módulo, a brazo $r$), y la pareja la da con $2,2 thin T$. El $I_0$ de la nave no hace falta.'''
+
+[[ej]]
+id = "cr-ad2"
+seccion = "cr"
+titulo = "Adicional 2 — la rueda de reacción"
+recortes = [[24, 80, 690]]
+nota = '''La figura le dice $I_w$ a lo que el texto llama $I_R$: es el mismo momento de inercia. $M$ es un par (N·m) y $T$ un intervalo de tiempo.'''
+tip = '''El par del motor es interno, así que el momento angular total sigue en cero, y cada cuerpo por separado recibe $plus.minus M$ durante $T$.'''
+resultado = '''*a)* $omega_"nave" = -M T\/(I - I_R)$, al revés que el par sobre la rueda. *b)* $omega_"rel" = I M T\/(I_R (I - I_R))$, respecto de la nave. Control: $I omega_"nave" + I_R omega_"rel" = 0$, y es el ejemplo 12.10 del Curtis. Con los números del ejemplo del apunte ($I = 2$ kg·m², $I_R = 0,002$ kg·m², $M = 0,01$ N·m, $T = 10$ s): $omega_"nave" = -0,0501$ rad/s y $omega_"rel" = 50,05$ rad/s.'''

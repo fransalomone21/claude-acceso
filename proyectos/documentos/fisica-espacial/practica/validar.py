@@ -254,6 +254,14 @@ def c_cr():
     apot = 1.2 / (2 * m.tan(rad(22.5)))
     H9 = (20 * 2 * 2 * apot, 2400 * w0, 0)
     w9 = (H9[0] / 2000, w0, 0)
+    rdot = (4.5 - 1.2) / 120                      # adicional 1: brazos de 1,2 a 4,5 m en 2 min
+
+    def T_ad1(t):                                  # dH/dt = 4 m r rdot w0, contra la pareja 2 * 1,1 * T
+        r = 1.2 + rdot * t
+        return 4 * 10 * r * rdot * 1.25 / 2.2
+    I_, IR, M_, T_ = 2.0, 0.002, 0.01, 10.0        # adicional 2: los numeros del ejemplo del apunte
+    w_nave = -M_ * T_ / (I_ - IR)
+    w_rel = I_ * M_ * T_ / (IR * (I_ - IR))
     return {
         'cr-1': [('80', I), ('(0; 0,2; -0,2)', None), ('0,283', norm(w)), ('8,16', 4 / (50 * G0) * 1000),
                  ('_w', w)],
@@ -267,6 +275,14 @@ def c_cr():
         'cr-8': [('120', H8[1]), ('93,75', H8[2]), ('0,12', H8[1] / I7x), ('0,06', H8[2] / I7z),
                  ('52,0', ang(H8, (0, 0, 1))), ('0,152', norm(H8) / I7x),
                  ('-0,034', (H8[2] / I7z) * (I7x - I7z) / I7x)],
+        # Adicionales de la guia (5), 2026-11-05. El 1 por dos caminos: dH/dt de los modulos y la
+        # fuerza de Coriolis por brazo; el 2 por la formula y por la conservacion del total.
+        'cr-ad1': [('0,0275', rdot), ('0,75', T_ad1(0)), ('2,81', T_ad1(120)),
+                   ('0,0172', (T_ad1(120) - T_ad1(0)) / 120), ('1,375', 4 * 10 * rdot * 1.25),
+                   ('0,6875', 2 * 10 * rdot * 1.25),
+                   ('_coriolis', abs(2 * 1.2 * (2 * 10 * rdot * 1.25) / 2.2 - T_ad1(0)) < 1e-12)],
+        'cr-ad2': [('-0,0501', w_nave), ('50,05', w_rel), ('_total', abs(2 * w_nave + 0.002 * w_rel) < 1e-12),
+                   ('_por_total', abs(-2 * w_nave / 0.002 - w_rel) < 1e-9)],
         'cr-9': [('2,897', 2 * apot), ('115,9', H9[0]), ('150,8', H9[1]), ('0,0580', w9[0]), ('0,0628', w0),
                  ('37,5', ang(H9, (0, 1, 0))), ('42,7', ang(w9, (0, 1, 0))), ('0,0951', norm(H9) / 2000),
                  ('-0,0126', w0 * (2000 - 2400) / 2000)],
@@ -784,12 +800,22 @@ def main():
 
     # 2 y 3. numeros y cobertura
     controles = {}
+    n_ok_camino = []
     for fn in (c_vec, c_cm, c_ma, c_grav, c_cr):
         controles.update(fn())
     extra = {k: controles.pop(k) for k in list(controles) if k.startswith('_')}
+    # Controles por segundo camino (2026-11-05): una tupla ('_nombre', bool) en la lista de un
+    # ejercicio dice que dos caminos llegan a lo mismo; True suma un control, False es rojo.
+    for id_, lista in controles.items():
+        for mostrado, calc in lista:
+            if mostrado.startswith('_') and isinstance(calc, bool):
+                if calc:
+                    n_ok_camino.append(id_)
+                else:
+                    rojos.append('%s: el segundo camino (%s) no da lo mismo' % (id_, mostrado))
     if extra['_vec3_signo'] >= 0:
         rojos.append('vec-3: A x D deberia salir en -z')
-    n_ok = 0
+    n_ok = len(n_ok_camino)
     for id_, lista in controles.items():
         if id_ not in ejs:
             rojos.append('control para "%s", que no existe en el toml' % id_)

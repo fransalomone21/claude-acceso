@@ -471,7 +471,34 @@ mirar el render, verificadores, Drive).
 **Cierra con:** el fin de la cursada del 2C 2026, con cada lista de temas de
 la cátedra cruzada fila por fila contra el apunte en `fuentes/TEMARIO.md`.
 
-**Fase en curso:** 17 — mantenimiento durante la cursada.
+**Fase en curso:** 17 — mantenimiento durante la cursada (la 18 cerró el 2026-11-05).
+
+### Fase 18 — el cuerpo que cambia de forma y la actitud desde adentro  ·  CERRADA (2026-11-05)
+
+**Tipo: Fase D** (construir: escribir contra lo que pide la guía (5) y verificar). NASA Phase D, *System Assembly,
+Integration and Test, Launch and Checkout*. **No se hace:** cambiar lo que esto no pide, ni tocar módulos fuera de
+m20 y m21 más que para el `#M()` que los nombre, ni publicar (la noche corre en la nube, sin Drive).
+
+La abrió la guía (5), que trae dos ejercicios adicionales de cuerpo rígido que el apunte no resuelve (los brazos
+telescópicos y la rueda de reacción), y lo que hoy sólo está en la guía del parcialito 5 (la extensión de
+d'Alembert por su nombre, las dos soluciones de la precesión estable inclinada, las reglas de la mano derecha y la
+figura «Precesiones»). Fran aprobó el plan el 2026-11-05 al pedir que se avance (`.claude/nube/RETOME-fisica.md`), y
+pidió, textual: *«que hayan muchos dibujos explicativos y que no quede ninguna variable sin presentar ni decir de
+donde salio, por que y que representan conceptual y matematicamente»*.
+
+**Cierra con:** los dos ejercicios nuevos resueltos en el apunte y comprobados por dos caminos; `verificar-apunte.py`,
+`indice-temas.py`, `verificar-anexos.py` y `validar.py` en verde; todo símbolo del módulo nuevo presentado y medido
+por `practica/verificar-simbolos.py`; y cada página nueva mirada en render.
+
+**Cerró así** (2026-11-05, noche, sesión en la nube): módulo `actitud` (m22) con los dos adicionales resueltos por dos
+caminos (Adicional 1: $d H_z \/ d t$ y Coriolis; Adicional 2: la fórmula y la conservación del total, contra el ej.
+12.10 del Curtis), más el yo-yo y los actuadores; diez figuras nuevas; m20 y m21 con lo del parcialito (d'Alembert y
+el disco torcido, la cuadrática de la precesión inclinada, la errata, las manos, «Precesiones»). `verificar-apunte.py`,
+`indice-temas.py`, `verificar-anexos.py` (144 ecuaciones) y sus saboteadores en verde; `validar.py` con 667 controles
+(eran 656) y `probar-validar.py` 17 de 17; `verificar-simbolos.py` en verde sobre el m22 (37 símbolos) con sabotaje.
+Páginas nuevas miradas: las nueve del m22, las de m20 y m21 tocadas, la del Anexo A y la del formulario. 230 páginas.
+**Lo que no:** publicar (en la nube no corre), y la auditoría de símbolos de m17–m21 con `--listar`, que no era
+criterio de la fase.
 
 ### Lo que queda fuera de fase, a propósito
 
