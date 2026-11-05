@@ -43,7 +43,21 @@ traer() {
     for f in "${ARCHIVOS[@]}"; do
         [ -f "$perfil/$f" ] && cp "$perfil/$f" "$destino/$f"
     done
-    [ -f "$perfil/herramientas/aprender.py" ] && cp "$perfil/herramientas/aprender.py" "$destino/herramientas/"
+    # Todas las herramientas, no solo aprender.py (2026-11-05, DA de la nube: los compiladores y el guardia llaman a
+    # ~/.claude/herramientas/lint-typst.py, y en la nube no estaba: se compilaba sin la llave fija de DA-079).
+    cp "$perfil/herramientas/"*.py "$destino/herramientas/" 2>/dev/null
+    # Los dos guardias del perfil que estan en python: los registra .claude/settings.json, solo donde no hay powershell.
+    mkdir -p "$destino/hooks"
+    local g
+    for g in guardia-typst.py al-paso.py; do
+        [ -f "$perfil/hooks/$g" ] && cp "$perfil/hooks/$g" "$destino/hooks/"
+    done
+    # Los paquetes de Typst, con la version exacta que usa la PC: compilar no depende de que la nube llegue a
+    # packages.typst.org, y una version distinta no re-maqueta el documento.
+    local cache="${TYPST_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/typst/packages}"
+    if [ -d "$perfil/typst-packages/preview" ]; then
+        mkdir -p "$cache" && cp -r "$perfil/typst-packages/preview" "$cache/"
+    fi
     [ -d "$perfil/aprendizaje/fichas" ] && cp -r "$perfil/aprendizaje/fichas" "$destino/aprendizaje/"
     # Las skills (perfil-global/<s>/SKILL.md -> ~/.claude/skills/<s>/, como install.ps1). La puerta exige leer
     # varias, y sin esto en la nube no estaban: la puerta las salteaba en silencio (T7, 2026-10-02).
@@ -79,6 +93,14 @@ traer() {
         echo "[ROJO] skills: $puestas de $esperadas instaladas en $destino/skills."
         return 1
     fi
+    if [ "$(ls "$perfil/herramientas/"*.py 2>/dev/null | wc -l)" -ne "$(ls "$destino/herramientas/"*.py 2>/dev/null | wc -l)" ]; then
+        echo "[ROJO] herramientas: no se copiaron todas a $destino/herramientas."
+        return 1
+    fi
+    if [ -d "$perfil/typst-packages/preview" ] && [ "$(find "$perfil/typst-packages/preview" -name typst.toml | wc -l)" -ne "$(find "$cache/preview" -name typst.toml 2>/dev/null | wc -l)" ]; then
+        echo "[ROJO] paquetes de Typst: no quedaron todos en $cache/preview."
+        return 1
+    fi
     echo "[OK] perfil instalado en $destino (de $perfil, commit $(git -C "$perfil" rev-parse --short HEAD 2>/dev/null)), $puestas skills"
     echo
     echo "LEER AHORA, con Read, ENTEROS y en este orden, ANTES de cualquier tarea:"
@@ -106,11 +128,25 @@ probar() {
     echo nucleo > "$tmp/p/chequeo-nucleo.md"; echo 'print(1)' > "$tmp/p/herramientas/aprender.py"
     mkdir -p "$tmp/p/una-skill" && echo '# skill' > "$tmp/p/una-skill/SKILL.md"
     mkdir -p "$tmp/p/memoria" && echo '- [x](x.md)' > "$tmp/p/memoria/MEMORY.md"
+    echo 'print(2)' > "$tmp/p/herramientas/lint-typst.py"
+    mkdir -p "$tmp/p/hooks" && echo 'print(3)' > "$tmp/p/hooks/guardia-typst.py"
+    mkdir -p "$tmp/p/typst-packages/preview/cetz/0.5.2" && echo '[package]' > "$tmp/p/typst-packages/preview/cetz/0.5.2/typst.toml"
+    export TYPST_CACHE_DIR="$tmp/cache"
     out="$(traer "$tmp/p" "$tmp/d2")"; rc=$?
     if [ $rc -eq 0 ] && grep -q "$MARCA" "$tmp/d2/CLAUDE.md" && [ -f "$tmp/d2/chequeo-nucleo.md" ] \
        && [ -f "$tmp/d2/skills/una-skill/SKILL.md" ] && ls "$tmp/d2/projects/"*/memory/MEMORY.md >/dev/null 2>&1; then
         echo "[OK] perfil valido -> verde, ~/.claude/CLAUDE.md con el perfil, la skill y la memoria"
     else echo "[FALLA] perfil valido tenia que instalar y dar verde (rc=$rc)"; malos=$((malos+1)); fi
+    # 2b. lo que la PC tiene y la nube no recibia (DA de la nube, 2026-11-05)
+    if [ -f "$tmp/d2/herramientas/lint-typst.py" ] && [ -f "$tmp/d2/hooks/guardia-typst.py" ] \
+       && [ -f "$tmp/cache/preview/cetz/0.5.2/typst.toml" ]; then
+        echo "[OK] el lint, el guardia de Typst y los paquetes quedan instalados"
+    else echo "[FALLA] falta el lint, el guardia o los paquetes de Typst"; malos=$((malos+1)); fi
+    # 2c. sabotaje: un destino donde herramientas/ no se puede completar tiene que dar rojo, no verde
+    mkdir -p "$tmp/d4" && : > "$tmp/d4/herramientas"
+    out="$(traer "$tmp/p" "$tmp/d4" 2>/dev/null)"; rc=$?
+    if [ $rc -ne 0 ]; then echo "[ROJO OK] herramientas sin copiar -> rojo"
+    else echo "[FALLA] con herramientas sin copiar tenia que dar rojo"; malos=$((malos+1)); fi
     # 3. perfil sin la marca (repo equivocado o vacio): rojo
     printf 'otra cosa\n' > "$tmp/p/CLAUDE-global.md"
     out="$(traer "$tmp/p" "$tmp/d3")"; rc=$?

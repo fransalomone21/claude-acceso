@@ -26,6 +26,16 @@ el **Problema 6** y el Hubble (el «Ej. 7») es el **Problema 7**. El Problema 3
 tiene un renglón más de texto. Los títulos de abajo conservan la numeración
 vieja; `practica/ejercicios.toml` usa la nueva.
 
+**Versión (5), recibida el 2026-11-05 — la vigente.** Medida contra la (4)
+comparando el texto y el hash de cada imagen: 24 páginas contra 21; las
+páginas 1 a 17 son idénticas; del Problema 2 de cuerpo rígido al Problema 9 el
+contenido y las imágenes son los mismos pero **caen en otras páginas**, con una
+errata corregida (Problema 3: «Kg/m²» pasó a «Kgm²»); y entran **dos ejercicios
+nuevos**, «Ejercicios adicionales cuerpo rígido», abajo, al cerrar esa sección.
+Ojo: `practica/ejercicios.toml` guarda páginas y coordenadas de la (4), y
+`recortar.py` toma el PDF más nuevo: hay que volver a medir los recortes de
+cuerpo rígido antes de compilar `practica/` (DA-102).
+
 **Por qué existe este archivo.** Los enunciados de la guía son, en su mayoría,
 **imágenes pegadas** dentro del PDF: `pdftotext` devuelve sólo los rótulos
 «Ej. 5», «PROBLEMA 3» y nada más. Leerlos obliga a renderizar el PDF con
@@ -560,6 +570,41 @@ $\bm R_A = (x_A, y_A, z_A)$ y $\bm R_B = (x_B, y_B, z_B)$.
 7. Describa en palabras el movimiento del satélite visto desde un sistema
    inercial (fijo al espacio).
 8. Calcule explícitamente todo lo pedido en los puntos 2 a 5.
+
+### Ejercicios adicionales de cuerpo rígido (págs. 23-24 de la versión 5)
+
+**Adicional 1 — los brazos telescópicos.** Para mantener constante la velocidad
+angular de la nave espacial respecto al eje $z$ a un valor de $omega_0 = 1,25$
+rad/s, se accionan dos pequeños propulsores de empuje variable mientras se
+extienden dos brazos telescópicos desde $r_1 = 1,2$ m hasta $r_2 = 4,5$ m a una
+velocidad constante durante 2 minutos. Determine el empuje $T$ necesario para
+cada propulsor en función del tiempo, desde el instante en que comienza la
+extensión de los brazos. Los pequeños módulos experimentales de 10 kg situados
+en los extremos de los brazos pueden tratarse como partículas, y la masa de los
+brazos rígidos es despreciable.
+
+*Figura:* nave cilíndrica con eje $z$ vertical y $omega_0$ alrededor de él, centro
+de masa $G$. Dos brazos horizontales opuestos, cada uno con un módulo de 10 kg
+en la punta, a distancia $r$ del eje. Dos propulsores en el cuerpo, en lados
+opuestos, con sus empujes $T$ opuestos entre sí, cada uno a **1,1 m** del centro
+(cotas de la figura).
+
+**Adicional 2 — la rueda de reacción.** En la figura se muestran los elementos
+de una nave espacial con simetría axial y un sistema de control mediante una
+rueda de inercia (o de reacción). Cuando el motor ejerce un par (torque o
+cupla) sobre la rueda de reacción, se aplica un par igual y opuesto sobre la
+nave espacial, lo que modifica su momento angular en la dirección del eje $z$.
+Si todos los elementos del sistema parten del reposo y el motor ejerce un par
+constante $M$ durante un intervalo de tiempo $T$, determine la velocidad angular
+final de: (a) la nave espacial; (b) la rueda con respecto a la nave espacial. El
+momento de inercia de toda la nave espacial —incluida la rueda— respecto al eje
+$z$ es $I$, mientras que el momento de inercia de la rueda por sí sola es $I_R$.
+El eje de rotación de la rueda coincide con el eje de simetría $z$ de la nave.
+
+*Figura:* nave cilíndrica con un corte que muestra la rueda (rotulada *Reaction
+wheel*) sobre el motor (*Motor*), el par $M$ entre los dos y el eje $z$ común. **La
+figura rotula $I_w$ al momento de inercia de la rueda; el texto le dice $I_R$.** Es
+la misma cantidad.
 
 ---
 
