@@ -95,7 +95,9 @@ en verde. **La fase 3 cerró** (PDP §4, con el tipo declarado: Fase D).
 
 ## Lecciones y defectos registrados
 
-- Defectos: **DA-109** (media), **DA-110** (media), **DA-113** (media), los tres en `ORDEN-DE-ATAQUE.md`.
+- Defectos: **DA-109** (media), **DA-110** (media), **DA-113** (media) y **DA-114** (media, **arreglado**: la
+  auditoría buscaba perfil-global adentro de claude-acceso; en la nube P10 daba ROJO falso y P11 no miraba
+  perfil-global; `perfil_de()` con autotest y `--sabotaje-perfil`), todos en `ORDEN-DE-ATAQUE.md`.
 - Lecciones: **467** (las reglas a pedido del lint no corren en el guardia) y la **440** marcada como repetida y subida
   a nivel `regla` con su arreglo.
 
@@ -115,6 +117,13 @@ Nada: Fran no habló esta noche, y no hay nada nuevo de él que guardar.
    desde el Nilsson. Sigue siendo tuya para decidir si se publica.
 4. **El M18 trabaja en eficaz** (lo dice en una caja), contra la convención de pico del resto del apunte, porque en
    potencia todo el mundo habla en eficaz. Si preferís pico también ahí, son las fórmulas de potencia con el ½.
+
+## La auditoría
+
+`.claude/auditorias/2026-11-05-c323fd80.md`: **sin rojos**. P5 amarillo (una excepción registrada: la auditoría
+nombra la ruta del contrato de `fisica-espacial` como lectura usada, y la puerta frena el texto que la nombra; no se
+leyó ni escribió nada de ese proyecto). P13 amarillo (4 de 37 lecturas exigidas declaradas como usadas: el tronco de
+requisitos y alcance no se usó para decidir nada de un apunte; propuesta de retiro para Fran, como dice el lazo de uso).
 
 ## Lo que no se pudo, y por qué
 
