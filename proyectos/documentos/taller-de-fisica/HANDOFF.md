@@ -16,6 +16,9 @@ CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 - La simulación ya no abre pantallas por `#p6`: era un gancho de prueba. Una captura nueva
   se saca navegando con clics, no con la receta de abajo.
 - `file://` no abre en el navegador del panel: se usa `compton-sim` de `launch.json`.
+- Auditoría: P11 en rojo por 10 archivos sin commitear de otras sesiones (BLACK, figuras de
+  física espacial, settings), ya así al abrir; no se tocaron. Tampoco los rojos del arranque
+  ni las dos ramas de la nube sin traer (`.claude/nube/regreso.py --traer`).
 
 ## 2026-11-04 (noche) — simulación v5
 
