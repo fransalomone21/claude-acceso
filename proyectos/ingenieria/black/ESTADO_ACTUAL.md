@@ -1,5 +1,7 @@
 # Estado actual
 
+> **2026-11-05: commiteado a pedido de Fran lo que estaba sin commitear desde el 2026-10-30/31:** lo que suena mal por red (`docs/23-jugar-coop.md`), el lanzador de red y las novedades del vigía. El trabajo de BLACK no avanzó en esa sesión.
+
 Índice operativo compacto. **Esto se lee primero**, entero, en cualquier
 sesión nueva — es más rápido que releer la bitácora. Para el detalle de cómo
 se llegó a cada cosa, ir a `docs/03-bitacora.md`; para el instrumental, a

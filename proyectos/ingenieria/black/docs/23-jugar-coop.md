@@ -42,7 +42,7 @@ coop - unirse». Paquete medido el 2026-10-30: 7,6 GB (el disco es 7,3).
 
 | | Cómo | Ventaja | Medido |
 |---|---|---|---|
-| **1. Dos computadoras** | `JUGAR-COOP-RED.ps1 -Anfitrion` en una, `-Unirse <IP>` en la otra | cada uno su pantalla, su sonido y sus fps; es el camino principal del mod (su autor terminó la campaña así) | **no**: el coop por red se probó sólo dentro de la notebook (127.0.0.1) |
+| **1. Dos computadoras** | `JUGAR-COOP-RED.ps1 -Anfitrion` en una, `-Unirse <IP>` en la otra | cada uno su pantalla, su sonido y sus fps; es el camino principal del mod (su autor terminó la campaña así) | **sí**, (135) 2026-10-30: notebook anfitriona + PC por el cable directo (`-Unirse 169.254.234.106`), nivel 2, «anda bien» (Fran). El lanzador no lista la IP 169.254 del cable: hay que dársela a mano |
 | **2. Notebook + monitor** | enchufar el monitor y `PROBAR-COOP-PC.ps1 -DosMonitores` | una ventana entera por pantalla, una sola máquina | lado a lado sí; con monitor no (no había uno enchufado) |
 | **3. Notebook sola** | `PROBAR-COOP-PC.ps1` | cero preparación | **sí**: 145 cuadros por segundo cada copia, cada mando su ventana (Fran) |
 
@@ -114,6 +114,21 @@ Max Frame Rate 144 (el monitor de la notebook) con V-Sync; Render Resolution 150
 SMAA; Anisotropic 16x; Draw Distance 8x; Ambient Occlusion GTAO; Field of View 85-90 a gusto. HDR no: el monitor no lo
 soporta. Si a más de 60 cuadros algo se ve raro (física, animaciones), volver Max Frame Rate a 60: el juego original
 corría a 30 y no se midió por encima.
+
+## Lo que suena mal (135, por red)
+
+Fran, 2026-10-30, nivel 2: **la Glock del compañero suena como la escopeta de un enemigo.** El disparo propio suena
+bien; lo raro es el del otro, oído en la otra máquina. Por qué (*probable*, leído en `src/game/coop_shots.cpp` del mod,
+`Gunshot` y `Bind`): el mod no toca el sonido del arma del jugador; hace sonar el disparo del compañero por una de las
+«ranuras de sonido de arma de la IA» del nivel, atada al nombre del arma. Si en ese nivel ningún enemigo usa esa arma,
+la ranura no tiene su sonido y el mod cae **en silencio** a otra arma con la misma munición, y si no hay, **a cualquiera**:
+ahí aparece la escopeta. Además el sonido no mira el silenciador (`e.bits & 1` sólo cambia el fogonazo): un arma
+silenciada del compañero suena como sin silenciador. El registro de la anfitriona (`coop\logs\black.log`) muestra el
+primer disparo del compañero con el fogonazo del silenciador (`MZ_TSUP`) y una ranura atada: no dice a qué arma.
+**Confirmado por efecto** (Fran, la misma noche): con la Glock suena mal; el mismo compañero con un arma levantada de un
+enemigo del nivel, **suena bien**. Lo que sigue *probable* es por cuál de las dos caídas (misma munición o cualquiera)
+llegó a la escopeta. Lo único del compañero que el mod rearma en sonido es el disparo; el resto (enemigos, mundo) lo hace el juego de
+cada máquina. Arreglarlo es tocar el C++ del mod (fase siguiente a PLAT-PreA); avisarle al autor es publicar.
 
 ## Si algo falla
 

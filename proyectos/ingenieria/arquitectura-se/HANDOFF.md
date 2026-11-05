@@ -1,8 +1,8 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
 > **2026-11-05 (en la PC, regreso de la nube) — HECHO: integrado, publicado y medido** (ESTADO, arriba). **Sigue sin tocar, y
-> es de Fran:** (1) cuatro archivos de BLACK sin commitear, de antes de esta sesión; (2) 6 accesos compartidos sin declarar en
-> Drive; (3) las decisiones de los informes (`.claude/nube/regreso/`). **Rojos del arranque que no son de esto:** las lecciones
+> es de Fran:** (1) 6 accesos compartidos sin declarar en
+> Drive; (2) las decisiones de los informes (`.claude/nube/regreso/`). **Rojos del arranque que no son de esto:** las lecciones
 > 70, 230, 297, 346 y 416, el presupuesto de inyección (`al-paso` sin muestras), T18 (42 viñetas vencidas). **Para el que siga:**
 > para traer de la nube sirve `.\cascada.ps1 <p> -Repo "motivo"`: el aviso del arranque no lo dice (DA-115).
 

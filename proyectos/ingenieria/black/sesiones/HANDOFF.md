@@ -1,5 +1,7 @@
 # Handoff
 
+> **2026-11-05: commiteado a pedido de Fran lo que estaba sin commitear desde el 2026-10-30/31:** lo que suena mal por red (`docs/23-jugar-coop.md`), el lanzador de red y las novedades del vigía. El trabajo de BLACK no avanzó en esa sesión.
+
 Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.

@@ -38,8 +38,8 @@ Set-Calidad
 Set-Toml @{ display_mode = 'borderless'; width = $mon.Width; height = $mon.Height; pause_on_focus_loss = $false }
 
 $red = Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
-    Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.254.*' } |
-    ForEach-Object { "{0} ({1})" -f $_.IPAddress, $_.InterfaceAlias }
+    Where-Object { $_.IPAddress -notlike '127.*' } |
+    ForEach-Object { "{0} ({1}{2})" -f $_.IPAddress, $_.InterfaceAlias, $(if ($_.IPAddress -like '169.254.*') { ', cable directo a la otra maquina' } else { '' }) }
 $args_j = @()
 if ($Anfitrion) {
     $args_j += @('--coop', 'host')

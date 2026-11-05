@@ -284,3 +284,158 @@
 - [archive-black] (linea base, sin revisar) archive.org youtube-PYIpXCUt0WQ: Game Fails: Call of Duty Black Ops "If I were this flexible I'd never leave the house..."
 - [archive-black] (linea base, sin revisar) archive.org youtube-WNXb9iO24lU: Assassin's Creed IV: Black Flag - Devil of the Caribbean Guide
 - [hiddenpalace-black] (linea base, sin revisar) https://hiddenpalace.org/Black_(Aug_16,_2005_prototype) cambio sus enlaces (23 con '(?i)black', huella 172e46a4cf97)
+
+## 2026-10-31
+
+- [gh-black-xbox] MODZARF/Porteador_Espanol_para_NFSMW_Black_Edition-Xbox_Clasico -- Herramienta en Python para portear el audio de la versión de PS2 y los vídeos de la versió (https://github.com/MODZARF/Porteador_Espanol_para_NFSMW_Black_Edition-Xbox_Clasico)
+- [gh-black-ps2] MODZARF/Porteador_Espanol_para_NFSMW_Black_Edition-Xbox_Clasico -- Herramienta en Python para portear el audio de la versión de PS2 y los vídeos de la versió (https://github.com/MODZARF/Porteador_Espanol_para_NFSMW_Black_Edition-Xbox_Clasico)
+- [archive-black] archive.org video-oficial-del-avance-del-paquete-de-mapas-descargables-call-of-duty-black-ops-ii-ven-gYOWU3byeSE: Vídeo oficial del avance del paquete de mapas descargables Call of Duty®: Black Ops II Ven
+- [archive-black] archive.org uprising-dlc-map-pack-preview-official-call-of-duty-black-ops-2-video-jdJONV3KvW0: Uprising DLC Map Pack Preview - Official Call of Duty: Black Ops 2 Video | @CallofDuty | Y
+- [archive-black] archive.org official-call-of-duty-black-ops-4-blackout-free-trial-announcement-ydzWEm2qxsM: Official Call of Duty®: Black Ops 4 — Blackout Free Trial Announcement | @CallofDuty | You
+- [archive-black] archive.org HD_Nation_242: HD Nation 242: Samsung 9000 4K UHD TV Tested! XBOX ONE vs. PS4 in the Home Theater. Should
+- [archive-black] archive.org youtube-2St_Hu2W5RA: TROLLING MOST ANGRY TRICKSHOTTERS EVER ON BLACK OPS 2! #2 (BO2 Locked Lobbies Trolling)
+- [archive-black] archive.org SALEM_EVANSVILLE-MeepleCore_Podcast_Episode_158: MeepleCore Podcast Episode 158 - Wispwood, Toy Battle, Black Angel and much more!
+- [archive-black] archive.org youtube-4JROPfXMfJ0: Call of Duty: Black Ops First Strike PS3 Trailer
+- [archive-black] archive.org 78_old-black-joe_criterion-quartet-foster-van-der-stucken_gbia4003313b: OLD BLACK JOE
+- [archive-black] archive.org 78_old-black-joe_criterion-quartette-foster_gbia0046956a: Old Black Joe
+- [archive-black] archive.org ERIC_ED071557: ERIC ED071557: Correlates of Black and White University Student Grades Beyond the Freshman
+- [archive-black] archive.org ERIC_EJ1055353: ERIC EJ1055353: Secondary School Admissions: The Choice for Black Parents in the London Bo
+- [archive-black] archive.org revolution-dlc-gameplay-trailer-official-call-of-duty-black-ops-2-video-y8Rn1dgZQfg: Revolution DLC Gameplay Trailer - Official Call of Duty: Black Ops 2 Video | @CallofDuty |
+- [archive-black] archive.org wiki-black-desert-online-xbox.fandom.com-20261010: Wiki - Black Desert Online Xbox Wiki
+- [archive-black] archive.org 92923212: Black Wizard #.5 - 3부[플래시]
+- [archive-black] archive.org youtube--ukO0in_zIU: Erron Black Variations Official Breakdown - Mortal Kombat X
+- [archive-black] archive.org youtube-0b2ZO4IULX4: Operation Black Ice Trailer - Tom Clancy's Rainbow Six Siege
+- [archive-black] archive.org youtube-QwGqUHh01jY: 1V1 TROLLING THE MEANEST KID EVER ON BLACK OPS 3! “Black Ops 3 Trolling”
+- [archive-black] archive.org youtube-6xAjIFluJU8: Black Ops 3 Myths - Episode 13: Supply Drops, Uplink Ball, Sticky Glitch, & More! (Call of
+- [archive-black] archive.org youtube-5pbKYHBiExw: AC4: Black Flag - Freedom Cry Takes on History with a Blunderbuss
+- [archive-black] archive.org youtube-10BPQ2IHLXE: Game Fails: Assassin's Creed IV Black Flag "Angry spirits"
+- [archive-black] archive.org youtube-0kBel2FoZgs: GT Pop-Block - Call of Duty: Black Ops II: Reveal Trailer
+- [archive-black] archive.org youtube-4QK2rzweUbY: CoD: Black Ops - Zombie Locale Shangri-La Gameplay (PC, PS3, Xbox 360)
+- [archive-black] archive.org nov272014: Paranerds.com:Podcast 166 - Black Friday Rule
+- [archive-black] archive.org prima-strategy-tgbm: The Getaway Black Monday Prima Strategy Guide DVD
+- [archive-black] archive.org youtube-su7LYSyWjdM: Game Fails: Black Ops II "Caught the last train out of town"
+- [archive-black] archive.org youtube-t8ECd9vcmK0: Game Fails: Assassin's Creed IV Black Flag "Casually assassinated"
+- [archive-black] archive.org youtube-Xw285X03W8I: Game Fails: Assassin's Creed IV Black Flag "Freed from prison and gravity"
+- [archive-black] archive.org youtube-e2XEn5RVWO4: Walmart Leaked E3 Lineups? + Black Panther Xbox One X + Annette Bening Joins Captain Marve
+- [archive-black] archive.org youtube-egl-irt3YdM: Game Fails: COD Black Ops "Safe! Wait... out?"
+- [archive-black] archive.org youtube-aHDBY8KxU9I: Game Fails: Assassin's Creed IV Black Flag "When they fly"
+- [archive-black] archive.org youtube-kcclSSzQ2sI: Game Fails: Call of Duty Black Ops "I'm thinking explosives shouldn't be available to ever
+- [archive-black] archive.org youtube-q588gLdCP6M: RACIST HACKER GETS ME BANNED FROM XBOX IN BLACK OPS 3 1V1! “Black Ops 3 Trolling”
+- [archive-black] archive.org youtube-onDNNjbgt60: Call of Duty: Black Ops II - E3 2012: Behind the Game Interview
+- [archive-black] archive.org thingiverse-4606565: V.I.N.CENT (Vincent) From the Black hole (4606565)
+- [archive-black] archive.org thingiverse-4440899: Black&Decker M12 battery adapter. (4440899)
+- [archive-black] archive.org need-for-speed-most-wanted-black-edition_20220722: Need For Speed Most Wanted Black Edition
+- [archive-black] archive.org gybe2003-03-11: Godspeed You! Black Emperor Live at TwiRoPa on 2003-03-11
+- [archive-black] archive.org youtube-GJc62f49O3Y: Game Fails: Call of Duty Black Ops "He shouldn't have trusted you with his back"
+- [archive-black] archive.org youtube-H9wCsI8OrNo: Assassin's Creed IV: Black Flag - Barfly Guide
+- [archive-black] archive.org need-for-speed-underground_20260228: Need For Speed Underground (Windows, 2003, EA Black Box / EA Games)
+- [archive-black] archive.org need-for-speed-underground-2_202602: Need For Speed Underground 2 (Windows, 2004, EA Black Box / Electronic Arts)
+- [archive-black] archive.org tweakers008340: tweakers / 8340 / Edward Kenway trekt z'n eigen plan in Assassin's Creed IV: Black Flag
+- [archive-black] archive.org the-getaway-black-monday_202512: The Getaway: Black Monday (PS2)
+- [archive-black] archive.org thingiverse-564843: Beaglebone Black Acrylic Shields/Case (564843)
+- [archive-black] archive.org youtube-G8hxPKKekac: $450 Black Friday Budget Gaming PC - How To Find The Deals
+- [archive-black] archive.org youtube-X9oW-mGLhXQ: SPICY KILLCAMS #1 - Black Ops 2: Epic Tomahawks, Trickshots, And MORE! (Funny Moments And 
+- [archive-black] archive.org youtube-_q6hpwqX69M: 5 Things to Do First in Assassin's Creed Black Flag Resynced
+
+## 2026-11-05
+
+- [gh-black-xbox] Peterson047/BLACK-XBEMultiplayer -- An unofficial Multiplayer for  BLACK (2006) Xbox version PC port via static recompilation. (https://github.com/Peterson047/BLACK-XBEMultiplayer)
+- [gh-black-xbox] AlvaroEPena/bo2-360-nx -- Black Ops II (Xbox 360) on Nintendo Switch and Windows by static recompilation: Zombies, M (https://github.com/AlvaroEPena/bo2-360-nx)
+- [gh-black-xbox] MestreTM/T6-Scarlett -- Black Ops II Zombies on Xbox (Developer Mode): playable builds (https://github.com/MestreTM/T6-Scarlett)
+- [gh-black-xbox] DEGROUCHO/xendroid-mali -- Xbox 360 games on Android, tuned for Arm Mali GPUs and MediaTek Dimensity. A Xenia/XenDroi (https://github.com/DEGROUCHO/xendroid-mali)
+- [gh-black-xbox] secretpray/Black -- Unofficial native Apple Silicon port of BLACK for Original Xbox. Bring your own supported  (https://github.com/secretpray/Black)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #163: [Recomp Bug]: (https://github.com/TGP482/BLACK-XBERecomp/issues/163)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #162: [Original Bug]: black ops mode (https://github.com/TGP482/BLACK-XBERecomp/issues/162)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #161: [Feature Request]: Provide option to replace Silver weapon texture with original weapon texture (https://github.com/TGP482/BLACK-XBERecomp/issues/161)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #160: [Feature Request]: Fix suppressed sound for unsuppressed Silver Uzi & MAC-10 Elite (https://github.com/TGP482/BLACK-XBERecomp/issues/160)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #159: [Feature Request]: Make Menu Elements Adjust to FPS (https://github.com/TGP482/BLACK-XBERecomp/issues/159)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #158: [Recomp Bug]: Unable to compile in v3 (https://github.com/TGP482/BLACK-XBERecomp/issues/158)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #157: Textures? (https://github.com/TGP482/BLACK-XBERecomp/issues/157)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #156: Game folder on C:\Users\Usuário\Downloads fails because of the accent ( á ) (https://github.com/TGP482/BLACK-XBERecomp/issues/156)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #155: [Recomp Bug]: i have problem in cutscane verry slow on my pc.. please fix this problem (https://github.com/TGP482/BLACK-XBERecomp/issues/155)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #154: [Recomp Bug]: (https://github.com/TGP482/BLACK-XBERecomp/issues/154)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #153: [Feature Request]: Make checkpoints persistant and/or enable save states (https://github.com/TGP482/BLACK-XBERecomp/issues/153)
+- [archive-black] archive.org wiki-black_desert_online_xboxfandomcom: Wiki - Black Desert Online Xbox Wiki
+- [archive-black] archive.org jogando-todos-os-ninja-gaiden-7-continuando-ninja-gaiden-black-xbox: Jogando Todos Os Ninja Gaiden! # 7 Continuando Ninja Gaiden BLACK ( XBOX)
+- [archive-black] archive.org youtube-_STFcvB02DY: Assassin's Creed IV: Black Flag - All Aboard! Guide
+- [archive-black] archive.org black-usa_202401: Black ( USA)
+- [archive-black] archive.org youtube-hEA0Imnvg6c: Black Ops 2 Rage Sessions | You're Garbage! (Rage Quit)
+- [archive-black] archive.org call-of-duty-black-ops-inside-xbox-first-strike-preview-TKD5QZxm900: Call of Duty: Black Ops - Inside Xbox First Strike Preview | @CallofDuty | YouTube
+- [archive-black] archive.org youtube-GmiP5dvCKuY: Black Ops 3 Myths - Episode 4: Armor vs Wrench, Aircraft Destruction, HIVE, & MORE (Call o
+- [archive-black] archive.org youtube-PRVIVxGNDUg: Game Fails: Call of Duty Black Ops "Taken out Wicked Witch Style"
+- [archive-black] archive.org youtube-tx-F_2dHmdo: Black Ops 2 Funny Moments and Killcams - Epic Trick Shots, Fun With Friends, Fails, and MO
+- [archive-black] archive.org youtube-YwcwXKarwsw: Buck Takes On Verdansk in Season Four of Call of Duty: Black Ops 6
+- [archive-black] archive.org funny_or_die_video_821178ce1f: Funny or Die Video 821178ce1f: Back In Black - PS2 Video Games
+- [archive-black] archive.org official-call-of-duty-black-ops-iii-multiplayer-tutorial-qfg0mImqLhk: Official Call of Duty®: Black Ops III - Multiplayer Tutorial | @CallofDuty | YouTube
+- [archive-black] archive.org roosterteeth-19627: Call of Duty: Black Ops II
+- [archive-black] archive.org ps2-essential-black: PS2 - Black
+- [archive-black] archive.org ps2_Need_for_Speed-_Most_Wanted_Black_Edition_USA: Need for Speed Most Wanted (Black Edition) (USA)
+- [archive-black] archive.org ps2_Delta_Force-_Black_Hawk_Down_USA: Delta Force Black Hawk Down (USA)
+- [archive-black] archive.org scus-971.01.-twisted-metal-black: SCUS 971.01. Twisted Metal Black
+- [archive-black] archive.org sces-52758-spain-manual_RAW: The Getaway - Black Monday - Manual (Spain) SCES-52758 800dpi 48bit
+- [archive-black] archive.org sces-529.48.-the-getaway-black-monday: SCES 529.48. The Getaway Black Monday
+- [archive-black] archive.org dailymotion-x10suq7: Assassin's Creed IV: Black Flag at E3 2013
+- [archive-black] archive.org osf-registrations-e3zvs-v1: Survey 1 Pretest (May 2023): Measurement and Validation of Base Rate Perceptions of Police
+- [archive-black] archive.org roosterteeth-13138: Middle Earth: Shadow of Mordor - Black Celebration Guide
+- [archive-black] archive.org Mahalovideogames-TheLordOfTheRingsConquestTheBlackGatePart2756-4: The Lord of the Rings Conquest - The Black Gate Part 2
+- [archive-black] archive.org youtube-gwazU6ANlhY: Echo Screen Live #17: Is Black Friday Obsolete? (11/21/12)
+- [archive-black] archive.org youtube-cRldwnVnK0A: Skull & Bones Builds On What Made Black Flag Great | E3 2018
+- [archive-black] archive.org youtube-nNbNsFn1zMI: Twisted Metal: Black | The Completionist
+- [archive-black] archive.org call-of-duty-black-ops-2-pre-alpha-showcase-1: Call Of Duty Black Ops 2 Pre Alpha Showcase - Prototype Warehouse
+- [archive-black] archive.org call-of-duty-7-black-ops: Call Of Duty 7 Black Ops
+- [archive-black] archive.org bliptv-20131012-002432-Achievementhunter-CallOfDutyBlackOps2MasterOfDisguiseGuide191: Call of Duty: Black Ops 2 - Master of Disguise Guide
+- [archive-black] archive.org youtube-vjzZVlJHNZY: Game Fails: Call of Duty Black Ops "So that's what a double rainbow means... "
+- [archive-black] archive.org github.com-TGP482-BLACK-XBERecomp_-_2026-10-18_21-00-28: github.com-TGP482-BLACK-XBERecomp_-_2026-10-18_21-00-28
+- [archive-black] archive.org arxiv-hep-th0411002: The Conformal Version of Black Hole Thermodynamics
+- [archive-black] archive.org arxiv-astro-ph0403181: A new calculation of the mass fraction of primordial black holes
+- [archive-black] archive.org behind-the-scenes-with-the-aether-voice-actors-official-call-of-duty-black-ops-4-zombies-MWoTztc5un0: Behind the Scenes with the Aether Voice Actors – Official Call of Duty®: Black Ops 4 Zombi
+- [archive-black] archive.org youtube-AMaNklrJa4s: Strike! Guide - Call of Duty: Black Ops 3
+- [archive-black] archive.org builds-bw-hgss-pt.-7z: Pokémon Prototype ROM Collection - Platinum, Black/White, & HeartGold/SoulSilver (incomple
+- [archive-black] archive.org black-dublado: BLACK DUBLADO
+- [archive-black] archive.org kushowa-reacts-to-sml-movie-black-yoshis-mistake-reuploaded: Kushowa Reacts To SML Movie: Black Yoshi’s Mistake
+- [archive-black] archive.org BlackDawnJul151996prototype: Black Dawn (Jul 15, 1996 prototype)
+- [archive-black] archive.org official-call-of-duty-black-ops-4-black-market-tutorial-mYzmgl2JEHU: Official Call of Duty®: Black Ops 4 - Black Market Tutorial | @Treyarch | YouTube
+- [archive-black] archive.org arxiv-astro-ph0404110: Active Galactic Nuclei with Candidate Intermediate-Mass Black Holes
+- [archive-black] archive.org CallOfDutyBlackOPS2_201311: Call Of Duty Black OPS 2
+- [archive-black] archive.org arxiv-1108.4670: Charged Quantum Black Holes : Thermal Stability Criterion
+- [archive-black] archive.org arxiv-gr-qc0405029: New Formulation of the First Law of Black Hole Thermodynamics: A Stringy Analogy
+- [archive-black] archive.org arxiv-astro-ph0406415: Black hole mass and accretion rate of active galactic nuclei with double-peaked broad emis
+- [archive-black] archive.org cia-readingroom-document-cia-rdp71b00399r000600060024-2: CIA Reading Room cia-rdp71b00399r000600060024-2: SPECIAL BLACK SHIELD ENGINEERING AND TEST
+- [archive-black] archive.org assassins-creed-4-black-flag.-xex: ASSASSINS CREED 4 BLACK FLAG
+- [archive-black] archive.org arxiv-1209.0428: Quantization of Reissner-Nordström Black Holes and Their Non-Singular Quantum Behavior
+- [archive-black] archive.org arxiv-1011.6570: Field theory aspects of cosmology and black holes
+- [archive-black] archive.org roosterteeth-11939: Black Box Easter Eggs
+- [archive-black] archive.org black_202508: BLACK
+- [archive-black] archive.org pirates-the-legend-of-black-kat-ps2-hiresscans: Pirates - The Legend Of Black Kat [SLUS 20365] (Sony Playstation 2) - Box Scans (1200DPI)
+- [archive-black] archive.org pirates-legend-of-the-black-buccaneer: Pirates Legend Of The Black Buccaneer (PS2, USA)
+- [archive-black] archive.org call-of-duty-black-ops-ii_manual_xbox360: Call of Duty Black Ops II Xbox 360 Manual (ENG)
+- [archive-black] archive.org black-gryph-0n-baasik-immortal-now-on-i-tunes: Black Gryph 0n & Baasik IMmortal ( Now On I Tunes!)
+- [archive-black] archive.org black-ops-first-strike-map-pack.-7z: Black Ops First Strike Map Pack. 7z
+- [archive-black] archive.org black-ps2-hiresscans: Black [SLUS 21376] (Sony Playstation 2) - Box Scans (1200DPI)
+- [archive-black] archive.org arxiv-gr-qc9408005: The Black Hole History in Tamed Vacuum
+- [archive-black] archive.org ps2_Men_In_Black_II-_Alien_Escape_USA: Men In Black II Alien Escape (USA)
+- [archive-black] archive.org youtube-ldDJkP2E3iI: Game Fails: Call of Duty Black Ops "Maybe that wasn't the best thing to huddle around"
+- [archive-black] archive.org call-of-duty-black-ops-world-premiere-60-sec-version-lLqwRLYUo3c: Call of Duty: Black Ops - World Premiere :60 Sec Version | @CallofDuty | YouTube
+- [archive-black] archive.org Xbox_enhanced_Longplay_-_Ninja_Gaiden_Black: Xbox One Longplay - Ninja Gaiden Black (XBONE X Enhanced)
+- [archive-black] archive.org arxiv-gr-qc0507022: Some Statistical Mechanical Properties of Photon Black Holes
+- [archive-black] archive.org assassins-creed-iv-black-flag-555308-c-2: Assassin's Creed IV: Black Flag
+- [archive-black] archive.org arxiv-1203.5070: Bosenova collapse of axion cloud around a rotating black hole
+- [archive-black] archive.org arxiv-1201.0463: Stability of Black Holes and Black Branes
+- [archive-black] archive.org official-call-of-duty-black-ops-iii-3-22-black-market-trailer-uk--PI8FF59edA: Official Call of Duty®: Black Ops III – 3/22 Black Market Trailer [UK] | @CallofDuty | You
+- [archive-black] archive.org youtube-VuIt_W6qTmc: Assassin's Creed IV: Black Flag - Trapped Pirates Easter Egg
+- [archive-black] archive.org mysteryofblacksa0000moss: The mystery of the black salamander
+- [archive-black] archive.org call-of-duty-black-ops-inside-xbox-rezurrection-insider-moves-5VJOR_JgmZI: Call of Duty Black Ops - Inside Xbox Rezurrection Insider Moves | @CallofDuty | YouTube
+- [archive-black] archive.org call-of-duty-black-ops-prestige-edition-video-0MjcEeTmEys: Call of Duty: Black Ops - Prestige Edition Video | @CallofDuty | YouTube
+- [archive-black] archive.org youtube-XcHjbouLCFs: Call of Duty: Black Ops II - Launch Trailer
+- [archive-black] archive.org youtube-ZZPvzte_zQU: Black Ops 3 Myths - Episode 1: R.A.P.S, Underwater Flamethrower, Zombies, & More! (Call of
+- [archive-black] archive.org youtube-lLl7Qe35O64: DEATH BATTLE! - Justin Bieber VS Rebecca Black | DEATH BATTLE!
+- [archive-black] archive.org youtube-njA9_8-HWt8: Shipwrecked - Assasin's Creed IV Black Flag (Glitch) - GameFails
+- [archive-black] archive.org youtube-v7JTnKCfuwI: Call of Duty: Black Ops - Resurrection Pack
+- [archive-black] archive.org youtube-t2_jmHOnd-k: Black Tusk Game - E3 2013: Untitled Game Demo
+- [archive-black] archive.org youtube-juGebbrRxhg: Black Ops 2 Funny Moments! - Funny Killcams, Roast Sessions, and MORE!
+- [archive-black] archive.org youtube-imPXzn8Y6Vk: Game Fails: Black Ops II "Hard to pick a loser really..."
+- [archive-black] archive.org youtube-4fok-UiscYM: Call of Duty: Black Ops II - Playing with Power Guide
+- [archive-black] archive.org youtube-ND-uJ3QAXwo: Game Fails: Black Ops "Good dog... now stay!"
+- [archive-black] archive.org tweakers007509: tweakers / 7509 / Nieuwe thema's voor Black Ops II via Xbox Live
+- [archive-black] archive.org the-getaway-bm-press-disc: The Getaway: Black Monday Press Disc
+- [archive-black] archive.org facebook-10150455812264987: PS4 vs Xbox One: Who won Black Friday? - Inside Gaming Daily
