@@ -1,5 +1,10 @@
 # Handoff — próxima sesión
 
+> **2026-11-05: se sigue en la nube.** El retome entero está en
+> [`.claude/nube/RETOME-electronica.md`](../../../.claude/nube/RETOME-electronica.md): la fase 3 para el parcial de Teoría
+> de Circuitos, con el control de paridad y lo que se registra. La sesión local que siga, antes de nada:
+> `python .claude\nube\regreso.py --traer`. El arranque lo avisa mientras exista `.claude/nube/en-la-nube.json`.
+
 > **2026-10-23 (sesión de método, DA-079):** las trampas de Typst que compilan sin
 > error las mide el lint del perfil: `compilar.bat` lo corre y corta en rojo, y todo
 > `typst compile` de una sesión lo pasa el guardia `guardia-typst.py`. Un falso

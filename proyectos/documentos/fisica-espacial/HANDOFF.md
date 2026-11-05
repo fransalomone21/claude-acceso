@@ -1,5 +1,15 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-05 — llegó la guía (5), y la propuesta espera el sí de Fran.** Trae dos ejercicios nuevos de cuerpo
+> rígido (los brazos telescópicos y la rueda de reacción, ya transcriptos en `fuentes/GUIA-ENUNCIADOS.md`), una errata
+> corregida y corre de página lo que va del Problema 2 de CR en adelante. **No correr `.\practica\compilar.ps1` hasta volver
+> a medir los recortes de CR en `ejercicios.toml`:** `recortar.py` toma la guía más nueva y publicaría enunciados mal
+> cortados (DA-102). La propuesta: fase 18, módulo nuevo (masa que se mueve y rueda de reacción, con el Curtis cap. 12) y lo
+> que hoy está sólo en la guía del parcialito 5 (d'Alembert por su nombre, las dos soluciones de la precesión inclinada, las
+> reglas de la mano derecha y la figura «Precesiones») a m20 y m21. Cuentas de los dos ejercicios, por dos caminos, sin
+> entrar todavía a `validar.py`: $T = 0,75 + 0,0172 thin t$ N y $omega_"nave" = - M T \/ (I - I_R)$,
+> $omega_"rel" = I M T \/ (I_R (I - I_R))$.
+
 > **2026-10-29 (noche) — guía v5, ningún símbolo en el aire.** Hecho y
 > publicado (ver ESTADO). **Queda:** (1) el modelo de parcialito 5 y los
 > demás documentos de `practica/` no están en `OBLIGADOS` de

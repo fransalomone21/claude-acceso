@@ -1,0 +1,20 @@
+{
+  "que": "apunte de Teoria de Circuitos para el parcial: fase 3 de electronica-analogica (Laplace, polos y ceros, filtros activos, trifasicos, impedancia reflejada, senales en frecuencia)",
+  "desde": "2026-11-05",
+  "repos": [
+    "proyectos/documentos/teoria-circuitos",
+    "proyectos/documentos/catedras"
+  ],
+  "pdfs": [
+    {
+      "pdf": "proyectos/documentos/electronica-analogica/apunte/apunte-tdc.pdf",
+      "fuentes": "proyectos/documentos/electronica-analogica/apunte",
+      "como": "en esa carpeta: typst compile --input materia=tdc apunte-tdc.typ apunte-tdc.pdf; despues .\\publicar-apuntes.ps1"
+    },
+    {
+      "pdf": "proyectos/documentos/electronica-analogica/apunte/apunte.pdf",
+      "fuentes": "proyectos/documentos/electronica-analogica/apunte",
+      "como": "proyectos\\documentos\\electronica-analogica\\compilar.bat; despues .\\publicar-apuntes.ps1"
+    }
+  ]
+}

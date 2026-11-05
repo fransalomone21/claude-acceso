@@ -1,5 +1,11 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-11-05: la guía (5), medida contra la (4)
+
+- 24 páginas contra 21; dos ejercicios adicionales nuevos de cuerpo rígido; errata del Problema 3 («Kg/m²» a «Kgm²»); lo que
+  va del Problema 2 de CR en adelante cae en otras páginas. Transcriptos en `fuentes/GUIA-ENUNCIADOS.md`.
+- **El apunte y `practica/` siguen sin tocar**: hay propuesta y falta el sí de Fran (ver `HANDOFF.md`).
+
 ## 2026-10-29 (noche): guía v5 — ningún símbolo en el aire
 
 - **Guía** (`practica/resumen-cuerpo-rigido.typ`, 16 págs.): Fran marcó que

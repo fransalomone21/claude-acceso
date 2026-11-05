@@ -31,6 +31,16 @@
         ]
       },
       {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; [ -f \"$CLAUDE_PROJECT_DIR/.claude/nube/en-la-nube.json\" ] || exit 0; \"$(command -v python || command -v python3)\" \"$CLAUDE_PROJECT_DIR/.claude/nube/regreso.py\" --aviso; exit 0",
+            "timeout": 40
+          }
+        ]
+      },
+      {
         "matcher": "compact",
         "hooks": [
           {
