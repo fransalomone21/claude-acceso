@@ -42,26 +42,86 @@ Los segundos caminos están escritos adentro de cada ejercicio y corridos en `el
 con el control positivo en verde. `verificar.py` (65 ejercicios, 80 figuras) y `verificar-cobertura.py` + su saboteador
 en verde. **La fase 3 cerró** (PDP §4, con el tipo declarado: Fase D).
 
+## Lo que se hizo además de la fase 3
+
+- **Fase 5 de electronica-analogica (la voz de la casa en los módulos 7 a 15), abierta y cerrada.** Era el pedido
+  pendiente de Fran del 2026-10-02 que el retome mandaba hacer después de la fase 3. 37 pasajes (la apertura y tres o
+  más por módulo), humor en la prosa y sin cartel, sin cargar a ningún profesor. **Ni una ecuación, número, título,
+  figura ni ejercicio cambió**: lo mide `comparar-matematica.py` (nuevo) contra `06391c6`, con sabotaje por categoría.
+  Los 37 pasajes mirados en render.
+- **Fase 18 de teoria-circuitos**: la guía del parcial (pública) decía que el apunte no tenía Laplace ni filtros
+  activos; ahora apunta a los módulos 16 y 17. Sólo cambió `guia.typ`: la PC tiene que regenerar y publicar la central.
+- **Regla 15, un nivel arriba**: la lección 440 (un `;` comido después de `#f[...]`) se repitió en esta sesión; el
+  guardia de Typst ahora corre las reglas a pedido (T6 a T9) en los proyectos que las declaran en
+  `lint-typst.reglas` (perfil `d694d0a`, con autotest y mutante detectado), y `electronica-analogica` las declara.
+  Visto el efecto con el guardia vivo. De paso apareció un T6 real en el M16 (`(0, 0)` se leía decimal): corregido.
+
 ## Commits por repo
 
-(se completa por tema)
+- `claude-acceso` (rama `claude/awesome-brahmagupta-8mf5j6`): `8500209` informe abierto · `27b0c8e` M16 · `92ac6cd`
+  M17 y M18 · `888d549` fase 3 cerrada en los registros, tablero de la carrera, SVG deterministas · `a469716` T6 del
+  M16 y `compilar.bat` con `--t6 --t7 --t8` · `06391c6` fase 5 abierta y `comparar-matematica.py` · `0ce5db3` la pasada
+  de voz · `b6a90c0` fase 5 cerrada · `ddd210a` `lint-typst.reglas` · y el cierre (este informe y la auditoría).
+- `perfil-global` (`main`): `e66928a` DA-109 y DA-110 · `a7de1cd` lección 467 y recurrencia de la 440 · `d694d0a`
+  guardia de Typst por proyecto · `54d3dec` la 440 subida a regla · `5e8911f` DA-113.
+- `teoria-circuitos` (`master`): `b32e4a8` fase 18.
+- `catedras`: nada (no entró material nuevo de ningún profesor).
+
+## Lo que la PC tiene que hacer al volver (además de `regreso.py --traer`)
+
+1. Regenerar los dos PDF del apunte y publicarlos: **EA 177 pág. y TDC 124 pág.** (medidos en la nube con los
+   parámetros del retome: EA `d3fd9890…` antes de la fase 5; los MD5 finales cambian con la pasada de voz). La nube no
+   commiteó PDF.
+2. `python guia-parcial/compilar.py` en `teoria-circuitos` y publicar la **central** de la guía del parcial (la de
+   sólo ejercicios no cambia).
+3. Actualizar el renglón «estado» de la entrada TDC en `.claude/apuntes-publicos.json` al publicar (no se tocó: es del
+   publicador).
+4. Las figuras nuevas de matplotlib necesitan la Libertinus como `.otf` para regenerarse
+   (`LIBERTINUS=<carpeta> python biblioteca/figuras/generar-fase3.py`); en la PC no hace falta regenerarlas: los SVG
+   están commiteados y son deterministas.
 
 ## Hallazgos
 
-(se completa por tema)
+- [VD 5/10] **La paridad nube-PC del apunte es total** (MD5 iguales en los dos PDF): la nube puede escribir el apunte
+  sin divergir. Cambia el plan: el apunte se puede seguir en la nube con confianza; lo que diverge está en otro lado.
+- [VD 4/10] **La guía del parcial no tiene paridad** (DA-113): mismo texto, distintos SVG por matplotlib 3.11 y sympy
+  ausente. Acota qué se puede republicar desde la nube.
+- [VD 3/10] `fase3-cuentas.py`, al comparar el número **tipeado** con el calculado, agarró dos redondeos propios
+  (1575,5 por 1575,55 Hz; 1111 por 1110,5) que los dos caminos en verde no veían. El tercer control vale.
+- [VD 3/10] El autotest del guardia de Typst daba BIEN en Linux en un caso por la palabra «T3» del texto de ayuda
+  (sabotaje por el motivo equivocado): arreglado, ahora la marca se busca en los hallazgos.
+- [VD 2/10] La puerta deja pasar un `cd <otro proyecto> &&` sin pedir la necesidad (DA-109): se escribió en `carrera`
+  así antes de declararla; se declaró y se leyó después.
 
 ## Lecciones y defectos registrados
 
-(se completa)
+- Defectos: **DA-109** (media), **DA-110** (media), **DA-113** (media), los tres en `ORDEN-DE-ATAQUE.md`.
+- Lecciones: **467** (las reglas a pedido del lint no corren en el guardia) y la **440** marcada como repetida y subida
+  a nivel `regla` con su arreglo.
 
 ## Memoria pendiente (perfil-global/memoria-nube/)
 
-(se completa)
+Nada: Fran no habló esta noche, y no hay nada nuevo de él que guardar.
 
 ## Decisiones para Fran
 
-(se completa)
+1. **El tono de la pasada de voz en el apunte de EA.** Quedó *moderado* a propósito (la opción conservadora): el
+   destinatario primario del apunte de EA es el docente. Si lo querés tan crudo como el de Física Espacial, es una
+   segunda pasada sobre los mismos 37 lugares, con `comparar-matematica.py` cuidando que no se mueva nada.
+2. **Dónde van los módulos nuevos.** Quedaron 16, 17 y 18 al final (detrás del de SPICE) para no renumerar nada, y la
+   carátula del TDC dice el orden de lectura. Si preferís que Laplace quede entre el 12 y el 13, es una renumeración
+   con ~120 referencias de texto plano: se puede, con `verificar.py` (chequeo 6) midiendo.
+3. **La guía privada de la exposición** (H(s), polos y ceros, 2026-10-09) no entró al apunte: el M16 se escribió
+   desde el Nilsson. Sigue siendo tuya para decidir si se publica.
+4. **El M18 trabaja en eficaz** (lo dice en una caja), contra la convención de pico del resto del apunte, porque en
+   potencia todo el mundo habla en eficaz. Si preferís pico también ahí, son las fórmulas de potencia con el ½.
 
 ## Lo que no se pudo, y por qué
 
-(se completa)
+- **Fourier** (tema 8 del retome) no se escribió: la guía del parcial no lo pide, que era la condición del retome.
+- **Las citas al Nilsson con página** sólo donde se miró la página o el índice; el resto quedó como sección (§) sin
+  página, a propósito.
+- **No se compiló el EA con la pasada de voz para mirar sus páginas**: la prosa es la misma en los dos PDF y se miró
+  en el TDC; `verificar.py` compila el EA en verde.
+
+
