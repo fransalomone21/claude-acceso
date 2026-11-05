@@ -328,9 +328,19 @@ def p8_de(g, nube, raiz: Path, pr: Path, desde: str) -> tuple:
     return p8_checkpoint(repo, rel, ho_rel, desde, nube)
 
 
+def perfil_de(raiz: Path) -> Path:
+    """Donde esta perfil-global: adentro de claude-acceso (la PC) o al lado (la nube: /home/user/perfil-global).
+    Antes se miraba solo adentro, y en la nube P10 no veia ninguna leccion y P11 salteaba perfil-global en
+    silencio (DA-114, la misma clase que DA-108)."""
+    adentro, al_lado = raiz / "perfil-global", raiz.parent / "perfil-global"
+    if (adentro / ".git").exists() or not (al_lado / ".git").exists():
+        return adentro
+    return al_lado
+
+
 def lecciones_nuevas(raiz: Path, desde: str) -> tuple:
     """Las lineas de lecciones.jsonl que NO estaban en el ultimo commit de perfil-global anterior a 'desde'."""
-    pg, rel = raiz / "perfil-global", "aprendizaje/lecciones.jsonl"
+    pg, rel = perfil_de(raiz), "aprendizaje/lecciones.jsonl"
     f = pg / rel
     if not f.exists():
         return [], ""
@@ -588,7 +598,7 @@ def auditar(sesion: str | None, de_fran: list, raiz: Path = RAIZ, procedimientos
     res.append(R("P10", "Si algo fallo (revento, excepcion), quedo su leccion?",
                  "ROJO" if algo_fallo and not nuevas else "VERDE", "medido", ev10))
     # P11 -- el METODO tambien es memoria: una sesion que lo cambia lo deja commiteado y pusheado, en los dos repos
-    for nombre, repo in (("claude-acceso", raiz), ("perfil-global", raiz / "perfil-global")):
+    for nombre, repo in (("claude-acceso", raiz), ("perfil-global", perfil_de(raiz))):
         if not (repo / ".git").exists():
             continue
         v, e = repo_al_dia(repo, nube)
@@ -655,6 +665,21 @@ def autotest() -> int:
         print("%s  %-70s %s" % ("ok " if ok else "MAL", nombre, "" if ok else "-> " + str(detalle)[:160]))
         if ver and ok:   # lo que LLEGO, no solo el veredicto: un rojo por el motivo equivocado se ve igual
             print("       llego: %s" % str(detalle)[:200])
+
+    # DA-114: perfil-global al lado de claude-acceso (la nube) tiene que encontrarse, y adentro (la PC) gana
+    for forma in ("al_lado", "adentro", "ninguno"):
+        r = tmp / ("pd-" + forma) / "claude-acceso"
+        r.mkdir(parents=True)
+        if forma == "al_lado":
+            (r.parent / "perfil-global" / ".git").mkdir(parents=True)
+            esperado = r.parent / "perfil-global"
+        elif forma == "adentro":
+            (r / "perfil-global" / ".git").mkdir(parents=True)
+            (r.parent / "perfil-global" / ".git").mkdir(parents=True)
+            esperado = r / "perfil-global"
+        else:
+            esperado = r / "perfil-global"
+        caso("DA-114: perfil-global %s -> %s" % (forma, esperado.relative_to(tmp)), perfil_de(r) == esperado, perfil_de(r))
 
     def sesion(nombre, evs):
         f = tmp / ("%s.jsonl" % nombre)
