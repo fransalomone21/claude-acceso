@@ -50,6 +50,7 @@ plt.rcParams.update({
     "mathtext.rm": "Libertinus Serif",
     "mathtext.it": "Libertinus Serif:italic",
     "svg.fonttype": "path",
+    "svg.hashsalt": "fase3",   # ids fijos: el SVG es funcion pura del fuente (si no, cambia en cada corrida)
     "font.size": 9,
     "axes.linewidth": 0.6,
     "xtick.major.width": 0.6,
@@ -167,8 +168,8 @@ def butterworth():
         h = -10 * np.log10(1 + (f / fp) ** (2 * n))
         ax.semilogx(f, h, color=colores[n], lw=1.5 if n == 3 else 0.9, label="$n = %d$" % n)
     ax.plot([fs], [-10 * np.log10(1 + 5 ** 6)], "o", color=C_AUX, ms=3.5)
-    ax.annotate(r"$n=3$: $-41{,}9$ dB en 5 kHz", (fs, -41.9), xytext=(1800, -56), fontsize=8, color=C_AUX,
-                arrowprops=dict(arrowstyle="-", color=C_AUX, lw=0.5))
+    # Sin rotulo adentro: en tres posiciones distintas lo cruzaba alguna curva (mirado en
+    # render). El numero (-41,9 dB en 5 kHz) lo da el pie de la figura en el modulo.
     ax.set_xlim(100, 2e4)
     ax.set_ylim(-60, 5)
     ax.set_xlabel("frecuencia (Hz, escala logarítmica)")

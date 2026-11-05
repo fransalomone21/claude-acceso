@@ -1,5 +1,15 @@
 # Handoff — próxima sesión
 
+> **2026-11-05, nube: la fase 3 CERRÓ** (módulos 16, 17 y 18; ver ESTADO). Para el que siga:
+> (1) `python fase3-cuentas.py` y `--sabotaje` antes de tocar un número de esos módulos: los
+> números del apunte están tipeados y el script los compara con el calculado; si cambia
+> uno, se cambia en los dos lados; (2) las figuras de matplotlib se regeneran con
+> `LIBERTINUS=<carpeta de los .otf> python biblioteca/figuras/generar-fase3.py` (aborta sin
+> la fuente; el texto va como curvas); (3) el M18 trabaja en **eficaz** y lo dice en una
+> caja: no «corregirlo» a pico; (4) los anexos pasaron a «Módulo 19» (el problema viejo
+> de que los anexos lleven número de módulo, en `Pendientes explícitos`). La PC tiene que
+> regenerar los dos PDF y publicarlos (la nube no toca Drive).
+
 > **2026-11-05: se sigue en la nube.** El retome entero está en
 > [`.claude/nube/RETOME-electronica.md`](../../../.claude/nube/RETOME-electronica.md): la fase 3 para el parcial de Teoría
 > de Circuitos, con el control de paridad y lo que se registra. La sesión local que siga, antes de nada:

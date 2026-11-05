@@ -73,7 +73,7 @@ es la vía de validación real, y hay que usarla en vez de suponer.
 | 1b | Las figuras | cero circuitos en ASCII en todo el apunte (`ASCII_PENDIENTE` vacía y borrada), y las figuras miradas en una pasada **completa** de la galería posterior al último retoque | chequeo 3 de `python verificar.py`, probado rompiéndolo | **cerrada 2026-08-23** |
 | 2 | Convenciones y fasor en valor de pico | el bloque de convenciones al frente del apunte, el Módulo 11 convertido a pico con la equivalencia a eficaz publicada al lado, y los ejercicios recomprobados por dos caminos | las páginas del Módulo 11 miradas en render, no sólo compiladas | **cerrada 2026-08-25** |
 | 2b | Módulo 8 didáctico | convención explícita → ejemplo chico resuelto a mano → recién ahí la generalización, en los dos métodos; páginas nuevas miradas en render | las páginas nuevas miradas una por una | **cerrada 2026-08-28** |
-| 3 | Los temas que faltan del programa | ver abajo, «qué la cierra exactamente» | ver abajo, «cómo se certifica» | **abierta** |
+| 3 | Los temas que faltan del programa. Tipo **Fase D** (el programa de Sanca fija qué se escribe; se escribe y se verifica contra él, sin rediseñar lo cerrado) | ver abajo, «qué la cierra exactamente» | ver abajo, «cómo se certifica» | **cerrada 2026-11-05** (nube) |
 | 3b | Cobertura medida de la guía del II cuatrimestre | toda consigna de `fuentes/consignas-tp.md` con una sección del apunte que la responda, o una excepción declarada con motivo | `python verificar-cobertura.py` en verde **y** `python probar-verificar-cobertura.py` con los 5 sabotajes en rojo | **cerrada 2026-09-22** |
 | 3c | Lo mismo para la guía del I cuatrimestre (TP 1 a 5) | las consignas de `TP_I_cuatrimestre.pdf` itemizadas en el mismo banco y mapeadas | el mismo `verificar-cobertura.py`, con el conteo declarado subido | pendiente |
 | 4 | El anexo de informes técnicos | el anexo publica los criterios de la guía de la cátedra —nada de capturas de pantalla, gráficos procesados por software (la guía nombra Veusz, Octave, Python, GNU Plot y Matlab), ejes rotulados con unidades, leyenda adentro de la figura, símbolos para mediciones y líneas para simulaciones, figuras numeradas con descripción al pie, A4 con páginas numeradas, máximo 10 páginas— y los gráficos del propio apunte los cumplen | recorrer la lista de criterios de la guía contra los gráficos del apunte, uno por uno. Cierra además la consigna 43 de `consignas-tp.md`, hoy diferida | pendiente |
@@ -90,7 +90,22 @@ es la vía de validación real, y hay que usarla en vez de suponer.
 > la Fase 3. El plan de fases del handoff quedó viejo justo ahí: por eso vive
 > acá ahora.
 
-**Fase en curso: 3 — Los temas que faltan.** En el orden del programa de Teoría
+**Fase 3 — CERRADA el 2026-11-05, en la nube, con su criterio medido.** Los siete temas
+están escritos, en tres módulos nuevos al final de la Parte II (16 Laplace y polos y
+ceros, con el RLC según la salida; 17 filtros activos y el amplificador diferencial; 18
+trifásicos y la impedancia reflejada), que van detrás del 15 para no renumerar nada: (1)
+sí, los siete; (2) siete ejercicios nuevos (16.1 a 18.2), cada uno con su segundo camino
+escrito adentro y corrido en `fase3-cuentas.py` (99 controles en verde; `--sabotaje` en
+ROJO en los siete, con el control positivo en verde); (3) `verificar.py` con los seis
+chequeos en verde (65 ejercicios, 80 figuras) y `verificar-cobertura.py` en verde; (4)
+las páginas nuevas del TDC (98 a 122) miradas en render, y las seis figuras nuevas en la
+galería después del último retoque, con recorte de píxel sobre el operacional del
+Sallen-Key. El tema 4 (diferencial e instrumentación) ya estaba deducido en el Módulo
+14: el 17 le agrega el modo común, el CMRR y por qué la instrumentación lo mejora. El
+tema 8 del retome (Fourier) no entró: la guía del parcial no lo pide. Detalle en
+`ESTADO_ACTUAL.md`, bloque del 2026-11-05.
+
+**Lo que era la fase 3 (para la historia):** en el orden del programa de Teoría
 de Circuitos (Prof. Gabriel Sanca, Ing. en Sistemas Espaciales, UNSAM):
 
 1. sistemas trifásicos (estrella y triángulo, tensiones de fase y de línea,

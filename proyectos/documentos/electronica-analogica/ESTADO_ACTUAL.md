@@ -1,5 +1,46 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
+> **2026-11-05, en la nube: FASE 3 CERRADA.** Los siete temas que faltaban del programa de
+> Teoría de Circuitos están escritos en **tres módulos nuevos**, al final de la Parte II
+> para no renumerar nada (los dos PDF los imprimen):
+>
+> - **M16 — Laplace, polos y ceros** (8 pág.): la transformada en lo que hace falta, los
+>   elementos en $s$ con sus fuentes de condición inicial, fracciones parciales con valor
+>   inicial y final, $H(s)$ y la forma zpk, el plano $s$ con $\zeta$, $Q$ y $\omega_0$
+>   leídos de la geometría, y **el RLC serie según de dónde se tome la salida** (mismos
+>   polos, otros ceros; el pico de $H_C$ antes de $\omega_0$). Ejercicios 16.1 a 16.3.
+> - **M17 — Filtros activos y el amplificador diferencial** (6 pág.): plantilla de cuatro
+>   números, Butterworth de orden $n$ (orden despejado, polos sobre la circunferencia,
+>   tabla hasta $n = 4$), Sallen-Key de ganancia unitaria deducido por nodos, y el
+>   diferencial del M14 visto desde el modo común (CMRR por desapareo; la instrumentación
+>   lo mejora en $G_1$). Ejercicios 17.1 y 17.2.
+> - **M18 — Trifásicos e impedancia reflejada** (5 pág.): secuencia positiva, estrella y
+>   triángulo, equivalente monofásico, potencia (en **eficaz**, dicho en el módulo), el
+>   transformador ideal visto desde la fuente ($Z_"in" = a^2 Z_L$), adaptación y
+>   equivalentes serie y paralelo. Ejercicios 18.1 y 18.2.
+>
+> **Cómo se certificó.** `fase3-cuentas.py` (nuevo, en la raíz del proyecto) es el segundo
+> camino de los siete ejercicios —integración numérica, raíces, barridos, nodos como
+> sistema lineal, balance de potencia— y además compara cada número **tipeado** en el
+> apunte contra el calculado: 99 controles en verde, y `--sabotaje` cambia un dato de cada
+> ejercicio y exige rojo en ése y sólo en ése (7/7, control positivo en verde). En su
+> primera corrida agarró dos redondeos míos (1575,5 por 1575,55 Hz; 1111 por 1110,5).
+> `verificar.py` en verde (65 ejercicios, 80 figuras), `verificar-cobertura.py` y su
+> saboteador en verde. Páginas 98 a 122 del TDC miradas en render; seis figuras nuevas
+> (cuatro en matplotlib con el texto como curvas y la Libertinus, dos esquemas en zap)
+> miradas en la galería después del último retoque, con recorte de píxel del operacional
+> del Sallen-Key. Lo viejo no se movió: el texto de las páginas anteriores es idéntico en
+> los dos PDF (en el TDC, corrido una página porque el índice creció).
+>
+> **Números de los PDF:** EA 177 pág., TDC 124 pág. (estaban en 157 y 103). La carátula
+> del TDC dejó de decir que esos temas faltan; el orden de lectura y el formulario del
+> anexo los incluyen. Las citas al Nilsson se midieron en su índice (cap. 11 p. 520,
+> §11.5 p. 536, §12.3 p. 568, §15.2 p. 738, §15.4 p. 749); las que no se pudieron mirar
+> quedaron como sección sin página.
+>
+> **El control de paridad con la PC** (antes de tocar nada): los dos PDF de `7aca8b3`
+> salieron con el MD5 de la PC. Detalle en `.claude/nube/regreso/2026-11-05-electronica.md`.
+
 > **2026-10-23 (sesión de método, DA-079):** `compilar.bat` corre
 > `~/.claude/herramientas/lint-typst.py` antes de Typst y corta si da rojo.
 > Medido sobre `apunte.typ` y `apunte-tdc.typ`: limpios (la plantilla ya fija la
