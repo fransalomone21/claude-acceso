@@ -16,23 +16,69 @@
 #   - --probar: el saboteador. Sin perfil exige rojo; con un perfil falso exige verde e instalado;
 #     con un perfil sin la marca exige rojo. Corre en carpetas temporales: no toca ~/.claude.
 #
+#   - DA-106: antes de instalar, prueba la CREDENCIAL por su efecto (leer el remoto y push en seco a claude-acceso y
+#     perfil-global) y da ROJO con la cuenta de GitHub que ve la sesion.
+#
 # Uso:   bash .claude/nube/traer-perfil.sh            (al abrir CUALQUIER sesion sin el perfil)
 #        bash .claude/nube/traer-perfil.sh --probar
+#        bash .claude/nube/traer-perfil.sh --sabotaje  (sin la prueba de credencial, --probar tiene que dar rojo)
 set -u
 
 MARCA='Perfil global'
 ARCHIVOS=(apertura-proyecto.md recordatorio-transversal.md chequeo-nucleo.md chequeo-de-trabajo.md pilares.md)
+DUENO='fransalomone21'
+
+# La cuenta de GitHub con la que corre ESTA sesion (DA-106, 2026-11-05: tres sesiones de la noche arrancaron con otra
+# cuenta, sin leer lo privado ni pushear, y desde la PC nada podia verlo: alla gh es la de Fran). Se pregunta a GitHub,
+# no al mail de git (que en la nube es el de Claude).
+cuenta() {
+    local c
+    c="$(eval "${CUENTA_CMD:-timeout 20 gh api user --jq .login}" 2>/dev/null | head -1)"
+    printf '%s' "${c:-desconocida (gh api user no contesto)}"
+}
+
+# La CREDENCIAL se mide por su efecto: un push en seco a cada repo que la sesion tiene que escribir, y una lectura del
+# remoto de lo privado. Lo que da verde en la PC no prueba la credencial de la nube. Devuelve 1 y da ROJO con la
+# cuenta y lo que fallo. Los repos se pueden cambiar con CREDENCIAL_REPOS (el saboteador lo usa).
+credencial() {
+    local perfil="$1" raiz repo malos=0 c
+    raiz="$(git rev-parse --show-toplevel 2>/dev/null)"
+    c="$(cuenta)"
+    for repo in ${CREDENCIAL_REPOS:-$raiz $perfil}; do
+        [ -n "$repo" ] || continue
+        if ! timeout 30 git -C "$repo" ls-remote -q origin HEAD >/dev/null 2>&1; then
+            echo "[ROJO] credencial: la cuenta '$c' no puede LEER el remoto de $repo ($(git -C "$repo" config --get remote.origin.url 2>/dev/null))"
+            malos=$((malos+1)); continue
+        fi
+        if ! timeout 30 git -C "$repo" push -q --dry-run origin HEAD:refs/heads/claude/prueba-permisos >/dev/null 2>&1; then
+            echo "[ROJO] credencial: la cuenta '$c' no puede PUSHEAR a $(git -C "$repo" config --get remote.origin.url 2>/dev/null)"
+            malos=$((malos+1))
+        fi
+    done
+    if [ $malos -gt 0 ]; then
+        echo "  Esta sesion no puede dejar nada en GitHub: se cierra YA con una linea (cuenta '$c', que fallo)."
+        echo "  Lo arregla Fran conectando SU cuenta en claude.ai (Settings > Connectors > GitHub), no la sesion."
+        return 1
+    fi
+    case "$c" in
+        "$DUENO") echo "[OK] credencial: cuenta '$c', lee y pushea ${CREDENCIAL_REPOS:-claude-acceso y perfil-global}" ;;
+        *) echo "[OK] credencial: lee y pushea, con la cuenta '$c' (no es la de Fran, '$DUENO': mirar si es la que se quiso)" ;;
+    esac
+    return 0
+}
 
 traer() {
     local perfil="$1" destino="$2"
     if ! git -C "$perfil" rev-parse --git-dir >/dev/null 2>&1; then
-        echo "[ROJO] el perfil no esta en $perfil. NO se arranca ninguna tarea sin el."
+        echo "[ROJO] el perfil no esta en $perfil. NO se arranca ninguna tarea sin el. Cuenta de GitHub: '$(cuenta)'."
         echo "  1. herramienta add_repo: owner fransalomone21, repo perfil-global, access push"
         echo "  2. git clone --depth 1 https://github.com/fransalomone21/perfil-global $perfil"
         echo "  3. volver a correr: bash .claude/nube/traer-perfil.sh"
         return 1
     fi
     git -C "$perfil" pull -q --ff-only >/dev/null 2>&1 || echo "  (aviso: no se pudo actualizar el perfil; se usa el que hay)"
+    # La credencial va ANTES de instalar nada: sin poder pushear ni leer lo privado, la sesion no trabaja (DA-106).
+    credencial "$perfil" || return 1
     if ! grep -q "$MARCA" "$perfil/CLAUDE-global.md" 2>/dev/null; then
         echo "[ROJO] $perfil/CLAUDE-global.md no existe o no es el perfil (falta '$MARCA')."
         return 1
@@ -132,6 +178,10 @@ probar() {
     mkdir -p "$tmp/p/hooks" && echo 'print(3)' > "$tmp/p/hooks/guardia-typst.py"
     mkdir -p "$tmp/p/typst-packages/preview/cetz/0.5.2" && echo '[package]' > "$tmp/p/typst-packages/preview/cetz/0.5.2/typst.toml"
     export TYPST_CACHE_DIR="$tmp/cache"
+    # La credencial (DA-106) se prueba contra remotos locales: el perfil falso con un origin que se lee y se pushea.
+    git -C "$tmp/p" -c user.email=t@t -c user.name=t add -A >/dev/null && git -C "$tmp/p" -c user.email=t@t -c user.name=t commit -qm p
+    git init -q --bare "$tmp/remoto.git" && git -C "$tmp/p" remote add origin "$tmp/remoto.git"
+    export CREDENCIAL_REPOS="$tmp/p" CUENTA_CMD="echo cuenta-de-prueba"
     out="$(traer "$tmp/p" "$tmp/d2")"; rc=$?
     if [ $rc -eq 0 ] && grep -q "$MARCA" "$tmp/d2/CLAUDE.md" && [ -f "$tmp/d2/chequeo-nucleo.md" ] \
        && [ -f "$tmp/d2/skills/una-skill/SKILL.md" ] && ls "$tmp/d2/projects/"*/memory/MEMORY.md >/dev/null 2>&1; then
@@ -147,6 +197,24 @@ probar() {
     out="$(traer "$tmp/p" "$tmp/d4" 2>/dev/null)"; rc=$?
     if [ $rc -ne 0 ]; then echo "[ROJO OK] herramientas sin copiar -> rojo"
     else echo "[FALLA] con herramientas sin copiar tenia que dar rojo"; malos=$((malos+1)); fi
+    # 2d. DA-106: la credencial se ve en el verde, con la cuenta
+    out="$(traer "$tmp/p" "$tmp/d5")"; rc=$?
+    if [ $rc -eq 0 ] && grep -q "credencial: lee y pushea, con la cuenta 'cuenta-de-prueba'" <<<"$out"; then
+        echo "[OK] credencial sana -> verde, y dice la cuenta (y que no es la de Fran)"
+    else echo "[FALLA] con la credencial sana tenia que dar verde nombrando la cuenta (rc=$rc)"; malos=$((malos+1)); fi
+    # 2e. sabotaje DA-106: se lee y NO se pushea (el 403 de la primera vuelta del 2026-11-05) -> rojo con la cuenta
+    git -C "$tmp/p" remote set-url --push origin "$tmp/no-se-pushea.git"
+    out="$(traer "$tmp/p" "$tmp/d6")"; rc=$?
+    if [ $rc -ne 0 ] && grep -q "la cuenta 'cuenta-de-prueba' no puede PUSHEAR" <<<"$out" && [ ! -f "$tmp/d6/CLAUDE.md" ]; then
+        echo "[ROJO OK] sin push -> rojo con la cuenta, y no instala nada"
+    else echo "[FALLA] sin push tenia que dar rojo con la cuenta antes de instalar (rc=$rc)"; malos=$((malos+1)); fi
+    # 2f. sabotaje DA-106: no se lee el remoto (lo privado con otra cuenta) -> rojo con la cuenta
+    git -C "$tmp/p" remote set-url origin "$tmp/no-existe.git"
+    out="$(traer "$tmp/p" "$tmp/d7")"; rc=$?
+    if [ $rc -ne 0 ] && grep -q "la cuenta 'cuenta-de-prueba' no puede LEER" <<<"$out"; then
+        echo "[ROJO OK] sin leer lo privado -> rojo con la cuenta"
+    else echo "[FALLA] sin leer el remoto tenia que dar rojo con la cuenta (rc=$rc)"; malos=$((malos+1)); fi
+    git -C "$tmp/p" remote set-url origin "$tmp/remoto.git" && git -C "$tmp/p" remote set-url --push origin "$tmp/remoto.git"
     # 3. perfil sin la marca (repo equivocado o vacio): rojo
     printf 'otra cosa\n' > "$tmp/p/CLAUDE-global.md"
     out="$(traer "$tmp/p" "$tmp/d3")"; rc=$?
@@ -156,8 +224,22 @@ probar() {
     if [ $malos -eq 0 ]; then echo "TODO BIEN"; return 0; else echo "$malos caso(s) en FALLA"; return 1; fi
 }
 
+sabotaje() {
+    # DA-106: un traer-perfil sin la prueba de credencial tiene que poner --probar en ROJO. Sale 0 si lo detecta.
+    local m rc
+    m="$(mktemp)"
+    sed 's/^    credencial "\$perfil" || return 1$/    true  # MUTANTE: sin credencial/' "${BASH_SOURCE[0]}" > "$m"
+    if ! grep -q 'MUTANTE: sin credencial' "$m"; then echo "[FALLA] no pude armar el mutante"; rm -f "$m"; return 1; fi
+    bash "$m" --probar >/dev/null 2>&1; rc=$?
+    rm -f "$m"
+    if [ $rc -ne 0 ]; then echo "sabotaje DETECTADO: sin la prueba de credencial, --probar da rojo"; return 0; fi
+    echo "sabotaje NO detectado: --probar no mira la credencial"; return 1
+}
+
 if [ "${1:-}" = "--probar" ]; then
     probar
+elif [ "${1:-}" = "--sabotaje" ]; then
+    sabotaje
 else
     traer "${PERFIL_DIR:-/home/user/perfil-global}" "${CLAUDE_HOME_DIR:-$HOME/.claude}"
 fi
