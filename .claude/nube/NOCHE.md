@@ -2,6 +2,17 @@
 
 Fran duerme. Corren tres sesiones sobre el mismo GitHub, cada una con lo suyo. Esto vale para las tres.
 
+## Antes que nada, sin gastar: ¿esta sesión puede escribir?
+
+```bash
+git config --get remote.origin.url
+git push --dry-run origin HEAD:refs/heads/claude/prueba-permisos
+```
+
+Después, `add_repo` de `fransalomone21/perfil-global` con push. **Si cualquiera de los dos falla, esta sesión no puede dejar
+nada en GitHub y se cierra ya, con una sola línea que diga qué cuenta ve y qué falló:** seguir sólo gastaría créditos en
+trabajo que se pierde. La primera vuelta, el 2026-11-05 a la 1:30, corrió con otra cuenta de GitHub y las tres se trabaron.
+
 ## La hora de cierre
 
 Los créditos vencen a las **4:59 GMT-3**. Después, la sesión podría pasar a gastar el plan de Fran.

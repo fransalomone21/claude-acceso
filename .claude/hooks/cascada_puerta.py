@@ -74,6 +74,9 @@ FILTRO = re.compile(r"^\s*(Select-Object|select|Select-String|sls|Where-Object|w
 REDIRS_INOCUAS = re.compile(r"\s[12]?>\s*(\$null|/dev/null|&1)", re.I)
 # Los archivos de la propia puerta nunca los frena ella: es la salida de reparacion.
 REPARACION = re.compile(r"[/\\]\.claude[/\\](hooks[/\\]cascada_puerta\.py|cascada\.json)$", re.I)
+# Los dos comandos que traen lo que la puerta exige, solos y sin nada encadenado (DA-106).
+REPARAR_NUBE = re.compile(r"^\s*(bash\s+\S*\.claude/nube/traer-perfil\.sh"
+                          r"|python3?\s+\S*\.claude/nube/estado-nube\.py\s+--traer\s+[\w-]+)\s*$")
 # T17 (L1-12, L2-PTA-07..17): los conectores de claude.ai (Drive, Docs...) bajo la puerta, por LISTA BLANCA (Saltzer).
 # Antes, la estructura de control cubria Bash/PowerShell/Write/Edit y todo conector entraba sin freno (DA-046).
 # Diseno: proyectos/ingenieria/arquitectura-se/docs/t17-conectores-bajo-la-puerta.md
@@ -1019,6 +1022,8 @@ def pre(ev: dict) -> int:
             pass
         if es_lectura_pura(cmd):
             return 0
+        if REPARAR_NUBE.match(cmd):   # DA-106: un freno que falla cerrado deja abierta su reparacion (traer lo que exige)
+            return 0
     try:
         cat = cargar_catalogo()
     except Exception as e:  # falla CERRADO: sin catalogo no se sabe que exigir
@@ -1223,6 +1228,18 @@ def registrar_invocacion(sid: str, cmd: str):
     if m:
         proy = resolver_proyecto(m.group(1))
         resto = m.group(2)
+        if not proy:
+            # DA-106: un proyecto con repo propio que no esta en el disco (la nube, antes de --traer) tambien se puede
+            # nombrar: sin esto ni -Mencion ni -Excepcion quedaban y la sesion se trababa sin salida (2026-11-05).
+            try:
+                ausente = m.group(1) if m.group(1) in cargar_catalogo().get("proyectos", {}) else None
+            except Exception:
+                ausente = None
+            if ausente:
+                for clave, tipo in (("-Mencion", "mencion"), ("-Excepcion", "excepcion"), ("-Repo", "repo")):
+                    q = re.search(clave + r"\s+[\"']([^\"']+)[\"']", resto)
+                    if q:
+                        anotar(sid, {"t": tipo, "proy": ausente, "motivo": q.group(1)})
         if proy:
             n = re.search(r"-Necesidad\s+[\"']?([A-Za-z-]+(?:\s*,\s*[A-Za-z-]+)*)", resto)
             if n:
@@ -2130,6 +2147,22 @@ def autotest() -> int:
     out, w = caso_372(sid + "-d372")
     caso("CONTROL 372: debil + FUERTE de otro -> aviso sin freno", out, False, "sin freno", "toca %s" % p_a)
     caso("CONTROL 372: ... y el Write fuera pasa", w, False)
+    # DA-106: el pedido nombra un proyecto que no esta en el disco (la nube, antes de traerlo). Tiene salida y sigue frenando.
+    cat_z = json.loads(json.dumps(cat_d))
+    cat_z["proyectos"]["zz-ausente"] = {"necesidades": ["materia"], "senales": [r"zz ausente zz"], "senales_debiles": []}
+    f_z = tmp / "cat-ausente.json"
+    f_z.write_text(json.dumps(cat_z, ensure_ascii=False), encoding="utf-8")
+    e_z = {"CASCADA_CATALOGO": str(f_z), "CASCADA_RAIZ": str(RAIZ)}
+    s_z = sid + "-zaus"
+    correr({"hook_event_name": "UserPromptSubmit", "session_id": s_z, "prompt": "segui con zz ausente zz"}, e_z)
+    caso("SABOTAJE DA-106: proyecto ausente nombrado + Write fuera -> deny", correr(pre_ev(*afuera, s=s_z), e_z), True, "zz-ausente")
+    caso("CONTROL DA-106: traer-perfil.sh pasa", correr(pre_ev("Bash", {"command": "bash .claude/nube/traer-perfil.sh"}, s=s_z), e_z), False)
+    caso("CONTROL DA-106: estado-nube --traer pasa",
+         correr(pre_ev("Bash", {"command": "python3 .claude/nube/estado-nube.py --traer zz-ausente"}, s=s_z), e_z), False)
+    caso("SABOTAJE DA-106: la reparacion con algo encadenado -> deny",
+         correr(pre_ev("Bash", {"command": "bash .claude/nube/traer-perfil.sh; echo x > /tmp/zz"}, s=s_z), e_z), True, "zz-ausente")
+    correr(pre_ev("Bash", {"command": "bash .claude/cascada.sh zz-ausente -Excepcion \"prueba\""}, s=s_z), e_z)
+    caso("CONTROL DA-106: -Excepcion de un proyecto ausente queda y libera lo de afuera", correr(pre_ev(*afuera, s=s_z), e_z), False)
     s14 = sid + "-dturno"
     pedido(s14, "retome de ZZJUEGO")
     correr(post_ev("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p_b}, s14), e_d)
