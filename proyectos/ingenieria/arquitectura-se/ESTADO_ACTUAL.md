@@ -3,6 +3,21 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-11-05 (sesión `metodo`, en la nube, de noche y sin Fran) — LOS 63 DEFECTOS SIN VALORAR, VALORADOS; DA-099,
+DA-101 Y DA-106 ARREGLADOS; DA-108 NUEVO Y ARREGLADO (los cuatro falta validarlos con 3 sesiones auditadas).** Pedido
+del 2026-11-05: todo defecto valorado por urgencia. `defectos.py valorar` (perfil `3c7beef`, 5 casos y 2 controles en
+el autotest) y los 63 en cuatro tandas pusheadas: **0 sin valorar** (abiertos: 0 crítica, 21 alta, 31 media, 19 baja
+al cierre, con los de las otras sesiones). **DA-106**: `traer-perfil.sh` prueba la credencial antes de instalar (lee
+el remoto y push en seco a claude-acceso y perfil-global) y da rojo con la cuenta que contesta `gh api user`
+(`7d8f1d5`; `--probar` 3 casos nuevos, `--sabotaje`). **DA-099**: `--simular` compila las 24 entradas de los
+documentales acá y en el clon (`--ignore-system-fonts`) y da rojo lo que diverge; `limites()` ve `.bat`, rutas fuera
+del repo, carpetas locales y hooks locales (`51143c5`; `--probar` sobre el árbol real: 23 entradas sanas en verde, rojo
+nombrando el archivo borrado). **DA-101**: el espejo de memoria guarda un manifiesto y `--sincronizar-memoria` da rojo
+sin tocar nada si trae algo que la PC nunca tuvo (`51143c5`; `--probar-memoria` 7 casos). `--sabotaje` de
+`estado-nube.py`: 3 mutantes vistos. **DA-108**: `defectos.py` buscaba claude-acceso arriba de perfil-global y en la
+nube viven lado a lado: 27 rojos falsos en `verificar` (perfil `36343e8`). Lección nueva (nivel herramienta): lo que da
+verde desde la PC no prueba la credencial con la que corre la nube. Informe: `.claude/nube/regreso/2026-11-05-metodo.md`.
+
 **2026-11-03 (sesión `dc910b33`) — LA SEGUNDA MÁQUINA: DA-093, 092, 096 Y 095 ARREGLADOS (falta validarlos con 3
 sesiones auditadas); DA-094 INSTALADO CON EL SÍ DE FRAN Y ARREGLADO (`f2721de`); DA-098 NUEVO: el `pull` que pide el
 AL DÍA lo niega la puerta (orden 28e2).** Requisitos antes: N-13, L0-13 y
