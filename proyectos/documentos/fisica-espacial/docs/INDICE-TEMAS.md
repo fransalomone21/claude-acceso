@@ -477,7 +477,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **A.2 — Conservación de cantidad de movimiento (Ej. 1 a 9, más tres adicionales)**
 - **A.3 — Conservación de impulso angular (Problemas 1 a 7)**
 - **A.4 — Conservación de la energía y gravitación (Problemas 0 a 10, más cinco adicionales)**
-- **A.5 — Cuerpo rígido (Problemas 1 a 9)**
+- **A.5 — Cuerpo rígido (Problemas 1 a 9 y los dos adicionales)**
 
 Los enunciados completos están transcriptos en
 `fuentes/GUIA-ENUNCIADOS.md`; las fichas del anexo son
