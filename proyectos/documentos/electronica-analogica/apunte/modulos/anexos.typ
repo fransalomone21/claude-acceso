@@ -310,6 +310,44 @@ Parásitos: `Rser`, `Cpar` en el inductor; `RSer`, `Rpar`, `Lser` en el capacito
 *Los cinco controles* de toda curva simulada: $x(0^+)$, $x(infinity)$, $tau$ (o $alpha$ y
 $omega_d$), la continuidad de $i_L$ y $v_C$, y el balance de energía.
 
+=== Módulo 16 — Laplace, polos y ceros
+
+$ cal(L){u(t)} = 1/s quad quad cal(L){e^(-a t)} = 1/(s + a) quad quad
+  cal(L){(dif f)/(dif t)} = s F(s) - f(0^-) $
+
+En $s$: $Z_L = s L$ con $L thin i_L (0^-)$ en serie; $Z_C = 1\/(s C)$ con $v_C (0^-)\/s$ en serie.
+
+$ K_i = [(s - p_i) F(s)]_(s = p_i) quad quad
+  f(0^+) = lim_(s -> infinity) s F(s) quad quad f(infinity) = lim_(s -> 0) s F(s) $
+
+$ H(s) = Y(s)/X(s) = K ((s - z_1) dots)/((s - p_1) dots) quad quad
+  p_(1,2) = -zeta omega_0 plus.minus j omega_0 sqrt(1 - zeta^2) quad quad
+  |p| = omega_0, thin cos theta = zeta $
+
+RLC serie, $D = s^2 + (omega_0\/Q) s + omega_0^2$: salida en $C$ $omega_0^2\/D$ (pasa bajos),
+en $R$ $(omega_0\/Q) s\/D$ (pasa banda), en $L$ $s^2\/D$ (pasa altos). En $omega_0$: $|H_C| = |H_L| = Q$.
+
+=== Módulo 17 — Filtros activos y diferencial
+
+$ |H|^2 = 1/(1 + (omega\/omega_c)^(2 n)) quad quad
+  n >= log_10 ((10^(0,1 A_"mín") - 1)\/(10^(0,1 A_"máx") - 1)) / (2 log_10 (f_s\/f_p)) $
+
+Sallen-Key de ganancia unitaria, $R_1 = R_2 = R$: $omega_0 = 1\/(R sqrt(C_1 C_2))$,
+$Q = 1/2 sqrt(C_1\/C_2)$.
+
+$ v_o = A_d v_d + A_"cm" v_"cm" quad quad "CMRR" = |A_d\/A_"cm"| approx (1 + R_2\/R_1)/epsilon $
+
+=== Módulo 18 — Trifásicos y transformador (en eficaz)
+
+Estrella: $V_L = sqrt(3) thin V_f$, $I_L = I_f$. Triángulo: $V_L = V_f$, $I_L = sqrt(3) thin I_f$.
+$Z_Y = Z_Delta \/ 3$.
+
+$ P = sqrt(3) thin V_L I_L cos theta quad quad Q = sqrt(3) thin V_L I_L sin theta quad quad
+  S = sqrt(3) thin V_L I_L $
+
+$ (V_1)/(V_2) = a = (N_1)/(N_2) quad quad Z_"in" = a^2 Z_L quad quad
+  R_p = (R_s^2 + X_s^2)/R_s quad quad X_p = (R_s^2 + X_s^2)/X_s $
+
 == La guía asincrónica de bobinas, capacitores y RL/RC/RLC
 
 Los doce problemas de la actividad asincrónica de *Teoría de Circuitos* —capítulos 6, 7 y
@@ -417,9 +455,12 @@ El apunte se puede recorrer de dos maneras, según para qué se lo use.
     [*4.* Diodos y rectificación], [*10.* Transitorios (natural y forzada)],
     [*5.* Fuentes lineales y zener], [*11.* Fasores y régimen permanente senoidal],
     [*6.* BJT en conmutación y relés], [*12.* Bode, filtrado y señales poliarmónicas],
-    [*7 a 15.* Fundamentos de análisis de circuitos], [*13.* Cuadripolos],
+    [*7 a 18.* Fundamentos de análisis de circuitos], [*13.* Cuadripolos],
     [], [*14.* El amplificador operacional],
     [], [*15.* Simulación con SPICE],
+    [], [*16.* Laplace, polos y ceros],
+    [], [*17.* Filtros activos y el diferencial],
+    [], [*18.* Trifásicos y el transformador],
     [], [*1 a 6.* como aplicación y laboratorio],
   ),
   caption: [El mismo material, en las dos secuencias],
@@ -438,7 +479,9 @@ Módulo 2 y se retoman en el 11 y el 12; el transformador del Módulo 3 reaparec
 potencia aparente del 11; el filtro capacitivo del Módulo 5 es el transitorio del 10; y el
 $beta$ del transistor del Módulo 6 es el $h_(f e)$ del 13. El Módulo 15 va al final
 porque es el único que no aporta teoría propia: es el banco de pruebas de los catorce
-anteriores, y se puede leer en cualquier momento a partir del 10. Quien dicte la materia en el
+anteriores, y se puede leer en cualquier momento a partir del 10. Los módulos 16 a 18
+vinieron después, con los temas del programa que faltaban, y van detrás del 15 para no
+renumerar nada: se leen después del 12 (el 16 y el 17) y del 11 (el 18). Quien dicte la materia en el
 orden de la escuela puede usar la Parte II como fundamento al que volver; quien la use
 para preparar Teoría de Circuitos, leerla de corrido y tomar la Parte I como banco de
 ejemplos reales.

@@ -50,7 +50,10 @@
   senoidal, diagramas de Bode y filtrado, cuadripolos, y el amplificador operacional con
   todas sus configuraciones—, que es la continuación natural de esta materia. Cierra con
   el simulador, que es el banco de pruebas de todo lo anterior: el único módulo que no
-  agrega teoría nueva y sirve para contrastar la de los ocho anteriores.
+  agrega teoría nueva y sirve para contrastar la de los ocho anteriores. Detrás vienen tres
+  módulos más con lo que el programa pide y no estaba: Laplace con polos y ceros, filtros
+  activos con el amplificador diferencial, y los sistemas trifásicos con el transformador
+  visto desde la fuente.
 
   No hace falta haber leído la Parte I para leer ésta, pero las dos se cruzan
   permanentemente: cada módulo cierra explicando qué tema de la Parte I era, sin nombre,
@@ -67,6 +70,8 @@
 #include "modulos/m14-operacional.typ"
 #include "modulos/m15-simulacion.typ"
 #include "modulos/m16-laplace.typ"
+#include "modulos/m17-filtros-activos.typ"
+#include "modulos/m18-trifasicos-reflejada.typ"
 
 // ---------------------------------------------------------------------
 #include "modulos/anexos.typ"

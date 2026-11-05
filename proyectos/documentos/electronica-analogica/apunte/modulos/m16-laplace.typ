@@ -49,14 +49,14 @@ alcanzan para todo circuito de este curso:
     columns: (1.5fr, 1.7fr, 2.3fr),
     align: (left, center, left),
     table.header([*En el tiempo*], [*En $s$*], [*Qué es en un circuito*]),
-    [$delta(t)$, el impulso], [$1$], [un golpe de duración cero, el de la exposición del Grupo 2],
+    [$delta(t)$, el impulso], [$1$], [un golpe de duración cero (Nilsson §12.3, p. 568)],
     [$u(t)$, el escalón], [$1\/s$], [una fuente de continua que se conecta en $t = 0$],
     [$e^(-a t) u(t)$], [$1\/(s + a)$], [un modo que se apaga con constante de tiempo $1\/a$],
     [$e^(-alpha t) cos(omega_d t) u(t)$], [$(s + alpha)\/((s + alpha)^2 + omega_d^2)$], [una oscilación amortiguada],
     [$dif f\/dif t$], [$s F(s) - f(0^-)$], [derivar es multiplicar por $s$… y restar lo que había],
     [$integral_(0^-)^t f(tau) dif tau$], [$F(s)\/s$], [integrar es dividir por $s$],
   ),
-  caption: [Lo que hay que saber de memoria. Nilsson, tablas 12.1 y 12.2 del capítulo 12],
+  caption: [Lo que hay que saber de memoria. Nilsson, Tabla 12.1 (§12.4) y Tabla 12.2 (§12.5)],
 )
 
 #clave[

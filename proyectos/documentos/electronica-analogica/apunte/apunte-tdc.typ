@@ -43,10 +43,12 @@
     que está en la carpeta de Electrónica Analógica del Drive. No hace falta para seguir
     éste: son ejemplos de aplicación, no prerrequisitos.
 
-    *Lo que todavía no está*, para que nadie lo busque en vano: sistemas trifásicos,
-    transformada de Laplace, polos y ceros en el plano $s$, filtros activos de orden
-    superior (Butterworth, Sallen-Key) y la impedancia reflejada del transformador. Van
-    entrando a medida que se escriben; el resto del programa está.
+    *Lo que entró último*, para que nadie lo busque en el lugar equivocado: la
+    transformada de Laplace con los polos y ceros en el plano $s$ (Módulo 16), los filtros
+    activos de orden superior —Butterworth y Sallen-Key— con el amplificador diferencial
+    (Módulo 17), y los sistemas trifásicos con la impedancia reflejada del transformador
+    (Módulo 18). Van al final para no renumerar nada: el 16 y el 17 se leen después del
+    12; el 18, después del 11.
   ],
   pie: [
     Apunte de estudio armado por alumnos, no material oficial de la cátedra. Si encontrás
@@ -69,5 +71,7 @@
 #include "modulos/m14-operacional.typ"
 #include "modulos/m15-simulacion.typ"
 #include "modulos/m16-laplace.typ"
+#include "modulos/m17-filtros-activos.typ"
+#include "modulos/m18-trifasicos-reflejada.typ"
 
 #include "modulos/anexos.typ"
