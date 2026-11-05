@@ -102,12 +102,20 @@ def medir_repos(l, m, traer_remoto=True):
         rc, adelante, _ = git(repo, "rev-list", "--count", "origin/%s..HEAD" % rama)
         if rc == 0 and int(adelante or 0):
             items.append("%s: la PC tiene %s commit(s) sin pushear" % (rel, adelante))
-        _, refs, _ = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/remotes/origin/claude")
-        for ref in refs.split():
+        for ref in ramas_nube(l, repo):
             _, n, _ = git(repo, "rev-list", "--count", "HEAD..%s" % ref)
             if int(n or 0):
                 items.append("%s: la rama %s tiene %s commit(s) que %s no tiene" % (rel, ref, n, rama))
     return items
+
+
+def ramas_nube(l, repo):
+    """Las ramas claude/* sin decision escrita. archivo/RAMAS.md es el dueno de lo ya decidido sobre las viejas: una rama
+    nombrada ahi no es trabajo pendiente, y volver a mergearla seria deshacer esa decision."""
+    decididas = l.raiz / "archivo" / "RAMAS.md"
+    texto = decididas.read_text(encoding="utf-8", errors="replace") if decididas.exists() else ""
+    _, refs, _ = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/remotes/origin/claude")
+    return [r for r in refs.split() if r not in texto]
 
 
 def medir_bandeja(l):
@@ -125,9 +133,16 @@ def medir_informes(l):
 def medir_pdfs(l, m):
     """Un PDF publico cuyo fuente cambio despues que el: la nube no publica. Se compara por commit, no por fecha de disco."""
     out = []
+    base = (m or {}).get("base")
     for p in (m or {}).get("pdfs", []):
         _, t_pdf, _ = git(l.raiz, "log", "-1", "--format=%ct", "--", p["pdf"])
         _, t_src, _ = git(l.raiz, "log", "-1", "--format=%ct", "--", p["fuentes"])
+        if base:
+            # Solo cuenta lo que entro desde que la sesion se fue: un cambio viejo que a este PDF no le toca (lo de
+            # #solo-ea, en el de TDC) no es trabajo de la nube.
+            _, n, _ = git(l.raiz, "rev-list", "--count", "%s..HEAD" % base, "--", p["fuentes"])
+            if not int(n or 0):
+                continue
         if t_src and int(t_src) > int(t_pdf or 0):
             out.append("PDF publico atrasado: %s; regenerar y publicar: %s" % (p["pdf"], p.get("como", "su compilador")))
     return out
@@ -177,8 +192,10 @@ def traer(l):
         rc, _, err = git(repo, "merge", "--ff-only", "origin/%s" % rama)
         if rc != 0:
             hecho.append("%s: NO se pudo traer origin/%s por fast-forward: %s" % (rel, rama, err[:100]))
-        _, refs, _ = git(repo, "for-each-ref", "--format=%(refname:short)", "refs/remotes/origin/claude")
-        for ref in refs.split():
+        for ref in ramas_nube(l, repo):
+            _, n, _ = git(repo, "rev-list", "--count", "HEAD..%s" % ref)
+            if not int(n or 0):
+                continue
             rc, _, err = git(repo, "merge", "--ff-only", ref)
             hecho.append("%s: %s %s" % (rel, ref, "integrada" if rc == 0 else "NO integrada, se resuelve a mano en la sesion: " + err[:80]))
     bandeja = l.perfil / BANDEJA
@@ -287,6 +304,19 @@ def probar():
         sh(raiz, "push", "-q", "origin", "main")
         sh(raiz_nube, "checkout", "-q", "main"); sh(raiz_nube, "pull", "-q", "origin", "main")
 
+        # una rama con su decision escrita en archivo/RAMAS.md no es trabajo pendiente, y no se mergea
+        sh(raiz_nube, "checkout", "-q", "-b", "claude/vieja-decidida")
+        (raiz_nube / "vieja.txt").write_text("v", encoding="utf-8")
+        sh(raiz_nube, "add", "."); sh(raiz_nube, "commit", "-q", "-m", "v"); sh(raiz_nube, "push", "-q", "origin", "claude/vieja-decidida")
+        sh(raiz_nube, "checkout", "-q", "main")
+        caso("rama sin decision escrita -> ROJO", any("vieja-decidida" in x for x in M()), M())
+        (raiz / "archivo").mkdir()
+        (raiz / "archivo" / "RAMAS.md").write_text("| `origin/claude/vieja-decidida` | no se mergeo |\n", encoding="utf-8")
+        sh(raiz, "add", "."); sh(raiz, "commit", "-q", "-m", "ramas"); sh(raiz, "push", "-q", "origin", "main")
+        h = traer(l)
+        caso("nombrada en RAMAS.md -> sin rojo, y no se integra", not any("vieja-decidida" in x for x in M()) and not (raiz / "vieja.txt").exists(), h)
+        sh(raiz_nube, "pull", "-q", "origin", "main")
+
         # dos ramas que no se pueden avanzar: se dice, no se pisa
         (raiz_nube / "a.txt").write_text("nube", encoding="utf-8")
         sh(raiz_nube, "checkout", "-q", "-b", "claude/choque")
@@ -303,6 +333,14 @@ def probar():
         subprocess.run(["git", "-C", str(raiz), "commit", "-q", "--amend", "--no-edit"], env={**os.environ, "GIT_COMMITTER_DATE": "2099-01-01T00:00:00"}, check=True)
         sh(raiz, "push", "-q", "origin", "main")
         caso("fuente mas nuevo que su PDF publico -> ROJO", any("PDF publico" in x for x in M()), M())
+        # con 'base' en la marca solo cuenta lo que entro despues de irse: hoy HEAD es la base, asi que calla
+        _, cabeza, _ = git(raiz, "rev-parse", "HEAD")
+        datos = json.loads((raiz / MARCA).read_text(encoding="utf-8"))
+        guardada = (raiz / MARCA).read_text(encoding="utf-8")
+        datos["base"] = cabeza
+        (raiz / MARCA).write_text(json.dumps(datos), encoding="utf-8")
+        caso("cambio anterior a la base -> no es de la nube, sin rojo", not any("PDF publico" in x for x in medir_pdfs(l, marca(l))), medir_pdfs(l, marca(l)))
+        (raiz / MARCA).write_text(guardada, encoding="utf-8")
         (raiz / "a.pdf").write_text("pdf nuevo", encoding="utf-8")
         sh(raiz, "add", ".")
         subprocess.run(["git", "-C", str(raiz), "commit", "-q", "-m", "pdf"], env={**os.environ, "GIT_COMMITTER_DATE": "2099-01-02T00:00:00"}, check=True)

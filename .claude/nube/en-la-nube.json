@@ -1,6 +1,7 @@
 {
   "que": "apunte de Teoria de Circuitos para el parcial: fase 3 de electronica-analogica (Laplace, polos y ceros, filtros activos, trifasicos, impedancia reflejada, senales en frecuencia)",
   "desde": "2026-11-05",
+  "base": "8807754",
   "repos": [
     "proyectos/documentos/teoria-circuitos",
     "proyectos/documentos/catedras"
