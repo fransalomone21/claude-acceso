@@ -121,8 +121,9 @@ dejó sin commitear (SVG de física y BLACK, de otras sesiones). Nada de subagen
 
 ## 6. Modelo, y estado de la máquina
 
-Sonnet 5.5, esfuerzo alto, un solo hilo: es un plan decidido, con la cuenta de Fran contada. Sólo si una deducción no cierra
-después de dos caminos, Opus para ese tramo. Se declara en la línea Motor del cuadro, que va en cada respuesta.
+El modelo que traiga la sesión, salvo Fable, que no se usa nunca; esfuerzo alto, un solo hilo. Los créditos vencen a las
+4:59 GMT-3 y lo que no se gasta se pierde: **leé `NOCHE.md`, que manda sobre la hora de cierre y lo compartido.** Se declara
+en la línea Motor del cuadro, que va en cada respuesta.
 
 La máquina arranca limpia: al cerrarse se pierde lo que no esté pusheado, incluida la memoria de la sesión. No hay
 PowerShell ni rclone: `compilar.bat` no corre y se usan los comandos de arriba, con

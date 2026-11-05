@@ -8,6 +8,11 @@
   ],
   "pdfs": [
     {
+      "pdf": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
+      "fuentes": "proyectos/documentos/fisica-espacial/apunte",
+      "como": "proyectos\\documentos\\fisica-espacial\\compilar.bat; despues .\\practica\\compilar.ps1 y .\\publicar-apuntes.ps1"
+    },
+    {
       "pdf": "proyectos/documentos/electronica-analogica/apunte/apunte-tdc.pdf",
       "fuentes": "proyectos/documentos/electronica-analogica/apunte",
       "como": "en esa carpeta: typst compile --input materia=tdc apunte-tdc.typ apunte-tdc.pdf; despues .\\publicar-apuntes.ps1"
