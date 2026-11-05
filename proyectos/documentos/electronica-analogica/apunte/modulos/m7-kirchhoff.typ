@@ -12,7 +12,9 @@ una fuente, una llave a transistor. En cada uno se usó, sin nombrarla, la misma
 herramienta: plantear que las corrientes que entran a un punto son las que salen, y que
 las tensiones alrededor de una vuelta cierran en cero. Este módulo abre esa caja. A
 partir de acá el objeto de estudio ya no es *un* circuito sino el *método* para resolver
-cualquiera, que es exactamente lo que la materia Teoría de Circuitos formaliza.
+cualquiera, que es exactamente lo que la materia Teoría de Circuitos formaliza. Hasta acá
+se armó el mueble sin abrir el instructivo, y salió; desde acá se lee el instructivo, que
+es lo que permite armar el próximo sin rezar.
 
 == El modelo: parámetros concentrados
 
@@ -37,7 +39,8 @@ es una línea de transmisión y hay que tratarla como tal.
 #clave[
   Todo lo que sigue —Kirchhoff, mallas, nodos, Thévenin, fasores— es válido *bajo la
   hipótesis de parámetros concentrados*. No es una ley de la naturaleza: es una
-  aproximación excelente y con fecha de vencimiento. Cuando la frecuencia sube lo
+  aproximación excelente y con fecha de vencimiento, como un yogur bueno: mientras no se pase
+  la fecha es lo mejor que hay en la heladera, y el día que se pasa no avisa. Cuando la frecuencia sube lo
   suficiente, se cae.
 ]
 
@@ -78,7 +81,8 @@ La disciplina que lo evita es una sola y no se negocia.
 #atencion[
   Las polaridades y los sentidos que uno dibuja son *supuestos*, no verdades. Se eligen
   antes de resolver y se respetan hasta el final. Si la respuesta da negativa, no hay
-  nada que corregir: significa que la corriente real va al revés de la flecha dibujada.
+  nada que corregir: significa que la corriente real va al revés de la flecha dibujada. La
+  flecha es una apuesta, no una promesa; perderla no es un error, es información.
   Volver atrás a "arreglar" el dibujo y recalcular es la forma más rápida de equivocarse.
 ]
 
@@ -139,7 +143,8 @@ Módulo 6 se modela así.
 #clave[
   Una fuente controlada *no* es una fuente independiente: no se "apaga" al aplicar
   superposición ni al calcular una resistencia equivalente de Thévenin. Esa es la
-  diferencia que más se cobra en los parciales, y se retoma en el Módulo 9.
+  diferencia que más se cobra en los parciales, y se cobra con intereses; se retoma en el
+  Módulo 9.
 ]
 
 == El vocabulario topológico

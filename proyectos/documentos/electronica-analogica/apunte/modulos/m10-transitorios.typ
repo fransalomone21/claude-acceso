@@ -13,7 +13,8 @@
 
 Hasta acá todos los circuitos eran resistivos: la respuesta era instantánea y proporcional
 a la excitación. El capacitor y el inductor rompen eso, porque *almacenan energía*, y la
-energía almacenada no aparece ni desaparece de golpe. Ese es el origen de todo lo que
+energía almacenada no aparece ni desaparece de golpe: ni la física ni el banco dan
+vuelto instantáneo. Ese es el origen de todo lo que
 sigue: los transitorios, las constantes de tiempo, la respuesta en frecuencia y —al final
 de la cadena— el filtrado.
 
@@ -69,7 +70,7 @@ explica por qué van al revés:
 
 #atencion[
   En un capacitor electrolítico, además del valor hay dos datos que matan si se ignoran:
-  la *polaridad* (invertirla lo hace explotar) y la *tensión máxima de trabajo*, que
+  la *polaridad* (invertirla lo hace explotar, y no es una forma de decir) y la *tensión máxima de trabajo*, que
   debe superar cómodamente el pico —no el eficaz— de lo que va a soportar. En la fuente
   del Módulo 5, el capacitor de filtro ve el valor *pico* del secundario, no los volt
   eficaces que dice el transformador.
@@ -138,7 +139,8 @@ Todo es el dual exacto del capacitor:
 )
 
 #clave[
-  *La dualidad no es una curiosidad: es la mitad del trabajo ya hecho.* Cada resultado de
+  *La dualidad no es una curiosidad: es la mitad del trabajo ya hecho.* Es el dos por uno
+  del capítulo, y no trae letra chica. Cada resultado de
   este módulo vale dos veces. Se demuestra para uno de los dos y se traduce con el
   diccionario de la tabla ($v arrow.l.r i$, $C arrow.l.r L$, serie $arrow.l.r$ paralelo,
   abierto $arrow.l.r$ corto). Cuando aparezca una fórmula del inductor que no se recuerda,
@@ -459,7 +461,9 @@ $ L (dif i)/(dif t) + R i = 0 quad arrow.r quad
   i(t) = I_0 e^(-t\/tau), quad quad tau = L/R $ <ec-natural-rl>
 
 #clave[
-  *Se llama respuesta natural porque no hay ninguna fuente encendida.* Lo único que la
+  *Se llama respuesta natural porque no hay ninguna fuente encendida.* Es el circuito
+  librado a su suerte, como el tambor del lavarropas que sigue girando un rato después de
+  cortarle la luz. Lo único que la
   produce es la energía que el elemento ya tenía guardada, y su forma —una exponencial
   decreciente— la fija el circuito, no la excitación. Por eso también se la llama
   *respuesta a entrada cero*, y por eso el exponente $-1\/tau$ es una propiedad del

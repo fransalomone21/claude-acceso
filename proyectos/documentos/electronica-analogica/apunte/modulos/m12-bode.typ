@@ -11,7 +11,8 @@ El Módulo 11 resuelve el circuito a *una* frecuencia. La pregunta de ingenierí
 es esa: es *qué le pasa al circuito cuando la frecuencia cambia*. Un amplificador de audio
 tiene que responder igual de 20 Hz a 20 kHz; una fuente tiene que dejar pasar la continua
 y matar los 100 Hz del rizado; una radio tiene que quedarse con una emisora y rechazar
-todas las demás. Todo eso es *respuesta en frecuencia*.
+todas las demás, aunque estén al lado y griten más fuerte. Todo eso es *respuesta en
+frecuencia*.
 
 == La función de transferencia
 
@@ -51,7 +52,8 @@ son toda la información: dan las dos curvas sin necesidad de calcular punto por
 #clave[
   Se usa por tres razones, todas prácticas: convierte productos en sumas (etapas en
   cascada se *suman* en dB), comprime rangos enormes en números manejables (de 1 a un
-  millón son 0 a 120 dB), y se parece a cómo percibe el oído.
+  millón son 0 a 120 dB), y se parece a cómo percibe el oído, que tampoco es lineal: el doble de potencia en el
+  parlante no suena el doble de fuerte, y por eso el vecino nunca está tan conforme como uno.
 ]
 
 #figure(
@@ -116,7 +118,8 @@ $ overline(H) = 1/(1 + j (omega\/omega_c)) quad arrow.r quad
   Por encima de $omega_c$, cada vez que la frecuencia se multiplica por diez la salida se
   divide por diez: *la pendiente asintótica de un polo simple es $-20$ dB por década*
   (equivalentemente, $-6$ dB por octava). Ese número no depende de $R$ ni de $C$ ni de
-  nada: es la firma de un polo de primer orden, y saberlo es lo que permite dibujar Bode
+  nada: es la firma de un polo de primer orden, tan reconocible como una letra de médico
+  pero mucho más fácil de leer, y saberlo es lo que permite dibujar Bode
   sin calcular.
 ]
 
@@ -171,7 +174,7 @@ $+90 degree$ a $0 degree$.
 )
 
 #clave[
-  *Las tres correcciones que hay que recordar.* En el módulo, la asíntota se equivoca
+  *Las tres correcciones que hay que recordar*, que son pocas y se preguntan siempre. En el módulo, la asíntota se equivoca
   exactamente $3$ dB en la frecuencia de quiebre (y menos de $1$ dB a una octava de
   distancia). En la fase, el cambio no es abrupto: se reparte a lo largo de *dos décadas*,
   desde $omega_p\/10$ hasta $10 omega_p$, pasando por $-45 degree$ justo en $omega_p$. La

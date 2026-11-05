@@ -13,7 +13,8 @@ Un simulador no reemplaza al cálculo ni al laboratorio: es un *tercer testigo*.
 dice qué debería pasar según el modelo, el laboratorio dice qué pasa de verdad, y la
 simulación dice qué pasa según el modelo *cuando el modelo es demasiado grande para
 resolverlo a mano*. Los tres tienen que converger, y cuando no convergen, la discrepancia
-es el resultado más valioso de los tres.
+es el resultado más valioso de los tres: cuando los testigos no coinciden, alguno vio
+mal, y averiguar cuál es el trabajo.
 
 De ahí sale la regla de este módulo, que es la misma del apunte entero: *una curva
 simulada no es evidencia hasta que se le controlaron los números*. Una curva que «parece
@@ -244,7 +245,8 @@ tiene *nada* que ver con la señal: no oscila, no cruza por cero donde debe, y s
 ]
 
 #atencion[
-  *El paso máximo no es lo mismo que el paso de guardado.* El cuarto número de `.tran` es
+  *El paso máximo no es lo mismo que el paso de guardado*, aunque los dos números estén
+  uno al lado del otro y parezcan primos. El cuarto número de `.tran` es
   `tmax`, el paso *máximo de cálculo*: le pone un techo al avance del tiempo. El primero,
   `tstep`, sólo dice cada cuánto guardar para el gráfico. Aumentar el segundo hace el
   archivo más grande y no mejora la exactitud; el que hay que apretar es el cuarto.
@@ -280,7 +282,8 @@ correcta de mostrar los tres regímenes del Módulo 10: *lo único que cambia en
 curvas es el número que se está estudiando*.
 
 #atencion[
-  *A un valor de una lista ajena se le hacen las cuentas antes de usarlo.* Con los valores
+  *A un valor de una lista ajena se le hacen las cuentas antes de usarlo*, aunque venga en
+  un archivo con todo el aspecto de oficial: un número no se vuelve cierto por estar en una lista. Con los valores
   que tiene ese mismo archivo ($L = 1$ mH y $C = 100$ nF), la resistencia crítica del RLC
   serie vale
   $ R_"crít" = 2 sqrt(L/C) = 2 sqrt((10^(-3))/(10^(-7))) = 2 dot 100 = 200 thin Omega $
@@ -347,7 +350,7 @@ el propio simulador, y es el que la guía pide en tres problemas.
 ]
 
 #atencion[
-  *«Parece correcta» no es un control.* Todas estas curvas se ven razonables: una
+  *«Parece correcta» no es un control*, por más lindo que haya quedado el gráfico. Todas estas curvas se ven razonables: una
   exponencial con el $tau$ equivocado, un sobreamortiguado que debía ser crítico, una
   oscilación con el signo cambiado, una respuesta cuyo valor final es el del circuito
   *anterior* a la conmutación. Ninguna de las cuatro se detecta mirando la forma; las

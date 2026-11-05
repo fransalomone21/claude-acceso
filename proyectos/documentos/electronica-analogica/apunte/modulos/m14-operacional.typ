@@ -11,7 +11,8 @@
 Este es el último componente del apunte y el primero que no se parece a ninguno de los
 anteriores. El diodo, el transistor y el transformador se entienden mirando *lo que
 tienen adentro*. El operacional no: adentro tiene unos veinte transistores, y saber
-cuáles son no sirve para nada. Se entiende mirando *lo que hace*, y lo que hace se
+cuáles son no sirve para nada, como no sirve saber cómo es el motor del colectivo para
+viajar en él. Se entiende mirando *lo que hace*, y lo que hace se
 resume en una sola frase que vale la pena leer despacio, porque todo el módulo sale de
 ahí:
 
@@ -19,7 +20,8 @@ ahí:
   *El operacional mira la diferencia entre sus dos entradas y mueve la salida hasta que
   esa diferencia sea cero.*
 
-  No hace nada más. No sabe qué resistores tiene colgando, no sabe qué circuito lo rodea
+  No hace nada más, y lo hace con la obsesión de quien acomoda un cuadro torcido en casa
+  ajena. No sabe qué resistores tiene colgando, no sabe qué circuito lo rodea
   y no sabe qué ganancia se supone que tiene que dar. Mira dos tensiones, y empuja.
 ]
 
@@ -107,7 +109,7 @@ El símbolo tiene tres terminales de señal y dos de alimentación:
 
 #clave[
   *El operacional no tiene terminal de masa*, y esa ausencia confunde a todo el mundo la
-  primera vez. La corriente que sale por $v_o$ hacia la carga entra por los terminales de
+  primera vez (y a bastante gente la segunda). La corriente que sale por $v_o$ hacia la carga entra por los terminales de
   alimentación: el camino de retorno pasa por la fuente, no por el símbolo.
 
   Consecuencia práctica: un circuito con operacionales *no funciona* si la masa de la
@@ -255,7 +257,9 @@ Con la condición verificada, todo el análisis se apoya en dos afirmaciones:
 ]
 
 #atencion[
-  *Las dos reglas son de distinta clase, y confundirlas cuesta caro.*
+  *Las dos reglas son de distinta clase, y confundirlas cuesta caro*: es el típico error
+  que se hace a lo pavo, con las dos reglas recitadas de memoria, y que en el banco se paga
+  con una salida pegada al riel.
 
   La Regla 2 es una propiedad del *componente*: vale siempre. La Regla 1 es una
   propiedad del *circuito*: vale sólo si hay realimentación negativa y la salida no está

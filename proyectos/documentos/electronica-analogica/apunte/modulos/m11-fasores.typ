@@ -11,7 +11,7 @@
 
 El Módulo 10 mostró que con capacitores e inductores hay que resolver ecuaciones
 diferenciales. Si eso hubiera que hacerlo cada vez, la ingeniería eléctrica sería
-impracticable. La salida es una idea del siglo XIX —de Charles Steinmetz— y es una de las
+impracticable, y los ingenieros, gente muy cansada. La salida es una idea del siglo XIX —de Charles Steinmetz— y es una de las
 más rentables de toda la disciplina: *en régimen permanente senoidal, la ecuación
 diferencial se convierte en una ecuación algebraica con números complejos*.
 
@@ -25,7 +25,8 @@ diferir en dos cosas: la *amplitud* y la *fase*.
 #clave[
   Esa es toda la observación. Como la frecuencia es un dato conocido y común a todo el
   circuito, no hace falta arrastrarla: alcanza con llevar la cuenta de amplitud y fase.
-  Dos números por señal. Y dos números son exactamente lo que es un número complejo.
+  Dos números por señal. Y dos números son exactamente lo que es un número complejo: la
+  matemática tenía la valija hecha desde hacía rato, esperando que alguien la usara.
 ]
 
 == El fasor
@@ -124,7 +125,8 @@ Aplicando la @ec-deriv-fasor a las tres relaciones constitutivas:
   La única condición es que *toda* el circuito trabaje a la misma frecuencia. Si hay
   fuentes de frecuencias distintas, no se pueden sumar sus fasores: hay que resolver un
   circuito por frecuencia —con la impedancia recalculada en cada una— y sumar las
-  respuestas *en el tiempo*, por superposición. Eso es exactamente lo que hace falta para
+  respuestas *en el tiempo*, por superposición. Sumar fasores de frecuencias distintas es
+  sumar pesos con dólares: la cuenta da un número, y el número no significa nada. Eso es exactamente lo que hace falta para
   las señales poliarmónicas del Módulo 12.
 ]
 
@@ -242,7 +244,8 @@ Como $P$, $Q$ y $S$ forman un triángulo rectángulo:
 $ S = sqrt(P^2 + Q^2) quad quad tan theta = Q/P $ <ec-triangulo>
 
 #clave[
-  La potencia reactiva $Q$ *no se consume*: su valor medio es cero. Pero *sí circula*, y
+  La potencia reactiva $Q$ *no se consume*: su valor medio es cero. Va y viene como un
+  mensaje reenviado en un grupo: no le sirve a nadie y ocupa lugar igual. Pero *sí circula*, y
   por lo tanto calienta los cables, ocupa la sección del conductor y satura el
   transformador exactamente igual que la activa. Por eso la distribuidora la cobra: no
   cobra energía que no entregó, cobra la infraestructura que tuvo que poner para

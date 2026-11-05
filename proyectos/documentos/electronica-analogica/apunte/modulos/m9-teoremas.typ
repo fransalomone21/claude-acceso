@@ -10,7 +10,8 @@
 
 Los métodos del Módulo 8 resuelven *todo* el circuito. Muchas veces no hace falta: se
 quiere saber qué pasa en *una* rama, o qué pasa cuando la carga cambia. Resolver el
-sistema completo cada vez que se cambia un resistor es un desperdicio. Los teoremas de
+sistema completo cada vez que se cambia un resistor es un desperdicio, como volver a
+colimar el telescopio entero porque se cambió el ocular. Los teoremas de
 este módulo son atajos, y todos salen de la misma propiedad.
 
 == Linealidad
@@ -51,7 +52,8 @@ este módulo son atajos, y todos salen de la misma propiedad.
 ]
 
 #clave[
-  Superposición casi nunca es el camino más corto para resolver un circuito completo:
+  Superposición casi nunca es el camino más corto para resolver un circuito completo (en un
+  parcial con el reloj corriendo, menos todavía):
   con $m$ fuentes hay que resolver $m$ circuitos. Su valor es otro, y es conceptual: es
   lo que permite separar la *continua* de la *alterna* en un amplificador (el punto de
   reposo por un lado, la señal por el otro), y es la justificación de todo lo que viene
@@ -159,7 +161,8 @@ linealidad es lo único que se usó; de ahí que el teorema valga *solo* en rede
 )
 
 #atencion[
-  Con fuentes controladas, el primer método *da mal*. La fuente controlada no se anula,
+  Con fuentes controladas, el primer método *da mal*, y da mal con total tranquilidad: el
+  número sale prolijo, con unidades, y es falso. La fuente controlada no se anula,
   y por lo tanto sigue inyectando o absorbiendo corriente mientras se "mira" la red: la
   resistencia equivalente ya no es una combinación serie-paralelo de los resistores. El
   Ejercicio 9.3 muestra el error concreto. Peor aún, con fuentes controladas $R_"th"$
@@ -284,7 +287,7 @@ $ p_(L,"máx") = (V_"th"^2)/(4 R_"th") $ <ec-pmax>
 ]
 
 #atencion[
-  Esta es la confusión más cara del tema. Una fuente de alimentación *no* se diseña
+  Esta es la confusión más cara del tema, y cara en serio: se paga en calor. Una fuente de alimentación *no* se diseña
   adaptada: se diseña con $R_"th"$ lo más chica posible frente a la carga, para que la
   tensión no se caiga y para que el rendimiento sea alto. Si una fuente de 12 V con
   $R_"th" = 1 Omega$ alimentara una carga adaptada de $1 Omega$, entregaría 36 W a la

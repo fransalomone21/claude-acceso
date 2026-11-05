@@ -7,8 +7,8 @@
   controladas, y verificar el resultado resolviendo el mismo circuito por el otro camino.
 ])
 
-El Ejercicio 7.2 resolvió un circuito de dos mallas con tres ecuaciones. Se puede hacer
-mejor. La idea de este módulo es una sola y es profunda: *cambiar las incógnitas*. En vez
+El Ejercicio 7.2 resolvió un circuito de dos mallas con tres ecuaciones. Llegó, como llega
+el colectivo que para en todas las esquinas; se puede hacer mejor. La idea de este módulo es una sola y es profunda: *cambiar las incógnitas*. En vez
 de buscar las $b$ corrientes de rama, se busca un conjunto más chico de variables a
 partir del cual todo lo demás se calcula. Según cuál se elija, sale un método u otro.
 
@@ -21,7 +21,8 @@ partir del cual todo lo demás se calcula. Según cuál se elija, sale un métod
     automáticamente (cada corriente de malla entra y sale de cada nodo que toca). Queda
     escribir LKT: *análisis de mallas*, $b - n + 1$ ecuaciones.
 
-  Cada método paga una ley por adelantado para no tener que escribirla.
+  Cada método paga una ley por adelantado para no tener que escribirla: es la cuota sin
+  interés del análisis de circuitos, se paga al elegir las incógnitas y no se vuelve a ver.
 ]
 
 == Análisis de nodos
@@ -320,7 +321,8 @@ ampliada de la LKC del Módulo 7: la ley vale para cualquier superficie cerrada.
 #atencion[
   El error más común con supernodos es escribir la LKC del supernodo *y además* la de
   uno de los nodos que encierra. Eso duplica información y deja el sistema mal
-  planteado. La regla es: el supernodo reemplaza a las dos ecuaciones de nodo, y la
+  planteado: es contar dos veces la misma plata y después no entender por qué no cierra la
+  caja. La regla es: el supernodo reemplaza a las dos ecuaciones de nodo, y la
   segunda ecuación que falta es *siempre* la restricción de la fuente, nunca otra LKC.
 ]
 
@@ -692,7 +694,8 @@ bien definidos. El análisis de nodos, en cambio, no usa para nada la geometría
 dibujo: solo usa la lista de qué está conectado con qué.
 
 #clave[
-  El análisis de nodos es *siempre* aplicable; el de mallas, solo a redes planares. Esa es
+  El análisis de nodos es *siempre* aplicable; el de mallas, solo a redes planares: mallas es
+  un método de mesa plana, y no todos los circuitos se dejan aplastar. Esa es
   la razón de fondo por la que todo simulador de circuitos —SPICE incluido, y por lo tanto
   LTspice, Multisim o Falstad— resuelve internamente por *análisis nodal modificado*
   (MNA), que es este mismo método con el agregado de tratar las fuentes de tensión y los

@@ -12,7 +12,8 @@ La idea que gobierna este módulo es la misma que la de Thévenin, llevada un pa
 lejos: si una red de dos terminales se resume en dos números ($V_"th"$ y $R_"th"$), una
 red de *cuatro* terminales —una entrada y una salida— se resume en cuatro. Y con esos
 cuatro números se puede conectar la caja a otras cajas sin volver a mirar jamás lo que
-tiene adentro.
+tiene adentro, que es el sueño de todo el que alguna vez desarmó algo para entenderlo y no
+lo pudo volver a armar.
 
 == El cuadripolo
 
@@ -68,7 +69,7 @@ $y$, "de cortocircuito": son literalmente el protocolo de medición.
   En una red *recíproca* (hecha solo de $R$, $L$, $C$ y transformadores, sin fuentes
   controladas) se cumple $z_12 = z_21$ y $y_12 = y_21$. Es la misma simetría de matriz que
   apareció en el Módulo 8, y por la misma razón. Un cuadripolo con transistores adentro
-  *no* es recíproco: $h_12$ y $h_21$ no tienen nada que ver entre sí, y menos mal —si lo
+  *no* es recíproco (la amistad no es mutua): $h_12$ y $h_21$ no tienen nada que ver entre sí, y menos mal —si lo
   fueran, no habría amplificación.
 ]
 
@@ -116,7 +117,7 @@ comodidad en un transistor y porque tienen sentido físico inmediato. En emisor 
   Acá se cierra el arco de #toda-la-parte-ii. El $beta = h_(f e)$ que en el Módulo 6 era "un
   número que dice el fabricante" es, formalmente, *el parámetro $h_21$ de un cuadripolo*, y
   la fuente controlada que lo representa es la CCCS que se presentó en el Módulo 7. El
-  transistor no es un caso aparte: es un cuadripolo no recíproco, y una vez modelado así
+  transistor no es un caso aparte ni un bicho raro: es un cuadripolo no recíproco, y una vez modelado así
   se lo analiza con el análisis nodal del Módulo 8 como a cualquier otra cosa.
 ]
 
@@ -131,7 +132,8 @@ volver a mirar el interior:
   $A B C D$, en orden.
 
 #atencion[
-  La regla de la cascada es la razón por la que existe la matriz $A B C D$, y también
+  La regla de la cascada es la razón por la que existe la matriz $A B C D$, que tiene
+  nombre de abecedario y trabajo de contador, y también
   explica la advertencia del Módulo 12 sobre poner filtros en cascada: al conectarlos, la
   impedancia de entrada de la segunda etapa carga a la primera y le cambia la respuesta.
   El álgebra de cuadripolos *lo tiene en cuenta automáticamente*; la multiplicación
