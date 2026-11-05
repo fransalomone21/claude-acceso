@@ -8,7 +8,9 @@
 > la fuente; el texto va como curvas); (3) el M18 trabaja en **eficaz** y lo dice en una
 > caja: no «corregirlo» a pico; (4) los anexos pasaron a «Módulo 19» (el problema viejo
 > de que los anexos lleven número de módulo, en `Pendientes explícitos`). La PC tiene que
-> regenerar los dos PDF y publicarlos (la nube no toca Drive).
+> regenerar los dos PDF y publicarlos (la nube no toca Drive). Y la **fase 5** (voz de la
+> casa en 7 a 15) también cerró esa noche: antes de tocar prosa de esos módulos,
+> `python comparar-matematica.py <commit base>` garantiza que la matemática no se movió.
 
 > **2026-11-05: se sigue en la nube.** El retome entero está en
 > [`.claude/nube/RETOME-electronica.md`](../../../.claude/nube/RETOME-electronica.md): la fase 3 para el parcial de Teoría

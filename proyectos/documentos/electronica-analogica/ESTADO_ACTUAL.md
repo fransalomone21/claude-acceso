@@ -38,6 +38,17 @@
 > §11.5 p. 536, §12.3 p. 568, §15.2 p. 738, §15.4 p. 749); las que no se pudieron mirar
 > quedaron como sección sin página.
 >
+> **Fase 5 (la voz de la casa en los módulos 7 a 15), abierta y cerrada la misma noche.**
+> El pedido de Fran del 2026-10-02 que estaba pendiente: la apertura y tres o más pasajes
+> de cada módulo con humor integrado en la prosa (37 en total), sin cartel y sin cargar a
+> ningún profesor, con cosas de la casa (el telescopio, el lavarropas, «a lo pavo»).
+> **No se tocó una ecuación, un número, un título, una figura ni un ejercicio**, y eso lo
+> mide `comparar-matematica.py` (nuevo) contra el commit base `06391c6`: 0 diferencias. Su
+> sabotaje da rojo por la categoría que rompe (el primer intento del número de prosa pegaba
+> en una ecuación: rojo por el motivo equivocado, corregido antes de usarlo). Es una pasada
+> **moderada** a propósito: el destinatario del apunte de EA es el docente (decisión para
+> Fran en el informe de la nube: si la quiere más cruda, como la de Física Espacial).
+>
 > **El control de paridad con la PC** (antes de tocar nada): los dos PDF de `7aca8b3`
 > salieron con el MD5 de la PC. Detalle en `.claude/nube/regreso/2026-11-05-electronica.md`.
 
