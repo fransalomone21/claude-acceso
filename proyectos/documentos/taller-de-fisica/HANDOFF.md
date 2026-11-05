@@ -3,6 +3,20 @@
 **Escrito el:** 2026-09-13 · **Fase al cerrar:** 0 (Estructura y fuentes)
 CERRADA — 1 (Escribir) bloqueada a propósito, sin fecha.
 
+## 2026-11-05 — entrega
+
+- `catedras/.../exposicion/preparar-entrega.py` arma `6 - Entrega`: la clase 1 sobre el
+  archivo (pasó por Google Slides, no se regenera; sus notas viven en el script), la clase 2
+  con `referencia.js ... 2corta` y la simulación con `armar.py`. Después escanea; corta en
+  rojo. `--verificar` sólo mide; `--sabotaje` prueba el escáner.
+- `referencia.js ... 2corta` reproduce el archivo byte a byte, salvo fecha: se midió antes de
+  tocarlo.
+- Toda razón en palabras («N veces») necesita su cuenta en `validar.py` y entrar a
+  `RAZONES_CON_CUENTA`: si no, el escáner da rojo.
+- La simulación ya no abre pantallas por `#p6`: era un gancho de prueba. Una captura nueva
+  se saca navegando con clics, no con la receta de abajo.
+- `file://` no abre en el navegador del panel: se usa `compton-sim` de `launch.json`.
+
 ## 2026-11-04 (noche) — simulación v5
 
 - El texto de cada pantalla vive en `EX`, adentro de `plantilla.html`; los botones

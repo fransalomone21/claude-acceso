@@ -1,6 +1,26 @@
 # Estado actual — Taller de Física
 
-**Última actualización:** 2026-11-04
+**Última actualización:** 2026-11-05
+
+## 2026-11-05 — carpeta de entrega para el Classroom
+
+- **Pedido de Fran:** revisar las dos presentaciones y la simulación, sin nada de IA ni
+  que nombre a Aníbal (se las entregan a él), con notas que expliquen las diapositivas.
+- **Dónde:** `Exposicion Compton y Pares\6 - Entrega\` (local; Drive sin tocar). Las de
+  `3 - Presentacion` quedan como estaban, con las notas de trabajo.
+- **Error de física corregido:** el umbral de pares (0,012 Å) es unas 60 veces más corto
+  que el haz de Compton (0,71 Å), no «mil veces» (clase 2, diapositiva 9 y su nota; simulación).
+- **Otros cambios:** en la nota de la Fig. 9.4, «por eso Compton usó grafito» no salía de la
+  figura (a 17,5 keV el grafito queda del lado del fotoeléctrico); «Si L es» pasa a «L
+  como»; «pool» a «billar»; 12 % a 12,5 %; historial de desarrollo sacado de la simulación.
+- **Notas:** las 18 de la clase 1 reescritas (sin quién da, tiempos, «si preguntan» ni guía);
+  7 retocadas en la clase 2. Metadatos sin el nombre del generador.
+- **Verificado:** `preparar-entrega.py` sin hallazgos y su sabotaje en rojo; `validar.py`
+  con 2 cuentas más; `validate.py` y `verificar-solapes.py` en verde; render mirado; las 15
+  pantallas y todos los botones sin errores, con animación forzada a 60 Hz. **No** se abrió
+  en PowerPoint ni se vio la simulación con el panel visible.
+- **Falta:** que Fran la suba; la captura de la diapositiva 12 de la clase 2 sigue siendo
+  de la simulación anterior; preguntarle a Aníbal la L.
 
 ## 2026-11-04 (noche) — simulación v5, para Aníbal, con la física explicada
 
