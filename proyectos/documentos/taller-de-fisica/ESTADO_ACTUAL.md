@@ -6,8 +6,11 @@
 
 - **Pedido de Fran:** revisar las dos presentaciones y la simulación, sin nada de IA ni
   que nombre a Aníbal (se las entregan a él), con notas que expliquen las diapositivas.
-- **Dónde:** `Exposicion Compton y Pares\6 - Entrega\` (local; Drive sin tocar). Las de
-  `3 - Presentacion` quedan como estaban, con las notas de trabajo.
+- **Dónde:** `Exposicion Compton y Pares\6 - Entrega\`, local y en la carpeta del grupo en
+  Drive (carpeta nueva, con el sí de Fran; MD5 iguales; sin `anyone`, Agustín como editor):
+  clase 1 `1yr4ZYS1b9a7Rk9gw3kgBuva3ofCpKUkA`, clase 2 `1ybcyOozxV8aYBxVVM6wjrLwwAVzpifH2`,
+  simulación `1wlozs5xyDQ-YK854WDRXr6iIzLHGJ3G4`. Las de `3 - Presentacion` quedan como
+  estaban, con las notas de trabajo y el «mil veces»: medido, mismos MD5 que antes.
 - **Error de física corregido:** el umbral de pares (0,012 Å) es unas 60 veces más corto
   que el haz de Compton (0,71 Å), no «mil veces» (clase 2, diapositiva 9 y su nota; simulación).
 - **Otros cambios:** en la nota de la Fig. 9.4, «por eso Compton usó grafito» no salía de la
