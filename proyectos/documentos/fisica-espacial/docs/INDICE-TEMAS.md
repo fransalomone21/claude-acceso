@@ -417,18 +417,23 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso**
   - *(de donde sale)* de dónde sale la relación general entre cupla y H
 - **Las ecuaciones de Euler ($bold(Omega) = bold(omega)$, ejes clavados al cuerpo)**
+  - **La otra mitad de §18.6: la extensión de d'Alembert**
+  - *(de donde sale)* el disco torcido en sus cojinetes
+  - **Las dos reglas de la mano derecha, y el giróscopo con tres dedos**
   - *(guia de la catedra)* qué ejercicios cubre este módulo
   - *(ejemplo)* El disco en la horquilla: la cupla que sostiene el movimiento
   - *(ejemplo)* El volante en el gimbal: por qué 600 N·m dan sólo 20 rad/s²
 - **Los ángulos de Euler: cómo describir la orientación de un giróscopo**
 - **Precesión estable: el caso que sí se resuelve a mano**
   - *(de donde sale)* de dónde sale la cupla que sostiene una precesión constante
+  - **Con el eje inclinado y el peso: una cuadrática, dos precesiones**
+  - *(ejemplo)* El giróscopo de mesa a 60 grados: las dos raíces
 - **¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1**
   - *(de donde sale)* cuál de los tres ejes principales es inestable
   - *(de donde sale)* por qué un cuerpo que pierde energía termina girando sobre su eje mayor
 - **Lo que se usa después**
 
-  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`
+  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`, `<euler-precesion-inclinada>`
 
 ### 21. Peonza simétrica, precesión directa y retrógrada  ·  `peonza`
 
@@ -439,6 +444,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **El ángulo del eje instantáneo: $tan gamma = (I/I') tan theta$**
 - **Precesión directa y precesión retrógrada**
   - *(de donde sale)* de dónde sale el criterio del signo
+  - **La figura «Precesiones» de Aníbal: $beta$ contra $gamma$**
   - *(guia de la catedra)* qué ejercicios cubre este módulo
   - *(ejemplo)* El satélite achatado: el período de una precesión que nadie sostiene
   - *(ejemplo)* El cilindro de paredes delgadas: el umbral entre directa y retrógrada

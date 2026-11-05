@@ -430,6 +430,11 @@ $I'$ transversal, $I$ axial.]
 
 #ec(<euler-precesion-90>)[El caso $theta = 90°$.]
 
+#ec(<euler-precesion-inclinada>)[Precesión estable con el eje inclinado y el
+peso como única cupla ($W$ en $G$, a $c$ del pivote $O$; $I'_O$ transversal
+respecto de $O$): cuadrática en $dot(phi)$, dos raíces, y sin raíces reales por
+debajo de un spin mínimo.]
+
 // ---------------------------------------------------------------------
 #del-modulo("peonza", "Peonza simétrica")
 

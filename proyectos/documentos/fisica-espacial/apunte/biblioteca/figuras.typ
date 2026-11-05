@@ -18,6 +18,9 @@
 
 #import "estilo.typ": *
 #import "perspectiva.typ": *
+// «Precesiones» y el disco torcido viven en su propio archivo porque practica/ también
+// los usa (y trae rótulos con halo que no tienen que pisar a los de acá).
+#import "figuras-precesion.typ": fig-precesiones, fig-disco-torcido
 
 // =====================================================================
 //  Módulo `vectores` — Vectores y cinemática

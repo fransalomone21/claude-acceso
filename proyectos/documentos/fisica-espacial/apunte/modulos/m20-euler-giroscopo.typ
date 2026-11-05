@@ -115,6 +115,102 @@ resolver todo a mano: tres ecuaciones acopladas y no lineales no se
 despejan en un renglón, y quien diga lo contrario tiene un caso particular
 escondido en la manga.
 
+#cuidado[
+  *La errata de la hoja de Aníbal.* En la primera hoja de su resumen
+  manuscrito del capítulo 18, con subíndices 1, 2, 3 en lugar de $x$, $y$, $z$,
+  la tercera ecuación dice $sum M_3 = I_3 dot(omega)_3 - omega_1 omega_2 (I_1 -
+  I_3)$. Por la rueda $x arrow.r y arrow.r z$ el paréntesis es $(I_1 - I_2)$,
+  como en la tercera de arriba y en el Beer 18.25; lo confirma el determinante
+  de la misma hoja, cuya componente sobre $hat(k)$ es $I_2 omega_2 omega_1 - I_1
+  omega_1 omega_2$. Las otras dos están bien. Si te la copiaste para el
+  parcial, corregila: Aníbal no te va a perdonar una errata suya.
+]
+
+=== La otra mitad de §18.6: la extensión de d'Alembert
+
+Las ecuaciones de Euler son la mitad de la sección 18.6 del Beer. La otra
+mitad, que la guía del parcialito usa para sacar reacciones y este apunte no
+nombraba, es la *extensión del principio de d'Alembert* (Beer §18.6, figs.
+18.10 y 18.11, pág. 1171): el sistema de las fuerzas externas sobre un rígido es
+*equivalente* a un vector $m overline(bold(a))$ aplicado en $G$ más una cupla
+$dot(bold(H))_G$. Con $m$ la masa del cuerpo y $overline(bold(a))$ la
+aceleración de su centro de masa, dice que todo lo que le hacen al cuerpo
+desde afuera se puede leer como «empuja el centro de masa» más «tuerce
+alrededor de él», y nada más. Es la versión en tres dimensiones del
+diagrama de cuerpo libre de Física 1, con una cupla que ya no es $I alpha$
+sino la derivada entera de $bold(H)_G$.
+// simbolos: m, abar
+
+Sirve, sobre todo, para un caso que parece no tener dinámica: un cuerpo
+que gira a velocidad *constante* alrededor de un eje *fijo*. Ahí
+$overline(bold(a)) = 0$ si $G$ está sobre el eje, y uno esperaría que los
+cojinetes no hicieran nada. Hacen, si el cuerpo está torcido.
+
+#deduccion("el disco torcido en sus cojinetes")[
+  Un disco de momento axial $I$ y transversal $I'$ está montado en un eje que
+  gira a $omega$ constante, pero *torcido*: su eje de simetría forma un ángulo
+  $beta$ con el eje de giro (Beer §18.7 y 18.8, págs. 1171–1172). Descomponiendo
+  $bold(omega)$ sobre los ejes principales del disco —$omega cos beta$ sobre su
+  eje de simetría, $omega sin beta$ de costado—, el momento angular es
+  $ bold(H)_G = I omega cos beta thin hat(e)_"eje" + I' omega sin beta thin hat(e)_"transv" $
+  con $hat(e)_"eje"$ el versor del eje de simetría del disco y
+  $hat(e)_"transv"$ el transversal en el mismo plano. Como $I != I'$, $bold(H)_G$
+  *no* es paralelo a $bold(omega)$: queda entre el eje de giro y el eje del
+  disco. Y está clavado al disco, así que da vueltas con él: su derivada es
+  sólo el término de transporte de la @euler-derivada-h, $dot(bold(H))_G =
+  bold(omega) times bold(H)_G$. Su módulo es $omega$ por la parte de
+  $bold(H)_G$ perpendicular a $bold(omega)$, que es $I omega cos beta sin beta -
+  I' omega sin beta cos beta$:
+  $ abs(dot(bold(H))_G) = (I - I') omega^2 sin beta cos beta $
+  // simbolos: beta, ehat_eje, ehat_transv
+]
+
+Por la extensión de d'Alembert, esa cupla la tienen que hacer los únicos
+que tocan al disco: los cojinetes, con dos fuerzas iguales y opuestas $bold(F)$
+y $-bold(F)$ que *giran con el eje*, una vuelta por vuelta. Es el
+*desbalance dinámico* del módulo #M("inercia") (el de los productos de
+inercia), y por eso a las ruedas de un auto se les ponen plomitos aunque
+estén perfectamente centradas. Crece con $omega^2$ —al doble de velocidad,
+cuatro veces la fuerza— y desaparece con $beta = 0$, cuando el eje de giro es
+principal. El ingeniero que balancea una rueda no está buscando el centro de
+masa: está buscando un eje principal.
+// simbolos: F
+
+#fig([El disco torcido, de costado, en el instante en que su eje queda en el
+plano de la hoja: $bold(omega)$ sobre el eje de giro, el eje del disco a
+$beta$ de él (exagerado en el dibujo) y $bold(H)_G$ entre los dos. Como
+$bold(H)_G$ da vueltas con el eje, los cojinetes $A$ y $B$ tienen que hacer dos
+fuerzas opuestas que giran con él. Redibujada para la guía del parcialito 5,
+con el planteo del Beer §18.8.], fig-disco-torcido(respuesta: true))
+// simbolos: A, B
+
+=== Las dos reglas de la mano derecha, y el giróscopo con tres dedos
+
+Todo el capítulo se dibuja con dos reglas, y la cátedra dijo que la mano
+derecha es «muy importante» con signos de admiración (módulo
+#M("rotacion")). Conviene tenerlas en la mano, literalmente:
+
++ *Un giro es un vector: una mano.* Cerrá la mano derecha con el pulgar
+  parado; los dedos doblados siguen el sentido en que gira el cuerpo y el
+  pulgar es el vector —$bold(omega)$, $bold(H)$, la precesión, el spin—. Para
+  leer un dibujo es al revés: pulgar sobre la flecha, y los dedos dicen para
+  dónde gira.
++ *Un producto vectorial son tres dedos.* Pulgar, índice y mayor abiertos en
+  ángulo recto, como $x$, $y$, $z$: pulgar por índice da mayor, y en rueda.
+  Para el giróscopo: *pulgar = el giro* ($bold(H)$), *índice = el par*,
+  *mayor = la precesión*. Giro por par da precesión: el eje del rotor
+  persigue al par. Leído en rueda, precesión por giro da el par, que es el
+  $bold(Omega) times bold(H)$ de la @euler-derivada-h.
+
+*Con las manos, el término giroscópico.* Agarrá un libro con las dos manos y
+hacelo girar a la vez sobre dos ejes —el lomo y el que sale de la tapa—. Vas
+a sentir que se quiere torcer hacia un tercer lado que vos no estás
+empujando: es el $(I_y - I_z) omega_y omega_z$ de las ecuaciones de Euler, la
+parte de $bold(Omega) times bold(H)$ que existe sólo porque $bold(H)$ no es
+paralelo a $bold(omega)$. Con una pelota —momentos iguales— la mano no siente
+nada, porque ese término se anula. Con un libro de Beer, que pesa como un
+ladrillo, se siente bastante.
+
 #guia("qué ejercicios cubre este módulo")[
   El punto 2 del Problema 2 (la cupla que sostiene al disco de la horquilla)
   y el Problema 3 completo (el volante en el gimbal). Los ángulos de Euler y
@@ -430,6 +526,61 @@ ella.
   velocidad, que ya apareció dos veces en este módulo: $bold(alpha) =
   omega_1 omega_2 hat(i)$ en el módulo #M("cinematica-cr") y $dot(bold(H))_G = 1/2 m r^2
   omega_1 omega_2 hat(i)$ en el primer ejemplo de hoy.
+]
+
+=== Con el eje inclinado y el peso: una cuadrática, dos precesiones
+
+El caso de $90degree$ es el del dibujo de siempre. Con el eje *inclinado* —un
+trompo, o el giróscopo apoyado en un pivote $O$ con el eje a $theta$ de la
+vertical— la cupla la pone el peso y aparece algo que el caso horizontal
+escondía. Con $W$ el peso, aplicado en $G$, y $c$ la distancia de $O$ a $G$
+sobre el eje, el par del peso respecto de $O$ vale $W c sin theta$ y va sobre
+la línea de nodos, que es justo donde la @euler-precesion-estable pide la
+cupla. Los momentos de inercia ahora son respecto de $O$: el axial $I$ no
+cambia (el eje pasa por $O$), y el transversal pasa a ser $I'_O = I'_G + m
+c^2$, con $I'_G$ el transversal por $G$ y $m$ la masa (Steiner, módulo
+#M("rotacion")). Igualando, el $sin theta$ se simplifica:
+// simbolos: W, c, I'_O, I'_G, m
+
+$ W c = [I dot(psi) + (I - I'_O) dot(phi) cos theta] dot(phi) quad ==> quad
+  (I - I'_O) cos theta thin dot(phi)^2 + I dot(psi) thin dot(phi) - W c = 0 $ <euler-precesion-inclinada>
+
+*Es cuadrática en $dot(phi)$*, así que hay *dos* precesiones estables
+posibles para el mismo trompo con el mismo spin. Para un trompo de los de
+siempre ($I'_O > I$ y $theta < 90degree$) el primer coeficiente es negativo y
+las dos raíces son positivas: una *lenta*, que es la que se ve, y que con
+spin grande vale casi $W c \/ (I dot(psi))$ —la de $90degree$ con otro
+ángulo—; y una *rápida*, de orden $I dot(psi) \/ ((I'_O - I) cos theta)$, que
+hay que largar a propósito y nadie ve en la mesa de la cocina. La razón de
+fondo: con el eje inclinado, la propia precesión aporta un pedazo de momento
+angular fuera del eje del rotor (el $-I'_O dot(phi) sin theta thin hat(e)$ de
+$bold(H)_O$), y ese pedazo también rota con $bold(Omega)$; eso es el término en
+$dot(phi)^2$.
+
+Y la cuadrática dice cuándo el trompo se cae. Sus raíces son reales sólo si
+el discriminante no es negativo, $I^2 dot(psi)^2 >= 4 (I'_O - I) cos theta
+thin W c$: por debajo de un spin mínimo *no existe* precesión estable, y lo
+que queda es nutación cada vez más ancha hasta que el trompo toca la mesa.
+Mientras tanto, con el spin bajando, la lenta $W c \/ (I dot(psi))$ se
+*acelera*: el trompo que se está por caer gira cada vez más rápido alrededor
+de la vertical, que es exactamente lo que cualquiera vio de chico sin saber
+que estaba viendo una cuadrática.
+
+#ejemplo("El giróscopo de mesa a 60 grados: las dos raíces")[
+  _(Modelo de parcialito 5, Ejercicio 11, con los números validados en
+  `practica/validar.py`.)_ Un rotor de $1,5$ kg y $6$ cm de radio, con el
+  centro a $c = 10$ cm del pivote, gira con $dot(psi) = 300$ rad/s y el eje
+  a $theta = 60degree$ de la vertical. $I = 1/2 (1,5)(0,06)^2 = 0,00270$
+  kg·m², $I'_O = 1/4 (1,5)(0,06)^2 + 1,5 (0,10)^2 = 0,01635$ kg·m² y $W c =
+  1,4715$ N·m. La @euler-precesion-inclinada queda
+  $ -0,006825 thin dot(phi)^2 + 0,810 thin dot(phi) - 1,4715 = 0 $
+  con raíces $dot(phi) = 1,845$ rad/s (la lenta: una vuelta cada $3,40$ s) y
+  $dot(phi) = 116,8$ rad/s (la rápida). La aproximada $W c \/ (I dot(psi))$ da
+  $1,82$ rad/s, a un $1,6$ % de la lenta: con spin grande, $theta$ casi no
+  importa. Y el spin mínimo, el del discriminante en cero, es
+  $dot(psi)_"mín" = (2 \/ I) sqrt((I'_O - I) cos theta thin W c) = 74,2$
+  rad/s: a la cuarta parte del spin actual, este giróscopo se cae.
+  // simbolos: psidot_mín
 ]
 
 == ¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1

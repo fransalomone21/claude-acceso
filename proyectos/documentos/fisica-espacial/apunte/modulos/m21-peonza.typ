@@ -141,6 +141,42 @@ caso: achatado y retrógrado, con el cono espacial adentro del corporal
 (Beer fig. 18.24).], fig-conos)
 <fig-conos-directa>
 
+=== La figura «Precesiones» de Aníbal: $beta$ contra $gamma$
+
+Aníbal subió una figura suelta, «Precesiones», con los dos casos lado a lado,
+y la usó en el parcialito. Tiene *otras letras* que el Beer, y hay que
+traducirlas antes de usarla, que es justo lo que pide su «ojo con las
+denominaciones». $I$ es el momento axial, igual que en el Beer; $I_0$ es el
+*transversal*, el que el Beer y este apunte llaman $I'$. $theta$ es el mismo
+del Beer, entre el eje del cuerpo y $bold(H)_G$. Y $beta$ es el ángulo entre
+$bold(omega)$ y $bold(H)_G$: *no* es el $gamma$ del Beer, que va de
+$bold(omega)$ al eje del cuerpo. Los tres ángulos viven en el mismo plano, así
+que se pasa de uno a otro mirando quién queda en el medio: en un cuerpo
+alargado $bold(omega)$ queda entre el eje y $bold(H)_G$, y $beta = theta -
+gamma$; en uno achatado $bold(H)_G$ queda entre el eje y $bold(omega)$, y
+$beta = gamma - theta$. En los dos, $beta = abs(theta - gamma)$.
+// simbolos: I_0, beta
+
+#fig([La figura «Precesiones» de Aníbal, redibujada con las letras del Beer
+($I'$ donde ella dice $I_0$). Cuerpo simétrico sin cupla, con $bold(H)_G$
+fijo y vertical. Cono verde, el espacial: alrededor de $bold(H)_G$, quieto, de
+semiángulo $beta$. Cono azul, el corporal: alrededor del eje $z$ del cuerpo, de
+semiángulo $gamma$, y va con el cuerpo. Alargado: los conos se tocan por
+afuera y el spin $dot(psi)$ va para el mismo lado que la precesión $dot(phi)$.
+Achatado: el corporal envuelve al espacial y el spin va al revés.],
+fig-precesiones())
+
+*Con las dos manos.* La izquierda cerrada, pulgar para arriba: es
+$bold(H)_G$, y no se mueve, porque nadie empuja. La derecha con el pulgar
+inclinado: es el eje del cuerpo. Llevá el pulgar derecho a dar vueltas
+alrededor del izquierdo sin cambiarle la inclinación: eso es la precesión. Y
+mientras, hacé girar la mano derecha sobre su propio pulgar: el spin. En el
+cilindro el giro sobre el pulgar va para el mismo lado que la vuelta que da
+el pulgar —directa—; en el disco, al revés —retrógrada—. Y si la derecha se
+queda quieta respecto de la izquierda, no hay cono: el cuerpo gira sobre un
+eje principal, sin bamboleo. Parece un ejercicio de mímica; es la manera más
+barata de no confundir el signo en un parcial.
+
 #guia("qué ejercicios cubre este módulo")[
   El Problema 4 (el *spacecraft* que precesa, achatado, precesión retrógrada) y
   el Problema 6 (el cilindro de paredes delgadas, el umbral entre directa y
