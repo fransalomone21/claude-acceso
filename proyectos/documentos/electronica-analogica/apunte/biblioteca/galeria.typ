@@ -150,3 +150,15 @@
 #muestra("fig-spice-rc()", fig-spice-rc())
 #muestra("fig-spice-rlc()", fig-spice-rlc())
 #muestra("graf-paso-de-simulacion()", graf-paso-de-simulacion())
+
+= Modulo 16 — Laplace, polos y ceros
+#muestra("graf-polos-plano-s()", graf-polos-plano-s())
+#muestra("graf-rlc-tres-salidas()", graf-rlc-tres-salidas())
+
+= Modulo 17 — Filtros activos y el diferencial
+#muestra("fig-sallen-key()", fig-sallen-key())
+#muestra("graf-butterworth()", graf-butterworth())
+
+= Modulo 18 — Trifasicos y el transformador visto desde la fuente
+#muestra("graf-trifasico-fasores()", graf-trifasico-fasores())
+#muestra("fig-trafo-adaptacion()", fig-trafo-adaptacion())

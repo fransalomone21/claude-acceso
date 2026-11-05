@@ -1125,3 +1125,14 @@
   center,
   image("figuras/bode-amplificador.svg", width: 95%),
 )
+
+// ---------------------------------------------------------------
+//  Modulos 16, 17 y 18 — los graficos cuantitativos de la fase 3
+// ---------------------------------------------------------------
+// Matplotlib a SVG con el texto como curvas (svg.fonttype = "path") y la
+// Libertinus del apunte. Para regenerarlos, desde `apunte/`:
+//   LIBERTINUS=<carpeta de los .otf> python biblioteca/figuras/generar-fase3.py
+#let graf-polos-plano-s() = align(center, image("figuras/polos-plano-s.svg", width: 82%))
+#let graf-rlc-tres-salidas() = align(center, image("figuras/rlc-tres-salidas.svg", width: 85%))
+#let graf-butterworth() = align(center, image("figuras/butterworth.svg", width: 85%))
+#let graf-trifasico-fasores() = align(center, image("figuras/trifasico-fasores.svg", width: 62%))

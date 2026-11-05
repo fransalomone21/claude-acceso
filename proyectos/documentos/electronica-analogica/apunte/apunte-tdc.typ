@@ -68,5 +68,6 @@
 #include "modulos/m13-cuadripolos-ao.typ"
 #include "modulos/m14-operacional.typ"
 #include "modulos/m15-simulacion.typ"
+#include "modulos/m16-laplace.typ"
 
 #include "modulos/anexos.typ"

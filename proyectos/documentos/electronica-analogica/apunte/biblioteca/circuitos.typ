@@ -2175,3 +2175,75 @@
     text(size: letra-figura, fill: c-dato)[`.step param R list 10 100 632.46 2k`],
   )
 })
+
+// ---------------------------------------------------------------
+//  Modulo 17 — Filtros activos
+// ---------------------------------------------------------------
+
+// Sallen-Key pasa bajos de ganancia unitaria. El AO es un seguidor (la salida
+// vuelve entera a la inversora) y el filtro vive en la cadena R-R-C2 de la
+// entrada no inversora. C1 sale del nodo del medio (A) y va a la SALIDA, no a
+// masa: esa es la realimentacion que da el Q. Dos caminos de realimentacion a
+// dos alturas distintas (3,9 y 5,0) para que no se lean como uno solo, y los
+// dos por encima del riel de +Vcc (que termina en 3,2).
+#let fig-sallen-key() = esquema({
+  import zap: *
+  _ao-ideal()
+  let ya = ao-yp
+  // la fuente y la cadena de entrada
+  vsource("Vi", (-3.1, 0.25), (-3.1, ya), label: none)
+  ground("Gi", (-3.1, 0.25))
+  _ao-rot-fuente(-3.1, 0.25, ya, $v_i$)
+  wire((-3.1, ya), (-2.6, ya))
+  resistor("R1", (-2.6, ya), (-0.8, ya), label: $R$)
+  node("A", (-0.8, ya))
+  rotulo((-0.95, ya - 0.18), $A$, ancla: "north-east")
+  resistor("R2", (-0.8, ya), (1.1, ya), label: $R$)
+  node("B", (1.1, ya))
+  rotulo((1.25, ya - 0.12), $B$, ancla: "north-west")
+  wire((1.1, ya), (ao-xin, ya))
+  capacitor("C2", (1.1, ya), (1.1, -0.15), label: none)
+  rotulo((0.72, 0.7), $C_2$, ancla: "east")
+  ground("G2", (1.1, -0.15))
+  // seguidor: salida a la inversora
+  _ao-salida()
+  node("r", (ao-xfb, ao-cy))
+  wire((ao-xfb, ao-cy), (ao-xfb, 5.0))
+  node("r2", (ao-xfb, 3.9))
+  wire((ao-xfb, 3.9), (2.0, 3.9))
+  wire((2.0, 3.9), (2.0, ao-ym))
+  wire((2.0, ao-ym), (ao-xin, ao-ym))
+  // C1: del nodo A a la salida
+  wire((-0.8, ya), (-0.8, 5.0))
+  capacitor("C1", (-0.8, 5.0), (1.2, 5.0), label: $C_1$)
+  wire((1.2, 5.0), (ao-xfb, 5.0))
+})
+
+// ---------------------------------------------------------------
+//  Modulo 18 — Impedancia reflejada
+// ---------------------------------------------------------------
+
+// Amplificador (Thevenin) que ve un parlante a traves de un transformador
+// ideal 1:N2/N1. Lo que importa es lo que mira la fuente desde los bornes del
+// primario: Z_in = a^2 R_L.
+#let fig-trafo-adaptacion() = esquema({
+  import zap: *
+  let (yb, ya) = (0, 2.3)
+  vsource("Vth", (-3.6, yb), (-3.6, ya), label: none)
+  rotulo((-4.15, ya / 2), $V_"th"$, ancla: "east")
+  resistor("Rth", (-3.6, ya), (-1.4, ya), label: $R_"th"$)
+  wire((-1.4, ya), (0, ya))
+  wire((-3.6, yb), (0, yb))
+  inductor("L1", (0, ya), (0, yb))
+  inductor("L2", (1.25, yb), (1.25, ya))
+  _nucleo(0.52, -0.35, ya + 0.35)
+  wire((1.25, ya), (2.6, ya))
+  wire((1.25, yb), (2.6, yb))
+  resistor("RL", (2.6, ya), (2.6, yb), label: none)
+  rotulo((2.95, ya / 2), $R_L$)
+  rotulo((-0.2, ya + 0.55), $N_1$, ancla: "east")
+  rotulo((1.45, ya + 0.55), $N_2$, ancla: "west")
+  // lo que ve la fuente
+  cetz.draw.line((-0.75, -0.55), (-0.75, ya + 0.15), stroke: punteado)
+  rotulo((-0.75, -0.6), [la fuente ve $Z_"in" = a^2 R_L$], ancla: "north")
+})
