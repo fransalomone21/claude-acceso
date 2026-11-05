@@ -1,5 +1,17 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-11-05 (sesión `metodo`, en la nube, rama `claude/blissful-ramanujan-luifu7`) — HECHO: los 63 valorados,
+> DA-099/101/106 arreglados, DA-108 nuevo y arreglado** (ESTADO, arriba; informe en
+> `.claude/nube/regreso/2026-11-05-metodo.md`). **SIGUE, en la PC:** (1) traer la rama (`regreso.py --traer`): los
+> commits `7d8f1d5` y `51143c5` viven ahí, y hasta integrarlos `defectos.py verificar` en la PC da «commit que no
+> existe» para DA-099/101/106; (2) `install.ps1` (el núcleo quedó viejo por la viñeta nueva de la credencial); (3) la
+> primera `--sincronizar-memoria` crea el manifiesto: si el espejo tiene algo que la memoria de la PC no, da ROJO y no
+> toca nada (se decide a mano); (4) `estado-nube.py --simular` en la PC compila con el `typst` del PATH: ahí los
+> recortes de la guía de física sí están, y su ausencia en el clon sale como límite de `.gitignore`, no como rojo;
+> (5) validar DA-106 en la próxima sesión real de la nube (el verde del arranque tiene que decir la cuenta).
+> **Para el que siga:** cada `defectos.py vista` obliga a releer ~330 líneas de la vista (DA-097): se agrupa todo y se
+> regenera una vez por tanda, con el commit en la misma llamada.
+
 > **2026-11-03 (sesión `dc910b33`, después de compactar) — DA-094 INSTALADO Y ARREGLADO** (`f2721de`, con el sí de
 > Fran): `sin-guardar.py` es hook `Stop`; por su línea de comando real calla sin pendientes, avisa con uno y calla en la
 > espera. Falta ver el aviso del harness en un turno real (no verificado: si el harness relee settings.json a mitad de
