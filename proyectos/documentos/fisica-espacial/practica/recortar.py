@@ -15,6 +15,7 @@ imagen por la mitad, lo dice y sale con 1. Un recorte que se come media
 linea compila igual y nadie lo nota hasta tenerlo impreso.
 """
 import glob
+import hashlib
 import io
 import os
 import sys
@@ -56,6 +57,14 @@ def cortes(pagina, y0, y1):
 def main():
     ruta = sys.argv[sys.argv.index('--guia') + 1] if '--guia' in sys.argv else guia_mas_nueva()
     datos = tomllib.load(io.open(os.path.join(AQUI, 'ejercicios.toml'), 'rb'))
+    # DA-102 (2026-11-05): la guia tiene que ser la misma contra la que se midieron los recortes.
+    esperado = datos.get('guia_md5')
+    real = hashlib.md5(io.open(ruta, 'rb').read()).hexdigest()
+    if esperado and real != esperado:
+        print('[ROJO] la guia %s tiene MD5 %s y los recortes de ejercicios.toml estan medidos contra '
+              '%s (MD5 %s): una guia nueva corre las paginas. Medir los recortes otra vez y cambiar '
+              'guia_md5.' % (os.path.basename(ruta), real, datos.get('guia', '?'), esperado))
+        sys.exit(1)
     guia = pymupdf.open(ruta)
     salida = os.path.join(AQUI, 'recortes')
     if '--solo-medir' in sys.argv:   # lo usa el saboteador: mide sin escribir
