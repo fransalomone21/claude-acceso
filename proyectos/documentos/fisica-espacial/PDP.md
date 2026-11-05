@@ -471,7 +471,25 @@ mirar el render, verificadores, Drive).
 **Cierra con:** el fin de la cursada del 2C 2026, con cada lista de temas de
 la cátedra cruzada fila por fila contra el apunte en `fuentes/TEMARIO.md`.
 
-**Fase en curso:** 17 — mantenimiento durante la cursada.
+**Fase en curso:** 18 — el cuerpo que cambia de forma y la actitud desde adentro (la 17 queda abierta de fondo: es
+el mantenimiento de toda la cursada).
+
+### Fase 18 — el cuerpo que cambia de forma y la actitud desde adentro  ·  ABIERTA (2026-11-05)
+
+**Tipo: Fase D** (construir: escribir contra lo que pide la guía (5) y verificar). NASA Phase D, *System Assembly,
+Integration and Test, Launch and Checkout*. **No se hace:** cambiar lo que esto no pide, ni tocar módulos fuera de
+m20 y m21 más que para el `#M()` que los nombre, ni publicar (la noche corre en la nube, sin Drive).
+
+La abrió la guía (5), que trae dos ejercicios adicionales de cuerpo rígido que el apunte no resuelve (los brazos
+telescópicos y la rueda de reacción), y lo que hoy sólo está en la guía del parcialito 5 (la extensión de
+d'Alembert por su nombre, las dos soluciones de la precesión estable inclinada, las reglas de la mano derecha y la
+figura «Precesiones»). Fran aprobó el plan el 2026-11-05 al pedir que se avance (`.claude/nube/RETOME-fisica.md`), y
+pidió, textual: *«que hayan muchos dibujos explicativos y que no quede ninguna variable sin presentar ni decir de
+donde salio, por que y que representan conceptual y matematicamente»*.
+
+**Cierra con:** los dos ejercicios nuevos resueltos en el apunte y comprobados por dos caminos; `verificar-apunte.py`,
+`indice-temas.py`, `verificar-anexos.py` y `validar.py` en verde; todo símbolo del módulo nuevo presentado y medido
+por `practica/verificar-simbolos.py`; y cada página nueva mirada en render.
 
 ### Lo que queda fuera de fase, a propósito
 
