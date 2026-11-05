@@ -1013,9 +1013,16 @@ if __name__ == "__main__":
                     help="P13: 'archivo[, archivo] | para que decision', o ninguna")
     ap.add_argument("--escribir", action="store_true")
     ap.add_argument("--autotest", action="store_true")
+    ap.add_argument("--sabotaje-perfil", action="store_true",
+                    help="DA-114: perfil_de mira solo adentro; el autotest tiene que dar MAL (sale 0 = detectado)")
     a = ap.parse_args()
     if a.autotest:
         sys.exit(autotest())
+    if a.sabotaje_perfil:
+        globals()["perfil_de"] = lambda r: r / "perfil-global"
+        rc = autotest()
+        print("sabotaje 'perfil-global solo adentro': %s" % ("DETECTADO" if rc else "NO detectado"))
+        sys.exit(0 if rc else 1)
     au = auditar(a.sesion, a.de_fran, procedimientos=a.procedimiento, usos=a.uso)
     au["notas"] = a.nota
     for n in a.nota:
