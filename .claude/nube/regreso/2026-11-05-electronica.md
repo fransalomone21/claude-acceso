@@ -1,4 +1,4 @@
-estado: pendiente
+estado: procesado (2026-11-05, en la PC: integrado, PDF regenerados y publicados, MD5 verificados)
 
 # Regreso de la nube — electrónica (fase 3 de electronica-analogica), 2026-11-05
 

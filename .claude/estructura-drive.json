@@ -61,6 +61,11 @@
         "que-va": "paquetes de juegos listos para instalar en otra PC de Fran (emulador portable + juego + config + saves). Nacio el 2026-10-24 con DBZ Niveles de Poder 8.1. Llevan BIOS y juegos: nunca se comparten ni van con 'anyone'."
       },
       {
+        "nombre": "Minecraft",
+        "sensibilidad": "solo Fran, salvo lo que Fran comparta a mano con sus amigos",
+        "que-va": "espejo del paquete de instalacion de La Juntada, del proyecto minecraft-amigos (su contrato nombra esta ruta exacta, Mi unidad/Minecraft/La Juntada: por eso no se mueve adentro de 06 - JUEGOS). Nada con 'anyone'. Declarada el 2026-11-05, medido sin permisos propios en la carpeta."
+      },
+      {
         "nombre": "Coaching",
         "sensibilidad": "solo Fran",
         "que-va": "espejo que escribe proyectos/seguimiento/coaching/publicar-drive.ps1. NO SE TOCA A MANO: el script compara por checksum contra esta ruta exacta y un rename lo rompe en silencio."

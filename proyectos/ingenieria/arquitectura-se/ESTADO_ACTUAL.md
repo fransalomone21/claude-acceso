@@ -3,6 +3,14 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-11-05 (en la PC, regreso de la noche en la nube) — LAS TRES SESIONES INTEGRADAS, PDF PUBLICADOS, DRIVE ORDENADO.**
+`regreso.py --medir` da 0 divergencias y la marca salió. Las ramas `awesome-brahmagupta` (electrónica), `blissful-ramanujan`
+(método) y `laughing-carson` (física) están en `main`; `install.ps1` corrido; primera `--sincronizar-memoria` con manifiesto
+(78 memorias). Regenerados y verificados por MD5 en Drive: EA 177 pág., TDC 124, Física 230, las guías de física y la central
+de TDC. En Mi unidad, los dos sueltos de la raíz pasaron a `00 - PERSONAL/tramites y constancias` (mismo id), `Minecraft` quedó
+declarada y el LEEME al día. **Nuevos:** DA-115 (`regreso.py` y las sesiones paralelas) y DA-116 (rojos falsos de `--simular`).
+`malena` estaba 2 commits atrás: lo vio `verificar-sincronia`, no `regreso`. `uso-lecturas.jsonl` ahora se une solo.
+
 **2026-11-05 (sesión `metodo`, en la nube, de noche y sin Fran) — LOS 63 DEFECTOS SIN VALORAR, VALORADOS; DA-099,
 DA-101 Y DA-106 ARREGLADOS; DA-108 NUEVO Y ARREGLADO (los cuatro falta validarlos con 3 sesiones auditadas).** Pedido
 del 2026-11-05: todo defecto valorado por urgencia. `defectos.py valorar` (perfil `3c7beef`, 5 casos y 2 controles en
