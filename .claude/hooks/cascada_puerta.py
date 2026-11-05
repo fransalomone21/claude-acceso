@@ -76,6 +76,7 @@ REDIRS_INOCUAS = re.compile(r"\s[12]?>\s*(\$null|/dev/null|&1)", re.I)
 REPARACION = re.compile(r"[/\\]\.claude[/\\](hooks[/\\]cascada_puerta\.py|cascada\.json)$", re.I)
 # Los dos comandos que traen lo que la puerta exige, solos y sin nada encadenado (DA-106).
 REPARAR_NUBE = re.compile(r"^\s*(bash\s+\S*\.claude/nube/traer-perfil\.sh"
+                          r"|git\s+clone\s+(--depth\s+\d+\s+)?https://github\.com/fransalomone21/perfil-global(\.git)?\s+\S+"
                           r"|python3?\s+\S*\.claude/nube/estado-nube\.py\s+--traer\s+[\w-]+)\s*$")
 # T17 (L1-12, L2-PTA-07..17): los conectores de claude.ai (Drive, Docs...) bajo la puerta, por LISTA BLANCA (Saltzer).
 # Antes, la estructura de control cubria Bash/PowerShell/Write/Edit y todo conector entraba sin freno (DA-046).
@@ -2159,6 +2160,10 @@ def autotest() -> int:
     caso("CONTROL DA-106: traer-perfil.sh pasa", correr(pre_ev("Bash", {"command": "bash .claude/nube/traer-perfil.sh"}, s=s_z), e_z), False)
     caso("CONTROL DA-106: estado-nube --traer pasa",
          correr(pre_ev("Bash", {"command": "python3 .claude/nube/estado-nube.py --traer zz-ausente"}, s=s_z), e_z), False)
+    caso("CONTROL DA-106: el clone del perfil que pide traer-perfil.sh pasa",
+         correr(pre_ev("Bash", {"command": "git clone --depth 1 https://github.com/fransalomone21/perfil-global /home/user/perfil-global"}, s=s_z), e_z), False)
+    caso("SABOTAJE DA-106: el clone de otro repo -> deny",
+         correr(pre_ev("Bash", {"command": "git clone https://github.com/otro/repo /tmp/zz"}, s=s_z), e_z), True, "zz-ausente")
     caso("SABOTAJE DA-106: la reparacion con algo encadenado -> deny",
          correr(pre_ev("Bash", {"command": "bash .claude/nube/traer-perfil.sh; echo x > /tmp/zz"}, s=s_z), e_z), True, "zz-ausente")
     correr(pre_ev("Bash", {"command": "bash .claude/cascada.sh zz-ausente -Excepcion \"prueba\""}, s=s_z), e_z)
