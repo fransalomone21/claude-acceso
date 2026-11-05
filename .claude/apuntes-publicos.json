@@ -8,7 +8,7 @@
       "materia": "Fisica Espacial",
       "local": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Fisica Espacial.pdf",
-      "estado": "2026-10-28 -- 21 modulos, 218 pag., con todo lo que dio la catedra hasta el material del 27/10 y el cap. 18 del Beer completo (la hormiga en m18; el Ej. 3 sin cupla, las ecs. 18.39 y el torque de salida del CMG en m20; el Beer 18.127, el PR 18.6 con la ley de los senos y el trompo en m21); I axial e I' transversal como el Beer y Anibal (estaban al reves hasta el 27/10); L es el momento angular (C1, 13/10); en mantenimiento (fase 17)"
+      "estado": "2026-11-05 -- 22 modulos, 230 pag.: suma el modulo 'actitud' (m22: brazos telescopicos, yo-yo, rueda de reaccion, saturacion) y lo que solo estaba en la guia del parcialito 5 (m20 y m21). 2026-10-28 -- 21 modulos, 218 pag., con todo lo que dio la catedra hasta el material del 27/10 y el cap. 18 del Beer completo (la hormiga en m18; el Ej. 3 sin cupla, las ecs. 18.39 y el torque de salida del CMG en m20; el Beer 18.127, el PR 18.6 con la ley de los senos y el trompo en m21); I axial e I' transversal como el Beer y Anibal (estaban al reves hasta el 27/10); L es el momento angular (C1, 13/10); en mantenimiento (fase 17)"
     },
     {
       "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
@@ -127,14 +127,14 @@
       "local": "proyectos/documentos/electronica-analogica/apunte/apunte-tdc.pdf",
       "nombre-en-drive": "Apunte de Teoria de Circuitos.pdf",
       "regenerable": "cd proyectos/documentos/electronica-analogica/apunte; typst compile --input materia=tdc apunte-tdc.typ apunte-tdc.pdf",
-      "estado": "2026-10-02 -- a pedido de Fran, separado del de Electronica Analogica: mismo fuente, compilado solo con lo de ISE03 (modulos 7 a 15 y anexos, sin la Parte I de la escuela ni sus TP). Reemplaza a la copia del apunte de EA que estaba en esta carpeta desde el 2026-09-29 (mandada a la papelera de Drive)."
+      "estado": "2026-11-05 -- 124 pag.: suma los modulos 16 a 18 (Laplace, polos y ceros, filtros activos, diferencial, trifasicos, impedancia reflejada) y la voz de la casa en los modulos 7 a 15. 2026-10-02 -- a pedido de Fran, separado del de Electronica Analogica: mismo fuente, compilado solo con lo de ISE03 (modulos 7 a 15 y anexos, sin la Parte I de la escuela ni sus TP). Reemplaza a la copia del apunte de EA que estaba en esta carpeta desde el 2026-09-29 (mandada a la papelera de Drive)."
     },
     {
       "materia": "TDC/Guia para el parcial",
       "local": "proyectos/documentos/teoria-circuitos/guia-parcial/salida/Guia del parcial - Teoria de Circuitos.pdf",
       "nombre-en-drive": "Guia del parcial - Teoria de Circuitos.pdf",
       "regenerable": "python proyectos/documentos/teoria-circuitos/guia-parcial/compilar.py (necesita el repo privado teoria-circuitos y la biblioteca del apunte de electronica-analogica)",
-      "estado": "2026-11-03 -- suma A6 y A7, el Nilsson 4.47 en sus dos ediciones (30 pag.). 2026-10-23 -- la guia central (28 pag.): los 12 problemas de la lista de Sanca y 5 adicionales, con teoria por tema, hint, resolucion paso a paso y 'para el oral'; numeros por dos caminos (resolver.py, 83 controles con sabotaje). Publica por decision de Fran del 23/10; el FUENTE vive en el repo privado teoria-circuitos"
+      "estado": "2026-11-05 -- apunta a los modulos 16 y 17 del apunte para Laplace y filtros activos (30 pag.). 2026-11-03 -- suma A6 y A7, el Nilsson 4.47 en sus dos ediciones (30 pag.). 2026-10-23 -- la guia central (28 pag.): los 12 problemas de la lista de Sanca y 5 adicionales, con teoria por tema, hint, resolucion paso a paso y 'para el oral'; numeros por dos caminos (resolver.py, 83 controles con sabotaje). Publica por decision de Fran del 23/10; el FUENTE vive en el repo privado teoria-circuitos"
     },
     {
       "materia": "TDC/Guia para el parcial",
