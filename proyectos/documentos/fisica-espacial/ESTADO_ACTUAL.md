@@ -1,5 +1,24 @@
 # Estado actual — Apunte de Física Espacial
 
+## 2026-11-05 (noche, en la nube): fase 18 cerrada — el módulo `actitud` y lo del parcialito en m20 y m21
+
+- **Apunte: 22 módulos, 230 págs.** (eran 21 y 218). Módulo nuevo **`actitud`** (m22, 9 págs., 10 figuras redibujadas y
+  una tabla): el Adicional 1 (brazos telescópicos) por dos caminos —$d H_z \/ d t$ y Coriolis— con $T(t) = 0,75 +
+  0,0172 thin t$ N; el yo-yo (Curtis §12.8, ej. 12.9: 7,14 m de hilo); el Adicional 2 (rueda de reacción), $omega_"nave"
+  = -M T \/ (I - I_R)$ y $omega_"rel" = I M T \/ (I_R (I - I_R))$, contra el ej. 12.10 del Curtis; saturación,
+  desaturación y la tabla propulsor / rueda / CMG. El cierre de la Parte V y del apunte se mudó de m21 a m22.
+- **m20** suma la errata de la hoja 1 de Aníbal, la extensión de d'Alembert (Beer §18.6) con el disco torcido, las dos
+  reglas de la mano derecha con las manos y la precesión con el eje inclinado (cuadrática, dos raíces, spin mínimo).
+  **m21** suma la figura «Precesiones» ($beta$ contra $gamma$) y los dos conos con las manos.
+- **Verificadores:** `verificar-apunte.py`, `indice-temas.py`, `verificar-anexos.py` (144 ecuaciones; siete del m22
+  y una del m20 en el formulario) y sus dos saboteadores en verde; `verificar-simbolos.py` mide también el m22 (37
+  símbolos) con su sabotaje sobre los dos documentos; `validar.py` 667 controles en verde (eran 656) y
+  `probar-validar.py` 17 de 17.
+- **DA-102 resuelto en `practica/`:** los recortes de CR del Problema 2 en adelante, medidos de nuevo contra la guía (5)
+  (en la (5) los enunciados son texto) y `guia_md5` en `ejercicios.toml`: `recortar.py` da rojo con otra guía.
+- **No se publicó nada**: en la nube no corren `compilar.bat`, `practica\compilar.ps1` ni `publicar-apuntes.ps1`. El
+  Drive sigue con el apunte de 218 págs. y la guía completa sin los adicionales.
+
 ## 2026-11-05: la guía (5), medida contra la (4)
 
 - 24 páginas contra 21; dos ejercicios adicionales nuevos de cuerpo rígido; errata del Problema 3 («Kg/m²» a «Kgm²»); lo que
