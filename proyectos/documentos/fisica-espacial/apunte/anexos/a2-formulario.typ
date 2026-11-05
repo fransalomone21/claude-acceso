@@ -35,7 +35,7 @@
 #let del-modulo(clave, titulo) = subtitulo-anexo[Módulo #M(clave) — #titulo]
 
 #anexo("B", "Formulario", [
-  Las ecuaciones con número de los veintiún módulos, en el orden en que
+  Las ecuaciones con número de los veintidós módulos, en el orden en que
   aparecen, cada una con una línea que dice *qué es y cuándo vale*. No
   están copiadas: el formulario las trae de su módulo al compilar, así que
   no pueden quedar desactualizadas. El número de la derecha es un link a
@@ -434,7 +434,33 @@ $I'$ transversal, $I$ axial.]
 #del-modulo("peonza", "Peonza simétrica")
 
 #ec(<peon-precesion-libre>)[Precesión libre de un cuerpo simétrico sin
-cuplas; $I$ transversal.]
+cuplas; $I'$ transversal.]
 
 #ec(<peon-tan-gamma>)[Ángulo $gamma$ entre $bold(omega)$ y el eje de
 simetría, contra el ángulo $theta$ de $bold(H)_G$.]
+
+// ---------------------------------------------------------------------
+#del-modulo("actitud", "El cuerpo que cambia de forma y la actitud desde adentro")
+
+#ec(<act-hz>)[Momento angular sobre $z$ de una nave de inercia propia $I_0$
+con dos masas $m$ a distancia $r$ del eje, girando a $omega_0$.]
+
+#ec(<act-tau-brazos>)[Cupla externa que hace falta para mantener $omega_0$
+fija mientras las dos masas se alejan a $dot(r)$; lo mismo sale por Coriolis,
+$2 m dot(r) omega_0$ en cada masa, a brazo $r$. Los números son los del
+Adicional 1.]
+
+#ec(<act-empuje>)[El empuje de cada propulsor del Adicional 1, con la pareja a
+$1,1$ m del eje; $t$ en segundos.]
+
+#ec(<act-yoyo>)[Yo-yo: largo de hilo que frena la nave del todo, con $K = 1 +
+C\/(m R^2)$; no depende de $omega_0$.]
+
+#ec(<act-rueda>)[Rueda de reacción: el par $M$ del motor durante $T$ le da a
+la rueda $I_R$ su velocidad respecto del espacio.]
+
+#ec(<act-nave>)[La nave sin la rueda recibe el contrapar: gira al revés;
+$I$ es el de toda la nave, rueda incluida.]
+
+#ec(<act-rel>)[La rueda respecto de la nave; con la anterior, el momento
+angular total sigue en cero.]

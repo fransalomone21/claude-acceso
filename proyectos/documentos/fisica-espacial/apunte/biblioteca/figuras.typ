@@ -2643,6 +2643,295 @@
 })
 
 // --- Galería: lista de (nombre, figura) para galeria.typ ----------------
+// =====================================================================
+//  Módulo `actitud` — el cuerpo que cambia de forma y la actitud desde adentro
+//  (fase 18, 2026-11-05). Todas en vista desde arriba o en corte: el eje z
+//  sale de la hoja o va vertical, y se dice en cada una.
+// =====================================================================
+
+// Giro antihorario alrededor de un punto, con su rótulo: el omega visto desde
+// arriba (z sale de la hoja, mano derecha).
+#let _giro-arriba(centro, radio, etiqueta, color: c-aux, ini: 20, fin: 300) = {
+  cetz.draw.arc(centro, start: ini * 1deg, stop: fin * 1deg, radius: radio, anchor: "origin",
+    stroke: 0.8pt + color, mark: (end: "stealth", scale: 0.45, fill: color))
+  rotulo((centro.at(0) + radio * calc.cos(ini * 1deg) + 0.05, centro.at(1) + radio * calc.sin(ini * 1deg)),
+    text(fill: color, etiqueta), ancla: "west")
+}
+
+// --- Los brazos telescópicos, vistos desde arriba ---------------------------
+// Redibujada de la guía de la cátedra (5), Adicional 1 de cuerpo rígido, que
+// la trae en perspectiva. Acá desde arriba: z sale de la hoja. En gris, los
+// módulos en r_1 = 1,2 m (el arranque); en negro, un instante cualquiera; con
+// trazo cortado, donde terminan (r_2 = 4,5 m).
+#let fig-act-brazos = esquema(escala: 0.72cm, {
+  let G = (0, 0)
+  let rc = 1.0 // radio del cuerpo
+  let r = 3.0 // un instante cualquiera
+  cetz.draw.circle(G, radius: rc, fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+  // brazos
+  for s in (1, -1) {
+    cetz.draw.line((s * rc, 0), (s * r, 0), stroke: 1.6pt + luma(110))
+    // arranque, en gris
+    cetz.draw.rect((s * 1.2 - 0.2, -0.2), (s * 1.2 + 0.2, 0.2), fill: luma(225), stroke: 0.4pt + luma(170))
+    // final, cortado
+    cetz.draw.rect((s * 4.5 - 0.25, -0.25), (s * 4.5 + 0.25, 0.25), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+    // ahora
+    cetz.draw.rect((s * r - 0.25, -0.25), (s * r + 0.25, 0.25), fill: c-aux.lighten(70%), stroke: 0.6pt + c-trazo)
+    flecha((s * (r + 0.3), 0.45), (s * (r + 1.0), 0.45), color: c-dato, etiqueta: $dot(r)$, lado: "south", pos: 100%)
+  }
+  masa(G, radio: 0.07)
+  rotulo((-0.08, -0.05), [$G$], ancla: "north-east")
+  _giro-arriba(G, 0.7, $omega_0$, ini: 35, fin: 320)
+  // cotas
+  auxiliar((0, -0.9), (0, -1.6))
+  auxiliar((r, -0.3), (r, -1.6))
+  flecha((0, -1.45), (r, -1.45), color: luma(60), etiqueta: $r(t)$, lado: "north", pos: 50%, grosor: 0.5pt)
+  flecha((-1.2, -0.65), (0, -0.65), color: luma(120), grosor: 0.4pt)
+  rotulo((-1.25, -0.65), text(fill: luma(100))[$r_1$], ancla: "east")
+  rotulo((-4.5, -0.35), text(fill: luma(110))[final, $r_2$], ancla: "north")
+  rotulo((3.0, -0.3), [$10$ kg], ancla: "north-west")
+  rotulo((0, -2.1), text(fill: luma(90))[vista desde arriba: $z$ sale de la hoja], ancla: "north")
+})
+
+// --- La velocidad del módulo y lo que el brazo tiene que hacerle -------------
+// Un módulo sobre el brazo derecho, en un sistema que gira con la nave.
+// Izquierda: su velocidad tiene dos partes, la del brazo que gira (r omega_0,
+// tangencial) y la de que el brazo se estira (r punto, radial). Derecha: las
+// dos fuerzas que el brazo tiene que hacerle para que siga en el brazo y
+// girando a omega_0: la centrípeta y la de Coriolis, tangencial.
+#let fig-act-coriolis = paneles(
+  ("la velocidad del módulo", esquema(escala: 0.95cm, {
+    let O = (0, 0)
+    let P = (3.0, 0)
+    cetz.draw.line(O, P, stroke: 1.4pt + luma(140))
+    masa(O, radio: 0.06)
+    rotulo((0, -0.1), [$G$], ancla: "north")
+    _giro-arriba(O, 0.5, $omega_0$, ini: 60, fin: 330)
+    masa(P, radio: 0.12, color: c-aux)
+    flecha(P, (4.2, 0), etiqueta: $dot(r)$, color: c-dato, lado: "north", pos: 100%)
+    flecha(P, (3.0, 1.6), etiqueta: $r omega_0$, color: c-aux, lado: "east", pos: 100%)
+    flecha(P, (4.2, 1.6), etiqueta: $bold(v)$, color: luma(40), lado: "west", pos: 100%, punteada: true)
+    auxiliar((4.2, 0), (4.2, 1.6))
+    auxiliar((3.0, 1.6), (4.2, 1.6))
+    rotulo((1.5, -0.15), [$r$], ancla: "north")
+  })),
+  ("lo que el brazo le hace al módulo", esquema(escala: 0.95cm, {
+    let O = (0, 0)
+    let P = (3.0, 0)
+    cetz.draw.line(O, P, stroke: 1.4pt + luma(140))
+    masa(O, radio: 0.06)
+    rotulo((0, -0.1), [$G$], ancla: "north")
+    masa(P, radio: 0.12, color: c-aux)
+    flecha(P, (1.6, 0), etiqueta: $m r omega_0^2$, color: c-aux, lado: "south", pos: 100%)
+    flecha(P, (3.0, 1.5), etiqueta: $2 m dot(r) omega_0$, color: c-dato, lado: "west", pos: 100%)
+    rotulo((3.15, 0.75), text(size: 7.5pt, fill: luma(80))[Coriolis:\ la empuja el brazo], ancla: "west")
+    rotulo((1.6, -0.55), text(size: 7.5pt, fill: luma(80))[centrípeta: la tira el brazo], ancla: "north")
+  })),
+)
+
+// --- H_z de los módulos y el empuje que lo paga -----------------------------
+// Datos del Adicional 1: m = 10 kg por módulo, omega_0 = 1,25 rad/s,
+// r(t) = 1,2 + 0,0275 t m durante 120 s. Izquierda: el momento angular que
+// llevan los dos módulos, 2 m r^2 omega_0, de 36 a 506 kg m^2/s (la nave sin
+// los módulos aporta I_0 omega_0, constante, y no se dibuja). Derecha: el empuje
+// de cada propulsor, T = 0,625 r, de 0,75 a 2,81 N: una recta, porque r lo es.
+#let _ejes-t(ancho, alto, ylab) = {
+  cetz.draw.line((0, 0), (ancho + 0.3, 0), stroke: 0.6pt + black, mark: (end: "stealth", scale: 0.35, fill: black))
+  cetz.draw.line((0, 0), (0, alto + 0.3), stroke: 0.6pt + black, mark: (end: "stealth", scale: 0.35, fill: black))
+  rotulo((ancho + 0.35, 0), [$t$ (s)], ancla: "west")
+  rotulo((0, alto + 0.3), ylab, ancla: "south")
+  marca-x(ancho, [$120$])
+  rotulo((0, 0), [$0$], ancla: "north-east")
+}
+#let fig-act-hz = paneles(
+  ("momento angular de los dos módulos", esquema(escala: 0.9cm, {
+    let ancho = 4.2
+    let alto = 2.8
+    _ejes-t(ancho, alto, [$2 m r^2 omega_0$ (kg·m²/s)])
+    let pts = range(0, 121, step: 5).map(t => {
+      let r = 1.2 + 0.0275 * t
+      (ancho * t / 120, alto * (2 * 10 * r * r * 1.25) / 506.25)
+    })
+    cetz.draw.line(..pts, stroke: trazo-curva + c-dato)
+    marca-y(alto * 36 / 506.25, [$36$])
+    marca-y(alto, [$506$])
+    auxiliar((0, alto), (ancho, alto))
+    rotulo((0.3, 2.0), text(size: 7.5pt, fill: luma(80))[crece con $r^2$:\ alguien lo paga], ancla: "west")
+  })),
+  ("empuje de cada propulsor", esquema(escala: 0.9cm, {
+    let ancho = 4.2
+    let alto = 2.8
+    _ejes-t(ancho, alto, [$T$ (N)])
+    let y(T) = alto * T / 2.8125
+    cetz.draw.line((0, y(0.75)), (ancho, y(2.8125)), stroke: trazo-curva + c-dato)
+    marca-y(y(0.75), [$0,75$])
+    marca-y(alto, [$2,81$])
+    auxiliar((0, alto), (ancho, alto))
+    rotulo((1.4, 0.75), text(size: 7.5pt, fill: luma(80))[$T = 0,625 thin r$: recta,\ porque $r$ crece parejo], ancla: "west")
+  })),
+)
+
+// --- La pareja de propulsores: fuerza neta cero, momento 2,2 T --------------
+// Vista desde arriba. Dos empujes iguales y opuestos, a 1,1 m de G cada uno y
+// del mismo lado de giro: no mueven G, sólo tuercen.
+#let fig-act-pareja = esquema(escala: 0.9cm, {
+  let G = (0, 0)
+  cetz.draw.circle(G, radius: 1.3, fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+  masa(G, radio: 0.07)
+  rotulo((0.12, 0.05), [$G$], ancla: "south-west")
+  for (p, d) in (((0, 1.1), (-1, 0)), ((0, -1.1), (1, 0))) {
+    cetz.draw.rect((p.at(0) - 0.15, p.at(1) - 0.15), (p.at(0) + 0.15, p.at(1) + 0.15), fill: c-dato.lighten(60%), stroke: 0.5pt + c-dato)
+  }
+  flecha((1.6, 1.1), (0.25, 1.1), etiqueta: $T$, color: c-dato, lado: "south", pos: 0%)
+  flecha((-1.6, -1.1), (-0.25, -1.1), etiqueta: $T$, color: c-dato, lado: "north", pos: 0%)
+  auxiliar(G, (0, 1.1))
+  auxiliar(G, (0, -1.1))
+  rotulo((-0.05, 0.55), [$1,1$ m], ancla: "east")
+  rotulo((0.05, -0.55), [$1,1$ m], ancla: "west")
+  _giro-arriba(G, 2.0, [momento $2 dot.op 1,1 thin T$], ini: 20, fin: 70)
+  rotulo((0, -1.7), text(size: 7.5pt, fill: luma(80))[suma de fuerzas: cero. $G$ no se mueve: sólo se tuerce.], ancla: "north")
+})
+
+// --- El yo-yo: dos masas que se desenrollan --------------------------------
+// Redibujada de Curtis, fig. 12.19 (§12.8, pág. 666). Vista desde arriba, z
+// sale de la hoja. La cuerda se desenrolla desde el punto de tangencia T, que
+// se corre por el borde; la masa P queda al final del tramo libre, de largo
+// R phi. Se dibuja una sola masa, como en el libro: la otra hace lo mismo del
+// lado opuesto, para que G no se mueva.
+#let fig-act-yoyo = esquema(escala: 0.9cm, {
+  let R = 1.4
+  let ph = 1.15 // rad
+  let G = (0, 0)
+  cetz.draw.circle(G, radius: R, fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+  masa(G, radio: 0.06)
+  rotulo((0.08, -0.05), [$G$], ancla: "north-west")
+  let T = (R * calc.cos(ph * 1rad), R * calc.sin(ph * 1rad))
+  let P = (T.at(0) + R * ph * calc.sin(ph * 1rad), T.at(1) - R * ph * calc.cos(ph * 1rad))
+  // la cuerda: enrollada de (R,0) a T (arco grueso) y libre de T a P
+  cetz.draw.arc(G, start: 0deg, stop: ph * 1rad, radius: R, anchor: "origin", stroke: 1.6pt + c-dato)
+  cetz.draw.line(T, P, stroke: 1.0pt + c-dato)
+  masa(P, radio: 0.13, color: c-aux)
+  rotulo(P, [$P$, masa $m$], ancla: "west")
+  masa(T, radio: 0.05)
+  rotulo(T, [$T$], ancla: "south")
+  auxiliar(G, (R, 0))
+  auxiliar(G, T)
+  angulo(G, 0, ph * 180 / calc.pi, etiqueta: $phi$, radio: 0.55)
+  rotulo((R / 2, -0.05), [$R$], ancla: "north")
+  rotulo((T.at(0) + 0.9, T.at(1) - 0.2), text(size: 7.5pt, fill: c-dato)[tramo libre: $R phi$], ancla: "west")
+  masa((R, 0), radio: 0.05)
+  rotulo((R, 0), text(size: 7.5pt)[donde\ arrancó], ancla: "north-west")
+  _giro-arriba(G, R + 0.35, $omega$, ini: 235, fin: 300)
+  // la otra masa, del lado opuesto, apenas insinuada
+  masa((-R - 0.1, 0.0), radio: 0.13, color: luma(200))
+  rotulo((-R - 0.25, 0), text(size: 7.5pt, fill: luma(120))[la otra,\ simétrica], ancla: "east")
+})
+
+// --- La nave con su rueda, en corte ----------------------------------------
+// Redibujada de la guía (5), Adicional 2 (la figura de la cátedra rotula
+// I_w lo que el texto llama I_R). Corte por el eje z, que va vertical: la
+// rueda es el disco horizontal, el motor está debajo, clavado a la nave.
+#let fig-act-rueda-corte = esquema(escala: 0.85cm, {
+  // la nave
+  cetz.draw.rect((-1.8, -2.0), (1.8, 2.0), fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+  // eje z
+  cetz.draw.line((0, -2.5), (0, 2.9), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dash-dotted"))
+  flecha((0, 2.3), (0, 2.9), color: c-trazo, etiqueta: $z$, lado: "west", pos: 100%, grosor: 0.6pt)
+  // motor
+  cetz.draw.rect((-0.45, -0.6), (0.45, 0.05), fill: luma(200), stroke: 0.6pt + c-trazo)
+  flecha-nota((2.0, -0.3), (0.5, -0.3), [motor (clavado a la nave)])
+  // eje del motor y rueda
+  cetz.draw.line((0, 0.05), (0, 0.55), stroke: 1.2pt + c-trazo)
+  cetz.draw.rect((-1.2, 0.55), (1.2, 0.8), fill: c-dato.lighten(55%), stroke: 0.7pt + c-dato)
+  flecha-nota((2.0, 0.68), (1.25, 0.68), text(fill: c-dato)[rueda, $I_R$])
+  // soporte
+  cetz.draw.line((-0.45, -0.6), (-1.0, -2.0), stroke: 0.6pt + luma(120))
+  cetz.draw.line((0.45, -0.6), (1.0, -2.0), stroke: 0.6pt + luma(120))
+  rotulo((0, -2.1), text(fill: c-aux)[la nave entera, rueda incluida: $I$], ancla: "north")
+})
+
+// --- Par y contrapar ---------------------------------------------------------
+// El motor es interno: lo que le da a la rueda (M, hacia +z) se lo saca a la
+// nave (-M). Los dos cuerpos separados, como un diagrama de cuerpo libre de
+// torques; los vectores van sobre z por la regla de la mano derecha.
+#let fig-act-par = paneles(
+  ("la rueda", esquema(escala: 0.85cm, {
+    cetz.draw.rect((-1.2, -0.12), (1.2, 0.12), fill: c-dato.lighten(55%), stroke: 0.7pt + c-dato)
+    cetz.draw.line((0, -1.0), (0, 0.9), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dash-dotted"))
+    flecha((0, 0.2), (0, 1.5), etiqueta: $M hat(k)$, color: c-dato, lado: "west", pos: 100%)
+    rotulo((0, -1.1), text(size: 7.5pt, fill: luma(80))[la acelera: $M T = I_R omega_R$], ancla: "north")
+  })),
+  ("la nave sin la rueda", esquema(escala: 0.85cm, {
+    cetz.draw.rect((-1.0, -0.9), (1.0, 0.9), fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+    cetz.draw.line((0, -1.6), (0, 1.3), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dash-dotted"))
+    flecha((0, 0.3), (0, -1.4), etiqueta: $-M hat(k)$, color: c-aux, lado: "west", pos: 100%)
+    rotulo((0, -1.75), text(size: 7.5pt, fill: luma(80))[la frena: $-M T = (I - I_R) omega_"nave"$], ancla: "north")
+  })),
+)
+
+// --- H repartido entre la nave y la rueda -------------------------------------
+// Antes del motor: todo quieto, H = 0. Después de T segundos: la rueda lleva
+// I_R omega_R hacia +z, la nave (sin la rueda) lo mismo hacia -z, y la suma
+// sigue en cero. Los largos son iguales a propósito: el dibujo ES la ecuación.
+#let fig-act-reparto = esquema(escala: 0.85cm, {
+  let base = 0
+  rotulo((0, 2.1), text(weight: "bold", fill: c-azul, size: 8pt)[ANTES], ancla: "south")
+  masa((0, 0.4), radio: 0.08)
+  rotulo((0, 0.25), text(size: 7.5pt)[$bold(H) = bold(0)$], ancla: "north")
+  cetz.draw.line((1.2, -1.6), (1.2, 2.2), stroke: 0.4pt + luma(190))
+  rotulo((4.2, 2.1), text(weight: "bold", fill: c-azul, size: 8pt)[DESPUÉS DE $T$ SEGUNDOS], ancla: "south")
+  flecha((2.6, 0), (2.6, 1.6), etiqueta: [rueda: $I_R omega_R$], color: c-dato, lado: "south", pos: 100%)
+  flecha((4.2, 0), (4.2, -1.6), etiqueta: [nave: $(I - I_R) omega_"nave"$], color: c-aux, lado: "north", pos: 100%)
+  rotulo((5.6, 0.2), text(size: 7.5pt)[suma:], ancla: "south")
+  masa((5.6, 0), radio: 0.08)
+  rotulo((5.6, -0.15), text(size: 7.5pt)[$bold(0)$], ancla: "north")
+})
+
+// --- La rueda hasta saturar, y la desaturación --------------------------------
+// Cualitativa: un torque externo chico y constante (el gradiente de gravedad,
+// la presión solar) que la rueda absorbe: su velocidad crece pareja hasta el
+// tope del motor. Ahí se dispara un propulsor —que sí cambia el H total— y se
+// la vuelve a frenar. Diente de sierra (Curtis §12.9, pág. 681).
+#let fig-act-saturacion = esquema(escala: 0.9cm, {
+  let ancho = 8.0
+  let alto = 2.4
+  cetz.draw.line((0, 0), (ancho + 0.3, 0), stroke: 0.6pt + black, mark: (end: "stealth", scale: 0.35, fill: black))
+  cetz.draw.line((0, 0), (0, alto + 0.6), stroke: 0.6pt + black, mark: (end: "stealth", scale: 0.35, fill: black))
+  rotulo((ancho + 0.3, 0), [$t$], ancla: "north-east")
+  rotulo((0, alto + 0.6), [velocidad de la rueda, $omega_R$], ancla: "south-west")
+  auxiliar((0, alto), (ancho, alto))
+  rotulo((ancho, alto), text(fill: c-rojo)[tope del motor: saturada], ancla: "south-east")
+  cetz.draw.line((0, 0.2), (3.2, alto), (3.5, 0.2), (6.7, alto), (7.0, 0.2), (7.6, 0.58), stroke: trazo-curva + c-dato)
+  for x in (3.35, 6.85) {
+    flecha((x, -0.75), (x, -0.08), color: c-aux, grosor: 0.6pt)
+  }
+  rotulo((3.35, -0.75), text(size: 7.5pt, fill: c-aux)[propulsor: desatura], ancla: "north")
+  rotulo((6.85, -0.75), text(size: 7.5pt, fill: c-aux)[otra vez], ancla: "north")
+  rotulo((0.15, 2.7), text(size: 7.5pt, fill: luma(80))[absorbe un torque externo chico], ancla: "west")
+})
+
+// --- Tres actuadores: quién cambia el H total y quién lo reparte ------------
+// Vista desde arriba en el primero; en los otros dos, el H de cada parte.
+#let fig-act-actuadores = paneles(
+  ("propulsor", esquema(escala: 0.75cm, {
+    cetz.draw.circle((0, 0), radius: 1.0, fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+    flecha((1.2, 0.85), (0.2, 0.85), color: c-dato)
+    flecha((-1.2, -0.85), (-0.2, -0.85), color: c-dato)
+    rotulo((0, -1.25), text(size: 7.5pt)[fuerza de afuera:\ *cambia* el $bold(H)$ total], ancla: "north")
+  })),
+  ("rueda de reacción", esquema(escala: 0.75cm, {
+    flecha((-0.6, -1.0), (-0.6, 0.9), color: c-dato, etiqueta: [rueda], lado: "south", pos: 100%)
+    flecha((0.6, 1.0), (0.6, -0.9), color: c-aux, etiqueta: [nave], lado: "north", pos: 100%)
+    rotulo((0, -1.6), text(size: 7.5pt)[par interno: *reparte* $bold(H)$\ sobre el eje de la rueda], ancla: "north")
+  })),
+  ("CMG", esquema(escala: 0.75cm, {
+    flecha((0, -0.6), (1.4, -0.6), color: luma(150), etiqueta: [antes], lado: "west", pos: 100%, punteada: true)
+    flecha((0, -0.6), (1.2, 0.5), color: c-dato, etiqueta: $bold(H)_"rotor"$, lado: "south-west", pos: 100%)
+    angulo((0, -0.6), 0, 42, etiqueta: $delta$, radio: 0.55)
+    rotulo((0.5, -1.0), text(size: 7.5pt)[par interno: *gira* la\ dirección de un $bold(H)$ grande], ancla: "north")
+  })),
+)
+
 #let catalogo = (
   ("fig-elementos-orbitales", fig-elementos-orbitales),
   ("fig-proyeccion", fig-proyeccion),
@@ -2691,4 +2980,14 @@
   ("fig-tres-cuerpos-marco", fig-tres-cuerpos-marco),
   ("fig-lagrange-puntos", fig-lagrange-puntos),
   ("fig-jacobi-perfil", fig-jacobi-perfil),
+  ("fig-act-brazos", fig-act-brazos),
+  ("fig-act-coriolis", fig-act-coriolis),
+  ("fig-act-hz", fig-act-hz),
+  ("fig-act-pareja", fig-act-pareja),
+  ("fig-act-yoyo", fig-act-yoyo),
+  ("fig-act-rueda-corte", fig-act-rueda-corte),
+  ("fig-act-par", fig-act-par),
+  ("fig-act-reparto", fig-act-reparto),
+  ("fig-act-saturacion", fig-act-saturacion),
+  ("fig-act-actuadores", fig-act-actuadores),
 )

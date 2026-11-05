@@ -39,7 +39,9 @@ import sys
 import tempfile
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-OBLIGADOS = ["resumen-cuerpo-rigido.typ"]
+# Rutas relativas a practica/. El modulo `actitud` del apunte entro el 2026-11-05 (fase 18): el primer
+# modulo del apunte que nace medido. Los demas modulos se suman cuando se toquen (--listar da la auditoria).
+OBLIGADOS = ["resumen-cuerpo-rigido.typ", "../apunte/modulos/m22-actitud.typ"]
 VENTANA = 12
 
 CONOCIDOS = {"x", "y", "z", "t", "d", "ihat", "jhat", "khat"}
@@ -144,8 +146,16 @@ def verificar(ruta, listar=False):
 
 
 def sabotaje():
-    """Control positivo y cuatro mutantes; cada mutante tiene que dar rojo POR SU MOTIVO."""
-    original = io.open(os.path.join(AQUI, OBLIGADOS[0]), encoding="utf-8").read()
+    """Cada documento de OBLIGADOS: control positivo y sus mutantes, cada uno en rojo POR SU MOTIVO."""
+    fallas = 0
+    for f in OBLIGADOS:
+        print(f"-- {os.path.basename(f)}")
+        fallas += sabotaje_de(io.open(os.path.join(AQUI, f), encoding="utf-8").read())
+    print(f"sabotaje: {'cada mutante en rojo por su motivo' if not fallas else str(fallas) + ' FALLA(S)'}")
+    return 1 if fallas else 0
+
+
+def sabotaje_de(original):
     primeras, decl = analizar(original)
     fallas = 0
 
@@ -179,9 +189,10 @@ def sabotaje():
             fallas += 1
 
     correr(original, None, "control positivo: el documento real da verde")
-    # 1. el caso que denuncio Fran: sacar la declaracion de v_B
-    mut = re.sub(r"(//\s*s[ií]mbolos:[^\n]*?)\bv_B\b,?\s*", r"\1", original)
-    correr(mut, "SIN PRESENTAR  v_B", "sin la declaracion de v_B")
+    # 1. el caso que denuncio Fran: sacar la declaracion de v_B (solo donde v_B existe)
+    if re.search(r"//\s*s[ií]mbolos:[^\n]*\bv_B\b", original):
+        mut = re.sub(r"(//\s*s[ií]mbolos:[^\n]*?)\bv_B\b,?\s*", r"\1", original)
+        correr(mut, "SIN PRESENTAR  v_B", "sin la declaracion de v_B")
     # 2. otro, derivado del archivo: el ultimo simbolo declarado
     if decl:
         ult = max(decl, key=lambda t: max(decl[t]))
@@ -197,8 +208,7 @@ def sabotaje():
     m = re.search(r"[^\n]*//\s*s[ií]mbolos:[^\n]*\n", original)
     mut = original[:m.start()] + original[m.end():] + "\n" + m.group(0) if m else original
     correr(mut, "LEJOS", "una declaracion lejos de su simbolo")
-    print(f"sabotaje: {'cada mutante en rojo por su motivo' if not fallas else str(fallas) + ' FALLA(S)'}")
-    return 1 if fallas else 0
+    return fallas
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 // voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Peonza simétrica, precesión directa y retrógrada", clave: "peonza")[
-  Cerrar la Parte V —y el apunte— con el caso que se resuelve sin ecuaciones diferenciales:
+  El caso de la Parte V que se resuelve sin ecuaciones diferenciales:
   un cuerpo con simetría de revolución, sin ninguna cupla externa. Ahí
   $bold(H)_G$ queda fijo *solo*, sin que nadie lo sostenga, y esa fijeza
   alcanza para deducir a mano cómo precesa el cuerpo —y para contestar la
@@ -15,7 +15,7 @@ módulo #M("euler-giroscopo") calculó qué cupla sostiene un movimiento dado, o
 produce una cupla dada. Acá la cupla es cero —un satélite en el espacio, sin
 motores encendidos, sin nada que lo toque— y sin embargo el cuerpo *sigue*
 precesando, indefinidamente, sin que nadie lo sostenga. Es el caso más simple
-de toda la Parte V, y por eso cierra el apunte: la @euler-precesion-estable
+de toda la Parte V: la @euler-precesion-estable
 del módulo #M("euler-giroscopo") vale con $sum bold(M)_O = 0$, y esa sola condición fija todo lo
 demás. Que el apunte termine con un cuerpo que se mueve sin que nadie lo
 empuje tiene su poesía; que haya que hacer tres módulos de cuentas para
@@ -427,24 +427,6 @@ dos valores, y eso es la nutación (Beer, problemas 18.139 y 18.140). La
 precesión estable es el caso particular en que esa oscilación tiene amplitud
 cero.
 
-== Cierre de la Parte V, y del apunte
-
-La Parte V es, de punta a punta, el Beer: los capítulos 15 y 18, en el
-orden de la lista de la cátedra, con el Sears de puerta de entrada en el
-módulo #M("rotacion"). Y se sostiene con una sola herramienta repetida:
-derivar un vector cuando el sistema que lo mira está girando —la
-@cin-derivada del módulo #M("cinematica-cr"), la «relación fundamental» del
-Beer— y aplicarla, primero al momento angular de una
-partícula (módulo #M("momento-angular")), después al de un cuerpo entero (módulos #M("inercia") y #M("euler-giroscopo")), hasta
-llegar al caso más simple de todos, el de este módulo, en el que ni siquiera
-hace falta una cupla para que la física haga algo interesante. El satélite
-achatado que precesa solo, sin que nadie lo sostenga, es la misma física que
-hace que la Tierra se bambolee y que un giróscopo resista a que le cambien el
-eje: un cuerpo con un eje de simetría rápido *siempre* tiene esta rigidez, la
-haya pedido alguien o no.
-
-Veintiún módulos después del primer producto vectorial, el apunte termina
-donde la cátedra quería que terminara: con un problema que se resuelve
-mirando dos conos. Si Aníbal pregunta de dónde salió todo esto, la
-respuesta es la de cada sección: del libro que él mandó a leer. Que
-lo hayamos leído es la parte que no se esperaba.
+El módulo #M("actitud"), que cierra la Parte V, saca la última suposición que
+quedaba: que el cuerpo no cambia de forma y que todo lo que lo tuerce viene de
+afuera.

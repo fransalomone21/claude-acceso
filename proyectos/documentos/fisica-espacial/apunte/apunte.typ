@@ -139,7 +139,9 @@
   la parte: el momento angular y la velocidad angular *no son paralelos*. Con
   esas dos cosas salen las ecuaciones de Euler y el giróscopo, y al final el
   movimiento libre de un cuerpo simétrico —la peonza—, que es el de cualquier
-  satélite estabilizado por rotación al que se le apagó el último motor.
+  satélite estabilizado por rotación al que se le apagó el último motor. Y
+  cierra un cuerpo que cambia de forma y uno que se apunta solo, con una rueda
+  adentro: lo que pasa cuando la cupla es interna.
 ])
 
 #include "modulos/m17-rotacion.typ"
@@ -147,6 +149,7 @@
 #include "modulos/m19-inercia.typ"
 #include "modulos/m20-euler-giroscopo.typ"
 #include "modulos/m21-peonza.typ"
+#include "modulos/m22-actitud.typ"
 
 // ---------------------------------------------------------------------
 #parte(6, "Anexos", [
@@ -156,7 +159,7 @@
   resolución desarrollada, que es lo que ya hacen los cuadros verdes de
   cada módulo. Se resuelve primero, se mira la ficha después.
 
-  El *B* es el formulario: las ecuaciones numeradas de los veintiún
+  El *B* es el formulario: las ecuaciones numeradas de los veintidós
   módulos, traídas de su lugar al compilar, con un link a cada una. El *C*,
   las constantes, cada una con el libro y la página de donde sale. El *D*,
   las letras que cambian de un libro a otro — que son más de las que uno

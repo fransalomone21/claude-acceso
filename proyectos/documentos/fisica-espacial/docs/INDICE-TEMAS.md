@@ -446,9 +446,24 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **La receta del Beer: impulso, $bold(H)_G$, ángulos y la ley de los senos**
   - *(ejemplo)* El satélite de dos discos y el meteorito (Problema Resuelto 18.6 del Beer)
 - **Cuando $theta$ también se mueve: el trompo y las tres conservaciones**
-- **Cierre de la Parte V, y del apunte**
 
   Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-conos-directa>`
+
+### 22. El cuerpo que cambia de forma, y la actitud que se controla desde adentro  ·  `actitud`
+
+<small>`apunte/modulos/m22-actitud.typ`</small>
+
+- **Masa que se aleja con la velocidad angular fija: el Adicional 1**
+  - **Primer camino: el momento angular que crece**
+  - **Segundo camino: Coriolis, módulo por módulo**
+- **El mismo mecanismo sin propulsores: el yo-yo**
+  - *(ejemplo)* Un yo-yo de verdad: cuánto hilo para parar un satélite
+- **La rueda de reacción: el Adicional 2**
+  - *(ejemplo)* La rueda con números: girar un microsatélite noventa grados
+- **Rueda, CMG y propulsor: quién cambia $bold(H)$ y quién lo reparte**
+- **Cierre de la Parte V, y del apunte**
+
+  Ecuaciones: `<fig-act-brazos>`, `<act-hz>`, `<act-tau-brazos>`, `<fig-act-pareja>`, `<act-empuje>`, `<fig-act-hz>`, `<fig-act-coriolis>`, `<fig-act-yoyo>`, `<act-yoyo>`, `<fig-act-rueda-corte>`, `<fig-act-par>`, `<act-rueda>`, `<act-nave>`, `<act-rel>`, `<fig-act-reparto>`, `<fig-act-saturacion>`, `<fig-act-actuadores>`
 
 ## Anexo A — la guía de la cátedra, ficha por ficha
 
