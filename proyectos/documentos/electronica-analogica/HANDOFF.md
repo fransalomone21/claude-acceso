@@ -1,5 +1,7 @@
 # Handoff — próxima sesión
 
+> **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: EA 177 pág. y TDC 124. Las cuatro decisiones de Fran siguen abiertas en `.claude/nube/regreso/2026-11-05-electronica.md`.
+
 > **2026-11-05, nube: la fase 3 CERRÓ** (módulos 16, 17 y 18; ver ESTADO). Para el que siga:
 > (1) `python fase3-cuentas.py` y `--sabotaje` antes de tocar un número de esos módulos: los
 > números del apunte están tipeados y el script los compara con el calculado; si cambia

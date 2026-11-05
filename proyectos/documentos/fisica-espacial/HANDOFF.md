@@ -1,5 +1,7 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: el apunte de 230 pág. con el módulo `actitud` y las dos guías completas. Las decisiones que quedan son de contenido, en `.claude/nube/regreso/2026-11-05-fisica.md`.
+
 > **2026-11-05 (noche, en la nube) — fase 18 cerrada, sin publicar.** El estado, en `ESTADO_ACTUAL.md`. **Queda para la
 > PC, en este orden:** (1) `.\compilar.bat` y `.\practica\compilar.ps1` (ya con los recortes de CR medidos contra la (5)
 > y `guia_md5`: la guía de Downloads tiene que ser la (5), MD5 `9c2a642b…`), mirar el render de la guía completa y

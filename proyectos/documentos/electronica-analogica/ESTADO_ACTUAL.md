@@ -1,5 +1,7 @@
 # Estado actual — Apunte de Aplicaciones de Electrónica Analógica (4.º año)
 
+> **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: EA 177 pág. y TDC 124. Las cuatro decisiones de Fran siguen abiertas en `.claude/nube/regreso/2026-11-05-electronica.md`.
+
 > **2026-11-05, en la nube: FASE 3 CERRADA.** Los siete temas que faltaban del programa de
 > Teoría de Circuitos están escritos en **tres módulos nuevos**, al final de la Parte II
 > para no renumerar nada (los dos PDF los imprimen):

@@ -1,5 +1,7 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: el apunte de 230 pág. con el módulo `actitud` y las dos guías completas. Las decisiones que quedan son de contenido, en `.claude/nube/regreso/2026-11-05-fisica.md`.
+
 ## 2026-11-05 (noche, en la nube): fase 18 cerrada — el módulo `actitud` y lo del parcialito en m20 y m21
 
 - **Apunte: 22 módulos, 230 págs.** (eran 21 y 218). Módulo nuevo **`actitud`** (m22, 9 págs., 10 figuras redibujadas y
