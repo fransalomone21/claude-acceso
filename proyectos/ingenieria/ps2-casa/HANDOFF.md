@@ -31,7 +31,9 @@
 ## Datos que no se pueden aproximar
 
 - Consolas: SCPH-90001, NTSC U/C, códigos de fecha **8C** y **1C**.
-- Tarjetas: Sony SCPH-10020 (8 MB, original); «Sony 64 MB MagicGate» (clon probable).
+- Tarjeta: UNA, «Sony 64 MB MagicGate» (clon probable; dorso SCPH-10020). No hay de 8 MB.
+- Versión del sistema sin homebrew [probable]: menú principal de la PS2, sin disco, botón △ → «Información de versión» (consola, navegador, DVD). Manual de Sony.
+- FMCB: R1 apretado al prender lanza el BOOT/uLaunchELF, sólo si FMCB ya está en la tarjeta (elotrolado).
 - Pendrive: 16 GB.
 - ROMVER: en uLaunchELF, MISC → Debug Info, los 4 dígitos después de `rom0:ROMVER` (0230 = ROM 2.30).
 

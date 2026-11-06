@@ -17,7 +17,7 @@ ROMVER de las dos.
 | Qué | Evidencia | Fecha |
 |---|---|---|
 | Las dos consolas son SCPH-90001 NTSC U/C, códigos de fecha 8C y 1C | etiquetas, en fotos de Fran | 2026-11-06 |
-| Memory cards: una Sony 8 MB (SCPH-10020) y una «Sony 64 MB MagicGate» | fotos de Fran | 2026-11-06 |
+| Hay **una sola** memory card: la «Sony 64 MB MagicGate» (las dos fotos eran su frente y su dorso; la etiqueta trasera dice SCPH-10020). No hay tarjeta de 8 MB; Agustín tendría una, para más adelante | Fran, 2026-11-06 («no tengo de 8 MB») | 2026-11-06 |
 | ISOs de PS2 en la PC: 13 (≈ 59 GB). En `C:\Games\PS2-ISOs\` 4 de DBZ/anime; en `Desktop\Juegos\Juegos de emulador\PS2\` BT4 Beta 14 y 14 REV2, Niveles de Poder 8.1, God of War II, BLACK y sus mods | búsqueda en todos los discos, archivos > 100 MB | 2026-11-06 |
 | 5 ISOs pasan de 4 GB (GoW II 7,95; Black USA 7,29; BT4 5,03 y 4,98; Niveles 4,35): no entran en un pendrive FAT32, y el de 16 GB lleva 3 o 4 juegos | mismo listado | 2026-11-06 |
 
@@ -28,7 +28,7 @@ ROMVER de las dos.
 | La tarjeta de 64 MB es un clon | que el exploit no se instale o no arranque desde ella | no se instaló nada |
 | La consola 1C tiene ROM 2.30 | ROMVER en uLaunchELF | hace falta lanzar uLaunchELF en la consola |
 | La 8C acepta FreeMcBoot | ROMVER + que arranque solo | idem |
-| Fran ya tiene FMCB instalado en alguna tarjeta | que lo diga, o que la tarjeta lo arranque | dijo «supe instalar»: puede ser pasado |
+| La tarjeta de 64 MB ya tiene FMCB (Fran recuerda entrar con un truco de botones) | prender con la tarjeta y ver el menú de FMCB, o R1 apretado al prender | falta que Fran lo pruebe |
 
 ## Callejones sin salida
 

@@ -11,9 +11,9 @@ criterio de salida es un resultado, nunca trabajo hecho.
 **Antecedentes.** En la casa hay dos PS2 Slim SCPH-90001 (NTSC U/C, las
 últimas que salieron; códigos de fecha **8C** y **1C**, leídos de las etiquetas
 en fotos de Fran, 2026-11-06), con el puerto Ethernet que traen todas las Slim.
-Hay dos memory cards: una Sony original de 8 MB (SCPH-10020) y una que dice
-«Sony 64 MB MagicGate» —**hipótesis: es un clon**, Sony no fabricó tarjetas de
-64 MB para PS2—, y un pendrive de 16 GB. Fran ya instaló FreeMcBoot alguna vez y
+Hay una sola memory card, que dice «Sony 64 MB MagicGate» —**hipótesis: es un
+clon**, Sony no fabricó tarjetas de 64 MB para PS2—, un pendrive de 16 GB y una
+notebook del gobierno para servir los juegos por cable. Fran ya instaló FreeMcBoot alguna vez y
 tiene ISOs de PS2 en la PC.
 
 **Necesidad (N-01):** que el hermano y la mamá de Fran puedan jugar en las dos
@@ -89,7 +89,7 @@ la fase se reescribe con eso.
 | Riesgo | Prob. | Consec. | Estrategia | Disparador observable |
 |---|---|---|---|---|
 | ROM 2.30 en la consola 1C: el exploit no arranca solo | alta | media | mitigar: OpenTuna/FunTuna o PS2BBL, y si no, lanzar a mano | uLaunchELF muestra ROMVER 0230 |
-| La tarjeta de 64 MB es clon y no acepta el exploit | alta | media | evitar: el exploit va en la Sony de 8 MB; el clon guarda partidas | la instalación falla o no arranca desde el clon |
+| La tarjeta de 64 MB (la única) es clon y no acepta el exploit | alta | alta | mitigar: probar si ya trae FMCB; si no, tarjeta con microSD o la de 8 MB de Agustín | la instalación falla o no arranca desde el clon |
 | Formatear borra partidas que importan | media | alta | mitigar: copiar la tarjeta a la PC antes | cualquier paso que diga «formatear» |
 | Juegos por USB lentos (USB 1.1 de la PS2) | alta | baja | aceptar como respaldo; la red es el camino principal | videos o cargas que se cortan |
 | La PC apagada cuando quieren jugar por red | media | alta | decisión de Fran (pregunta abierta) | — |
