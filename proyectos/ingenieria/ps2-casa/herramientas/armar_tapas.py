@@ -1,0 +1,37 @@
+"""Arma las tapas del OPL (ART/<ID>_COV.jpg, 140x200, JPEG baseline: OPL no lee progresivo).
+Uso: python armar_tapas.py <carpeta_src> <carpeta_ART>
+En src van las tapas bajadas de github.com/xlenore/ps2-covers (covers/default/<ID con guion>.jpg)."""
+import os, sys
+from PIL import Image, ImageDraw, ImageFont
+
+SRC, ART = sys.argv[1], sys.argv[2]
+# ID que lee OPL -> (tapa de origen, franja opcional)
+TAPAS = {
+    'SLES_551.35': ('SLES-55135.jpg', None),                      # LEGO Batman (PAL)
+    'SLUS_206.24': ('SLUS-20624.jpg', 'LATINO'),                  # Simpsons Hit & Run Latino
+    'SLUS_209.46': ('SLUS-20946.jpg', 'LATINO'),                  # GTA San Andreas Latino
+    'SLUS_216.78': ('SLUS-21678.jpg', None),                      # BT3 y sus mods
+    'SLUS_219.78': ('SLUS-21678.jpg', 'TENKAICHI 4'),             # BT4 Beta 14 (mod)
+    'SLUS_219.99': ('SLUS-21678.jpg', 'NIVELES DE PODER'),        # Niveles de Poder 8.1 (mod)
+}
+
+
+def fuente(tam):
+    for f in ('C:/Windows/Fonts/arialbd.ttf', 'C:/Windows/Fonts/arial.ttf'):
+        if os.path.exists(f):
+            return ImageFont.truetype(f, tam)
+    return ImageFont.load_default()
+
+
+os.makedirs(ART, exist_ok=True)
+for gid, (src, franja) in TAPAS.items():
+    im = Image.open(os.path.join(SRC, src)).convert('RGB').resize((140, 200), Image.LANCZOS)
+    if franja:
+        d = ImageDraw.Draw(im)
+        f = fuente(13 if len(franja) > 12 else 16)
+        d.rectangle([0, 160, 140, 182], fill=(200, 20, 20))
+        w = d.textlength(franja, font=f)
+        d.text(((140 - w) / 2, 163), franja, font=f, fill=(255, 255, 255))
+    out = os.path.join(ART, f'{gid}_COV.jpg')
+    im.save(out, 'JPEG', quality=90, progressive=False, optimize=False)
+    print(out, os.path.getsize(out))
