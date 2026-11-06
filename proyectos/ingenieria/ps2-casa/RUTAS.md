@@ -24,8 +24,10 @@ Medido el 2026-11-06 salvo donde se diga otra cosa.
 
 | Qué | Ruta |
 |---|---|
-| uLaunchELF 4.43a | `BOOT/BOOT.ELF` (no actualizar: es la última con FTP sano) |
-| OPL v1.2.0-Beta-2271 | `BOOT/OPNPS2LD.ELF` |
+| **R1 al prender → OPL directo** | `BOOT/BOOT.ELF` = OPL v1.2.0-Beta-2271 (desde 2026-11-06 tarde) |
+| uLaunchELF 4.43a (no actualizar: última con FTP sano) | `BOOT/BOOT2.ELF` (**R2** al prender), `BOOT/BOOT3.ELF` (**L2**), `BOOT/ULE.ELF` (pestaña Aplicaciones del OPL, `OPL/conf_apps.cfg`) |
+| uLE **no lee** `SYS-CONF/LAUNCHELF.CNF` (su menú no muestra ni «X: OPL»): su arranque automático no sirve | foto de Fran, 2026-11-06 |
+| OPL v1.2.0-Beta-2271 (copia) | `BOOT/OPNPS2LD.ELF` |
 | OPL viejo (por si el nuevo falla) | `BOOT/OPL-VIEJO.ELF` |
 | Config del OPL | `OPL/conf_opl.cfg` (vmode=2 NTSC 480i, usb_mode=2, eth_mode=1, default_device=0, Spanish) |
 | Red del OPL | `OPL/conf_network.cfg` (SMB a `192.168.137.1`, share `PS2SMB`, puerto 445) |

@@ -7,8 +7,9 @@ ROM de la 8C medido (2.30); falta el de la 1C (sin video) y la elección escrita
 
 0. **Antes de buscar cualquier ruta, IP o carpeta: `RUTAS.md`** (todo lo ya encontrado; no se vuelve a buscar).
 1. `.\cascada.ps1 ps2-casa -Necesidad investigar` y leer lo que pida.
-2. Uso diario (decisión de Fran, 2026-11-06): **R1 al prender → uLE → a los 3 s el OPL solo**, pendrive puesto.
-3. Para FTP: R1, frenar la cuenta con cualquier botón, **MISC → PS2Net** (sin eso no hay ni enlace), y
+2. Uso diario (Fran, 2026-11-06): **R1 al prender → OPL directo** (`BOOT/BOOT.ELF` es el OPL; el uLE no
+   leía su config y su cuenta automática nunca andaba). [hipótesis hasta la foto de Fran: que abra así]
+3. Para FTP: **R2** al prender (o L2, o Aplicaciones → uLaunchELF en el OPL) → uLE → **MISC → PS2Net**, y
    `Test-NetConnection 192.168.137.50 -Port 21` → True.
 
 ## Lo que sigue, en orden
