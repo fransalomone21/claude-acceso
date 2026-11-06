@@ -15,6 +15,11 @@
      principal o el USB).
   2. ¿Ya tenés FreeMcBoot instalado en alguna de las dos tarjetas, o lo
      instalaste antes en otra consola?
+- Respuesta parcial de Fran (2026-11-06): tiene una **notebook del gobierno**
+  para usar sólo como repositorio de juegos por Ethernet, y además el pendrive.
+  Eso resuelve «la PC apagada»: el servidor sería esa notebook, no la PC.
+- Fran está revisando si la tarjeta Sony de 8 MB tiene FreeMcBoot (prendiendo
+  la consola con la tarjeta y mirando el navegador). Esperar su foto.
 - El inventario de ISOs de PS2 en la PC (la sesión del 2026-11-06 lo lanzó por
   todo el disco; si no quedó, rehacerlo).
 
