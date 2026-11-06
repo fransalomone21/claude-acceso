@@ -23,6 +23,10 @@ def listar(path):
     return out
 
 
+FMCB = {'APPS', 'BAEXEC-SYSTEM', 'BCEXEC-SYSTEM', 'BEEXEC-SYSTEM', 'BIEXEC-SYSTEM'}
+if '--fmcb' in sys.argv:  # sacar el Free McBoot viejo (ROM 2.30 no lo arranca), sólo si se pide
+    NUNCA -= FMCB
+    sys.argv.remove('--fmcb')
 raiz = dict((n, d) for d, n in listar(RAIZ))
 fallas = 0
 for nombre in sys.argv[1:]:

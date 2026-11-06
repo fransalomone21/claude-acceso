@@ -33,13 +33,17 @@ Medido el 2026-11-06 salvo donde se diga otra cosa.
 | Config de uLE (arranque solo del OPL a los 3 s, X = OPL) | `SYS-CONF/LAUNCHELF.CNF` (`LK_auto_E1`, `LK_auto_Timer`) |
 | Partida BT3 (BT3 Remake, Anime War, Crossover, Niveles de Poder 8.1) | `BASLUS-21678DBZT3/` |
 | Partida BT4 (Beta 14 y Beta 14 REV2) | `BASLUS-21978DBZT4/` |
-| Free McBoot (no lo usa: arranca el chip) | `BIEXEC-SYSTEM`, `BAEXEC-SYSTEM`, `BCEXEC-SYSTEM`, `BEEXEC-SYSTEM`, `SYS-CONF/FREEMCB.CNF` |
+| ROM de la 8C | **2.30** (`rom0:ROMVER` = 0230AC20080220): Free McBoot no sirve (se sacó); OpenTuna sí |
+| Instalador PS2BBL + OpenTuna | `BOOT/INSTALAR.ELF` (se corre desde uLE: ○ → mc0:/BOOT/) |
+| Config de PS2BBL (qué arranca al prender) | `SYS-CONF/PS2BBL.INI` |
 
 ## En la PC
 
 | Qué | Ruta |
 |---|---|
 | Respaldo entero de la tarjeta (antes de tocar nada) | `C:\Games\PS2-respaldos\mc0-2026-11-06\` |
+| PS2BBL OpenTuna Installer bajado + `PS2BBL.INI` | `C:\Games\PS2-respaldos\ps2bbl-opentuna\` |
+| Respaldo de la tarjeta antes de OpenTuna | `C:\Games\PS2-respaldos\mc0-2026-11-06-tarde\` |
 | OPL bajado + configs editadas que se subieron | `C:\Games\PS2-respaldos\opl-1.2.0-beta-2271\` |
 | ISOs (1) | `C:\Games\PS2-ISOs\` — Anime War, Crossover V2, BT3 Remake AF V6, dbzpoderes |
 | ISOs descomprimidos de GamesGX (contraseña de los .7z/.rar: la del sitio) | `C:\Games\PS2-ISOs\_extraidos\` — GTA SA Latino v1.3, LEGO Batman (PAL), Simpsons H&R Latino 0.8 |
