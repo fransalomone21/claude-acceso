@@ -21,6 +21,7 @@ ROMVER de las dos.
 | Una de las consolas (falta saber si la 8C o la 1C): Browser 1.40, CD Player 2.00, PlayStation Driver 2.00, DVD Player **3.11U** | foto de «Version Information» (△ en el menú principal), Fran | 2026-11-06 |
 | La consola medida es la **8C** | Fran | 2026-11-06 |
 | La tarjeta de 64 MB TIENE homebrew: carpetas BOOT, APPS, OPL y cuatro «Free McBoot» (instalación múltiple), más partidas (Tom y Jerry, NFS MW…). En la 8C **no arrancó sola** | foto del navegador de la tarjeta, Fran | 2026-11-06 |
+| La 1C no da señal de video | Fran | 2026-11-06 |
 | El △ en el menú principal abre «Version Information» sin programas | la foto de arriba | 2026-11-06 |
 | ISOs de PS2 en la PC: 13 (≈ 59 GB). En `C:\Games\PS2-ISOs\` 4 de DBZ/anime; en `Desktop\Juegos\Juegos de emulador\PS2\` BT4 Beta 14 y 14 REV2, Niveles de Poder 8.1, God of War II, BLACK y sus mods | búsqueda en todos los discos, archivos > 100 MB | 2026-11-06 |
 | 5 ISOs pasan de 4 GB (GoW II 7,95; Black USA 7,29; BT4 5,03 y 4,98; Niveles 4,35): no entran en un pendrive FAT32, y el de 16 GB lleva 3 o 4 juegos | mismo listado | 2026-11-06 |

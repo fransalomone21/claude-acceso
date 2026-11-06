@@ -37,6 +37,15 @@ que corre el primer programa casero. Caminos sin disco, de más moderno a menos:
 | La tarjeta con FMCB que Fran ya tenga, si existe | el arranque, gratis | pregunta abierta |
 | Adaptador de memory card de PS3 a la PC | escribir la tarjeta original desde la PC | probable; adaptador raro y guías viejas |
 
+[probable, 2026-11-06] **Ni el Ethernet ni el pendrive solos destraban una
+consola de fábrica**: el sistema de Sony no ejecuta nada desde la red ni desde
+USB, y ninguna fuente lista una entrada así. Las entradas conocidas son: una
+tarjeta preparada (FMCB/OpenTuna), un disco (FreeDVDBoot, o la partida de un
+juego original con exploit) o una tarjeta con microSD. Las fuentes: FAQ de
+FMCB, README de FreeDVDBoot (github.com/CTurt/FreeDVDBoot), PS2BBL. La wiki de
+vulnerabilidades (psdevwiki.com/ps2/Vulnerabilities) no se pudo leer: tiene
+verificación anti-bots.
+
 [probable] En ROM 2.30, PS2BBL funciona pero no arranca solo como
 actualización del sistema (tabla de compatibilidad de PS2BBL): se lanza desde
 el navegador de la tarjeta.
