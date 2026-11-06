@@ -26,6 +26,7 @@ ROMVER de las dos.
 | uLE trae red: 192.168.0.10 / 255.255.255.0 / puerta 192.168.0.1. El cable a la notebook da enlace a 100 Mbps | foto + `Get-NetAdapter` (Ethernet 2 Up, 100 Mbps) | 2026-11-06 |
 | La placa Ethernet de la notebook tiene 192.168.137.1/24 (la de Windows cuando comparte internet): no coincide con la de la PS2 | `Get-NetIPAddress` | 2026-11-06 |
 | **La notebook llega a la PS2**: IP cambiada a 192.168.137.50 en uLE; ping 1 ms y puerto FTP 21 abierto | `ping` + `Test-NetConnection -Port 21` → True | 2026-11-06 |
+| **Tarjeta respaldada entera** en `C:\Games\PS2-respaldos\mc0-2026-11-06\` (fuera del repo): 83 archivos, 3,4 MB, las 21 entradas de `/mc/0/`, cada tamaño igual al de la PS2. Ruta FTP de uLE (ps2ftpd): `/mc/0/`, no `/mc0/`; abre una conexión de datos por sesión, así que se reconecta por archivo | `respaldar_mc.py` (FALLAS 0) | 2026-11-06 |
 | La 1C no da señal de video | Fran | 2026-11-06 |
 | El △ en el menú principal abre «Version Information» sin programas | la foto de arriba | 2026-11-06 |
 | ISOs de PS2 en la PC: 13 (≈ 59 GB). En `C:\Games\PS2-ISOs\` 4 de DBZ/anime; en `Desktop\Juegos\Juegos de emulador\PS2\` BT4 Beta 14 y 14 REV2, Niveles de Poder 8.1, God of War II, BLACK y sus mods | búsqueda en todos los discos, archivos > 100 MB | 2026-11-06 |
