@@ -25,6 +25,7 @@ ROMVER de las dos.
 | Chip **Matrix Infinity 1.93**; R1 al prender lanza **uLaunchELF v4.43a** de la tarjeta | foto del menú de uLE, Fran | 2026-11-06 |
 | uLE trae red: 192.168.0.10 / 255.255.255.0 / puerta 192.168.0.1. El cable a la notebook da enlace a 100 Mbps | foto + `Get-NetAdapter` (Ethernet 2 Up, 100 Mbps) | 2026-11-06 |
 | La placa Ethernet de la notebook tiene 192.168.137.1/24 (la de Windows cuando comparte internet): no coincide con la de la PS2 | `Get-NetIPAddress` | 2026-11-06 |
+| **La notebook llega a la PS2**: IP cambiada a 192.168.137.50 en uLE; ping 1 ms y puerto FTP 21 abierto | `ping` + `Test-NetConnection -Port 21` → True | 2026-11-06 |
 | La 1C no da señal de video | Fran | 2026-11-06 |
 | El △ en el menú principal abre «Version Information» sin programas | la foto de arriba | 2026-11-06 |
 | ISOs de PS2 en la PC: 13 (≈ 59 GB). En `C:\Games\PS2-ISOs\` 4 de DBZ/anime; en `Desktop\Juegos\Juegos de emulador\PS2\` BT4 Beta 14 y 14 REV2, Niveles de Poder 8.1, God of War II, BLACK y sus mods | búsqueda en todos los discos, archivos > 100 MB | 2026-11-06 |
@@ -46,5 +47,5 @@ ROMVER de las dos.
 
 ## Lo próximo
 
-Fran mide el ROMVER de las dos y contesta las preguntas abiertas (HANDOFF);
-con eso la sesión arma el concepto y él elige. Investigación: `docs/investigacion-red.md`.
+Respaldar la tarjeta por FTP, juegos al pendrive (los que entran en FAT32) y
+por red (SMB + OPL). El orden está en HANDOFF. Investigación: `docs/investigacion-red.md`.
