@@ -16,8 +16,8 @@ ROM de la 8C medido (2.30); falta el de la 1C (sin video) y la elección escrita
 
 1. **Que Fran confirme con foto** la lista del OPL en la tele: LEGO Batman, Simpsons y **BT4 partido (ul)**.
    Si LEGO Batman (PAL) se ve mal: opciones del juego en OPL → modo de video NTSC (GSM).
-2. **Niveles de Poder 8.1 al pendrive** (`SLUS_219.99`, 4,67 GB, entra): con el pendrive en la notebook,
-   `herramientas/iso_a_ul.py <iso> D:/ SLUS_219.99 "DBZ Niveles de Poder 8.1" --dvd` (ruta del ISO en RUTAS).
+2. Hecho 2026-11-06: Niveles de Poder 8.1 en el pendrive (5 partes, suma = ISO), tapas en `D:\ART`, tema
+   Pixel-Prime en `D:\THM`, LEGO Batman con NTSC forzado (`D:\CFG`). Falta que Fran vea tapas y tema en la tele.
 3. **Juegos por red** (God of War II, GTA SA, el resto de DBZ): **decisión de Fran pendiente**. El OPL sólo
    habla SMB1. impacket (servidor en Python) lo bloquea Defender como hacktool: no usar. Caminos:
    (a) Fran activa SMB1 en Windows (ajuste de seguridad, es suyo) y se comparte `PS2SMB`;
