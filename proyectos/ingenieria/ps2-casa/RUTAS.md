@@ -35,6 +35,8 @@ Medido el 2026-11-06 salvo donde se diga otra cosa.
 | Config de uLE (arranque solo del OPL a los 3 s, X = OPL) | `SYS-CONF/LAUNCHELF.CNF` (`LK_auto_E1`, `LK_auto_Timer`) |
 | Partida BT3 (BT3 Remake, Anime War, Crossover, Niveles de Poder 8.1) | `BASLUS-21678DBZT3/` |
 | Partida BT4 (Beta 14 y Beta 14 REV2) | `BASLUS-21978DBZT4/` |
+| **Fuente de las partidas al 100 %** | tarjeta del emulador de la PC: `C:\Users\frans\Documents\<emulador>\memcards\BT3-TODO-DESBLOQUEADO.ps2` (BT3 + BT4); se lee con `python -m mymcplus <tarjeta> ls/extract` |
+| Partidas DBZ que había antes en la consola | `C:\Games\PS2-respaldos\partidas-dbz-antes-de-100\` |
 | ROM de la 8C | **2.30** (`rom0:ROMVER` = 0230AC20080220): Free McBoot no sirve (se sacó); OpenTuna sí |
 | Instalador PS2BBL + OpenTuna | `BOOT/INSTALAR.ELF` (se corre desde uLE: ○ → mc0:/BOOT/) |
 | Config de PS2BBL (qué arranca al prender) | `SYS-CONF/PS2BBL.INI` |
