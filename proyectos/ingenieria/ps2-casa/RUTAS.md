@@ -59,6 +59,11 @@ Medido el 2026-11-06 salvo donde se diga otra cosa.
 |---|---|
 | ISOs de menos de 4 GiB (OPL los lista solos) | `D:\DVD\` — LEGO Batman, Simpsons Hit and Run Latino |
 | ISOs de más de 4 GiB, partidos (formato USBExtreme) | `D:\ul.cfg` + `D:\ul.<CRC>.<ID>.00..NN` — BT4 B14 REV2 (`ul.60FFAAB6.SLUS_219.78`), Niveles de Poder 8.1 (`SLUS_219.99`) |
+| Tapas del OPL | `D:\ART\<ID>_COV.jpg` (140x200, JPEG simple), armadas con `herramientas/armar_tapas.py` desde `C:\Games\PS2-respaldos\tapas\src\` (bajadas de github.com/xlenore/ps2-covers) |
+| Tema visual | `D:\THM\thm_Pixel-Prime\` (github.com/PixeliGer/OPL-Theme-Pixel-Prime v1.3), `theme=Pixel-Prime` en `conf_opl.cfg` |
+| Config por juego | `D:\CFG\<ID>.cfg` — LEGO Batman (PAL, `SLES_551.35`): GSM forzado a NTSC 480i (`$GSMVMode=0`) |
+| IDs de los juegos | LEGO Batman `SLES_551.35` · Simpsons H&R `SLUS_206.24` · GTA SA `SLUS_209.46` · BT3 y mods `SLUS_216.78` · BT4 `SLUS_219.78` · Niveles de Poder `SLUS_219.99` |
+| El pendrive es **GPT** y el OPL nuevo lo lee igual; tarda en aparecer (esperar o reconectar) | 2026-11-06 |
 | Fotos de Fran (no tocar) | raíz de D: |
 
 ## Herramientas propias (`proyectos/ingenieria/ps2-casa/herramientas/`)
