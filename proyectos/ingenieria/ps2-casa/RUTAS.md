@@ -17,6 +17,7 @@ Medido el 2026-11-06 salvo donde se diga otra cosa.
 | IP de la PS2 | `192.168.137.50` / 255.255.255.0 / puerta `192.168.137.1` (en `mc0:/SYS-CONF/IPCONFIG.DAT`) |
 | Placa de la notebook hacia la PS2 | «Ethernet 2», `192.168.137.1/24` (cable directo, 100 Mbps) |
 | FTP de la PS2 (uLE → ps2ftpd) | `ftp://192.168.137.50:21`, anónimo. La tarjeta es **`/mc/0/`** (no `/mc0/`); también `/mass/`, `/pfs/`. Una conexión de datos por sesión: reconectar por archivo |
+| **Prender la red de la PS2** | en uLE: **MISC → PS2Net**. Sin eso la placa ni da enlace (la notebook ve «Ethernet 2: Disconnected»). Medido 2026-11-06 |
 | Medir que la PS2 está | `ping 192.168.137.50` y `Test-NetConnection 192.168.137.50 -Port 21` → True |
 
 ## La memory card (`/mc/0/`)
