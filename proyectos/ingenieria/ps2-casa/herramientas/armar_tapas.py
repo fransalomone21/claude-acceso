@@ -13,7 +13,12 @@ TAPAS = {
     'SLUS_216.78': ('SLUS-21678.jpg', None),                      # BT3 y sus mods
     'SLUS_219.78': ('SLUS-21678.jpg', 'TENKAICHI 4'),             # BT4 Beta 14 (mod)
     'SLUS_219.99': ('SLUS-21678.jpg', 'NIVELES DE PODER'),        # Niveles de Poder 8.1 (mod)
+    'SCES_542.06': ('SCES-54206.jpg', None),                      # God of War II (PAL, DVD5)
+    'SLES_543.62': ('SLES-54362.jpg', None),                      # PES 6 (PAL, español)
 }
+# Para los ISO de DVD\ con nombre sin código: copia con el nombre del archivo (OPL puede usarlo)
+ALIAS = {'SLES_551.35': 'Lego Batman', 'SLUS_206.24': 'Simpsons Hit and Run Latino',
+         'SCES_542.06': 'God of War II', 'SLES_543.62': 'PES 6'}
 
 
 def fuente(tam):
@@ -36,3 +41,5 @@ for gid, (src, franja) in TAPAS.items():
     out = os.path.join(ART, f'{gid}_COV.png')
     im.save(out, 'PNG')
     print(out, os.path.getsize(out))
+    if gid in ALIAS:
+        im.save(os.path.join(ART, f'{ALIAS[gid]}_COV.png'), 'PNG')
