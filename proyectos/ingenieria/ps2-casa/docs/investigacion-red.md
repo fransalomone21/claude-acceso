@@ -59,6 +59,12 @@ del chip; X → navegador de Sony con el chip activo; START → chip apagado;
 SELECT → arranque rápido; L1 → `hdd0:/__boot/boot.elf`. La tarjeta tiene una
 carpeta BOOT: R1 lanzaría lo que tenga adentro.
 
+**Confirmado (Fran, 2026-11-06): el chip es Matrix Infinity 1.93.** [probable,
+readme v1.93 en scribd y psx-place] Al prender: R1 → `mc0:BOOT/BOOT.ELF`,
+R2 → `BOOT2.ELF`, L2 → `BOOT3.ELF`. El modo DEV1 (en Infinity Manager, △ al
+prender) arranca un ELF fijo, y puede ser `mass:BOOT/BOOT.ELF` del pendrive
+(uLaunchELF, FAT32). Los clones 1.93 a veces fallan con eso.
+
 ## 2. Jugar los ISOs desde la PC, por cable
 
 | Camino | Qué es | Grado | Nota |
