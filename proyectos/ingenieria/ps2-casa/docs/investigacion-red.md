@@ -50,6 +50,15 @@ verificación anti-bots.
 actualización del sistema (tabla de compatibilidad de PS2BBL): se lanza desde
 el navegador de la tarjeta.
 
+### 1c. La 8C tiene chip (2026-11-06): los botones al prender
+
+[hipótesis] El chip es de la familia Modbo/Matrix Infinity (lo común en las
+90001). Botones de Modbo 5.0 al prender (softandwarez.blogspot.com, 2017):
+R1 → `mc0:/BOOT/BOOT.ELF`; △ → Infinity Manager; △+O → menú de configuración
+del chip; X → navegador de Sony con el chip activo; START → chip apagado;
+SELECT → arranque rápido; L1 → `hdd0:/__boot/boot.elf`. La tarjeta tiene una
+carpeta BOOT: R1 lanzaría lo que tenga adentro.
+
 ## 2. Jugar los ISOs desde la PC, por cable
 
 | Camino | Qué es | Grado | Nota |
