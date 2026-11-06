@@ -1,4 +1,4 @@
-"""Arma las tapas del OPL (ART/<ID>_COV.jpg, 140x200, JPEG baseline: OPL no lee progresivo).
+"""Arma las tapas del OPL (ART/<ID>_COV.png, 140x200: OPL 1.2 solo lee PNG).
 Uso: python armar_tapas.py <carpeta_src> <carpeta_ART>
 En src van las tapas bajadas de github.com/xlenore/ps2-covers (covers/default/<ID con guion>.jpg)."""
 import os, sys
@@ -32,6 +32,7 @@ for gid, (src, franja) in TAPAS.items():
         d.rectangle([0, 160, 140, 182], fill=(200, 20, 20))
         w = d.textlength(franja, font=f)
         d.text(((140 - w) / 2, 163), franja, font=f, fill=(255, 255, 255))
-    out = os.path.join(ART, f'{gid}_COV.jpg')
-    im.save(out, 'JPEG', quality=90, progressive=False, optimize=False)
+    # OPL 1.2 sólo busca PNG (src/textures.c, texDiscoverLoad arma "<ruta>.png"); JPG no se ve
+    out = os.path.join(ART, f'{gid}_COV.png')
+    im.save(out, 'PNG')
     print(out, os.path.getsize(out))
