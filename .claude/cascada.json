@@ -315,6 +315,7 @@
     "minecraft-amigos":      {"necesidades": [],
                               "senales": ["\\bminecraft\\b", "\\bprism\\b", "modpack"]},
     "malena":                {"necesidades": ["materia"], "catedras": []},
-    "trabajo-final-iise":    {"necesidades": ["materia"], "catedras": ["iise"]}
+    "trabajo-final-iise":    {"necesidades": ["materia"], "catedras": ["iise"]},
+    "ps2-casa":              {"necesidades": ["investigar"]}
   }
 }
