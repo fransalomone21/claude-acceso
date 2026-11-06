@@ -47,6 +47,21 @@ ROM de la 8C medido (2.30); falta el de la 1C (sin video) y la elección escrita
 - Respaldos: `C:\Games\PS2-respaldos\mc0-2026-11-06\` (mañana) y `mc0-2026-11-06-tarde\` (antes de sacar FMCB).
 - Pendrive SanDisk Cruzer Blade 16 GB FAT32, ~7 MB/s de escritura.
 
+## Proyecto nuevo pedido por Fran (2026-11-06): DBZ con los personajes del BT4 y niveles de poder realistas
+
+No es parte de ps2-casa: nace como proyecto propio (`nuevo-proyecto.ps1`). Retome listo para pegar:
+
+```
+0. Libro primero (regla 16) si no estás en la PC de Fran.
+1. En claude-acceso: .\nuevo-proyecto.ps1 dbz-niveles-bt4 -Naturaleza ingenieria  (carpeta, PDP, contrato, ESTADO, HANDOFF). Después .\cascada.ps1 dbz-niveles-bt4 -Necesidad ingenieria-inversa,investigar y leé lo que pida. Leé también proyectos/ingenieria/ps2-casa/RUTAS.md (rutas de ISOs, IDs y herramientas ya encontradas: no buscar dos veces).
+2. Fase: Pre-Fase A (estudio de conceptos). La cierra: en el PDP, (a) la necesidad en una frase, (b) cómo hace el ISO «Niveles de Poder» para dar poderes distintos por personaje (qué archivos/tablas toca, medido con diff contra el BT3 y el BT4), (c) la tabla de niveles a usar con su fuente (wiki/fandom) y su conversión a los parámetros del juego, y (d) el camino elegido con Fran (parchear el BT4 con el método de Niveles, o pasar los personajes del BT4 al Niveles). Nada de fabricar el ISO antes de eso.
+3. Opus, esfuerzo alto, sin fan-out y SIN subagentes (primera hipótesis en territorio desconocido; Fran no quiere agentes).
+4. Máquina: ISOs en C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\ — «DBZ Budokai Tenkaichi 4 (Beta 14 REV2)\SLUS_219.78.DBZBT4B14REV2.iso» (5,40 GB, ELF SLUS_219.78, partida BASLUS-21978DBZT4, trae «Public Changelog.txt») y «DBZ Niveles de Poder (Beta 8.1)\ISO niveles de poder BETA 8.1.ISO» (4,67 GB, ELF SLUS_219.99, partida BASLUS-21678DBZT3). Base de los dos: BT3 NTSC (SLUS_216.78; «DBZ BT3 ISO Remake AF V6.iso» en C:\Games\PS2-ISOs\ sirve de referencia). Comprimidos originales en Downloads (DBZBT4PS2B14REV2.rar, ISO niveles de poder BETA 8.1.rar). 7-Zip en C:\Program Files\7-Zip\7z.exe (desde Bash: -p...). Emulador para probar: el de la PC (memcards en Documents, carpeta del emulador; ojo: nombrar al emulador en un comando dispara la puerta, DA-118: usar globs).
+5. Resuelto: los dos ISOs corren en la PS2 por OPL (ps2-casa); la partida al 100% de BT3/BT4 está en la tarjeta del emulador «BT3-TODO-DESBLOQUEADO.ps2»; mymcplus instalado (lee/escribe memcards); iso_a_ul.py parte ISOs > 4 GiB para el pendrive.
+6. Primer paso: investigar (web + los dos ISOs) cómo se modifican los stats de personajes en BT3/BT4 (herramientas de la comunidad, formato de los archivos de personaje) ANTES de abrir el ISO a mano; listar archivos de los dos ISOs (7z l) y diffear cuáles cambian entre BT3, BT4 y Niveles.
+7. El efecto a ver al cerrar la fase: en el PDP, una tabla «personaje → nivel de poder (fuente) → parámetro del juego» para 3 personajes de prueba, y el camino elegido con fecha.
+```
+
 ## Si hay que abrir un chat nuevo
 
 ```
