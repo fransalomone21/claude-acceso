@@ -25,6 +25,22 @@ coinciden, no lo medido acá.
 - Para el primer arranque sin exploit en la Slim: FreeDVDBoot (un DVD quemado;
   consolemods.org/wiki/PS2:FreeDVDBoot).
 
+### 1b. El primer arranque SIN disco (Fran no quiere quemar un DVD; 2026-11-06)
+
+Una PS2 de fábrica no hace nada por red: el cable a la notebook no sirve hasta
+que corre el primer programa casero. Caminos sin disco, de más moderno a menos:
+
+| Camino | Qué destraba | Grado |
+|---|---|---|
+| **SD2PSX o MemCard PRO2** (memory card con microSD) | la imagen del exploit (PS2BBL/OpenTuna) se carga desde la PC al SD; además carga juegos desde el SD (MMCE) y una tarjeta virtual por juego | probable (sd2psxtd.github.io; timeextension.com 2025) |
+| Memory card con OpenTuna ya instalado (compra) | el arranque, nada más | probable |
+| La tarjeta con FMCB que Fran ya tenga, si existe | el arranque, gratis | pregunta abierta |
+| Adaptador de memory card de PS3 a la PC | escribir la tarjeta original desde la PC | probable; adaptador raro y guías viejas |
+
+[probable] En ROM 2.30, PS2BBL funciona pero no arranca solo como
+actualización del sistema (tabla de compatibilidad de PS2BBL): se lanza desde
+el navegador de la tarjeta.
+
 ## 2. Jugar los ISOs desde la PC, por cable
 
 | Camino | Qué es | Grado | Nota |
