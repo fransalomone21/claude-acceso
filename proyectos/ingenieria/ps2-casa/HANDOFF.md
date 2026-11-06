@@ -5,6 +5,8 @@ arranque está resuelto en la 8C y la red anda.
 
 ## Arrancá por acá
 
+0. **Antes de buscar cualquier ruta, IP o carpeta: `RUTAS.md`** (todo lo ya encontrado; no se vuelve a buscar).
+
 1. `.\cascada.ps1 ps2-casa -Necesidad investigar` y leer lo que pida.
 2. Fran prende la 8C con **R1 apretado** (sin disco, tarjeta en ranura 1) →
    uLaunchELF 4.43a, arriba `Net Config: 192.168.137.50`.

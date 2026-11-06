@@ -14,6 +14,7 @@ repite: un dato que vive en dos lados diverge.
 
 | Si la tarea es… | Leer |
 |---|---|
+| **cualquier cosa que necesite una ruta, IP, carpeta o script** | `RUTAS.md` **antes de buscar**: lo que está ahí no se vuelve a buscar |
 | retomar, saber en qué anda | `ESTADO_ACTUAL.md` (entero — es corto) |
 | saber qué sigue y qué la cierra | `PDP.md`, sección 4 |
 | qué se puede hacer por red, con fuentes | `docs/investigacion-red.md` |
