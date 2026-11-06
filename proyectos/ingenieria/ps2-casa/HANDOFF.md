@@ -1,68 +1,60 @@
 # Handoff — ps2-casa
 
-**Escrito el:** 2026-11-06 · **Fase al cerrar:** 0 (Pre-Fase A), abierta; el
-arranque está resuelto en la 8C y la red anda.
+**Escrito el:** 2026-11-06 (tarde) · **Fase al cerrar:** 0 (Pre-Fase A), abierta:
+ROM de la 8C medido (2.30); falta el de la 1C (sin video) y la elección escrita en PDP §6.
 
 ## Arrancá por acá
 
 0. **Antes de buscar cualquier ruta, IP o carpeta: `RUTAS.md`** (todo lo ya encontrado; no se vuelve a buscar).
-
 1. `.\cascada.ps1 ps2-casa -Necesidad investigar` y leer lo que pida.
-2. Fran prende la 8C con **R1 apretado** (sin disco, tarjeta en ranura 1) →
-   uLaunchELF 4.43a, arriba `Net Config: 192.168.137.50`.
-3. Cable directo PS2 ↔ notebook (placa «Ethernet 2», 192.168.137.1). Medir:
-   `ping 192.168.137.50` y `Test-NetConnection 192.168.137.50 -Port 21`.
-   El 2026-11-06 dieron **respuesta en 1 ms y puerto 21 abierto**.
+2. Uso diario (decisión de Fran, 2026-11-06): **R1 al prender → uLE → a los 3 s el OPL solo**, pendrive puesto.
+3. Para FTP: R1, frenar la cuenta con cualquier botón, **MISC → PS2Net** (sin eso no hay ni enlace), y
+   `Test-NetConnection 192.168.137.50 -Port 21` → True.
 
 ## Lo que sigue, en orden
 
-1. **Entrar por FTP** a 192.168.137.50 (usuario anónimo) y **respaldar la
-   tarjeta entera a la PC** antes de tocar nada (regla 3 del contrato):
-   carpetas BOOT, APPS, OPL, SYS-CONF, las Free McBoot y las partidas.
-2. **Pendrive** (D:, etiqueta `HBCD_PE_X64`, FAT32, 14,3 GB): Fran pidió dejar
-   un God of War o un Dragon Ball. No se copió: Fran se iba y un corte a mitad
-   de copia deja el archivo roto. **God of War II (7,95 GB) no entra en FAT32**;
-   los DBZ de `C:\Games\PS2-ISOs\` sí (Anime War 3,75; Crossover 2,96; BT3
-   Remake 3,9; dbzpoderes 3,87). OPL los busca en `D:\DVD\`. Mirar antes qué
-   tiene el pendrive (la etiqueta dice Hiren's Boot CD): agregar, no borrar.
-3. **Juegos por red**: carpeta compartida (SMB) en la notebook del gobierno o
-   en esta, con la estructura de OPL (`DVD\`, `CD\`), y OPL configurado a
-   192.168.137.x. Ahí entra God of War II.
-4. **Arranque sin R1** (opcional): Infinity Manager (△ al prender) → modo
-   DEV1 → `mc0:/BOOT/BOOT.ELF`; después apuntarlo a OPL para la familia.
-5. Escribir L0/L1 (fase 1) con el concepto ya probado.
+1. **Que Fran confirme con foto** la lista del OPL en la tele: LEGO Batman, Simpsons y **BT4 partido (ul)**.
+   Si LEGO Batman (PAL) se ve mal: opciones del juego en OPL → modo de video NTSC (GSM).
+2. **Niveles de Poder 8.1 al pendrive** (`SLUS_219.99`, 4,67 GB, entra): con el pendrive en la notebook,
+   `herramientas/iso_a_ul.py <iso> D:/ SLUS_219.99 "DBZ Niveles de Poder 8.1" --dvd` (ruta del ISO en RUTAS).
+3. **Juegos por red** (God of War II, GTA SA, el resto de DBZ): **decisión de Fran pendiente**. El OPL sólo
+   habla SMB1. impacket (servidor en Python) lo bloquea Defender como hacktool: no usar. Caminos:
+   (a) Fran activa SMB1 en Windows (ajuste de seguridad, es suyo) y se comparte `PS2SMB`;
+   (b) Neutrino + udpbd-server (otro cargador en la tarjeta, sin tocar Windows).
+4. **Sin R1** (Fran lo dejó con R1): sólo con una **tarjeta Sony original** (la de 8 MB de Agustín) en la
+   ranura 2 y `BOOT/INSTALAR.ELF` eligiendo «mem 2». En ROM 2.30 es dudoso que arranque sin entrar al Explorador.
+5. La 1C (sin video) y escribir el concepto elegido en PDP §6 → cierra la fase 0.
 
 ## Lo que NO hay que volver a intentar
 
-- Buscar exploit por la memoria de la tarjeta: la 8C tiene **chip Matrix
-  Infinity 1.93** y R1 al prender lanza `mc0:/BOOT/BOOT.ELF` (uLaunchELF).
-- Tocar la configuración de red de Windows: se cambió la IP de la PS2, no la
-  de la notebook.
-- Subagentes: Fran no los quiere (memoria «Sin agentes»).
+- **DEV1 del chip** (menú con △+○ al prender): se guardó y cae al menú de Sony. Este clon 1.93 no lo cumple.
+- **Free McBoot**: no cubre ROM 2.30. Ya se sacó de la tarjeta.
+- **Instalador PS2BBL+OpenTuna con la tarjeta clon de 64 MB**: «No memory card detected» (código 1) eligiendo mem 1.
+- **OpenTuna 1.0.1 por .psu** (`C:\Games\PS2-respaldos\opentuna-1.0.1\`): su guía dice que en Slim se ejecuta
+  entrando al Explorador → tarjeta → atrás dos veces. Más pasos que R1. Además pide psuPaste de uLE, no FTP.
+- **impacket** como servidor SMB: Defender lo pone en cuarentena (2026-11-06). Se desinstaló.
+- Tocar la red de Windows: se cambió la IP de la PS2, no la de la notebook.
+- Subagentes: Fran no los quiere.
 
 ## Datos que no se pueden aproximar
 
-- Consolas: SCPH-90001 NTSC U/C, códigos 8C (anda; DVD 3.11U, Browser 1.40) y
-  1C (**sin señal de video**).
-- Chip de la 8C: Matrix Infinity 1.93. Botones al prender: R1 → BOOT.ELF;
-  △ → Infinity Manager; START → chip apagado.
-- Tarjeta: una sola, «Sony 64 MB» clon; tiene BOOT, APPS, OPL, cuatro Free
-  McBoot, SYS-CONF y partidas.
-- Red de la PS2 (en `mc0:/SYS-CONF/IPCONFIG.DAT`): 192.168.137.50 /
-  255.255.255.0 / puerta 192.168.137.1. Antes era 192.168.0.10.
-- Notebook: Ethernet 2 = 192.168.137.1/24 (Windows comparte internet ahí);
-  WiFi 192.168.1.3.
-- ISOs: `C:\Games\PS2-ISOs\` y `Desktop\Juegos\Juegos de emulador\PS2\`.
+- 8C: SCPH-90001, **ROM 2.30** (`0230AC20080220`), chip Matrix Infinity 1.93 (R1 → `mc0:/BOOT/BOOT.ELF`).
+- 1C: sin señal de video.
+- Tarjeta (clon 64 MB) ahora: BOOT (uLE, OPL 1.2.0-Beta-2271, OPL viejo, INSTALAR.ELF), OPL (config + español),
+  SYS-CONF (IPCONFIG, LAUNCHELF.CNF con autostart, PS2BBL.INI, irx), BADATA-SYSTEM, partidas BT3 y BT4.
+- OPL: `vmode=2` (NTSC 480i, cable compuesto), `usb_mode=2`, `eth_mode=1`, `default_device=0`.
+- Respaldos: `C:\Games\PS2-respaldos\mc0-2026-11-06\` (mañana) y `mc0-2026-11-06-tarde\` (antes de sacar FMCB).
+- Pendrive SanDisk Cruzer Blade 16 GB FAT32, ~7 MB/s de escritura.
 
 ## Si hay que abrir un chat nuevo
 
 ```
 0. Libro primero (regla 16) si no estás en la PC de Fran.
-1. En claude-acceso: .\cascada.ps1 ps2-casa -Necesidad investigar ; leé lo que pide (incluye este HANDOFF).
-2. Fase 0, Pre-Fase A. La cierra: concepto elegido en PDP §6 con el ROM medido. El arranque ya está (chip Infinity + R1 → uLaunchELF 4.43a); la red anda (ping 1 ms, FTP abierto en 192.168.137.50).
+1. En claude-acceso: .\cascada.ps1 ps2-casa -Necesidad investigar ; leé lo que pide (incluye este HANDOFF y RUTAS.md).
+2. Fase 0, Pre-Fase A. La cierra: concepto elegido en PDP §6 + ROMVER de las dos (8C = 2.30, medido; 1C sin video).
 3. Opus, esfuerzo medio, sin fan-out y SIN subagentes.
-4. Máquina: nada instalado en Windows para la PS2; la PS2 tiene IP 192.168.137.50 guardada en la tarjeta; el pendrive D: (FAT32) sin juegos copiados.
-5. Resuelto: arranque, red, inventario de ISOs, investigación (docs/investigacion-red.md).
-6. Primer paso: con Fran prendiendo la 8C con R1 y el cable puesto, medir ping y puerto 21; después respaldar la tarjeta por FTP.
-7. El efecto a ver: "Respuesta desde 192.168.137.50" en el ping y TcpTestSucceeded True.
+4. Máquina: la 8C arranca con R1 → uLE → 3 s → OPL; el pendrive tiene LEGO Batman, Simpsons y BT4 partido; nada instalado en Windows para la red.
+5. Resuelto: respaldo, OPL nuevo en NTSC y español, tarjeta limpia, ROM medida, rutas en RUTAS.md.
+6. Primer paso: pedirle a Fran la foto de la lista de juegos del OPL; después Niveles de Poder y la decisión de la red.
+7. El efecto a ver: los 3 juegos en la pestaña USB del OPL, y uno arrancando.
 ```

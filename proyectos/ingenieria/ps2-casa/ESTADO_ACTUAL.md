@@ -58,5 +58,6 @@ ROMVER de las dos.
 
 ## Lo próximo
 
-Respaldar la tarjeta por FTP, juegos al pendrive (los que entran en FAT32) y
-por red (SMB + OPL). El orden está en HANDOFF. Investigación: `docs/investigacion-red.md`.
+Foto de Fran con la lista del OPL (confirma el BT4 partido), Niveles de Poder al
+pendrive, y la decisión de Fran para la red (SMB1 en Windows o Neutrino). Uso
+diario: R1 → 3 s → OPL. El orden está en HANDOFF; las rutas, en RUTAS.md.
