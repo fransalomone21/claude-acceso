@@ -6,6 +6,19 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(136), 2026-11-06, NOTEBOOK, con Fran en el chat — el compañero como fantasma (F-RED-3, `docs/24`).** Fase
+> **PLAT-PreA** (spike). Reporte de Fran: en el nivel de los francotiradores él (anfitrión) entró primero a una zona y
+> Agustín quedó «fantasma». **Medido** en el registro del anfitrión del 31/10: el parche 02 anduvo en red (32
+> disparadores del compañero de la unidad de adelante). **Leído** (probable): tres mecanismos posibles en la copia que se
+> une (H1 títeres sin spawner cargado; H2 estados viejos del anfitrión: títeres parados; H3 disparadores de entrada/tipo
+> 12 que nunca prueban al compañero). **Hecho:** parche 03 de diagnóstico (`parches-coop/03-diagnostico-titeres.patch`,
+> entra limpio, sin compilar), `sesiones/PREDICCIONES-136.md` (paso 0 + P1-P5), el vigía ahora mira las versiones del
+> mod (salió v2026.11.01, port V3, coop sin cambios; no se migra todavía), `sesiones/RETOME-DIFICULTAD.md` (pedido de
+> Fran, sólo el retome). **Falta (Fran):** la PC no contesta por el cable (enlace arriba a 1 Gbps, 192.168.137.51 sin
+> respuesta; `ACCESO-PC.ps1` «No encuentro la PC»): prenderla y que tome IP, para traer el `black.log` de la copia de
+> Agustín (paso 0). **Sigue:** paso 0; si no alcanza, `COMPILAR-COOP.ps1` (con el 03) y el ensayo; después instalar el
+> mismo exe en las dos. **Regla de juego mientras:** zonas nuevas, juntos.
+>
 > **(135c, después) — jugando con el parche y la PC manejable.** Fran pidió jugar ya: el exe con 01+02
 > (`C420CBC5E5D1…`) está instalado en la notebook y en la PC (respaldo `BLACK-release.exe` en las dos), **sin el
 > ensayo** de `PREDICCIONES-135c.md`. Fran prendió en la notebook la **conexión compartida** (Wi-Fi 2 → Ethernet 2):

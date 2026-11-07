@@ -16,6 +16,20 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-11-06 — (136) F-RED-3: el compañero como fantasma; el parche 02 medido en red
+**Máquina:** notebook, con Fran en el chat · **Modelo:** Opus, esfuerzo bajo-medio, sin fan-out
+**Concepto / nodo:** PLAT-PreA (spike); coop por red, L1-06/L1-07/L1-18 de `docs/20`; ningún nodo cambia de K.
+**Objetivo:** que el coop sea parejo para los dos (Fran: Agustín quedó «fantasma» en el nivel de los francotiradores
+después de que Fran entró primero a una zona) y dejarlo listo para los próximos niveles.
+**Resultado:** el registro del anfitrión del 31/10 muestra el parche 02 andando en red (32 disparadores del compañero de
+la unidad de adelante). Leídos en `coop_npcs.cpp`/`coop_world.cpp` tres mecanismos posibles (H1-H3, `docs/24`), parche
+03 de diagnóstico (entra, sin compilar), ensayo escrito (`sesiones/PREDICCIONES-136.md`). El vigía no miraba las
+versiones del mod que usamos: arreglado (`kb/vigia.json`), y vio v2026.11.01 (port V3, coop sin cambios). Retome de
+dificultad en `sesiones/RETOME-DIFICULTAD.md`.
+**No funcionó:** traer el registro de la copia de Agustín: la PC no contesta por el cable (enlace arriba, sin IP que
+responda). Sin él, H1-H3 quedan en *probable*.
+**Sigue:** el paso 0 de `PREDICCIONES-136.md` con la PC prendida; si no alcanza, compilar con el 03 y el ensayo.
+
 ## 2026-10-30 — (134) Poner la plataforma en la PC sin tipear: instalador de doble clic (no un control remoto a medida)
 **Máquina:** notebook (MSI Sword 15), sin Fran en el chat · **Modelo:** Opus, esfuerzo alto, sin fan-out
 **Concepto / nodo:** PLAT-PreA (PDP §4); sistema habilitante (L2-INS de `docs/20` §11); ningún nodo del juego cambia de K.

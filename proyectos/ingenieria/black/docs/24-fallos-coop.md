@@ -54,7 +54,51 @@ qué unidad era la lista. Entra limpio en el port y compila (sintaxis con `clang
 predicciones de `sesiones/PREDICCIONES-135c.md`, antes de usarlo para jugar. Grado del diagnóstico: **probable** hasta
 esa prueba.
 
-## Afuera (2026-10-31)
+## F-RED-3 (136), 2026-11-06: el compañero como fantasma
+
+**Reporte (Fran, de memoria: hipótesis):** en el nivel de los francotiradores, Fran (anfitrión, notebook) entró a una
+zona antes que Agustín; desde ahí los enemigos de las dos copias divergieron, Agustín veía cosas que Fran no y terminó
+«ignorado, como un fantasma».
+
+**Medido en el registro del anfitrión** (`C:\Games\BLACK\coop\logs\black.log`, 31/10 02:23-03:23, el exe con 01+02,
+fotos en `volcados/plataforma/20261031-022336-red-anfitriona/`):
+- **El parche 02 anda en red real:** 120 disparadores probados en el compañero, **32 de la lista de la unidad de
+  adelante** (`unit N's (this player's M)` con N > M). P1 y P3 de `PREDICCIONES-135c.md` cumplidas jugando; P2, P4 y P5
+  sin medir con el ensayo.
+- El cuerpo de Agustín existió en el anfitrión toda la partida (se suelta sólo en las cargas).
+- El anfitrión cruzó primero dos avances de unidad (885 s y 3421 s, «waits for the partner (crossed -1)»).
+- **Lo que le pasa a la copia de Agustín no está en este registro:** está en el `black.log` de la PC (si no se pisó).
+
+**Leído en el código del mod (`coop_npcs.cpp`, *probable*):** en la copia que se une, cada enemigo es un **títere** del
+anfitrión, y sus spawners propios no hacen nada mientras el anfitrión se oye.
+- **H1, el anfitrión adelante:** el títere sólo nace si **su spawner está cargado en la copia de Agustín**
+  (`Spawner(name)` = 0: «its unit is not here yet»). Los enemigos de la zona a la que Fran entró primero no existen para
+  Agustín hasta que su copia carga esa unidad; y el registro **no lo dice** (ceguera: la tapa el parche 03).
+- **H2, estados viejos:** si los estados del anfitrión tienen más de 1,5 s, son de otro nivel o el anfitrión no está en
+  juego (pausa, menú, caído), los títeres **se quedan parados**: enemigos que no disparan ni se mueven. Y si el anfitrión
+  deja de oírse, la copia de Agustín vuelve a manejar sus propios enemigos: dos mundos distintos.
+- **H3, disparadores que nunca prueban al compañero** (aun con el 02): los de entrar y salir (modos 1 y 2), las zonas de
+  visibilidad (modo 4) y los de tipo 12 (`TestPartner`). Si una oleada cuelga de uno de esos, cuando Agustín entra
+  primero no pasa nada hasta que llega Fran.
+
+**Lo que decide entre H1-H3:** el registro de la PC de esa noche y el ensayo de `sesiones/PREDICCIONES-136.md`, con el
+parche **03** (`parches-coop/03-diagnostico-titeres.patch`: la copia que se une anota cada enemigo del anfitrión que no
+puede hacer nacer, y cuándo los estados del anfitrión dejan de mover a los títeres). El 03 sólo agrega dos líneas de
+registro: no cambia el juego. Entra limpio en el port (`git apply --check`, sabotaje en rojo); **sin compilar**.
+
+**Regla de juego mientras no esté arreglado:** las zonas nuevas se entran **juntos** (ninguno adelante: el que llega
+primero a la puerta espera). Y para repartir lo que el mod le da de más al anfitrión (sus enemigos son los originales),
+**turnarse el anfitrión por nivel** cuando la PC tenga el mismo exe.
+
+## Afuera (2026-10-31; actualizado 2026-11-06)
+
+**2026-11-06:** salió **v2026.11.01** («Seamless co-op updated to BLACK V3»): el port pasa a V3 (gyro, reemplazo de
+texturas, opciones, menús); la lógica del coop **no cambia** (`coop_world.cpp` y `coop_npcs.cpp` iguales; `coop.cpp`,
+2 líneas); **protocolo 19: las dos máquinas se actualizan juntas**. Ni F-RED-1 ni F-RED-3 están arreglados ahí. Decisión
+técnica: no se migra antes de cerrar F-RED-3 (dos cambios a la vez confunden la causa). El vigía no la había visto: no
+miraba las versiones del mod que usamos; desde (136) sí (`kb/vigia.json`, `gh-releases-seamless-coop`).
+
+**2026-10-31:**
 
 Sin versión más nueva: el último release es v2026.10.18.2 (el que tenemos), sin commits después; un solo issue,
 cerrado, de otra cosa; sin forks. Ningún reporte público de estos dos fallos.

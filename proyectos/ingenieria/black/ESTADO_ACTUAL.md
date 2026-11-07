@@ -41,7 +41,13 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(135c), 2026-10-31, NOTEBOOK — LO ÚLTIMO: el parche 02 del coop (disparadores del compañero), escrito, sin probar**
+> **(136), 2026-11-06, NOTEBOOK — LO ÚLTIMO: F-RED-3, el compañero como fantasma** (`docs/24`). El parche 02 anduvo
+> en red (registro del anfitrión del 31/10: 32 disparadores del compañero de la unidad de adelante). Tres mecanismos
+> leídos en la copia que se une (H1-H3, *probable*); parche 03 de diagnóstico escrito (sin compilar), ensayo en
+> `sesiones/PREDICCIONES-136.md`. Upstream v2026.11.01 (port V3, coop igual) visto por el vigía, sin migrar. Retome de
+> dificultad: `sesiones/RETOME-DIFICULTAD.md`. **Falta:** la PC no contesta por el cable; su `black.log` decide.
+>
+> **(135c), 2026-10-31, NOTEBOOK — el parche 02 del coop (disparadores del compañero), escrito, sin probar**
 > Fase **PLAT-PreA** (spike). **Leído:** el despachador del juego `0x1E7FF0` prueba **las dos** listas de disparadores
 > para su jugador; el mod, para el compañero, sólo la de la unidad del anfitrión. Releído el registro de la red: a los
 > 885 s cruzó primero **el anfitrión**; desde 911 las dos copias en la 6 y el compañero en la zona de la 7 (activa) sin

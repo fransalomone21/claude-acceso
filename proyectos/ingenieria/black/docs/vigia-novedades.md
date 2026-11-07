@@ -439,3 +439,52 @@
 - [archive-black] archive.org tweakers007509: tweakers / 7509 / Nieuwe thema's voor Black Ops II via Xbox Live
 - [archive-black] archive.org the-getaway-bm-press-disc: The Getaway: Black Monday Press Disc
 - [archive-black] archive.org facebook-10150455812264987: PS4 vs Xbox One: Who won Black Friday? - Inside Gaming Daily
+
+## 2026-11-06
+
+- [gh-black-xbox] UnknuwProjects/Black-Continue -- An unofficial native Android port of the original Xbox version of Black, featuring touch c (https://github.com/UnknuwProjects/Black-Continue)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #166: [Meta] Add LICENSE (https://github.com/TGP482/BLACK-XBERecomp/issues/166)
+- [gh-releases-seamless-coop] MuriloDagustin/black-seamless-coop release v2026.11.01: Seamless co-op updated to BLACK V3 (https://github.com/MuriloDagustin/black-seamless-coop/releases/tag/v2026.11.01)
+- [gh-releases-seamless-coop] MuriloDagustin/black-seamless-coop release v2026.10.18.2: Black Seamless Co-op 2026-10-18 (last mission fix) (https://github.com/MuriloDagustin/black-seamless-coop/releases/tag/v2026.10.18.2)
+- [gh-releases-seamless-coop] MuriloDagustin/black-seamless-coop release v2026.10.18: Black Seamless Co-op 2026-10-18 (https://github.com/MuriloDagustin/black-seamless-coop/releases/tag/v2026.10.18)
+- [gh-releases-seamless-coop] MuriloDagustin/black-seamless-coop release v2026.10.17: Black Seamless Co-op 2026-10-17 (https://github.com/MuriloDagustin/black-seamless-coop/releases/tag/v2026.10.17)
+- [archive-black] archive.org ps-2-c-00000-black-matrix-ii-japan-ps-2-classic: [ PS 2 C 00000] Black Matrix II ( Japan) [ PS 2 Classic]
+- [archive-black] archive.org youtube-YhDjD_t-AtQ: Game Fails: Call of Duty Black Ops "Between a rocket and a hard place"
+- [archive-black] archive.org youtube-RZATLEsRks0: Call of Duty: Black Ops II - Awaken the Gazebo Guide
+- [archive-black] archive.org youtube-Pc79Qz019gk: THE ANGRIEST KID ON BO3 ZOMBIES! (BLACK OPS 3 TROLLING)
+- [archive-black] archive.org Xbox_Longplay-002-Ninja_Gaiden_Black: Xbox_Longplay-002-Ninja_Gaiden_Black
+- [archive-black] archive.org g4tv.com-video56256-flvhd: g4tv.com-video56256-flvhd: The Black Eyed Peas Experience First Look
+- [archive-black] archive.org Call_Of_Duty_7_Black_Ops_1_Walkthrough_HD_X360_Russian: Call Of Duty 7 Black Ops 1 Walkthrough HD (X360) Russian
+- [archive-black] archive.org SilentHill2RibbonSLPM61011NTSCJ: Silent Hill 2 "Black Ribbon" SLPM 61011 NTSC-J
+- [archive-black] archive.org BlackThornPackaging20011125: Black Thorn Packaging (2001-11-25)
+- [archive-black] archive.org pirates-the-legend-of-black-kat-.-xbox: Pirates The Legend Of Black Kat . Xbox
+- [archive-black] archive.org perma_cc_2DYG-2HFC: 2DYG-2HFC: Google Pixel 7 Prototype - 128GB - Stormy Black (…
+- [archive-black] archive.org DTIC_ADA511962: DTIC ADA511962: Mixed Layer Depth in the Aegean, Marmara, Black and Azov Seas: Part I: Gen
+- [archive-black] archive.org CL9x08ElComplejoLambda: [CL] 9x08 - El Complejo Lambda - 'Project Zero: Maiden of Black Water'
+- [archive-black] archive.org official-call-of-duty-black-ops-iii-black-market-update-WSPlu9Wzw7Q: Official Call of Duty®: Black Ops III - Black Market Update | @CallofDuty | YouTube
+- [archive-black] archive.org official-call-of-duty-black-ops-iii-9-2-black-market-update-uk-5i26trfe5-M: Official Call of Duty®: Black Ops III - 9/2 Black Market Update [UK] | @CallofDuty | YouTu
+- [archive-black] archive.org ibara-kuro-black-label-2005-shoot-em-up-arcade: Ibara Kuro Black Label (鋳薔薇) (2005) (Shoot Em Up) (Arcade)
+- [archive-black] archive.org official-call-of-duty-black-ops-iii-cyber-core-tutorial-and-co-op-play-through-eu-4mSUA1dp3NA: Official Call of Duty®: Black Ops III- Cyber Core Tutorial and Co-Op play through [EU] | @
+- [archive-black] archive.org ERIC_ED089569: ERIC ED089569: Curriculum Change in Black Colleges V. A Report on a Cooperative Academic P
+- [archive-black] archive.org ERIC_ED224391: ERIC ED224391: Increasing Minority Participation in Educational Research and Development i
+- [archive-black] archive.org arxiv-1606.05849: Einstein-Katz action, variational principle, Noether charges and the thermodynamics of AdS
+- [archive-black] archive.org NextGenTactics-OFFICIALBlackOpsMapPack2EscalationAnnouncedWithRumorAn349: OFFICIAL Black Ops Map Pack 2 Escalation Announced, with Rumor Analysis
+- [archive-black] archive.org Destructoid_392: Destructoid 392: Gamer's Guide to BLACK FRIDAY! Xbox 720 RUMORS, PlayStation All-Stars Bat
+- [archive-black] archive.org arxiv-0901.0547: Black hole spin and radio loudness in a LCDM universe
+- [archive-black] archive.org arxiv-0903.0029: Estimating black carbon aging time-scales with a particle-resolved aerosol model
+- [archive-black] archive.org call-of-duty-black-ops-inside-xbox-annihilation-insider-moves-V6XlXmJ1wqA: Call of Duty: Black Ops - Inside Xbox Annihilation Insider Moves | @CallofDuty | YouTube
+- [archive-black] archive.org black_20260110: Black (PS2)
+- [archive-black] archive.org youtube-qkyVZUQF4fM: Marvel Rivals - Official 'Aquatic Assassin' Black Widow Costume Trailer
+- [archive-black] archive.org youtube-wS-yPWlKRbA: Game Fails: Assassin's Creed IV Black Flag "The pirate hug"
+- [archive-black] archive.org youtube-x92QiWolZeo: Black Ops 2 Rage Sessions | DDOS Attack Threat
+- [archive-black] archive.org httpswww.ijtsrd.comengineeringelectrical-engineering30974smart-highway-technolog: Smart Highway Technology using Intelligent Black Box for Vehicle Accident Monitoring
+- [archive-black] archive.org call-of-duty-black-ops-ii-415608-c-3: Call of Duty: Black Ops II
+- [archive-black] archive.org call-of-duty-black-ops-3-compatibility-pack-1-y-2: Call Of Duty Black Ops 3 Compatibility pack 1 y 2
+- [archive-black] archive.org black-ps-2-classics: Black [PKG for PS3]
+- [archive-black] archive.org delta-force-black-hawk-down-ps2-hiresscans: Delta Force - Black Hawk Down [SLUS 21124] (Sony Playstation 2) - Box Scans (1200DPI)
+- [archive-black] archive.org tu20076000_00000000: Call Of Duty Black ops
+- [archive-black] archive.org futuristic-city-defending-the-city-black-sky-call-of-duty-infinite-warfare: Futuristic City - Defending the City - Black Sky - Call of Duty: Infinite Warfare
+- [archive-black] archive.org facebook-10150662159969987: Come get your zombie on with us on MACHINIMA LATE NIGHT (LIVE) Call of Duty: Black Ops – Z
+- [archive-black] archive.org youtube-XFLRSOz5NWI: Call of Duty: Black Ops II - E3 2012: Strike Force Debut HD
+- [archive-black] archive.org youtube-Xf7YWvpwYsY: Call of Duty: Black Ops 2 - Team SUICIDE Trolling On Search & Destroy! (BO2 Trolling)
+- [archive-black] archive.org LOLBlackOps3OnPS3Xbox360LooksTERRIBLECallOfDutyCODBO3PS4Gameplay: LOL Black Ops 3 On PS 3 & Xbox 360 Looks TERRIBLE Call Of Duty COD BO 3 PS 4 Gameplay

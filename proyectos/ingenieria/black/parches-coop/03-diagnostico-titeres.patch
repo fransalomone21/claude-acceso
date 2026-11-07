@@ -1,0 +1,35 @@
+diff --git a/src/game/coop_npcs.cpp b/src/game/coop_npcs.cpp
+--- a/src/game/coop_npcs.cpp
++++ b/src/game/coop_npcs.cpp
+@@ -507,7 +507,15 @@
+         LOGR("npc: the host is heard, its enemies are its own");
+     }
+     owning = own;
+-    if (!own || !Fresh(now)) return;
++    // (BLACK 136) sensing: when the host's states stop driving the puppets here, and when they come back
++    static bool fresh_was = true;
++    bool fresh = own && Fresh(now);
++    if (own && fresh != fresh_was)
++        LOGR("npc: the host's states %s (puppets %zu, level here %d, host's %d)",
++             fresh ? "drive the puppets again" : "are stale: the puppets stand", g_state.size(),
++             R32(kWorld) ? int(G<int8_t>(R32(kWorld) + kWorldLevel)) : -1, int(g_snap_level));
++    fresh_was = fresh || !own;
++    if (!own || !fresh) return;
+     uint32_t pool = R32(kPool);
+     static constexpr hle::Map kReleaseMap = hle::Make({hle::stack, hle::stack});
+     // the host's that are not here: their spawners make them
+@@ -520,6 +528,14 @@
+         }
+         uint32_t s = Spawner(name);
+         if (!s) {  // its unit is not here yet
++            // (BLACK 136) sensing: a host's enemy this copy cannot make yet (each name once)
++            static std::unordered_map<uint64_t, bool> told;
++            if (told.size() > 4096) told.clear();
++            if (!told[name]) {
++                told[name] = true;
++                LOGR("npc: %016llX of the host's waits here: its spawner's unit is not loaded (host's at %.1f %.1f %.1f)",
++                     (unsigned long long)name, double(pp.e.pos[0]), double(pp.e.pos[1]), double(pp.e.pos[2]));
++            }
+             pp.tried = now;
+             continue;
+         }
