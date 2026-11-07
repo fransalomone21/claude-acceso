@@ -51,6 +51,7 @@ if ($Usuario) {
     $info | ConvertTo-Json | Set-Content $datos -Encoding ASCII
     if (-not ($Comando -or $Enviar -or $Traer -or $Quitar)) { Write-Host "Anotado: usuario de la PC = $Usuario"; exit }
 }
+if ($IP -and -not $Usuario) { $info.ip = $IP }  # (136) -IP sola tambien manda: antes se ignoraba sin -Usuario
 if (-not $info.usuario) { Write-Host "No se el usuario de la PC: ACCESO-PC.ps1 -Usuario <u> (lo avisa la PC al prepararse)" -ForegroundColor Red; exit 1 }
 
 function Abierto($ip) {
