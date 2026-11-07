@@ -27,4 +27,8 @@ sí estaba cargado). P3 sin `stale` → la pausa del anfitrión no congela a los
 
 ## Resultados
 
-(sin medir)
+- **2026-11-06 22:39, compilado (no instalado):** `C:\Games\BLACK\src\black-recomp\out\build\release\BLACK.exe`, sha256
+  `76EA8E13A5BC…`, con 01+02+03. Las cadenas del 02 (`fired at the partner, unit %u's`) y del 03 (`waits here: its
+  spawner`, `are stale: the puppets stand`) están en el binario (grep, 1 cada una): el 03 compila. La primera corrida
+  de `COMPILAR-COOP.ps1` sin consola propia falló en `build.bat` (cmd no heredaba la carpeta): arreglado con ruta
+  absoluta. P1-P5: sin medir (necesitan a Fran con dos mandos).

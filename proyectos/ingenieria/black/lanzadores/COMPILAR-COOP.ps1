@@ -56,7 +56,7 @@ Paso "Compilar (build.bat; la primera vez 30-90 min)"
 $t0 = Get-Date
 Push-Location $Port
 # sin Tee a proposito: build.bat puede preguntar (Y/N, "apreta una tecla") y un pipe se come la pregunta
-cmd /c "build.bat"
+cmd /c "cd /d `"$Port`" && `"$Port\build.bat`""  # (136) ruta absoluta: corrido sin consola propia, cmd no heredaba la carpeta
 $rc = $LASTEXITCODE
 Pop-Location
 $exe = "$Port\out\build\release\BLACK.exe"
