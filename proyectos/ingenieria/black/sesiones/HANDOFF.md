@@ -6,6 +6,32 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(136b), misma noche — la PC, ubicada y todavía inalcanzable.** La PC NO está en el cable de la notebook: está en la
+> red de la casa (`192.168.100.41`, Ethernet al router) y en ZeroTier (`10.147.20.3`). La notebook (Wi-Fi
+> `192.168.100.44`, ZeroTier `10.147.20.2`) no la resuelve por ninguna de las dos (ARP `Unreachable`; ZeroTier sin
+> camino directo al nodo de la PC). Fran agregó en la PC la IP ZeroTier de la notebook a la regla `SSH-por-cable` y sshd
+> quedó `Running` (medido por su captura). Compilación con 01+02+03 lanzada en segundo plano (log en
+> `volcados\plataforma\compilar-*.log`; el exe queda en `C:\Games\BLACK\src\black-recomp\out\build\release\`, no se
+> instala). **Retome:** el bloque de abajo.
+>
+> ```
+> BLACK (136c): traer el registro de la copia de Agustin y cerrar F-RED-3. NOTEBOOK, C:\Users\frans\Desktop\claude-acceso.
+> 1. Primera llamada, sola: .\cascada.ps1 black -Necesidad ingenieria-inversa,investigar ; leer lo que pida.
+>    Despues: docs/24-fallos-coop.md (F-RED-3), sesiones/PREDICCIONES-136.md. No releer el codigo del mod entero.
+> 2. Fase PLAT-PreA (spike). La cierra: H1/H2/H3 de F-RED-3 decidida con el registro de la PC o con el ensayo P1-P5.
+> 3. Opus, esfuerzo medio, sin fan-out.
+> 4. Maquina: notebook con coop 01+02 instalado (C420CBC5E5D1); compilacion 01+02+03 hecha o fallida en
+>    volcados\plataforma\compilar-*.log (leerlo primero). PC: 192.168.100.41 / ZeroTier 10.147.20.3, sshd andando,
+>    regla SSH con la ZT de la notebook. La notebook NO llega a la PC por la red de la casa (aislamiento) ni por ZT.
+> 5. Ya hecho: el parche 02 anda en red (32 disparadores, registro del anfitrion 31/10); vigia mira el mod;
+>    upstream v2026.11.01 sin migrar; retome de dificultad en sesiones/RETOME-DIFICULTAD.md.
+> 6. Primer paso: que Fran conecte UN cable de red de la PC directo a la notebook (Ethernet 2, ICS 192.168.137.1),
+>    y lanzadores\ACCESO-PC.ps1 -IP 192.168.137.<lo que de> -Comando "Get-ChildItem C:\Games\BLACK\coop\logs".
+>    Alternativa sin cable: en la PC, Copy-Item C:\Games\BLACK\coop\logs\black*.log a un pendrive.
+> 7. Medir: en el black.log de la PC, las lineas "npc: the host is not heard"/"is heard" y "made by its spawner"
+>    contra los avances del anfitrion (885 s y 3421 s del log de la notebook). Si se piso, el ensayo de PREDICCIONES-136.
+> ```
+>
 > **(136), 2026-11-06, NOTEBOOK, con Fran en el chat — el compañero como fantasma (F-RED-3, `docs/24`).** Fase
 > **PLAT-PreA** (spike). Reporte de Fran: en el nivel de los francotiradores él (anfitrión) entró primero a una zona y
 > Agustín quedó «fantasma». **Medido** en el registro del anfitrión del 31/10: el parche 02 anduvo en red (32
