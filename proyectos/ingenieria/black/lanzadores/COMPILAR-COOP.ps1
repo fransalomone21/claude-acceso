@@ -9,12 +9,12 @@
 # el BLACK.exe nuevo queda en C:\Games\BLACK\src\black-recomp\out\build\release\ hasta probarlo.
 # Requiere Visual Studio 2022 (Build Tools) con C++, Clang y CMake: lo instalo la sesion (135) con winget.
 
-param([switch]$SinArreglos)
+param([switch]$SinArreglos, [string]$Version = 'v2026.10.18.2')  # (136) -Version v2026.11.01: el port V3
 
 $Mod     = 'C:\Games\BLACK\src\black-seamless-coop'
 $Port    = 'C:\Games\BLACK\src\black-recomp'
 $Iso     = 'C:\Games\BLACK\coop\assets\Black (USA).iso'
-$Tag     = 'v2026.10.18.2'
+$Tag     = $Version
 $Parches = Join-Path (Split-Path $PSScriptRoot -Parent) 'parches-coop'
 $Log     = Join-Path (Split-Path $PSScriptRoot -Parent) ("volcados\plataforma\compilar-{0:yyyyMMdd-HHmm}.log" -f (Get-Date))
 New-Item -ItemType Directory -Force (Split-Path $Log) | Out-Null

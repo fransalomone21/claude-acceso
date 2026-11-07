@@ -81,6 +81,15 @@ anfitrión, y sus spawners propios no hacen nada mientras el anfitrión se oye.
   visibilidad (modo 4) y los de tipo 12 (`TestPartner`). Si una oleada cuelga de uno de esos, cuando Agustín entra
   primero no pasa nada hasta que llega Fran.
 
+**El registro de la copia de Agustín (traído de la PC en (136b): `volcados/plataforma/20261031-pc-companero/`)
+apoya H1, *probable*:** en `black.prev.log`, a los 1110 s «the partner went through the advance to unit 5» (Fran
+cruzó) y la copia de Agustín se queda en la unidad 4 **92 s**, hasta que él usa «get me out of here» (1202 s: «advance
+to unit 5, the partner's way»); después lo aprieta **11 veces en 5 s** (1217-1222 s, siempre puesto al lado de Fran) y
+dos más. Nunca «the host is not heard» (H2 por red, descartada esa noche). Ninguna línea dice cuántos enemigos del
+anfitrión no pudo hacer en esos 92 s: es la ceguera que tapa el 03. **El arreglo que se desprende:** cuando el
+anfitrión cruza un avance, la copia que se une carga esa unidad (como hace el rescate, sin mover al jugador), así
+sus títeres existen; se diseña con el 03 midiendo.
+
 **Lo que decide entre H1-H3:** el registro de la PC de esa noche y el ensayo de `sesiones/PREDICCIONES-136.md`, con el
 parche **03** (`parches-coop/03-diagnostico-titeres.patch`: la copia que se une anota cada enemigo del anfitrión que no
 puede hacer nacer, y cuándo los estados del anfitrión dejan de mover a los títeres). El 03 sólo agrega dos líneas de
