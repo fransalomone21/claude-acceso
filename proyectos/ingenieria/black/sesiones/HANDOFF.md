@@ -6,6 +6,29 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(137), 2026-11-06, NOTEBOOK — el fantasma no es H1 (en la noche del 31/10).** Pedido: el parche 04 (la copia que
+> se une carga la unidad del anfitrión). **No se escribió:** cruzados los dos registros de esa noche
+> (`herramientas/cruzar_registros.py`, `docs/24` párrafo (137)), los títeres de la unidad nueva nacieron en el mismo
+> segundo en las dos copias; 1 de 237 enemigos sin títere en toda la partida. El mod ya activa esa unidad
+> (`FlowMessages`); lo que duró 92 s fue la espera del anfitrión en el avance, porque la copia de Agustín no lo vio
+> cruzar. **Máquina:** las dos con 01+02+03 (`E63DEEDB…`), nada compilado ni instalado en (137); árbol de
+> `C:\Games\BLACK\src\black-seamless-coop` con 01-03 sin tocar. La PC se reinició a pedido de Fran (sin video tras un
+> error del driver NVIDIA 153 a las 23:44; disco C con 23 GB libres; Gaming Services cayéndose). **Sigue:** la partida
+> de `sesiones/PREDICCIONES-137.md` con el 03; si Agustín queda trabado, captura de su pantalla. Retome:
+>
+> ```
+> BLACK (138): leer la partida con el 03 (F-RED-3). NOTEBOOK, C:\Users\frans\Desktop\claude-acceso.
+> 1. Primera llamada, sola: .\cascada.ps1 black -Necesidad ingenieria-inversa,investigar ; leer lo que pida.
+>    Despues: docs/24-fallos-coop.md (F-RED-3, parrafo (137)) y sesiones/PREDICCIONES-137.md.
+> 2. Fase PLAT-PreA (spike). La cierra: H1/H2/H3 decidida con los registros de la partida con el 03.
+> 3. Opus, esfuerzo medio, sin fan-out.
+> 4. Maquina: notebook y PC con 01+02+03 (E63DEEDB); PC 192.168.100.41 por ACCESO-PC.ps1 -IP.
+> 5. Ya hecho: H1 descartada para la noche del 31/10 (1 de 237 sin titere); el mod ya activa la unidad del anfitrion.
+> 6. Primer paso: traer C:\Games\BLACK\coop\logs de la PC (ACCESO-PC.ps1 -IP 192.168.100.41 -Traer ... -A
+>    volcados\plataforma\pc-<fecha>) y correr herramientas\cruzar_registros.py con el black.log del anfitrion.
+> 7. Medir: faltantes <= 1 por nivel; lineas "waits here" y "are stale" en el de Agustin; esperas del anfitrion > 10 s.
+> ```
+>
 > **(136b), misma noche — la PC, ubicada y todavía inalcanzable.** La PC NO está en el cable de la notebook: está en la
 > red de la casa (`192.168.100.41`, Ethernet al router) y en ZeroTier (`10.147.20.3`). La notebook (Wi-Fi
 > `192.168.100.44`, ZeroTier `10.147.20.2`) no la resuelve por ninguna de las dos (ARP `Unreachable`; ZeroTier sin

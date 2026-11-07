@@ -41,7 +41,16 @@ decía.
 
 ## EL PROGRAMA — COOP-C: pieza 1 (el HUD doble) HECHA (115); pieza 2a (el disparo de J2 suena) HECHA y PRENDIDA (119); pieza 2b (sub3) APAGADA; F7 CONFIRMADO en (124); pieza 2d (el soporte propio de J2) PASA SU BANCO en (126) pero TRABA LA PAUSA: APAGADA; F7b ELEGIDO en (127): D' + montón de pausa propio; N27 REPRODUCIDA en (128) (es de la pausa) y R4 FABRICADA y PROBADA (la tapa), APAGADA hasta la regresión con pausa (LEER ESTO PRIMERO)
 
-> **(136), 2026-11-06, NOTEBOOK — LO ÚLTIMO: F-RED-3, el compañero como fantasma** (`docs/24`). El parche 02 anduvo
+> **(137), 2026-11-06, NOTEBOOK — LO ÚLTIMO: los dos registros del fantasma, cruzados.** Instalado en las dos
+> máquinas desde (136b): 01+02+03 (sha `E63DEEDB…`, v2026.11.01; la vieja en `C:\Games\BLACK\coop-v2`). El registro
+> del anfitrión de la noche del 31/10 estaba en `coop-v2\logs` (copiado a `volcados/plataforma/20261031-022336-…`).
+> **Medido** con `herramientas/cruzar_registros.py` (sabotaje en rojo): dentro de un nivel, **1 de 237** enemigos del
+> anfitrión sin títere en la copia de Agustín; en el cruce de los 92 s los títeres nacieron en el mismo segundo. **H1
+> no explica el fantasma de esa noche**; el parche 04 pedido («cargar la unidad del anfitrión») no se escribió: el mod
+> ya la activa. Vive H3 ampliada (algo le impide cruzar el avance a la copia de Agustín) o que el fantasma fue otra
+> noche. **Sigue:** jugar con el 03 y `sesiones/PREDICCIONES-137.md`; captura si Agustín queda trabado.
+>
+> **(136), 2026-11-06, NOTEBOOK — F-RED-3, el compañero como fantasma** (`docs/24`). El parche 02 anduvo
 > en red (registro del anfitrión del 31/10: 32 disparadores del compañero de la unidad de adelante). Tres mecanismos
 > leídos en la copia que se une (H1-H3, *probable*); parche 03 de diagnóstico escrito (sin compilar), ensayo en
 > `sesiones/PREDICCIONES-136.md`. Upstream v2026.11.01 (port V3, coop igual) visto por el vigía, sin migrar. Retome de

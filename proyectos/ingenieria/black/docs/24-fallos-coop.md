@@ -90,6 +90,32 @@ anfitrión no pudo hacer en esos 92 s: es la ceguera que tapa el 03. **El arregl
 anfitrión cruza un avance, la copia que se une carga esa unidad (como hace el rescate, sin mover al jugador), así
 sus títeres existen; se diseña con el 03 midiendo.
 
+**(137), 2026-11-06, el cruce de los DOS registros de esa noche: H1 no aparece; el parche 04 como estaba pensado no
+se escribe.** Apareció el registro del anfitrión de la misma partida (`C:\Games\BLACK\coop-v2\logs\black.log`, 02:23:36,
+copiado a `volcados/plataforma/20261031-022336-red-anfitriona/black-anfitrion.log`; el compañero arrancó 378 s
+después). Cruzados enemigo por enemigo con `herramientas/cruzar_registros.py` (*medido*, sin intervenir):
+- **En el cruce de los 1110 s (anfitrión 1488 s) los cuatro enemigos de la unidad 5 nacieron como títeres en la copia
+  de Agustín en el mismo segundo** que en la de Fran (`72AE4507A4C7D11C/D11D/D123/D14A`), y los dos de las 1159 s
+  también. La unidad 5 ya estaba activa en las dos copias (lo hace `FlowMessages`, «unit 5 activated, as the
+  partner's»): los spawners **sí** estaban cargados.
+- En toda la partida, de los 237 enemigos del anfitrión, **dentro de un nivel con los dos jugando falta uno solo**
+  (`72AE45098D0FD7DA`, unidad 7, compañero 1477 s). Los otros 71 sin títere son del nivel siguiente, cuando la copia de
+  Agustín estaba en «level complete» y se cerró (03:00:41 volvió a entrar). Segunda sesión de la PC: **0 faltantes**.
+  Demora del títere: mediana 0,6 s.
+- **Lo que sí pasó en esos 92 s:** el anfitrión cruzó el avance y **su copia esperó** al compañero (diseño del mod:
+  `sub_001B73B0` + `WaitingForPlayers`, «the advance to unit 5 waits for the partner»); la de Agustín nunca registró a
+  su jugador cruzando ese avance (si lo hubiera cruzado, avanzaba sola: ya sabía que Fran había pasado), y salió recién
+  con el rescate. Las granadas de Agustín de esos segundos llegaron a Fran (`proj! hand grenade of the partner`): la red
+  anduvo. Después del rescate lo pidió **11 veces en 5 s**, siempre puesto al lado de Fran.
+
+**Consecuencia para el arreglo (decisión técnica):** «cargar/activar la unidad del anfitrión en la copia que se une»
+**ya lo hace el mod**, y avanzarla sin mover al jugador lo dejaría en una unidad descargada. Un parche 04 así no
+cambiaría nada de lo medido. Lo que el registro deja vivo es **otra** cosa (*hipótesis*, H3 ampliada): algo de la
+copia de Agustín le impide cruzar el avance (una puerta o un bloqueo que en la de Fran abrió un disparador que el mod
+no prueba con el compañero: entrada/salida, tipo 12 o de escena), o el fantasma de Fran es de otra noche. Lo decide
+la próxima partida con el 03 (ya instalado en las dos): si se repite, el registro de Agustín dice qué enemigos no pudo
+hacer y si los estados se cortaron, y hace falta saber **dónde** estaba trabado (una captura alcanza).
+
 **Lo que decide entre H1-H3:** el registro de la PC de esa noche y el ensayo de `sesiones/PREDICCIONES-136.md`, con el
 parche **03** (`parches-coop/03-diagnostico-titeres.patch`: la copia que se une anota cada enemigo del anfitrión que no
 puede hacer nacer, y cuándo los estados del anfitrión dejan de mover a los títeres). El 03 sólo agrega dos líneas de

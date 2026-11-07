@@ -16,6 +16,20 @@ les paso a (121)-(123) hasta (124)).
 
 ---
 
+## 2026-11-06 — (137) El fantasma con los dos registros cruzados: H1 no aparece, sin parche 04
+**Máquina:** notebook, con Fran en el chat (jugando) · **Modelo:** Opus, esfuerzo medio, sin fan-out
+**Concepto / nodo:** PLAT-PreA (spike); coop por red, L1-06/L1-07 de `docs/20`; ningún nodo cambia de K.
+**Objetivo:** el arreglo rápido del fantasma (parche 04: la copia que se une carga la unidad del anfitrión).
+**Resultado:** el registro del anfitrión de la misma noche estaba en `C:\Games\BLACK\coop-v2\logs`. Cruzado enemigo
+por enemigo con el de Agustín (`herramientas/cruzar_registros.py`, sabotaje del desfase en rojo): 1 de 237 sin títere
+dentro de un nivel; en el cruce de los 92 s los títeres nacieron en el mismo segundo. El mod ya activa la unidad del
+anfitrión (`FlowMessages`); los 92 s fueron la espera del anfitrión en el avance porque la copia de Agustín no lo vio
+cruzar. Parche 04 **no escrito** (no cambiaría nada medido). `docs/24` (137), `sesiones/PREDICCIONES-137.md`.
+**No funcionó:** la premisa del pedido (H1, *probable* en (136b)) leída en un solo registro; con los dos, se cae.
+**Sigue:** jugar con el 03 (instalado) y leer los dos registros con `cruzar_registros.py`; captura si Agustín se traba.
+
+---
+
 ## 2026-11-06 — (136) F-RED-3: el compañero como fantasma; el parche 02 medido en red
 **Máquina:** notebook, con Fran en el chat · **Modelo:** Opus, esfuerzo bajo-medio, sin fan-out
 **Concepto / nodo:** PLAT-PreA (spike); coop por red, L1-06/L1-07/L1-18 de `docs/20`; ningún nodo cambia de K.
