@@ -11,7 +11,7 @@ New-Item -ItemType Directory -Force $Volcados | Out-Null  # en la copia suelta d
 # El release del coop que se instalo y probo en (133). Las dos maquinas tienen que tener EL MISMO (lo exige el coop).
 $Script:CoopUrl    = 'https://github.com/MuriloDagustin/black-seamless-coop/releases/download/v2026.10.18.2/BLACK-Seamless-Coop-8226900.zip'
 $Script:CoopZipSha = '7FABD5C6B107AC5CC368F33EF318BD26CFF3148FD1587E167DD91C629DD99D21'
-$Script:ExeSha     = '62CC5819D71058CA34FC7F1DF164BC7BCDAFC9FB7299CD90CBE50EC5B93F73C7'
+$Script:ExeSha     = 'E63DEEDB4274BCCB03489F7F3929CEAF4A0A7FA55F6FC9383227C2A4028F6D08'  # (136b) v2026.11.01 (V3) + parches 01-03, compilado aca; el release de (133) era 62CC5819...
 $Script:IsoZip     = 'C:\Games\BLACK\xbox\iso-redump\Black (USA).zip'
 
 # Instala la plataforma si falta (la otra maquina): el zip del coop (local o bajado, con su sha256) y la ISO USA
