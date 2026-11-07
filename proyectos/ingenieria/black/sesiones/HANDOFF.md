@@ -6,6 +6,34 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(137b), 2026-11-07, NOTEBOOK, con Fran y Agustín jugando.** Terminaron la campaña cargando misiones por el canal
+> de control (`docs/23` «Cargar cualquier misión»: tabla de números internos, el perfil y su firma, la red por
+> ZeroTier). Perfil «fran» (`Profile.respaldo-135c`, sha `22A73979…`) puesto en las dos máquinas; el editado a mano lo
+> rechaza el juego. **Pedido nuevo de Fran:** subir la dificultad de toda la campaña pensada para dos (cada arma enemiga
+> hace daño distinto) y un método de reanimación. Retome:
+>
+> ```
+> BLACK (138): dificultad para dos y reanimacion. NOTEBOOK, C:\Users\frans\Desktop\claude-acceso.
+> 0. El libro primero: si ~/.claude/CLAUDE.md no empieza con "# Perfil global", bash .claude/nube/traer-perfil.sh.
+> 1. Primera llamada, sola: .\cascada.ps1 black -Necesidad diseno,ingenieria-inversa ; leer lo que pida.
+>    Despues: sesiones/RETOME-DIFICULTAD.md (el planteo de (136)), docs/20-requisitos.md §2 (la v1 dice "No entra:
+>    dificultad o balance para dos; reanimacion") y §10 (L0-07, L1-29), docs/23-jugar-coop.md ("La dificultad" y
+>    "Cargar cualquier mision"). NO leer la bitacora entera.
+> 2. Fase: abrir una fase nueva en el PDP (es un cambio de alcance: dificultad y reanimacion salen de "No entra").
+>    La cierra: requisitos L1 nuevos acordados por Fran y un primer ajuste medido jugando (dano recibido por arma).
+> 3. Opus, esfuerzo alto, sin fan-out: diseno sobre el mod y el juego.
+> 4. Maquina: notebook y PC con coop 01+02+03 (BLACK.exe E63DEEDB, Black.dll 982DA5FB); PC por ZeroTier
+>    10.147.20.3 (ACCESO-PC.ps1 -IP 10.147.20.3; el router no le da IP desde el 06/11); perfil "fran" en las dos.
+>    Fuente: C:\Games\BLACK\src\black-seamless-coop (v2026.11.01 + 01-03 sin commitear).
+> 5. Ya resuelto: el fantasma no es H1 (docs/24 (137)); cargar misiones por el canal de control (docs/23).
+>    Pista sin medir: el mod ya trae "caido" y "revive" (coop::life, comandos down/revive/watch en coop_control.cpp;
+>    "down: the team plays on"): la reanimacion puede ser activar o extender eso, no construirla de cero.
+> 6. Primer paso: leer coop_life (grep "namespace life" en src/game) y la tabla de armas enemigas del juego
+>    (en PS2: kb/ "Power" gobierna el dano recibido, fase 4 del PDP; buscar el equivalente en el port Xbox).
+> 7. Medir: con el ajuste, el dano que recibe un jugador por disparo de cada arma enemiga cambia segun lo pedido,
+>    con el control sin el ajuste; y la reanimacion levanta al caido sin perder la mision.
+> ```
+>
 > **(137), 2026-11-06, NOTEBOOK — el fantasma no es H1 (en la noche del 31/10).** Pedido: el parche 04 (la copia que
 > se une carga la unidad del anfitrión). **No se escribió:** cruzados los dos registros de esa noche
 > (`herramientas/cruzar_registros.py`, `docs/24` párrafo (137)), los títeres de la unidad nueva nacieron en el mismo

@@ -136,4 +136,35 @@ cada máquina. Arreglarlo es tocar el C++ del mod (fase siguiente a PLAT-PreA); 
 - **El juego se cierra:** el lanzador guarda `logs\` y los CrashDumps nuevos en `volcados\plataforma\<fecha>-...\`;
   la sesión los lee.
 - **Un mando no responde:** que esté prendido antes de abrir el lanzador (`python herramientas\puente_mandos.py
-  --listar` dice cuántos ve).
+  --listar` dice cuántos ve). Si el juego se abrió a mano con `--coop-control 45501`, el puente tiene que estar corriendo
+  (`python herramientas\puente_mandos.py`): sin él el juego no lee el mando (medido el 2026-11-07).
+
+## Cargar cualquier misión sin progreso guardado (137, 2026-11-07)
+
+El canal de control del mod (UDP `127.0.0.1:45501`, prendido con `--coop-control 45501`) acepta `mission <n>
+<dificultad 0..3>`: la anfitriona carga esa misión y la copia que se une la sigue sola. Se manda desde la anfitriona:
+
+```powershell
+$u=New-Object Net.Sockets.UdpClient; $ep=New-Object Net.IPEndPoint([Net.IPAddress]::Loopback,45501)
+$b=[Text.Encoding]::ASCII.GetBytes('mission 7 2'); [void]$u.Send($b,$b.Length,$ep)
+```
+
+El número interno **no** es el orden de la campaña (el juego saltea el 2). Medido jugando:
+
+| Campaña | Misión | Número interno |
+|---|---|---|
+| 3 | Ciudad de Naszran | **5** (medido) |
+| 7 | Puente de Graznei | **7** (medido) |
+| 8 | Gulag de Spetriniv | **8** (cargado y terminado; Fran no dijo otro nombre) |
+| 4 | Granja / Fundición de Naszran | 3 (*probable*: cargado, sin confirmar el nombre) |
+| 6 | Muelle de Vratska | 4 (*probable*: la noche del 31/10 jugaron el 4) |
+| 1, 2, 5 | Veblensk, Treneska, Asilo de Tivliz | 0, 1, 6 en algún orden (*sin medir*) |
+
+**El progreso guardado:** el perfil vive en `C:\Games\BLACK\coop\hdd\E\UDATA\45410083\1AAF1A0557B7\Profile` (6144 B;
+las 8 misiones son registros de 0x20 B en 0x320-0x400, `+4` = 2 completa, FFFFFFFF sin jugar). Lleva una **firma** en
+0x17EC-0x17FF: un perfil editado a mano el juego lo rechaza y arranca de cero (medido el 2026-11-07). El 31/10 a las
+3:23 el juego pisó el perfil «fran» con uno por defecto («KELLAR J.»); el «fran» quedó en `Profile.respaldo-135c` y
+hoy está puesto en las dos máquinas. La PC no tenía ningún perfil antes del 2026-11-07.
+
+**La red de la casa:** desde el reinicio del 2026-11-06 el router no le da dirección a la PC (`169.254…` por DHCP,
+enlace a 1 Gbps). Se juega por ZeroTier: la notebook `10.147.20.2`, la PC `10.147.20.3` (1-3 ms, por Wi-Fi también).
