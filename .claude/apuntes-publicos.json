@@ -5,118 +5,118 @@
   "carpeta-drive": "https://drive.google.com/drive/folders/1Uz_4Lu4i1LX7xbeS-dDVEF-TXi6EA1mL",
   "apuntes": [
     {
-      "materia": "Fisica Espacial",
+      "materia": "Fisica Espacial/1 - Apunte",
       "local": "proyectos/documentos/fisica-espacial/apunte/apunte.pdf",
       "nombre-en-drive": "Apunte de Fisica Espacial.pdf",
       "estado": "2026-11-10 -- 234 pag.: m22 suma 'El CMG por dentro' (velocidades angulares de satelite, cardan y rotor; la cupla por el transporte y proyectada; saturacion y singularidades; Skylab y el CMG de Lappas; el giroscopo como sensor). 2026-11-05 -- 22 modulos, 230 pag.: suma el modulo 'actitud' (m22: brazos telescopicos, yo-yo, rueda de reaccion, saturacion) y lo que solo estaba en la guia del parcialito 5 (m20 y m21). 2026-10-28 -- 21 modulos, 218 pag., con todo lo que dio la catedra hasta el material del 27/10 y el cap. 18 del Beer completo (la hormiga en m18; el Ej. 3 sin cupla, las ecs. 18.39 y el torque de salida del CMG en m20; el Beer 18.127, el PR 18.6 con la ley de los senos y el trompo en m21); I axial e I' transversal como el Beer y Anibal (estaban al reves hasta el 27/10); L es el momento angular (C1, 13/10); en mantenimiento (fase 17)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/catedras/fisica-espacial/parcial-1-2026-resuelto.pdf",
       "nombre-en-drive": "1er Parcial 2026 - resuelto.pdf",
       "regenerable": "desde proyectos/documentos: typst compile --creation-timestamp=1767225600 --root . catedras/fisica-espacial/parcial-1-2026-resuelto.typ catedras/fisica-espacial/parcial-1-2026-resuelto.pdf (necesita el repo privado catedras)",
       "estado": "2026-10-13 -- el 1er parcial que tomo Anibal, con el enunciado textual y resuelto (5 pag.). Publico por decision de Fran del 13/10; el FUENTE vive en el repo privado catedras (lleva el examen de la catedra), asi que no va a claude-acceso"
     },
     {
-      "materia": "Fisica Espacial",
+      "materia": "Fisica Espacial/2 - Hojas de formulas",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas.pdf",
       "nombre-en-drive": "Hoja de formulas.pdf",
       "estado": "2026-10-28 -- la definitiva de toda la materia: 2 carillas A4, solo formulas y titulos de tema; la 1.a es la del parcial y la 2.a trae marcos, SOI, Lagrange, tres cuerpos y rigido 3D, con I axial e I' transversal como el Beer desde el 28/10 (fuente: practica/hoja-formulas.typ; la de 3 carillas con hipotesis: commit 72727fa)"
     },
     {
-      "materia": "Fisica Espacial",
+      "materia": "Fisica Espacial/2 - Hojas de formulas",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas-parcial.pdf",
       "nombre-en-drive": "Hoja de formulas - parcial.pdf",
       "estado": "2026-10-01 -- 1 carilla A4 para el parcial: solo formulas y titulos de tema, sin tres cuerpos, Lagrange ni rigido 3D; con elementos orbitales (clase de Valenti y Bate) y producto vectorial (fuente: practica/hoja-formulas.typ --input version=parcial)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/1 - Parcialito 3 (28-09, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/1 - Parcialito 3, momento angular (28-09, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-momento-angular.pdf",
       "nombre-en-drive": "Parcialito - Momento angular (con resolucion).pdf",
       "estado": "2026-09-27 -- 3 ejercicios sobre la seccion de impulso angular de la guia; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/3 - Parcialito 4 (14-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/3 - Parcialito 4, momento angular y giroscopos (14-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-4-momento-angular.pdf",
       "nombre-en-drive": "Parcialito 4 - Momento angular y giroscopos (con resolucion).pdf",
       "estado": "2026-10-13 -- la lista de temas de impulso angular renglon por renglon con donde esta en el apunte; parte A conceptual (rueda, I desde la energia, Steiner, torque, banqueta, giroscopo y analogia con la orbita, el ventilador de Anibal, precesion de los equinoccios) y parte B numerica (rueda que se frena, rueda colgada, CMG de un microsatelite); numeros validados por practica/validar.py. Carpeta renombrada el 14/10 con la fecha real (Fran: el parcialito 4 fue ese dia)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/3 - Parcialito 4 (14-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/3 - Parcialito 4, momento angular y giroscopos (14-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-momento-angular.pdf",
       "nombre-en-drive": "Resumen - Momento angular.pdf",
       "estado": "2026-10-14 -- 5 pag. para estudiar el parcialito 4: la lista de temas de impulso angular renglon por renglon (idea, formula y trampa), la analogia giroscopo-orbita, como pregunta Anibal y las formulas juntas. Publico por decision de Fran del 14/10 (fuente: practica/resumen-momento-angular.typ)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/5 - Parcialito de cuerpo rigido (29-10)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/4 - Parcialito 5, cuerpo rigido (29-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-cuerpo-rigido.pdf",
       "nombre-en-drive": "Guia para el parcialito - Cuerpo rigido.pdf",
       "estado": "2026-10-29 (v5, 16 pag.) -- ningun simbolo en el aire: cada letra presentada en palabras donde aparece primero (121, medidos por practica/verificar-simbolos.py), con la caja de letras antes de la primera formula y v_B = v_A + w x r_B/A deducida (lo marco Fran). 2026-10-29 (v4, 15 pag.) -- las 4 hojas manuscritas del cap. 18 y la figura 'Precesiones' de Anibal, renglon por renglon; el cap. 18 seccion por seccion (18.1-18.11, ec. y pag. medidas); H_O, impulso y energia en 3D, punto y eje fijo; cada tema formal, simple y con las manos; figuras de figuras-cr3d.typ (rotulos medidos por verificar-figuras.py). 2026-10-29 (v3, unificada) -- suma lo de la guia suelta del 26/10 (Docs en '3.5 - Parcialito 5', fuera del repo): la primera cosa que dijo Anibal ('18.6 y precesion estable'), la extension de d'Alembert y el disco torcido (§18.7-18.8) y la precesion estable con el eje inclinado (cuadratica, dos soluciones). 2026-10-28 (v2) -- 8 pag. para el parcialito del 29/10, del cap. 18 del Beer (lo dijo Anibal, ANI-R13): siete ideas dichas simple y demostradas con vectores, la lista de CR renglon por renglon, la receta del PR 18.6 (ley de los senos), torque de salida y amplificacion, el trompo, como pregunta y 13 preguntas con respuesta; 18 numeros medidos por practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/resumen-cuerpo-rigido.typ)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/5 - Parcialito de cuerpo rigido (29-10)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/4 - Parcialito 5, cuerpo rigido (29-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-5-cuerpo-rigido.pdf",
       "nombre-en-drive": "Modelo de parcialito 5 - Cuerpo rigido (con resolucion).pdf",
       "estado": "2026-10-29 (tarde, 10 pag.) -- figuras en los ejercicios 1, 6 y 10 y en sus resoluciones; ejercicio 12 nuevo sobre la figura 'Precesiones' de Anibal (I_0 = I', beta contra gamma). 2026-10-29 (unificado, 7 pag.) -- parte C nueva con lo del modelo suelto del 26/10 (Docs 'conceptual' y 'mixto' en '3.5 - Parcialito 5', fuera del repo): verdadero o falso, Euler con un thruster, el disco torcido en sus cojinetes y la precesion estable con numeros (theta 90 y 60); 47 numeros en validar.py. 2026-10-28 -- 6 pag.: parte A conceptual (angulos de Euler, ecuaciones de Euler, precesion estable, conos, torque de salida y girocompas) y parte B numerica (meteorito sobre un satelite achatado por la ley de los senos y por componentes, con discuta y opine; CMG y amplificacion); 13 numeros medidos por practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/parcialito-5-cuerpo-rigido.typ)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/6 - Parcialito de CMG (12-11)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/5 - Parcialito de CMG (12-11)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-cmg.pdf",
       "nombre-en-drive": "Guia para el parcialito - CMG.pdf",
-      "estado": "2026-11-10 -- 7 pag. para el parcialito y la hora de CMG del 12/11 (ANI-R15): lo que pide Anibal contra como lo contamos, las tres velocidades angulares y la proyeccion de H y de la cupla con numeros, amplificacion, saturacion y singularidades, el Skylab y el CMG de Lappas, el giroscopo como sensor, 12 preguntas con respuesta y un guion para la hora de clase; 28 numeros en practica/validar.py. Publico por decision de Fran del 10/11 (fuente: practica/resumen-cmg.typ)"
+      "estado": "2026-11-10 (v2, 8 pag.) -- suma el enunciado del parcialito 5 (29/10) contestado en palabras, sin figuras, como lo pidio Anibal (ANI-R16), y las mismas seis preguntas pasadas a un CMG. 2026-11-10 -- 7 pag. para el parcialito y la hora de CMG del 12/11 (ANI-R15): lo que pide Anibal contra como lo contamos, las tres velocidades angulares y la proyeccion de H y de la cupla con numeros, amplificacion, saturacion y singularidades, el Skylab y el CMG de Lappas, el giroscopo como sensor, 12 preguntas con respuesta y un guion para la hora de clase; 28 numeros en practica/validar.py. Publico por decision de Fran del 10/11 (fuente: practica/resumen-cmg.typ)"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/4 - 2do Parcial (19-11) y recuperatorio (26-11)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/6 - 2do Parcial y recuperatorio (26-11)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-integrador.pdf",
       "nombre-en-drive": "Modelo de parcial integrador (con resolucion).pdf",
       "estado": "2026-09-29 -- 4 ejercicios integradores sobre el apunte, ahora con figuras, notacion por tema y camino alternativo en cada resolucion; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-1.pdf",
       "nombre-en-drive": "Modelo de parcial 1 (con resolucion).pdf",
       "estado": "2026-09-29 -- 7 ejercicios para la 1.a evaluacion: separacion de etapas, cohete con mas peso que empuje, energia, orbita desde un estado, Hohmann + Tsiolkovsky, rueda de reaccion, particula libre; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-2.pdf",
       "nombre-en-drive": "Modelo de parcial 2 (con resolucion).pdf",
       "estado": "2026-09-29 -- 7 ejercicios: acople oblicuo, cohete de dos etapas integrado (a, v, y por partes, desacople), Luna y escape, orbita desde apsides, escape perigeo/apogeo, banqueta y rueda, particulas antiparalelas; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-3.pdf",
       "nombre-en-drive": "Modelo de parcial 3 (con resolucion).pdf",
       "estado": "2026-09-29 -- 7 ejercicios: explosion en tres, descenso con retrocohete (condiciones iniciales no nulas) y masa que entra, Kepler y geoestacionaria, orbita desde dos mediciones, encuentro con estacion, giroscopo, segunda ley de Kepler; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-4.pdf",
       "nombre-en-drive": "Modelo de parcial 4 - conceptual (con resolucion).pdf",
       "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: astronauta y llave, cohete mas pesado que su empuje, pseudo-ingravidez, la elipse dibujada, Newton a Kepler, la rueda; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial/Modelos de Parcial/2 - 1er Parcial (01-10, tomado)",
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-5.pdf",
       "nombre-en-drive": "Modelo de parcial 5 - conceptual (con resolucion).pdf",
       "estado": "2026-09-30 -- conceptual, al estilo de los parcialitos: satelite que sale de la bodega, cohete en el vacio, subir o acelerar, areas iguales, alcanzar al de adelante, antenas que se despliegan; numeros validados por practica/validar.py"
     },
     {
-      "materia": "Fisica Espacial",
+      "materia": "Fisica Espacial/3 - Guia de problemas",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/resueltos-cr-1-a-4.pdf",
       "nombre-en-drive": "Cuerpo rigido - Problemas 1 a 4 resueltos.pdf",
       "regenerable": "proyectos/documentos/fisica-espacial/practica/compilar.ps1 (necesita la guia de la catedra en Downloads: lleva los enunciados recortados)",
       "estado": "2026-10-22 -- 14 pag.: los Problemas 1 a 4 de cuerpo rigido de la guia, con origen, supuestos justificados (lo que pidio Anibal el 19/10), figuras y, en el 3, ejemplos; numeros validados por practica/validar.py. Publico por decision de Fran del 22/10. NO va al repo: copia los recortes de la guia"
     },
     {
-      "materia": "Fisica Espacial/Guia completa con resultados y tips",
+      "materia": "Fisica Espacial/3 - Guia de problemas",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/guia-con-resultados.pdf",
       "nombre-en-drive": "Guia completa - con tips y resultados.pdf",
       "regenerable": "proyectos/documentos/fisica-espacial/practica/compilar.ps1 (necesita la guia de la catedra en Downloads)",
       "estado": "2026-09-27 -- los 56 ejercicios de la guia (4), recortados como los pego Anibal, con tip y resultado. NO va al repo: lleva la guia de la catedra"
     },
     {
-      "materia": "Fisica Espacial/Guia completa sin resultados",
+      "materia": "Fisica Espacial/3 - Guia de problemas",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/guia-sin-resultados.pdf",
       "nombre-en-drive": "Guia completa - sin resultados.pdf",
       "regenerable": "proyectos/documentos/fisica-espacial/practica/compilar.ps1 (necesita la guia de la catedra en Downloads)",

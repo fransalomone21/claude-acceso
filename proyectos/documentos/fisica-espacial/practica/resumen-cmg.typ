@@ -38,16 +38,19 @@
   hora a CMG a cargo exclusivamente de ustedes (con parcialito previo)». O sea,
   dos cosas el mismo día: un parcialito corto y después una hora de clase que
   dan los alumnos —la manera elegante de Aníbal de decir que esto ya lo
-  tendríamos que saber explicar solos—. Esta guía sirve para las dos: las secciones 1 a 7 son el
-  tema entero, la 8 son las preguntas que pueden caer con su respuesta, y la 9
-  es un guion para la hora de clase.
+  tendríamos que saber explicar solos—. Esta guía sirve para las dos: las
+  secciones 1 a 7 son el tema entero, la 8 es el parcialito 5 contestado y
+  pasado a un CMG, la 9 son las preguntas que pueden caer con su respuesta, y
+  la 10 es un guion para la hora de clase.
 
-  *Qué esperar del parcialito.* El último (29/10, cuerpo rígido) pidió
-  *escribir las velocidades angulares del giróscopo y proyectar vectores*. Con
-  un CMG eso es exactamente la sección 2 y la 4 de acá: armar la velocidad
-  angular del rotor sumando giros, y bajar el momento angular y la cupla a
-  los ejes del satélite. Y de los parcialitos anteriores: preguntas cortas encadenadas,
-  el dibujo es la respuesta, poca cuenta, y una predicción al final.
+  *Qué esperar del parcialito.* El último (29/10, cuerpo rígido) tuvo seis
+  preguntas sobre el giróscopo en cardanes del Beer: definir los tres ángulos
+  *«solamente de palabras»*, definir en palabras el sistema fijo al cuerpo,
+  escribir la velocidad angular, nombrar cada giro, decir si la base es
+  ortonormal y pasarla a una que lo sea. Ni un número, y cerraba con *«Sea
+  prolijo»* y *«No entregue figuras»*. Ojo con eso último: en los parcialitos
+  anteriores el dibujo era la respuesta, y en éste estaba prohibido. Con un
+  CMG, esas mismas seis preguntas son la sección 8 de acá.
 
   *El material.* El paper nuevo es el del Skylab (Chubb y Seltzer, _Skylab
   Attitude and Pointing Control System_, NASA TN D-6068, 1971). Los otros dos,
@@ -64,7 +67,8 @@
 #tabla((1fr, 1.25fr),
   [*Lo que pide Aníbal*], [*Cómo va acá*],
   [Concepto antes que deducción; «no se compliquen» (ANI-02)], [cada tema arranca con la idea en palabras; la cuenta viene después, y es corta],
-  [El dibujo es la respuesta (ANI-31)], [cada vector, dibujado: la terna del cardán, $bold(H)$ proyectado, la cupla de salida],
+  [El dibujo es la respuesta (ANI-31)… salvo cuando dice «No entregue figuras» (parcialito 5, ANI-77)], [las figuras están para pensar; la sección 8 practica la respuesta escrita, sin dibujo],
+  [«Valiéndose solamente de palabras» (ANI-76)], [cada ángulo y cada sistema de referencia, definido en palabras, con las piezas por su nombre],
   [La regla de la mano derecha, «muy importante» (ANI-26)], [tres dedos para cada producto vectorial, en una caja ámbar],
   [La analogía giróscopo–órbita (ANI-20)], [es la idea del CMG: la cupla perpendicular al momento angular $bold(H)$ le cambia la dirección y no el módulo],
   [«No siempre $bold(Omega) = bold(omega)$»: la velocidad angular de los ejes no es la del cuerpo (ANI-61)], [la terna va pegada al cardán, que no sigue el spin],
@@ -319,7 +323,98 @@ de unos $84,4$ min, el de un péndulo del largo del radio terrestre.
   de un $bold(H)$ grande cuesta una cupla, y esa cupla la paga el satélite*.
 ]
 
-= 8. Preguntas que pueden caer, con la respuesta corta
+= 8. El parcialito 5, contestado, y el mismo examen con un CMG
+#origen[El enunciado del 29/10 (la fig. 18.15 del Beer: el giróscopo en cardanes), que trajo Fran el 10/11. Las respuestas salen del Beer §18.9, ecs. 18.33 a 18.38, págs. 1187–1188, y de la hoja 2 del resumen manuscrito de Aníbal. Sin figuras, como pidió él: todo en palabras.]
+
+// simbolos: C, C', B, B', A, A', Z, X, Y, O
+Seis preguntas sobre el giróscopo del Beer —rotor sobre el eje $C C'$, un
+anillo interior que gira sobre $B B'$, un anillo exterior que gira sobre el
+eje fijo $A A'$, y la terna fija $X$, $Y$, $Z$ (con $Z$ sobre $A A'$) con
+origen en $O$, el centro del rotor—, sin un número y sin dibujo. La cuenta es lo de menos: lo
+que se evalúa es poder *escribir* lo que uno dibujaría. Primero el parcialito
+tal como vino; después, las mismas seis preguntas con un CMG, que es por
+dónde puede venir el del jueves.
+
+// simbolos: phi, theta, psi
+#pregunta(1, [Defina en palabras los tres ángulos que fijan la posición más general del giróscopo.])[
+  $phi$: el ángulo que gira el anillo exterior alrededor del eje fijo $A A'$
+  (el $Z$ de la figura), medido desde una posición de referencia del anillo
+  (por ejemplo, con su plano conteniendo a $X$). $theta$: el ángulo que gira
+  el anillo interior respecto del exterior alrededor de $B B'$; es el ángulo
+  entre el eje del rotor $C C'$ y el eje fijo $Z$. $psi$: el ángulo que gira
+  el rotor respecto del anillo interior alrededor de su propio eje $C C'$,
+  medido desde una marca en el rotor. Tres articulaciones, tres ángulos, uno
+  por articulación.
+]
+
+#pregunta(2, [Defina en palabras un sistema de referencia fijo al cuerpo.])[
+  Origen en $O$, el centro del rotor, que es el punto fijo. $hat(k)$ sobre el
+  eje del rotor, de $C$ hacia $C'$; $hat(j)$ sobre el eje $B B'$ de los
+  cojinetes del anillo interior, hacia $B'$ (es la «línea de nodos»);
+  $hat(i) = hat(j) times hat(k)$, en el plano que forman $Z$ y el eje del
+  rotor. Y la característica que conviene decir: la terna está pegada al
+  *anillo interior*, no al rotor. Gira con $phi$ y con $theta$ pero no con
+  $psi$, así que sus ejes son principales del rotor sin dar vueltas con él
+  («no siempre $bold(Omega) = bold(omega)$»).
+]
+
+// simbolos: K, phidot, thetadot, psidot
+#pregunta(3, [Escriba en forma vectorial la velocidad angular total.])[
+  Con $bold(K)$ el versor del eje fijo $Z$ y $dot(phi)$, $dot(theta)$,
+  $dot(psi)$ las derivadas de los tres ángulos:
+  $bold(omega) = dot(phi) bold(K) + dot(theta) hat(j) + dot(psi) hat(k)$.
+  Cada giro va sobre el eje de *su* articulación.
+]
+
+#pregunta(4, [¿Qué nombre recibe cada velocidad angular?])[
+  $dot(phi)$ es la velocidad de *precesión*, $dot(theta)$ la de *nutación* y
+  $dot(psi)$ la de *giro propio* o *spin* (Beer §18.9; la hoja 2 de Aníbal).
+]
+
+#pregunta(5, [¿Es ortonormal la base del punto 3? ¿Por qué?])[
+  No. Los tres versores son unitarios, y $hat(j)$ es perpendicular a los
+  otros dos, pero $bold(K)$ y $hat(k)$ forman entre sí el ángulo $theta$: son
+  perpendiculares sólo si $theta = 90degree$. Es una base, pero no
+  ortogonal: mezcla un versor fijo al espacio con dos del anillo interior.
+]
+
+#pregunta(6, [Escriba ese vector en una base ortonormal.])[
+  Se proyecta $bold(K)$ sobre la terna del anillo interior: $bold(K) = -sin
+  theta thin hat(i) + cos theta thin hat(k)$ (Beer ec. 18.34; el menos es
+  porque $hat(i)$ queda del lado opuesto a $Z$). Reemplazando,
+  $bold(omega) = -dot(phi) sin theta thin hat(i) + dot(theta) hat(j) +
+  (dot(psi) + dot(phi) cos theta) hat(k)$. Control: con $theta$ quieto y
+  $theta = 90degree$, queda $-dot(phi) hat(i) + dot(psi) hat(k)$, dos giros
+  perpendiculares, como tiene que ser.
+]
+
+*El mismo examen, con un CMG.* Las seis preguntas cambian de piezas y no de
+forma: el anillo exterior es el satélite, el interior es el cardán, y el
+rotor es el rotor.
+
+#pregunta(7, [Defina en palabras los ángulos que fijan el rotor de un CMG de un cardán respecto del satélite, y un sistema fijo al cardán.])[
+  Dos ángulos: $delta$, lo que gira el cardán alrededor de su eje —clavado al
+  satélite— desde una posición de referencia; y el ángulo de spin del rotor
+  alrededor de su propio eje, respecto del cardán. (La orientación del
+  satélite agrega otros tres, los de su actitud.) El sistema: origen en el
+  centro del rotor, $hat(g)$ sobre el eje del cardán, $hat(s)$ sobre el eje
+  del rotor y $hat(t) = hat(g) times hat(s)$; pegado al cardán, que no
+  sigue el spin.
+]
+
+#pregunta(8, [Escriba la velocidad angular del rotor, nombre cada término y diga si la base es ortonormal.])[
+  $bold(omega)_r = bold(omega)_b + dot(delta) hat(g) + Omega_s hat(s)$: la
+  del satélite, la *velocidad de cardán* (Lappas la llama _rate of
+  precession or the gimbal rate_: en un CMG, girar el cardán *es* hacer
+  precesar al rotor) y el *spin*. $hat(g)$ y $hat(s)$ son perpendiculares por
+  construcción, pero $bold(omega)_b$ está escrita en la terna del satélite:
+  la suma mezcla dos bases. Con $hat(g) = hat(k)$ del satélite y $hat(s) =
+  cos delta thin hat(i) + sin delta thin hat(j)$, todo en la terna del
+  satélite: $bold(omega)_r = bold(omega)_b + Omega_s cos delta thin hat(i) +
+  Omega_s sin delta thin hat(j) + dot(delta) hat(k)$.
+]
+
+= 9. Preguntas que pueden caer, con la respuesta corta
 #origen[Con la forma de sus parcialitos: preguntas encadenadas (ANI-30), el dibujo como respuesta (ANI-31), «diga si depende de…» (ANI-59), «discuta» (ANI-33), predicción (ANI-34) y, como el del 29/10, velocidades angulares y proyecciones (ANI-71).]
 
 #pregunta(1, [Escriba la velocidad angular del rotor de un CMG montado en un satélite que gira. ¿Depende del sistema de coordenadas?])[
@@ -399,7 +494,7 @@ de unos $84,4$ min, el de un péndulo del largo del radio terrestre.
   gyro_); si la pone un amortiguador, al ángulo girado (integrador).
 ]
 
-= 9. Para la hora de clase: un guion de cuatro bloques
+= 10. Para la hora de clase: un guion de cuatro bloques
 #origen[La hora es «a cargo exclusivamente» de los alumnos (ANI-R15). Aníbal valora la demostración y el video explicados (ANI-60) y la intuición en lo antiintuitivo (ANI-03).]
 
 + *La silla y la rueda* (5 min): la demostración de la caja de la sección 1,

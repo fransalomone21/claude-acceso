@@ -29,6 +29,13 @@ módulo se escriben `#M("clave")` y una clave mala **rompe la compilación**
 | generar el PDF | `.\compilar.bat`. El flujo y el chequeo visual: `/pdf-con-codigo` |
 | **la guía completa (con/sin resultados) o los modelos de parcial** | [`practica/`](practica/): `ejercicios.toml` es la fuente de los 56 ejercicios (recorte, tip, resultado); los modelos de parcial son `modelo-parcial-{1,2,3,integrador}.typ` y el parcialito, con sus figuras en `figuras-parcial.typ` y cada número en `validar.py`; los Problemas 1 a 4 de CR resueltos son `resueltos-cr-1-a-4.typ`, con sus figuras de datos en `figuras-cr.py` (SVG en `figuras-cr/`); `.\practica\compilar.ps1` recorta la guía de Downloads, valida y genera los 7 PDF; `-Publicar` los sube a `Fisica Espacial/` en Drive. Los recortes y las guías **no van al repo** (llevan la guía de la cátedra) |
 
+**El orden de la carpeta pública en Drive** (`Fisica Espacial/`, reordenada el 2026-11-10 a pedido de Fran): `1 -
+Apunte`, `2 - Hojas de formulas`, `3 - Guia de problemas` (las dos guías completas y los resueltos) y `4 - Parciales y
+parcialitos`, con una subcarpeta por evaluación **en orden cronológico**: `N - <Parcialito n o Parcial>, <tema>
+(<dd-mm>[, tomado])`. Todo PDF nuevo entra a `.claude/apuntes-publicos.json` con esa ruta; una evaluación nueva es la
+subcarpeta siguiente, y cuando se toma se le agrega «, tomado». Mover en Drive se hace con `rclone moveto` (del lado
+del servidor: conserva el ID y los links que ya tienen los compañeros), nunca bajando y subiendo.
+
 ## Las reglas propias
 
 **1. Ninguna sección se da por cerrada sin haber mirado su página compilada.**
