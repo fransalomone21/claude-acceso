@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+#import "../biblioteca/figuras-cmg.typ": fig-cmg-3d, fig-cmg-analogia, fig-cmg-silla, fig-cmg-piramide
 // voz: 2026-11-05 -- escrito con la voz de la regla propia 8 (CLAUDE.md), fase 18
 // cada letra, presentada en palabras donde aparece primero: lo mide practica/verificar-simbolos.py (OBLIGADOS)
 
@@ -629,6 +630,23 @@ $ bold(tau)_"sat" = - h dot(delta) hat(t) - bold(omega)_b times h hat(s) $ <act-
   velocidad. Ésa es toda la diferencia de la tabla, en una línea.
 ]
 
+#fig([Un CMG por dentro, con todos sus vectores. Sobre el satélite (la
+placa), un motor gira el cardán —el anillo verde— alrededor de $hat(g)$ con
+$dot(delta)$. Adentro, el rotor gira con $Omega_s$ sobre $hat(s)$ y lleva
+$bold(H)_r = h hat(s)$, a un ángulo $delta$ del eje $hat(i)$ del satélite.
+Al girar el cardán, la punta de $bold(H)_r$ se mueve sobre $hat(t)$ (azul), y
+el satélite recibe la cupla al revés, $-h dot(delta) hat(t)$ (rojo). Cuando
+veas uno, buscá esas tres flechas: el eje del cardán, el del rotor y la cupla,
+perpendicular a los dos.], fig-cmg-3d)
+<fig-cmg-3d>
+
+#fig([La analogía de Aníbal, dibujada. La fuerza central empuja de costado a la
+velocidad $bold(v)$ del satélite en órbita, y el cambio $Delta bold(v)$ la gira
+sin agrandarla; la cupla del cardán empuja de costado a $bold(H)_r$, y $Delta
+bold(H)_r$ lo gira sin cambiarle el tamaño $h$. El rotor no se frena por lo
+mismo que el satélite en órbita circular no acelera.], fig-cmg-analogia)
+<fig-cmg-analogia>
+
 === Proyectar: la misma cupla vista desde el satélite
 
 Ahora con el satélite quieto ($bold(omega)_b = bold(0)$), para ver la cupla de
@@ -687,6 +705,13 @@ siguen sobre una misma recta: singular sin estar saturado, la posición que el
 Skylab evitaba a propósito (Chubb y Seltzer 1971, fig. 3).],
 fig-act-cmg-singular)
 <fig-act-cmg-singular>
+
+#fig([Cuatro CMG de un cardán en pirámide, la disposición del paper de Lappas
+(2002, fig. 15). Cada cardán $hat(g)$ (verde) es perpendicular a una cara y
+cada $bold(H)_r$ (rojo) gira en el plano de su cara. Como los cuatro planos
+son distintos, siempre hay una combinación de giros de cardán que da cupla
+para cualquier lado.], fig-cmg-piramide)
+<fig-cmg-piramide>
 
 === Dos satélites de verdad: Skylab y un microsatélite de Surrey
 
@@ -758,6 +783,15 @@ la cupla la pone un resorte, el ángulo que se tuerce el giróscopo dice la
 *velocidad* de giro: es un _rate gyro_, el que el Skylab usaba para medir su
 propia rotación. Si la pone un amortiguador, el ángulo dice cuánto *giró* en
 total: un giróscopo integrador, la pieza del guiado inercial.
+
+#fig([La silla y la rueda, con vectores. La rueda gira con su momento angular
+horizontal (punteado, «antes»); quien está sentado le inclina el eje, y el
+momento angular de la rueda gana un $Delta bold(H)$ hacia arriba. Nadie de
+afuera tocó nada, así que la silla se lleva $-Delta bold(H)$: gira, vista de
+arriba, en sentido horario. Es la niña con la rueda de la cátedra (módulo
+#M("rotacion")) jugada al revés: ella sentía la cupla en las manos, acá la
+cupla hace girar la silla.], fig-cmg-silla)
+<fig-cmg-silla>
 
 #posta[
   El CMG es la silla giratoria con la rueda de bicicleta, pero sin acelerar la

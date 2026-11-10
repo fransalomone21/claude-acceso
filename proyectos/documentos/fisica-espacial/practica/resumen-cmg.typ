@@ -14,6 +14,7 @@
 // =====================================================================
 #import "estilo.typ": *
 #import "../apunte/biblioteca/figuras.typ": fig-act-cmg-giros, fig-act-cmg-proyeccion, fig-act-cmg-singular, fig-act-actuadores
+#import "../apunte/biblioteca/figuras-cmg.typ": fig-cmg-3d, fig-cmg-analogia, fig-cmg-silla, fig-cmg-piramide
 
 #show: documento.with(
   titulo: [Guía para el parcialito — CMG],
@@ -109,6 +110,25 @@ otro. Es la analogía de Aníbal: una fuerza perpendicular a la velocidad le
 cambia la dirección y no el módulo; una cupla perpendicular a $bold(H)$,
 igual.
 
+// simbolos: v, Delta, H_r
+#figure(fig-cmg-analogia, caption: [La analogía, dibujada. A la izquierda, la
+velocidad $bold(v)$ de un satélite en órbita: la fuerza central la empuja de
+costado y el cambio $Delta bold(v)$ sale perpendicular, así que gira sin
+crecer. A la derecha, el momento angular del rotor de un CMG, $bold(H)_r$:
+la cupla del cardán también es perpendicular, y $Delta bold(H)_r$ lo gira
+sin cambiarle el tamaño. El rotor nunca se frena, igual que el satélite
+nunca acelera.])
+
+#figure(fig-cmg-3d, caption: [Un CMG por dentro, con todos sus vectores.
+Sobre el satélite (la placa), un motor gira el cardán —el anillo verde—
+alrededor de $hat(g)$ con $dot(delta)$. Adentro, el rotor gira con $Omega_s$
+sobre su eje $hat(s)$ y lleva el momento angular $bold(H)_r = h hat(s)$, que
+forma el ángulo $delta$ con el eje $hat(i)$ del satélite. Al girar el
+cardán, la punta de $bold(H)_r$ se mueve sobre $hat(t) = hat(g) times
+hat(s)$ (flecha azul), y el satélite recibe la cupla al revés, $-h
+dot(delta) hat(t)$ (flecha roja). Cuando veas uno, buscá esas tres flechas:
+el eje del cardán, el del rotor y la cupla, perpendicular a los dos.])
+
 #figure(fig-act-actuadores, caption: [Propulsor, rueda de reacción y CMG. El
 propulsor cambia el $bold(H)$ total; la rueda lo reparte cambiando su
 velocidad; el CMG lo reparte cambiando la *dirección* de un $bold(H)$ grande.
@@ -124,6 +144,14 @@ Del apunte, módulo 22.])
   describió como algo que *levitaba*, puede dar fe de que esta vez la que se
   mueve es la silla.)
 ]
+
+#figure(fig-cmg-silla, caption: [La silla y la rueda, con vectores. La rueda
+gira con su momento angular horizontal (punteado, «antes»); quien está
+sentado le inclina el eje y el momento angular de la rueda gana un $Delta
+bold(H)$ hacia arriba. Nadie de afuera tocó nada, así que la silla se lleva
+$-Delta bold(H)$: gira, vista de arriba, en sentido horario. Es la niña con
+la rueda de la cátedra, jugada al revés: ella sentía la cupla en las manos;
+acá la cupla hace girar la silla.])
 
 #trampa[
   *Amplificación no es magia.* El CMG da mucha más cupla que la que pone el
@@ -176,7 +204,7 @@ $hat(s)$.
 = 3. El momento angular del rotor, y de dónde sale la cupla
 #origen[Apunte, módulo 22; el teorema del transporte del módulo 18 (la «relación fundamental» del Beer, §15.10); Lappas 2002, ec. 1, pág. 104.]
 
-// simbolos: H_r, I_s
+// simbolos: I_s
 *El momento angular.* El rotor es simétrico alrededor de $hat(s)$, con $I_s$
 su momento de inercia sobre ese eje. Como $Omega_s$ es enorme frente a los
 otros giros, su momento angular $bold(H)_r$ es, con muy buena aproximación,
@@ -272,6 +300,13 @@ cambia. Dos límites:
 
 #figure(fig-act-cmg-singular, caption: [Dos CMG sobre el mismo eje de cardán:
 abiertos, paralelos y antiparalelos. Del apunte, módulo 22.])
+
+#figure(fig-cmg-piramide, caption: [Cuatro CMG de un cardán en pirámide, la
+disposición del paper de Lappas (2002, fig. 15). Cada cardán $hat(g)$ (verde)
+es perpendicular a una cara, y cada $bold(H)_r$ (rojo) gira en el plano de su
+cara. Como los cuatro planos son distintos, siempre queda alguna combinación
+de giros de cardán que da cupla para cualquier lado: por eso cuatro y no
+tres.])
 
 = 7. Dos satélites de verdad, y el giróscopo que mide
 #origen[Chubb y Seltzer 1971 (Skylab, NASA TN D-6068); Lappas, Steyn y Underwood 2002; Wrigley y Hollister 1965. Los tres, de la cátedra.]

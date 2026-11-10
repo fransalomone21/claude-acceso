@@ -26,6 +26,8 @@ try {
     # tachado por una linea (pedido de Fran, 2026-10-29; sabotaje: --sabotaje)
     python verificar-figuras.py galeria-cr3d.typ
     if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo: un rotulo pisado o cruzado (lista arriba)' }
+    python verificar-figuras.py galeria-cmg.typ
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en las figuras del CMG (lista arriba)' }
     # Regla propia 13: ningun simbolo en el aire; cada uno, presentado donde
     # aparece primero (pedido de Fran, 2026-10-29; sabotaje: --sabotaje)
     python verificar-simbolos.py
