@@ -469,3 +469,9 @@ $I$ es el de toda la nave, rueda incluida.]
 
 #ec(<act-rel>)[La rueda respecto de la nave; con la anterior, el momento
 angular total sigue en cero.]
+
+#ec(<act-cmg-omega>)[CMG: la velocidad angular del rotor, sumando los giros
+relativos del satélite, del cardán ($hat(g)$) y del rotor ($hat(s)$).]
+
+#ec(<act-cmg-cupla>)[CMG: la cupla sobre el satélite; la de salida es $-h
+dot(delta) hat(t)$, con $hat(t) = hat(g) times hat(s)$ y $h = I_s Omega_s$.]

@@ -2935,6 +2935,100 @@
   })),
 )
 
+// --- CMG: las tres piezas y sus giros relativos --------------------------------
+// Vista de costado. El cardán gira sobre g = k (vertical) respecto del satélite;
+// el rotor gira sobre s (horizontal) respecto del cardán; t = g x s entra a la
+// hoja. Cada arco con flecha es un giro relativo (Beer §18.9: cada articulación
+// suma su giro al de la pieza que la sostiene).
+#let giro-arco(c, rx, ry, color, ini: 200, fin: 520) = cetz.draw.arc(c, start: ini * 1deg, stop: fin * 1deg,
+  radius: (rx, ry), anchor: "origin", stroke: 0.7pt + color, mark: (end: "stealth", scale: 0.4, fill: color))
+#let fig-act-cmg-giros = esquema(escala: 0.95cm, {
+  // satélite
+  cetz.draw.rect((-3.0, -2.0), (3.0, 2.4), fill: rgb("#EAF2F8"), stroke: trazo-cuerpo + c-trazo)
+  rotulo((-2.85, 2.25), text(size: 7.5pt, fill: luma(60))[satélite: gira con $bold(omega)_b$], ancla: "north-west")
+  // eje del cardán (vertical) y su versor
+  cetz.draw.line((0, -1.7), (0, 1.75), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dash-dotted"))
+  flecha((0, 1.75), (0, 2.25), color: c-trazo, grosor: 0.6pt)
+  rotulo((0.1, 2.15), text(size: 8pt)[$hat(g) = hat(k)$], ancla: "west")
+  // cardán: marco con sus dos pivotes
+  cetz.draw.rect((-1.3, -1.15), (1.3, 1.15), stroke: 1.2pt + c-aux)
+  cetz.draw.rect((-0.15, 1.15), (0.15, 1.45), fill: luma(200), stroke: 0.5pt + c-trazo)
+  cetz.draw.rect((-0.15, -1.45), (0.15, -1.15), fill: luma(200), stroke: 0.5pt + c-trazo)
+  rotulo((1.38, -1.05), text(size: 7.5pt, fill: c-aux)[cardán], ancla: "south-west")
+  giro-arco((0, 1.62), 0.5, 0.13, c-aux)
+  rotulo((0.55, 1.62), text(size: 8pt, fill: c-aux)[$dot(delta)$], ancla: "west")
+  // rotor de canto, eje s horizontal
+  cetz.draw.rect((-0.18, -0.85), (0.18, 0.85), fill: c-dato.lighten(55%), stroke: 0.7pt + c-dato)
+  cetz.draw.line((-1.3, 0), (1.3, 0), stroke: 1.0pt + c-trazo)
+  flecha((1.3, 0), (2.5, 0), color: c-dato, grosor: 0.8pt)
+  rotulo((2.5, 0.1), text(size: 8pt, fill: c-dato)[$hat(s)$], ancla: "south")
+  giro-arco((0.75, 0), 0.13, 0.42, c-dato, ini: 110, fin: 430)
+  rotulo((0.75, 0.48), text(size: 8pt, fill: c-dato)[$Omega_s$], ancla: "south")
+  rotulo((-0.3, 0.55), text(size: 7.5pt, fill: c-dato)[rotor], ancla: "east")
+  // t entra a la hoja
+  cetz.draw.circle((-2.1, 0), radius: 0.17, stroke: 0.6pt + c-trazo)
+  cetz.draw.line((-2.22, -0.12), (-1.98, 0.12), stroke: 0.6pt + c-trazo)
+  cetz.draw.line((-2.22, 0.12), (-1.98, -0.12), stroke: 0.6pt + c-trazo)
+  rotulo((-2.1, -0.25), text(size: 7.5pt)[$hat(t)$, entra\ a la hoja], ancla: "north")
+})
+
+// --- CMG: la cupla de salida, proyectada en los ejes del satélite --------------
+// Vista desde arriba: g = k sale de la hoja. H_r a un ángulo delta de i, con sus
+// proyecciones; la punta se mueve sobre t; el satélite recibe -h deltadot t.
+#let fig-act-cmg-proyeccion = esquema(escala: 1.0cm, {
+  let d = 35
+  let L = 2.8
+  let s = (calc.cos(d * 1deg), calc.sin(d * 1deg))
+  let tt = (-calc.sin(d * 1deg), calc.cos(d * 1deg))
+  let P = (L * s.at(0), L * s.at(1))
+  flecha((0, 0), (3.6, 0), color: c-trazo, etiqueta: $hat(i)$, lado: "north", pos: 100%, grosor: 0.6pt)
+  flecha((0, 0), (0, 3.0), color: c-trazo, etiqueta: $hat(j)$, lado: "east", pos: 100%, grosor: 0.6pt)
+  cetz.draw.circle((0, 0), radius: 0.15, stroke: 0.6pt + c-trazo, fill: white)
+  cetz.draw.circle((0, 0), radius: 0.04, fill: c-trazo, stroke: none)
+  rotulo((-0.2, -0.15), text(size: 7.5pt)[$hat(g) = hat(k)$,\ sale de la hoja], ancla: "north-east")
+  auxiliar(P, (P.at(0), 0))
+  auxiliar(P, (0, P.at(1)))
+  rotulo((P.at(0), -0.08), text(size: 7.5pt)[$h cos delta$], ancla: "north")
+  rotulo((-0.08, P.at(1)), text(size: 7.5pt)[$h sin delta$], ancla: "east")
+  flecha((0, 0), P, color: c-dato, etiqueta: $bold(H)_r = h hat(s)$, lado: "south-east", pos: 60%)
+  angulo((0, 0), 0, d, etiqueta: $delta$, radio: 0.7)
+  flecha(P, (P.at(0) + 1.2 * tt.at(0), P.at(1) + 1.2 * tt.at(1)), color: c-aux,
+    etiqueta: $h dot(delta) hat(t)$, lado: "south-west", pos: 100%)
+  flecha((0.15 * s.at(0), 0.15 * s.at(1)), (-1.3 * tt.at(0), -1.3 * tt.at(1)), color: c-rojo,
+    etiqueta: [sobre el satélite: $-h dot(delta) hat(t)$], lado: "north-west", pos: 100%)
+})
+
+// --- CMG: dos rotores sobre el mismo cardán: abiertos, paralelos, antiparalelos -
+// Vista desde arriba. Rojo: los h s_i; azul: los t_i, en la punta de cada uno.
+#let par-cmg(a1, a2) = {
+  let un(a, desp) = {
+    let s = (calc.cos(a * 1deg), calc.sin(a * 1deg))
+    let t = (-calc.sin(a * 1deg), calc.cos(a * 1deg))
+    let o = (desp * t.at(0), desp * t.at(1))
+    let P = (o.at(0) + 1.3 * s.at(0), o.at(1) + 1.3 * s.at(1))
+    flecha(o, P, color: c-dato)
+    flecha(P, (P.at(0) + 0.6 * t.at(0), P.at(1) + 0.6 * t.at(1)), color: c-aux, grosor: 0.7pt)
+  }
+  let sep = if calc.abs(a1 - a2) < 1 { 0.12 } else { 0 }
+  un(a1, sep)
+  un(a2, -sep)
+  cetz.draw.circle((0, 0), radius: 0.06, fill: c-trazo, stroke: none)
+}
+#let fig-act-cmg-singular = paneles(
+  ("abiertos", esquema(escala: 0.8cm, {
+    par-cmg(30, 150)
+    rotulo((0, -0.7), text(size: 7.5pt)[dos direcciones de $hat(t)$:\ cualquier cupla del plano], ancla: "north")
+  })),
+  ("paralelos", esquema(escala: 0.8cm, {
+    par-cmg(60, 60)
+    rotulo((0, -0.7), text(size: 7.5pt)[un solo $hat(t)$: singular,\ y $bold(H)_c$ al máximo], ancla: "north")
+  })),
+  ("antiparalelos", esquema(escala: 0.8cm, {
+    par-cmg(0, 180)
+    rotulo((0, -0.7), text(size: 7.5pt)[$bold(H)_c = bold(0)$ y los $hat(t)$\ sobre una recta: singular], ancla: "north")
+  })),
+)
+
 #let catalogo = (
   ("fig-elementos-orbitales", fig-elementos-orbitales),
   ("fig-proyeccion", fig-proyeccion),
@@ -2993,4 +3087,7 @@
   ("fig-act-reparto", fig-act-reparto),
   ("fig-act-saturacion", fig-act-saturacion),
   ("fig-act-actuadores", fig-act-actuadores),
+  ("fig-act-cmg-giros", fig-act-cmg-giros),
+  ("fig-act-cmg-proyeccion", fig-act-cmg-proyeccion),
+  ("fig-act-cmg-singular", fig-act-cmg-singular),
 )

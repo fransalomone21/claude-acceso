@@ -16,6 +16,9 @@
 #set page(paper: "a4", margin: 2cm, numbering: "1")
 #set text(lang: "es", size: 10pt, font: ("Libertinus Serif", "Georgia"))
 #set par(justify: false)
+// la misma coma decimal que el apunte (plantilla.typ): sin esto las figuras con
+// "0,75" salen "0, 75" acá y no en el apunte, y el lint lo frena (T1)
+#show math.equation: eq => { show ",": it => math.class("normal", it); eq }
 
 #align(center)[
   #text(size: 17pt, weight: "bold", fill: c-azul)[Galería de figuras]

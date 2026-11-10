@@ -39,7 +39,11 @@ que escrito, cada paso tiene su figura.
   (págs. 666–672, con el ejemplo 12.9) y §12.9 para las ruedas, los CMG y la
   saturación (el ejemplo 12.10 de la pág. 675–676 es el Adicional 2 con otras
   letras; la saturación, en la pág. 682). Es el libro que conviene abrir para
-  todo lo de este módulo que tenga un satélite adentro.
+  todo lo de este módulo que tenga un satélite adentro. Para el CMG por
+  dentro, los tres papers que pasó la cátedra: Chubb y Seltzer (NASA TN
+  D-6068, 1971) para el Skylab, Lappas, Steyn y Underwood (_Acta
+  Astronautica_, 2002) para el dimensionamiento, y Wrigley y Hollister
+  (_Science_, 1965) para el giróscopo que mide.
 
   Para la física de base alcanza con lo que ya está: la conservación del
   momento angular del Sears (§10.6, la del módulo #M("rotacion")) y la
@@ -496,6 +500,275 @@ $delta$.], fig-act-actuadores)
   momento angular total no cambia, y lo único que se puede hacer es repartirlo.
   Si es de afuera —un propulsor, la presión solar, la gravedad—, el total
   cambia. Todo este módulo es esa pregunta, contestada cuatro veces.
+]
+
+== El CMG por dentro: tres velocidades angulares, un vector que se proyecta y dos satélites de verdad
+
+La tabla de arriba despacha al CMG en una columna, y el módulo
+#M("euler-giroscopo") lo contó con un volante en un _gimbal_ y dos números:
+$500$ N·m de salida contra $2,5$ de entrada. Alcanzaba para el parcialito del
+capítulo 18. No alcanza para una hora de clase entera sobre el tema, que es lo
+que la cátedra dejó para el jueves 12/11 «a cargo exclusivamente» de los
+alumnos: la manera elegante de Aníbal de decir que esto ya lo tendríamos que
+saber explicar solos. Esta sección es el CMG desarmado pieza por pieza, con
+las tres cosas que el parcialito del 29/10 pidió para el giróscopo —escribir
+las velocidades angulares, proyectar vectores, dibujar— y los dos papers de
+la cátedra que lo muestran funcionando: la estación Skylab y un microsatélite
+de Surrey.
+
+*La idea, antes de la primera cuenta.* Un CMG (_control moment gyroscope_) es
+un rotor que gira *siempre igual*, rapidísimo, montado en un cardán que un
+motor hace girar. El rotor no se frena ni se acelera nunca: lo único que
+cambia es *hacia dónde* apunta su momento angular. Y como el motor del cardán
+es interno, el momento angular de la nave más el del rotor no se mueve; lo que
+el rotor tuerce para un lado, la nave lo tuerce para el otro. Es la analogía
+que pidió Aníbal leída para la ingeniería: una fuerza perpendicular a la
+velocidad le cambia la dirección y no el módulo, y una cupla perpendicular a
+$bold(H)$, lo mismo. El CMG vive de esa segunda mitad.
+
+=== Las tres velocidades angulares
+
+Hay tres cuerpos, y cada uno gira distinto. Conviene armar las velocidades
+como el Beer arma las del giróscopo en cardanes (§18.9, la sección de los
+ángulos de Euler del módulo #M("euler-giroscopo")): *cada articulación suma
+su giro relativo al de la pieza que la sostiene*.
+
+// simbolos: ghat, shat, that
+Para eso hace falta una terna pegada al cardán. *$hat(g)$* va sobre el eje del
+cardán, el que gira el motor; *$hat(s)$* sobre el eje del rotor, el eje de
+_spin_, siempre perpendicular a $hat(g)$; y *$hat(t) = hat(g) times hat(s)$*
+es el tercero, transversal a los dos: ahí va a salir la cupla. La terna
+$(hat(s), hat(t), hat(g))$ es derecha, así que con tres dedos: pulgar
+$hat(s)$, índice $hat(t)$, mayor $hat(g)$. El satélite tiene su propia terna,
+$hat(i), hat(j), hat(k)$, y el cardán está montado con su eje sobre $hat(k)$:
+$hat(g) = hat(k)$, fijo en el satélite.
+
+// simbolos: omega_b, Omega_g, deltadot, omega_r, Omega_s
+- *El satélite* gira con $bold(omega)_b$ respecto del espacio (la _b_ es de
+  _body_, como en los papers).
+- *El cardán* gira con el satélite y, además, el motor lo hace girar sobre
+  $hat(g)$ con $dot(delta)$, la derivada del ángulo de cardán $delta$ de la
+  figura de los tres actuadores: $bold(Omega)_g = bold(omega)_b + dot(delta)
+  hat(g)$.
+- *El rotor* gira con el cardán y, además, sobre su eje $hat(s)$ con
+  $Omega_s$, su velocidad *respecto del cardán*, que un motorcito propio
+  mantiene constante (miles de rpm). Sumando:
+
+$ bold(omega)_r = bold(omega)_b + dot(delta) hat(g) + Omega_s hat(s) $ <act-cmg-omega>
+
+La terna $(hat(s), hat(t), hat(g))$ gira con $bold(Omega)_g$, *no* con
+$bold(omega)_r$: sigue al cardán y no al _spin_. Es el «no siempre
+$bold(Omega) = bold(omega)$» que Aníbal subrayó en su hoja del capítulo 18, y
+es el mismo truco del balancín interior del Beer: ejes que son principales del
+rotor sin tener que dar vueltas con él. (La $bold(Omega)$ de Aníbal es la
+velocidad angular de los ejes, que acá es la $bold(Omega)_g$ del cardán.)
+// simbolos: Omega
+
+#fig([Las tres piezas y sus giros. El satélite gira con $bold(omega)_b$; el
+cardán, montado sobre $hat(g) = hat(k)$, gira además $dot(delta)$ respecto
+del satélite; el rotor gira además $Omega_s$ sobre $hat(s)$ respecto del
+cardán. Cada flecha curva es un giro relativo; la velocidad angular de cada
+pieza es la suma de las flechas que tiene debajo.], fig-act-cmg-giros)
+<fig-act-cmg-giros>
+
+=== El momento angular del rotor, y por qué alcanza con un término
+
+// simbolos: H_r, I_s, I_t
+El rotor es simétrico alrededor de $hat(s)$: *$I_s$* es su momento de inercia
+axial, sobre $hat(s)$, e *$I_t$* el transversal, sobre cualquier eje
+perpendicular por su centro. La terna del cardán es principal para él, así que
+su momento angular $bold(H)_r$ es cada componente de $bold(omega)_r$ por su
+momento de inercia (módulo #M("inercia")):
+
+$ bold(H)_r = I_s (Omega_s + bold(omega)_b dot.op hat(s)) hat(s)
+  + I_t (dot(delta) + bold(omega)_b dot.op hat(g)) hat(g)
+  + I_t (bold(omega)_b dot.op hat(t)) hat(t) $
+
+// simbolos: h
+Proyectar es eso: $bold(omega)_b dot.op hat(s)$ es cuánto del giro del satélite
+cae sobre $hat(s)$, y así con los otros dos. Ahora los tamaños: $Omega_s$ son
+miles de rpm, $dot(delta)$ y $bold(omega)_b$ son unos grados por segundo. El
+primer término le gana a los otros por varios órdenes de magnitud, y se
+escribe
+$ bold(H)_r approx h hat(s), quad quad h = I_s Omega_s $
+que es la $h = I omega$ del paper de Lappas, Steyn y Underwood (2002, pág.
+104). Un número fijo, montado sobre una dirección que gira con el cardán.
+
+=== La derivada: de dónde sale la cupla de salida
+
+Con el teorema del transporte (la @cin-derivada), mirando desde el cardán:
+$h$ no cambia y $hat(s)$ está quieto en el cardán, así que la derivada
+relativa es cero y queda sólo el transporte,
+$ (d bold(H)_r)/(d t) = bold(Omega)_g times h hat(s)
+  = (bold(omega)_b + dot(delta) hat(g)) times h hat(s)
+  = h dot(delta) hat(t) + bold(omega)_b times h hat(s) $
+porque $hat(g) times hat(s) = hat(t)$. Ésa es la cupla que el satélite, a
+través de los cojinetes del cardán, le tiene que hacer al rotor. Por acción y
+reacción, el satélite recibe la opuesta:
+
+// simbolos: tau_sat
+$ bold(tau)_"sat" = - h dot(delta) hat(t) - bold(omega)_b times h hat(s) $ <act-cmg-cupla>
+
+// simbolos: N
+
+- *El primer término es la cupla de salida.* Va sobre $hat(t)$, perpendicular
+  al eje del cardán y al del rotor, y vale $h dot(delta)$: rotor grande por
+  cardán lento da mucho. Es la ecuación 1 de Lappas, que a la cupla le dice
+  $bold(N)$, $bold(N) = bold(h) times dot(bold(delta))$, escrita con otras letras: $h hat(s) times dot(delta)
+  hat(g) = - h dot(delta) hat(t)$.
+- *El segundo existe sólo si el satélite ya está girando.* Es lo que el paper
+  llama _gyro torque_, y su parte sobre $hat(g)$ —que vale $h (bold(omega)_b
+  dot.op hat(t))$, cambiada de signo— la tiene que aguantar el motor del cardán.
+  Por eso el motor no trabaja gratis cuando el satélite maniobra: además de
+  acelerar el cardán, sostiene esa cupla (Lappas, ecs. 6 a 8, pág. 106).
+
+#cuidado[
+  *El rotor no se frena.* $h$ no cambió en ningún momento: lo que el CMG le
+  pasa al satélite sale de *girar la dirección* de $bold(H)_r$, no de gastar
+  su giro. Una rueda de reacción hace al revés: no gira su eje, cambia su
+  velocidad. Ésa es toda la diferencia de la tabla, en una línea.
+]
+
+=== Proyectar: la misma cupla vista desde el satélite
+
+Ahora con el satélite quieto ($bold(omega)_b = bold(0)$), para ver la cupla de
+salida sola, y en los ejes del satélite, que es donde la necesita el que
+controla la actitud. Con $hat(g) = hat(k)$ y el ángulo de cardán $delta$
+medido desde $hat(i)$:
+$ hat(s) = cos delta thin hat(i) + sin delta thin hat(j), quad quad
+  hat(t) = hat(k) times hat(s) = - sin delta thin hat(i) + cos delta thin hat(j) $
+Las componentes de $bold(H)_r$ en la terna del satélite son $h (cos delta;
+sin delta; 0)$. Derivándolas *componente por componente* —el satélite está
+quieto, así que acá no hay transporte—, $d bold(H)_r \/ d t = h dot(delta)
+(- sin delta; cos delta; 0) = h dot(delta) hat(t)$: lo mismo que dio el
+transporte desde el cardán, por el otro camino. Y la cupla sobre el satélite:
+$ bold(tau)_"sat" = h dot(delta) (sin delta thin hat(i) - cos delta thin hat(j)) $
+
+#fig([La cupla de salida, proyectada. Vista desde arriba del satélite, con el
+eje del cardán $hat(g) = hat(k)$ saliendo de la hoja. $bold(H)_r$ forma el
+ángulo $delta$ con $hat(i)$ y se proyecta en $h cos delta$ y $h sin delta$.
+Al girar el cardán, la punta de $bold(H)_r$ se mueve sobre $hat(t)$, y el
+satélite recibe la cupla al revés: $-h dot(delta) hat(t)$.],
+fig-act-cmg-proyeccion)
+<fig-act-cmg-proyeccion>
+
+La lectura es la que importa: *la cupla de salida gira con $delta$*. Con
+$delta = 0$ sale toda sobre $-hat(j)$; con $delta = 90degree$, toda sobre
+$+hat(i)$. Un CMG de un cardán da, en cada instante, cupla en *una sola*
+dirección —la de $hat(t)$— y siempre en el plano perpendicular a su cardán.
+Para controlar tres ejes hacen falta varios, y ahí empiezan los problemas.
+
+=== Varios CMG: el reparto, la saturación y las posiciones singulares
+
+// simbolos: h_i, deltadot_i, that_i, shat_i, H_c
+Con varios CMG la cupla es la suma: cada uno, con su $h_i$, su velocidad de
+cardán $dot(delta)_i$ y sus versores $hat(s)_i$ y $hat(t)_i$, aporta lo suyo,
+$bold(tau)_"sat" = - sum_i h_i dot(delta)_i hat(t)_i$. Y el momento angular
+del conjunto, $bold(H)_c = sum_i h_i hat(s)_i$, más el del satélite, no cambia
+(cupla interna). De ahí salen los dos límites del CMG, que son los dos de la
+tabla:
+
+- *Saturación.* Cuando todos los $h_i hat(s)_i$ apuntan para el mismo lado,
+  $bold(H)_c$ llegó a su largo máximo, $sum_i h_i$, y en esa dirección ya no
+  puede absorber nada más. Es la rueda en el tope del motor, con otra forma.
+- *Posición singular.* Cuando todos los $hat(t)_i$ quedan en un mismo plano,
+  hay una dirección de cupla que ninguna combinación de $dot(delta)_i$
+  produce, aunque el conjunto no esté saturado: el CMG «se traba» (_lock-up_,
+  dice Lappas). Por eso hacen falta al menos cuatro CMG de un cardán, en
+  pirámide, para controlar los tres ejes esquivando singularidades (Lappas,
+  pág. 102), y por eso cada sistema real tiene una *ley de guiado* que elige
+  los $dot(delta)_i$ lejos de esas posiciones.
+
+#fig([Dos CMG con el cardán sobre el mismo eje, vistos desde arriba. Abiertos,
+sus dos $hat(t)$ apuntan distinto y combinándolos sale cualquier cupla del
+plano. Paralelos, los dos $hat(t)$ coinciden: una sola dirección de cupla, y
+$bold(H)_c$ al máximo. Antiparalelos, $bold(H)_c = bold(0)$ y los $hat(t)$
+siguen sobre una misma recta: singular sin estar saturado, la posición que el
+Skylab evitaba a propósito (Chubb y Seltzer 1971, fig. 3).],
+fig-act-cmg-singular)
+<fig-act-cmg-singular>
+
+=== Dos satélites de verdad: Skylab y un microsatélite de Surrey
+
+*Skylab* (Chubb y Seltzer, _Skylab Attitude and Pointing Control System_,
+NASA TN D-6068, 1971: el informe que juntó la cátedra para esta clase). Una
+estación de $8,3 times 10^4$ kg y $36$ m, con un telescopio solar que no podía
+moverse más de un par de milésimas de radián. La controlaban *tres CMG de
+doble cardán*, montados ortogonales, de $2700$ N·m·s cada uno, con el rotor a
+$149$ vueltas por segundo, que son $936$ rad/s. Con eso el rotor sale:
+$ I_s = h/Omega_s = 2700/936 approx 2,88 " kg" dot.op "m"^2 $
+¿Por qué CMG y no los propulsores que ya tenía? El informe da dos razones, y
+las dos son de esta sección: los gases de los propulsores habrían ensuciado la
+óptica del telescopio, y las cuplas del gradiente de gravedad son *cíclicas*,
+así que un CMG las absorbe en media órbita y las devuelve en la otra sin
+gastar nada.
+
+Lo que no es cíclico es el problema. Como los momentos de inercia del Skylab
+son muy distintos ($0,886 times 10^6$ kg·m² sobre su eje largo contra unos
+$5,8 times 10^6$ sobre los otros dos), el gradiente de gravedad le deja *de
+regalo* unos $600$ N·m·s por órbita sobre el eje largo, siempre para el mismo
+lado. *Predicción sin datos de más*, a la Aníbal: los tres CMG juntos guardan
+a lo sumo $3 dot.op 2700 = 8100$ N·m·s, así que se saturarían en $8100\/600
+approx 13,5$ órbitas; a $435$ km la órbita dura unos $93$ min, o sea *menos de
+un día*. La solución del informe es preciosa: de día, poner el eje de menor
+momento de inercia en el plano de la órbita para que el regalo sea mínimo; y
+de noche, cuando el telescopio no mira al Sol, *girar la estación* para que el
+mismo gradiente de gravedad empuje para el otro lado y desature los CMG gratis.
+Sólo si el momento angular de los CMG pasa del $95$ % de su capacidad se
+encienden los propulsores. Y una «ley de distribución» mantenía los tres
+$bold(H)$ abiertos para no caer en la posición antiparalela de la figura de
+arriba, con topes mecánicos de $plus.minus 1,4$ rad en el cardán interior.
+
+// simbolos: alpha, theta_1, t_1, I_sat
+*El microsatélite de Surrey* (Lappas, Steyn y Underwood 2002, el otro paper de
+la cátedra) hace el camino al revés: del requisito al CMG. Un satélite de $130$
+kg con $I_"sat" = 2,5$ kg·m² tiene que girar $30degree$ en $10$ s. Acelerando
+la mitad del tiempo y frenando la otra mitad, recorre $theta_1 = 15degree =
+0,2618$ rad en $t_1 = 5$ s con aceleración angular constante $alpha$:
+$ alpha = (2 theta_1)/t_1^2 = (2 dot.op 0,2618)/25 approx 0,0209 " rad/s"^2,
+  quad quad tau = I_"sat" alpha approx 0,0524 " N" dot.op "m" $
+los $52,5$ mN·m del paper, con una velocidad máxima de $alpha t_1 = 0,105$
+rad/s, $6degree$ por segundo. Con el cardán a lo sumo a $0,12$ rad/s, *un*
+CMG necesitaría $h = tau \/ dot(delta) approx 0,44$ N·m·s; repartido entre
+cuatro en pirámide, el paper llega a $0,35$ N·m·s por CMG, y con un motor de
+$20 thin 000$ rpm ($2094$ rad/s) el disco sale de $I_s = 0,35 \/ 2094 approx
+1,7 times 10^(-4)$ kg·m², lo que dice el paper. *Control por el momento
+angular:* el satélite a $0,105$ rad/s lleva $2,5 dot.op 0,105 approx 0,26$
+N·m·s, y eso es lo que los CMG tienen que poder sacarle; con $0,35$ cada uno
+sobra, que es por qué el número cierra.
+
+Lo armaron y lo probaron en una mesa de aire, que gira casi sin rozamiento: un
+disco de $2 times 10^(-5)$ kg·m² a $11 thin 200$ rpm ($h approx 0,0235$
+N·m·s), con el cardán a $24degree$ por segundo ($0,419$ rad/s), da $h
+dot(delta) approx 9,83$ mN·m, y midieron $9,82$. Y la comparación que cierra
+el paper es la de la tabla de arriba con precio: una rueda de reacción que
+diera esos $52,5$ mN·m pesaría más de $4$ kg, unos $16$ kg las cuatro, contra
+$940$ g de los cuatro CMG con su electrónica.
+
+=== Y leído al revés: el giróscopo que mide
+
+// simbolos: H_s
+La misma ecuación hace de sensor, y es la otra mitad de la hoja «Giróscopos
+como actuador y sensor» de la cátedra (módulo #M("rotacion")). Wrigley y
+Hollister (_Science_, 1965, el tercer paper) la escriben $bold(omega) times
+bold(H)_s = bold(M)$, con $bold(H)_s$ el momento angular de _spin_: si al
+giróscopo lo hacen girar con $bold(omega)$, alguien tiene que hacerle la cupla
+$bold(M)$, y midiendo esa cupla —o lo que la frena— se mide $bold(omega)$. Si
+la cupla la pone un resorte, el ángulo que se tuerce el giróscopo dice la
+*velocidad* de giro: es un _rate gyro_, el que el Skylab usaba para medir su
+propia rotación. Si la pone un amortiguador, el ángulo dice cuánto *giró* en
+total: un giróscopo integrador, la pieza del guiado inercial.
+
+#posta[
+  El CMG es la silla giratoria con la rueda de bicicleta, pero sin acelerar la
+  rueda: la tenés girando y le *torcés el eje*. La silla gira, mucho, con
+  poquito esfuerzo de tus manos, y la rueda sigue girando igual que antes. Lo
+  que te devuelve la silla sale de cambiarle la dirección a un momento angular
+  enorme que ya estaba ahí. El día que el eje queda apuntando para donde ya no
+  lo podés torcer, se acabó la magia: saturaste, o te trabaste en una
+  singularidad, y hay que pedirle ayuda a algo de afuera. El Skylab le pedía
+  ayuda a la gravedad, de noche y sin gastar un gramo. Elegante, para algo
+  hecho en 1970 con una computadora de 16 mil palabras.
 ]
 
 == Cierre de la Parte V, y del apunte

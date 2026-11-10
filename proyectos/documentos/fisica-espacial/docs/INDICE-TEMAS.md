@@ -467,9 +467,17 @@ lado. Se referencian en la prosa como `@etiqueta`.
 - **La rueda de reacción: el Adicional 2**
   - *(ejemplo)* La rueda con números: girar un microsatélite noventa grados
 - **Rueda, CMG y propulsor: quién cambia $bold(H)$ y quién lo reparte**
+- **El CMG por dentro: tres velocidades angulares, un vector que se proyecta y dos satélites de verdad**
+  - **Las tres velocidades angulares**
+  - **El momento angular del rotor, y por qué alcanza con un término**
+  - **La derivada: de dónde sale la cupla de salida**
+  - **Proyectar: la misma cupla vista desde el satélite**
+  - **Varios CMG: el reparto, la saturación y las posiciones singulares**
+  - **Dos satélites de verdad: Skylab y un microsatélite de Surrey**
+  - **Y leído al revés: el giróscopo que mide**
 - **Cierre de la Parte V, y del apunte**
 
-  Ecuaciones: `<fig-act-brazos>`, `<act-hz>`, `<act-tau-brazos>`, `<fig-act-pareja>`, `<act-empuje>`, `<fig-act-hz>`, `<fig-act-coriolis>`, `<fig-act-yoyo>`, `<act-yoyo>`, `<fig-act-rueda-corte>`, `<fig-act-par>`, `<act-rueda>`, `<act-nave>`, `<act-rel>`, `<fig-act-reparto>`, `<fig-act-saturacion>`, `<fig-act-actuadores>`
+  Ecuaciones: `<fig-act-brazos>`, `<act-hz>`, `<act-tau-brazos>`, `<fig-act-pareja>`, `<act-empuje>`, `<fig-act-hz>`, `<fig-act-coriolis>`, `<fig-act-yoyo>`, `<act-yoyo>`, `<fig-act-rueda-corte>`, `<fig-act-par>`, `<act-rueda>`, `<act-nave>`, `<act-rel>`, `<fig-act-reparto>`, `<fig-act-saturacion>`, `<fig-act-actuadores>`, `<act-cmg-omega>`, `<fig-act-cmg-giros>`, `<act-cmg-cupla>`, `<fig-act-cmg-proyeccion>`, `<fig-act-cmg-singular>`
 
 ## Anexo A — la guía de la cátedra, ficha por ficha
 
