@@ -60,6 +60,12 @@
       "estado": "2026-10-29 (tarde, 10 pag.) -- figuras en los ejercicios 1, 6 y 10 y en sus resoluciones; ejercicio 12 nuevo sobre la figura 'Precesiones' de Anibal (I_0 = I', beta contra gamma). 2026-10-29 (unificado, 7 pag.) -- parte C nueva con lo del modelo suelto del 26/10 (Docs 'conceptual' y 'mixto' en '3.5 - Parcialito 5', fuera del repo): verdadero o falso, Euler con un thruster, el disco torcido en sus cojinetes y la precesion estable con numeros (theta 90 y 60); 47 numeros en validar.py. 2026-10-28 -- 6 pag.: parte A conceptual (angulos de Euler, ecuaciones de Euler, precesion estable, conos, torque de salida y girocompas) y parte B numerica (meteorito sobre un satelite achatado por la ley de los senos y por componentes, con discuta y opine; CMG y amplificacion); 13 numeros medidos por practica/validar.py. Publico por pedido de Fran del 28/10 (fuente: practica/parcialito-5-cuerpo-rigido.typ)"
     },
     {
+      "materia": "Fisica Espacial/Modelos de Parcial/6 - Parcialito de CMG (12-11)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/resumen-cmg.pdf",
+      "nombre-en-drive": "Guia para el parcialito - CMG.pdf",
+      "estado": "2026-11-10 -- 7 pag. para el parcialito y la hora de CMG del 12/11 (ANI-R15): lo que pide Anibal contra como lo contamos, las tres velocidades angulares y la proyeccion de H y de la cupla con numeros, amplificacion, saturacion y singularidades, el Skylab y el CMG de Lappas, el giroscopo como sensor, 12 preguntas con respuesta y un guion para la hora de clase; 28 numeros en practica/validar.py. Publico por decision de Fran del 10/11 (fuente: practica/resumen-cmg.typ)"
+    },
+    {
       "materia": "Fisica Espacial/Modelos de Parcial/4 - 2do Parcial (19-11) y recuperatorio (26-11)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-integrador.pdf",
       "nombre-en-drive": "Modelo de parcial integrador (con resolucion).pdf",

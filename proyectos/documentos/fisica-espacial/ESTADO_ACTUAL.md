@@ -7,8 +7,8 @@
 > el paper nuevo) y el microsatélite de Lappas con números, y el giróscopo como sensor (Wrigley); tres figuras nuevas y
 > dos ecuaciones al formulario (146). **Guía nueva `practica/resumen-cmg.typ`** (7 págs.): lo que pide Aníbal contra cómo
 > lo contamos, las velocidades y la proyección con números, amplificación, Skylab, 12 preguntas y un guion para la hora de
-> clase; 28 controles en `validar.py` (695), en `OBLIGADOS` de consignas y símbolos. **Sin publicar: es nueva y la decide
-> Fran.** `probar-validar.py` 17 de 17 (el sabotaje 17 dejó de depender del cierre literal de la lista).
+> clase; 28 controles en `validar.py` (695), en `OBLIGADOS` de consignas y símbolos. **Publicada el mismo día, con el sí
+> de Fran**, en `Modelos de Parcial/6 - Parcialito de CMG (12-11)`, verificada por MD5. `probar-validar.py` 17 de 17 (el sabotaje 17 dejó de depender del cierre literal de la lista).
 
 > **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: el apunte de 230 pág. con el módulo `actitud` y las dos guías completas. Las decisiones que quedan son de contenido, en `.claude/nube/regreso/2026-11-05-fisica.md`.
 
