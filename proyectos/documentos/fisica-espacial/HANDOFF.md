@@ -1,5 +1,16 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-10 (noche) — 12 figuras nuevas en m20 y m21** (`biblioteca/figuras-euler.typ`; el estado, en ESTADO).
+> **Queda:** (1) la retrógrada de la ley de los senos es esquema, no a escala (en el 18.127 el triángulo casi no se
+> ve), y la nutación es cualitativa: los dos lo dicen en el epígrafe; (2) la guía del parcialito de CMG
+> (`practica/resumen-cmg.typ`) podría importar `fig-euler-cardanes` y `fig-euler-bloqueo` si Fran lo pide.
+> **Trampas pagadas:** (a) un anillo de cardán cuyo plano contiene la dirección de la cámara se ve de canto: el
+> acimut de la vista se elige a ~40° de la normal del anillo; (b) un `block(width: 92%)` dentro de una galería con
+> `page(width: auto)` colapsa a una palabra por renglón: las leyendas van con ancho fijo (13 cm); (c) la cupla del
+> peso respecto de $O$ es $+W c sin theta thin hat(f)$, y $dif bold(H)$ va para el mismo lado: el primer dibujo los
+> tenía al revés y no lo ve ningún verificador, sólo la cuenta $c hat(k) times (-W bold(K))$; (d) una figura alta que
+> no entra al pie de una página deja media página en blanco: `figure(placement: auto)` para esa sola.
+
 > **2026-11-10 — CMG (apunte m22 y guía del parcialito).** El estado, en `ESTADO_ACTUAL.md`. **Queda:** (1) la guía ya es
 > pública (sí de Fran, 2026-11-10; `Modelos de Parcial/6 - Parcialito de CMG (12-11)`, MD5 al día); (2) la carpeta pública de la materia se reordenó el mismo día, a
 > pedido de Fran (el orden está en el contrato, arriba de «Las reglas propias»): el 2.º parcial quedó en «6 - 2do

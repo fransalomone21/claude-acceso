@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+#import "../biblioteca/figuras-euler.typ": fig-peonza-componentes, fig-ley-senos, fig-meteorito, fig-nutacion
 // voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Peonza simétrica, precesión directa y retrógrada", clave: "peonza")[
@@ -94,7 +95,18 @@ $ tan gamma = I/I' tan theta $ <peon-tan-gamma>
 en un mismo plano —el que gira con la precesión—, y esta fórmula dice qué tan
 lejos de $z$ cae cada uno de los otros dos. Si el cuerpo es achatado ($I >
 I'$), $gamma > theta$: $bold(omega)$ cae *más lejos* del eje que
-$bold(H)_G$; si es alargado, más cerca.
+$bold(H)_G$; si es alargado, más cerca. La @fig-peonza-componentes es la
+deducción dibujada: las dos proyecciones de $bold(H)_G$ son las mismas que las
+de $bold(omega)$, pero multiplicadas por momentos de inercia distintos.
+
+#fig([Un cuerpo alargado ($I = I'\/2$) sin cuplas, en el plano que forman su
+eje $z$ y $bold(H)_G$. Las proyecciones de $bold(H)_G$ sobre $z$ y sobre la
+transversal son $I omega_z$ e $I' omega_"t"$. Como acá $I < I'$, a
+$bold(omega)$ le toca proporcionalmente más componente axial que a
+$bold(H)_G$, y cae más cerca del eje: $gamma < theta$. En un cuerpo achatado
+pasa al revés.], fig-peonza-componentes)
+<fig-peonza-componentes>
+// simbolos: omega_t
 
 == Precesión directa y precesión retrógrada
 
@@ -386,7 +398,15 @@ $ omega / (sin theta) = dot(phi) / (sin gamma) = dot(psi) / (sin(theta - gamma))
 
 Si el cuerpo es achatado, $gamma > theta$ y $sin(theta - gamma) < 0$: la
 fórmula misma da el spin negativo, la precesión retrógrada. Nadie tiene que
-acordarse del signo.
+acordarse del signo. El triángulo, dibujado para los dos casos, es la
+@fig-ley-senos.
+
+#fig([La ley de los senos del Paso 4: $dot(phi) bold(K)$ (verde, sobre el eje
+de precesión) más $dot(psi) hat(k)$ (rojo, paralelo al eje del cuerpo), punta
+con cola, dan $bold(omega)$ (azul). A la izquierda, el PR 18.6 a escala; a la
+derecha, un cuerpo achatado en esquema (en el Beer 18.127, $dot(psi)$ es apenas
+la sexta parte de $dot(phi)$ y el triángulo casi no se ve).], fig-ley-senos)
+<fig-ley-senos>
 
 #ejemplo("El satélite de dos discos y el meteorito (Problema Resuelto 18.6 del Beer)", nivel: "a fondo")[
   _(Beer, Problema Resuelto 18.6, pág. 1192 —la página 618 del PDF—,
@@ -396,7 +416,14 @@ acordarse del signo.
   libre alrededor de su eje de simetría $z$ a $omega_0 = 60$ rpm $= 6,283$
   rad/s. Un meteorito de masa $m_0 = m\/1000$, a $v_0 = 2000$ m/s paralelo
   a $z$ y relativo al satélite, se incrusta en $C$, a distancia $a$ del eje
-  sobre $y$.
+  sobre $y$ (@fig-meteorito).
+
+  #fig([El satélite de dos discos del PR 18.6. El meteorito llega paralelo a
+  $z$ y pega en $C$, a una distancia $a$ del eje: no cambia la componente de
+  $bold(H)_G$ sobre $z$, le agrega $m_0 v_0 a thin hat(i)$ de costado. El
+  $bold(H)_G$ que queda forma $theta = 38,5 degree$ con el eje del satélite y
+  es, desde ese instante, el eje fijo de la precesión.], fig-meteorito)
+  <fig-meteorito>
 
   *Momentos de inercia.* Axial, dos discos sobre su propio eje: $I = 2 dot.op
   1/2 (m/2) a^2 = 1/2 m a^2$. Transversal, cada disco sobre un diámetro más
@@ -462,6 +489,21 @@ $dot(psi)$) para cada $theta$, el trompo queda acotado: $theta$ oscila entre
 dos valores, y eso es la nutación (Beer, problemas 18.139 y 18.140). La
 precesión estable es el caso particular en que esa oscilación tiene amplitud
 cero.
+
+Mirado desde arriba, la punta del eje queda encerrada entre dos circunferencias,
+la de $theta_1$ y la de $theta_2$, y el dibujo que hace entre ellas depende de
+cómo se largó el trompo (@fig-nutacion). Es el dibujo clásico de la nutación, y
+vale más que las tres ecuaciones juntas para contestar qué se ve.
+// simbolos: theta_1, theta_2
+
+#fig([La punta del eje de un trompo con nutación, vista desde arriba ($Z$ sale
+de la hoja). $theta$ oscila entre $theta_1$ (circunferencia de adentro: el eje
+más parado) y $theta_2$. Si se larga con una precesión a favor, la punta hace
+ondas; si se larga quieto con el eje en $theta_1$, el peso la tira para afuera
+y arriba la precesión se anula un instante: cúspides; si se larga con una
+precesión en contra, hace rulos. Esquema: la forma es la que importa, no el
+número de vueltas.], fig-nutacion)
+<fig-nutacion>
 
 El módulo #M("actitud"), que cierra la Parte V, saca la última suposición que
 quedaba: que el cuerpo no cambia de forma y que todo lo que lo tuerce viene de

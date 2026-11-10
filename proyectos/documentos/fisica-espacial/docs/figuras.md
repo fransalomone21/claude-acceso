@@ -231,6 +231,25 @@ cajas, arcos de giro y flechas en 3D sobre el mismo vocabulario de
 | `fig-lagrange-puntos` | `tres-cuerpos` | los cinco puntos del par Tierra–Luna: a escala real, con los dos triángulos equiláteros de $L_4$ y $L_5$; y el zoom de la zona de la Luna con $L_1$, $L_2$, la esfera de Hill y la esfera de influencia, **las tres fronteras juntas** |
 | `fig-jacobi-perfil` | `tres-cuerpos` | el potencial de Jacobi sobre la línea Tierra–Luna: el diagrama de energía otra vez, con los tres máximos en $L_1$, $L_2$ y $L_3$ y los tres niveles $C_1 < C_2 < C_3$ que abren cada puerta |
 
+**Desde los ángulos de Euler en adelante** (2026-11-10, pedido de Fran: «todos los dibujos útiles que
+usaría un profe»): viven en `biblioteca/figuras-euler.typ`, con halo en los rótulos, y su galería es
+`practica/galeria-euler.typ`, que `verificar-figuras.py` mide en cada `practica\compilar.ps1`.
+
+| Figura | Módulo (clave) | Qué muestra |
+|---|---|---|
+| `fig-euler-angulos` | `euler-giroscopo` | los tres ángulos en 3D con las definiciones del Beer §18.9: $phi$ en el plano $X Y$, $theta$ sobre la línea de nodos, $psi$ en el plano del cuerpo |
+| `fig-euler-efk` | `euler-giroscopo` | el plano de $Z$ y $z$ con $hat(f)$ entrando: $hat(e)$ del lado opuesto a $Z$ y las dos proyecciones de $dot(phi) bold(K)$ (el menos de la ec. 18.34) |
+| `fig-euler-cardanes` | `euler-giroscopo` | el giróscopo en cardanes: un ángulo por articulación (ANI-62), con leyenda; flotante (`placement: auto`) |
+| `fig-euler-bloqueo` | `euler-giroscopo` | los mismos cardanes con $theta = 50 degree$ y con $theta = 0$: el bloqueo de cardán |
+| `fig-precesion-estable` | `euler-giroscopo` | el trompo apoyado en $O$: cono, peso, cupla sobre $hat(f)$, $bold(H)_O$ y $dif bold(H)_O$ sobre $hat(f)$ |
+| `fig-dos-raices` | `euler-giroscopo` | las dos precesiones estables contra el spin (números del ejemplo de mesa a 60°): lenta, rápida, aproximada y $dot(psi)_"mín"$ |
+| `fig-ladrillo-ejes` | `euler-giroscopo` | el ladrillo de 20 × 10 × 5 cm con sus tres ejes: dos estables y el intermedio que se da vuelta |
+| `fig-explorer` | `euler-giroscopo` | el Explorer 1 con el mismo $bold(H)_G$: al salir sobre el eje largo, horas después dando tumbos |
+| `fig-peonza-componentes` | `peonza` | $bold(H)_G$ y $bold(omega)$ proyectados sobre $z$ y la transversal: de dónde sale $tan gamma = (I\/I') tan theta$ |
+| `fig-ley-senos` | `peonza` | el triángulo $dot(phi) bold(K) + dot(psi) hat(k) = bold(omega)$, directa (PR 18.6 a escala) y retrógrada (esquema), con los ángulos del color del lado opuesto |
+| `fig-meteorito` | `peonza` | el PR 18.6: los dos discos, el meteorito en $C$ y el $bold(H)_G$ antes y después |
+| `fig-nutacion` | `peonza` | la punta del eje vista desde arriba entre $theta_1$ y $theta_2$: ondas, cúspides y rulos |
+
 ## Lo que `estilo.typ` todavía no tiene
 
 Se agrega cuando el módulo que lo necesite lo pida, no antes:

@@ -1,5 +1,16 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-10 (noche), en la PC: los dibujos del profe, de los ángulos de Euler en adelante.** Pedido de Fran: «todos
+> los dibujos útiles que usaría un profe». m20 no tenía ninguna figura desde los ángulos de Euler y m21 tenía dos;
+> entran **12 figuras nuevas** en `apunte/biblioteca/figuras-euler.typ` (catálogo en `docs/figuras.md`): los tres
+> ángulos en 3D, el plano de $Z$ y $z$ con el menos de $hat(e)$, el giróscopo en cardanes (ANI-62), el bloqueo de
+> cardán, el trompo con la cupla y $dif bold(H)$ sobre la línea de nodos, las dos raíces de la cuadrática contra el
+> spin, el ladrillo y sus tres ejes, el Explorer 1, las componentes de la peonza ($tan gamma$), el triángulo de la ley
+> de los senos, el meteorito del PR 18.6 y la nutación (ondas, cúspides, rulos). m22 ya tenía las suyas (17).
+> **Apunte: 237 págs.** Rótulos medidos por `verificar-figuras.py` sobre `practica/galeria-euler.typ` (rojo con 19 en
+> la primera vuelta, verde al cerrar; ahora corre en `practica\compilar.ps1`); las páginas 177-196 miradas en el
+> render. `verificar-apunte.py`, `indice-temas.py`, `verificar-anexos.py` (146) y `verificar-simbolos.py` en verde.
+
 > **2026-11-10, en la PC: CMG para el jueves 12/11 (parcialito + una hora de clase a cargo de los alumnos, ANI-R15).**
 > **Apunte: 234 págs., publicado y verificado por MD5.** m22 suma «El CMG por dentro»: las tres velocidades angulares
 > (satélite, cardán, rotor), $bold(H)_r approx h hat(s)$, la cupla $-h dot(delta) hat(t) - bold(omega)_b times h hat(s)$

@@ -1,4 +1,5 @@
 #import "../plantilla.typ": *
+#import "../biblioteca/figuras-euler.typ": fig-euler-angulos, fig-euler-cardanes, fig-euler-efk, fig-euler-bloqueo, fig-precesion-estable, fig-dos-raices, fig-ladrillo-ejes, fig-explorer
 // voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Ecuaciones de Euler y el giróscopo", clave: "euler-giroscopo")[
@@ -414,6 +415,18 @@ instante (Beer §18.9, fig. 18.15, pág. 1187):
   que $theta$ y $phi$ no describan ya.
 ]
 
+Dibujados, que es como se entienden (@fig-euler-angulos): $phi$ vive en el piso
+fijo, $theta$ en el plano vertical que contiene a $Z$ y a $z$, y $psi$ en el
+plano del propio cuerpo. Cada uno se mide en un plano distinto, y la línea de
+nodos es la bisagra que comparten.
+
+#fig([Los tres ángulos de Euler, con las definiciones del Beer §18.9 (pág.
+1187). Verde: $phi$, en el plano $X Y$ fijo, de $X$ a la línea de nodos.
+Rojo: $theta$, de $Z$ al eje $z$ del cuerpo, girando sobre la línea de nodos.
+Azul: $psi$, en el plano perpendicular a $z$ (punteado), de la línea de nodos
+al eje $x$ pegado al cuerpo.], fig-euler-angulos)
+<fig-euler-angulos>
+
 Los ejes naturales para escribir $bold(omega)$ son los que giran con $phi$ y
 $theta$ pero *no* con $psi$ —el segundo camino de la sección anterior,
 $bold(Omega) != bold(omega)$—, porque son principales del cuerpo (uno de
@@ -445,12 +458,36 @@ $ sum M_e = -I' (dot.double(phi) sin theta + 2 dot(theta) dot(phi) cos theta) + 
   sum M_k = I (d omega_z)/(d t) $
 $ sum M_f = I' (dot.double(theta) - dot(phi)^2 sin theta cos theta) + I dot(phi) sin theta thin omega_z $
 
+El menos de $hat(e)$, que es el que más errores trae, se ve de una en el plano
+de $Z$ y $z$ (@fig-euler-efk): $dot(phi) bold(K)$ se proyecta positivo sobre
+$hat(k)$ y negativo sobre $hat(e)$, porque $hat(e)$ apunta para el lado
+contrario de $Z$.
+
+#fig([El plano que forman $Z$ y $z$, con la línea de nodos $hat(f)$ entrando
+en la hoja. $hat(e) = hat(f) times hat(k)$ queda perpendicular a $z$ y *del
+lado opuesto a $Z$*: por eso la precesión $dot(phi) bold(K)$ tiene componente
+$dot(phi) cos theta$ sobre $hat(k)$ y $-dot(phi) sin theta$ sobre $hat(e)$ (Beer
+ec. 18.34). El mismo $theta$ aparece dos veces: entre $Z$ y $z$, y entre
+$hat(e)$ y la horizontal.], fig-euler-efk)
+<fig-euler-efk>
+
 Aníbal las pegó tal cual en su resumen manuscrito del capítulo, con una nota
 que es todo el plan de lo que sigue: «ec. no lineales → casos particulares».
 Y otra que vale oro para el parcialito: «el giróscopo ayuda a visualizar los
 ángulos de Euler». El balancín exterior gira $phi$ alrededor del eje fijo, el
 interior gira $theta$ dentro del exterior, y el rotor gira $psi$ dentro del
-interior: tres cardanes, tres ángulos, uno por articulación.
+interior: tres cardanes, tres ángulos, uno por articulación
+(@fig-euler-cardanes).
+
+// flotante: entera no entra al pie de la página del texto, y en línea dejaba media página en blanco
+#figure(placement: auto, kind: "fig", supplement: [Figura], caption: [El giróscopo en cardanes, que es como Aníbal dice que se visualizan los
+ángulos de Euler. Cada articulación agrega un giro y nada más: el balancín
+exterior gira $dot(phi)$ alrededor del eje fijo $Z$, el interior gira
+$dot(theta)$ alrededor de la línea de nodos (los dos pivotes negros), y el
+rotor gira $dot(psi)$ alrededor de su propio eje. Los ejes $hat(e)$, $hat(f)$,
+$hat(k)$ del Beer viajan pegados al balancín interior: siguen a $phi$ y a
+$theta$, no a $psi$.], align(center, fig-euler-cardanes))
+<fig-euler-cardanes>
 
 #notacion[
   *Tres ángulos alcanzan, pero tienen un agujero; por eso a bordo se usan
@@ -465,7 +502,7 @@ interior: tres cardanes, tres ángulos, uno por articulación.
   descripción, aunque el cuerpo no perdió ninguno. En un giróscopo montado
   en cardanes ese agujero es mecánico: cuando dos ejes de cardán se alinean,
   el conjunto ya no puede acompañar un giro en cierta dirección —el
-  *bloqueo de cardán*, que Wrigley y Hollister (1965, el paper de la
+  *bloqueo de cardán* (@fig-euler-bloqueo), que Wrigley y Hollister (1965, el paper de la
   cátedra) describen y resuelven agregando cardanes—. Cualquier juego de tres
   ángulos tiene al menos una orientación así; se puede correr, no evitar.
 
@@ -480,6 +517,14 @@ interior: tres cardanes, tres ángulos, uno por articulación.
   (Esto no está en los libros de la lista: contesta una pregunta de la clase,
   y la parte de los cardanes es de Wrigley y Hollister.)
 ]
+
+#fig([El agujero, en los mismos cardanes. Con $theta = 50 degree$ los tres ejes
+de giro apuntan para tres lados distintos. Con $theta = 0$ el eje del rotor
+queda sobre $Z$, los dos balancines quedan en el mismo plano, y $dot(phi)$ y
+$dot(psi)$ son giros alrededor del *mismo* eje: el conjunto perdió una
+dirección en la que acompañar un giro. Es el bloqueo de cardán.],
+fig-euler-bloqueo)
+<fig-euler-bloqueo>
 
 == Precesión estable: el caso que sí se resuelve a mano
 
@@ -513,7 +558,16 @@ theta$; es la misma, y vale la pena comprobarlo abriendo el paréntesis.)
 que forman $Z$ y $z$* —sobre $hat(f)$, la línea de nodos—,
 nunca dentro de ese plano: es la traducción formal de que un giróscopo no
 «cae» en la dirección de la cupla aplicada, sino que precesa perpendicular a
-ella.
+ella. Con un trompo, el que pone esa cupla es el peso (@fig-precesion-estable).
+
+#fig([Precesión estable de un trompo apoyado en $O$. El eje barre un cono de
+semiángulo $theta$ fijo alrededor de $Z$. El peso, aplicado a una distancia
+$c$ de $O$, hace una cupla horizontal sobre la línea de nodos $hat(f)$,
+perpendicular al plano de $Z$ y $z$. Esa cupla no voltea el eje: le agrega
+a $bold(H)_O$ un $dif bold(H)_O$ de costado, también sobre $hat(f)$, y la punta
+de $bold(H)_O$ da vueltas. El caso con el eje inclinado y el peso es el de la
+sección que sigue.], fig-precesion-estable)
+<fig-precesion-estable>
 
 #cuidado[
   *Caso particular, $theta = 90degree$: el eje de simetría queda siempre
@@ -583,6 +637,18 @@ que estaba viendo una cuadrática.
   // simbolos: psidot_mín
 ]
 
+Las dos raíces del ejemplo, barriendo el spin en vez de fijarlo, son la
+@fig-dos-raices: lo que en la cuenta son dos números, en el dibujo son dos
+ramas que se juntan en el spin mínimo.
+
+#fig([Las dos precesiones estables del giróscopo de mesa a $60 degree$, en
+función del spin. La lenta (roja) es la que se ve, y con spin grande se pega a
+la aproximada $W c \/ (I dot(psi))$ (punteada). La rápida (azul) crece con el
+spin. Las dos se juntan en $dot(psi)_"mín"$; a la izquierda, la cuadrática no
+tiene raíces reales y el trompo no puede precesar parejo: nuta cada vez más y
+se cae. Los puntos son los del ejemplo, a $300$ rad/s.], fig-dos-raices)
+<fig-dos-raices>
+
 == ¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1
 
 Dos de las tres «preguntas orientadoras» de la primera clase escrita de
@@ -626,6 +692,12 @@ por más cuidado que uno ponga. Con una raqueta de tenis pasa lo mismo, y en
 mariposa que se daba vuelta sola, con una regularidad que parecía brujería
 y era esta cuenta.
 
+#fig([El ladrillo de $20 times 10 times 5$ cm de la cátedra, con sus tres ejes
+principales por $G$. El paralelo a la arista larga tiene el momento de inercia
+menor; el paralelo a la corta, el mayor; los dos son estables. El del medio
+—paralelo a la arista de $10$ cm— es el que se da vuelta.], fig-ladrillo-ejes)
+<fig-ladrillo-ejes>
+
 Hasta acá, el cuerpo rígido *perfecto*. El Explorer 1 (1958) no lo era. Era
 un cilindro largo —alargado, $I_1 = I_2 > I_3$ en la clasificación del
 módulo #M("inercia")— y lo pusieron a girar alrededor de su eje largo, el de
@@ -645,6 +717,14 @@ energía. A las pocas horas daba tumbos, girando de punta a punta.
   más inercia. Termina en el de momento máximo, que es el único estable
   *con* disipación.
 ]
+
+#fig([El Explorer 1 con el momento angular clavado. Al salir giraba sobre su
+eje largo, el de momento mínimo: la energía $T = H^2 \/ (2 I)$ era la máxima
+posible para ese $bold(H)_G$. Las cuatro antenas flexibles disiparon energía
+sin poder tocar $bold(H)_G$, y la única salida fue girar sobre un eje de más
+inercia: horas después daba tumbos de punta a punta, con el mismo
+$bold(H)_G$ y la energía mínima.], fig-explorer)
+<fig-explorer>
 
 Para el Explorer 1, alargado, el eje de momento máximo es cualquiera
 perpendicular al largo: el giro de punta a punta. Para un CubeSat 3U del

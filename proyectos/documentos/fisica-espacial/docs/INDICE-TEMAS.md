@@ -433,7 +433,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(de donde sale)* por qué un cuerpo que pierde energía termina girando sobre su eje mayor
 - **Lo que se usa después**
 
-  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<euler-precesion-estable>`, `<euler-precesion-90>`, `<euler-precesion-inclinada>`
+  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<fig-euler-angulos>`, `<fig-euler-efk>`, `<fig-euler-cardanes>`, `<fig-euler-bloqueo>`, `<euler-precesion-estable>`, `<fig-precesion-estable>`, `<euler-precesion-90>`, `<euler-precesion-inclinada>`, `<fig-dos-raices>`, `<fig-ladrillo-ejes>`, `<fig-explorer>`
 
 ### 21. Peonza simétrica, precesión directa y retrógrada  ·  `peonza`
 
@@ -453,7 +453,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(ejemplo)* El satélite de dos discos y el meteorito (Problema Resuelto 18.6 del Beer)
 - **Cuando $theta$ también se mueve: el trompo y las tres conservaciones**
 
-  Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-conos-directa>`
+  Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-peonza-componentes>`, `<fig-conos-directa>`, `<fig-ley-senos>`, `<fig-meteorito>`, `<fig-nutacion>`
 
 ### 22. El cuerpo que cambia de forma, y la actitud que se controla desde adentro  ·  `actitud`
 
