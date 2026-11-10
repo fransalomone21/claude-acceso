@@ -46,6 +46,7 @@ try {
         @('resueltos-cr-1-a-4.typ', 'salida\resueltos-cr-1-a-4.pdf', $null),
         @('resumen-cuerpo-rigido.typ', 'salida\resumen-cuerpo-rigido.pdf', $null),
         @('parcialito-5-cuerpo-rigido.typ', 'salida\parcialito-5-cuerpo-rigido.pdf', $null),
+        @('resumen-cmg.typ', 'salida\resumen-cmg.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )

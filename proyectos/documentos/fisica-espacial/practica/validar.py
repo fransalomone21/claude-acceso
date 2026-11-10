@@ -417,7 +417,8 @@ def c_parciales():
 
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
                     'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ',
-                    'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ')
+                    'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ',
+                    'resumen-cmg.typ')
 
 
 def c_modelos():
@@ -626,7 +627,30 @@ def c_modelos():
         ('35,9$ rpm', 63.0 * m.sin(rad(20.8)) / m.sin(rad(38.5))),
         ('200$', 0.5 * 1000 / (5 * 0.5)),
     ]
+    # Guia del parcialito de CMG (2026-11-10): el CMG de Lappas con el satelite
+    # maniobrando, el Skylab (Chubb y Seltzer 1971) y el girocompas de Wrigley.
+    k_Ws = 20000 * 2 * m.pi / 60; k_h, k_dd, k_dl = 0.35, 0.12, rad(30); k_wb = 0.05
+    k_out = k_h * k_dd
+    k_gyro = k_wb * k_h * m.sin(k_dl)
+    k_Tsky = 2 * m.pi * m.sqrt((RT + 435) ** 3 / MU)
+    k_al = 2 * rad(15) / 25; k_tq = 2.5 * k_al
+    k_hlab = 2e-5 * 11200 * 2 * m.pi / 60
+    guia_cmg = [
+        ('2094$ rad/s; el', k_Ws), ('1813,8 hat(i)', k_wb + k_Ws * m.cos(k_dl)), ('1047,2 hat(j)', k_Ws * m.sin(k_dl)),
+        ('0,042 " N"', k_out), ('0,00875 hat(k)$', k_gyro), ('21$ % de la cupla', 100 * k_gyro / k_out),
+        ('0,021; -0,0364; 0)$', k_out * m.sin(k_dl)), ('-0,0364; 0)$', -k_out * m.cos(k_dl)),
+        ('2,4 times 10^(-5)$ N·m y salen', 1e-4 * k_dd / 0.5), ('1750$ veces. Una', k_out / (1e-4 * k_dd / 0.5)),
+        ('936$ rad/s): el', 149 * 2 * m.pi), ('2,88$ kg·m². Por', 2700 / (149 * 2 * m.pi)),
+        ('8100$ N·m·s: se', 3 * 2700), ('13,5$ órbitas. A', 3 * 2700 / 600), ('93,3$ min (tercera', k_Tsky / 60),
+        ('21 horas a', 3 * 2700 / 600 * k_Tsky / 3600), ('13,5$ órbitas: unas', 3 * 2700 / 600),
+        ('0,2618 \\/ 25', rad(15)), ('0,0209$ rad/s², con', k_al), ('0,0524$ N·m. Llega', k_tq),
+        ('0,105$ rad/s ($6degree', k_al * 5), ('6degree$ por segundo). Con', deg(k_al * 5)),
+        ('0,44$ N·m·s; cuatro', k_tq / k_dd), ('0,0235$ N·m·s y el', k_hlab), ('0,419$ rad/s dieron', rad(24)),
+        ('9,83$ mN·m calculados', k_hlab * rad(24) * 1000), ('0,042$ N·m; entra', k_out),
+        ('84,4$ min, el de', 2 * m.pi * m.sqrt(RT * 1000 / G0) / 60),
+    ]
     return {
+        'resumen-cmg.typ': guia_cmg,
         'parcialito-5-cuerpo-rigido.typ': parcialito5,
         'resumen-cuerpo-rigido.typ': guia_cr,
         'resueltos-cr-1-a-4.typ': resueltos_cr,

@@ -41,7 +41,7 @@ import tempfile
 AQUI = os.path.dirname(os.path.abspath(__file__))
 # Rutas relativas a practica/. El modulo `actitud` del apunte entro el 2026-11-05 (fase 18): el primer
 # modulo del apunte que nace medido. Los demas modulos se suman cuando se toquen (--listar da la auditoria).
-OBLIGADOS = ["resumen-cuerpo-rigido.typ", "../apunte/modulos/m22-actitud.typ"]
+OBLIGADOS = ["resumen-cuerpo-rigido.typ", "../apunte/modulos/m22-actitud.typ", "resumen-cmg.typ"]
 VENTANA = 12
 
 CONOCIDOS = {"x", "y", "z", "t", "d", "ihat", "jhat", "khat"}

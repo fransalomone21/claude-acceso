@@ -80,8 +80,10 @@ SABOTAJES = [
     # Lo que paso el 2026-10-28: la guia tenia controles cargados y estaba
     # fuera de la lista que el validador recorre. El guardia tiene que verlo.
     ('documento con controles fuera de PARCIALES_NUEVOS', 'validar.py',
-     "'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ')",
-     "'parcialito-5-cuerpo-rigido.typ')", 'validar.py', 'nadie los mira'),
+     # sin el cierre de la tupla: asi sobrevive a que la lista crezca al final
+     # (2026-11-10: entro resumen-cmg.typ y este sabotaje dejo de encontrar su texto)
+     "'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ'",
+     "'parcialito-5-cuerpo-rigido.typ'", 'validar.py', 'nadie los mira'),
 ]
 
 
