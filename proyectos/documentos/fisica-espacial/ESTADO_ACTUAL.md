@@ -11,7 +11,10 @@
 > de Fran**; después sumó el **parcialito 5 contestado** (llegó el enunciado: seis preguntas sobre el giróscopo del Beer,
 > «solamente de palabras», «No entregue figuras»; `catedras` ANI-R16) y las mismas seis preguntas con un CMG (8 págs.).
 > **La carpeta de Drive se reordenó** (1 - Apunte, 2 - Hojas de formulas, 3 - Guia de problemas, 4 - Parciales y
-> parcialitos en orden cronológico; la regla, en el contrato), con `rclone moveto` del lado del servidor. `probar-validar.py` 17 de 17 (el sabotaje 17 dejó de depender del cierre literal de la lista).
+> parcialitos en orden cronológico; la regla, en el contrato), con `rclone moveto` del lado del servidor.
+> **Figuras 3D del CMG** (pedido de Fran: «así cuando vea uno lo entiendo»), en `apunte/biblioteca/figuras-cmg.typ`:
+> el CMG por dentro con sus vectores, la analogía con la órbita, la silla con la rueda y cuatro en pirámide; en m22
+> (235 págs.) y en la guía (9 págs.), publicadas y al día por MD5; rótulos medidos (`galeria-cmg.typ`, en `compilar.ps1`). `probar-validar.py` 17 de 17 (el sabotaje 17 dejó de depender del cierre literal de la lista).
 
 > **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: el apunte de 230 pág. con el módulo `actitud` y las dos guías completas. Las decisiones que quedan son de contenido, en `.claude/nube/regreso/2026-11-05-fisica.md`.
 
