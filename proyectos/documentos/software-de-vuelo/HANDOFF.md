@@ -1,5 +1,14 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-11-10 — TP5: Tomás trabaja hoy solo con lo del Drive
+
+- El `main.c` del proyecto es la **fuente**; el de `_verificacion` (el que lee la guía) se rearma copiando
+  funciones y bloques de ahí. Si se toca uno, se toca el proyecto y se recopia; la guía se recompila y el
+  espejo `_drive` se sube con `rclone sync` (dry-run antes: no tiene que borrar nada).
+- Lo que sigue en la placa no cambió: B2 con el host (`TEMP B`) y el ejercicio 3 con osciloscopio.
+- Método: la puerta volvió a cobrar el tronco entero de requisitos y alcance para un chequeo de Drive, y
+  `-Excepcion` no lo liberaba (otro caso de DA-086 / DA-104, ya registrados).
+
 ## 2026-11-03 — TP5: lo que falta es la placa y el acuerdo con los otros equipos
 
 - `LEN_SPI 2`, `SIN_DATO -1`, `T_ESPERA_MS 50` no están en `protocolo.h`: acordarlos con el

@@ -1,5 +1,19 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-11-10 — TP5 para que Tomás siga solo: Drive al día y medido, código comentado
+
+- **Drive del grupo, medido** (`rclone check`): TP5 165 archivos y 0 diferencias (MD5 de la guía igual
+  local y en Drive); TP4 40 y 0; Cohete al día por contenido (código 18 =, guía por MD5, raíz y figuras =).
+- **Código** (`C:\stm32\tp5_pl_b\Core\Src\main.c`): comentarios en cada función y bloque nuestro, sin tocar
+  lógica: el preprocesado (`gcc -E -P`) es **idéntico** al de antes. Sacado un tab suelto en la línea 1.
+  `_verificacion` copia las funciones y bloques del proyecto (script de la sesión, control en rojo antes y
+  verde después). Compilan verificación, verificación con ej. 0 y el proyecto: 0 warnings con `-Werror`;
+  `--sabotaje` corta.
+- **Guía v2** (14 pág., render mirado en las páginas que cambiaron): la presentación ya no dice «falta
+  probarlo»: dice lo medido el 03/11 (25,3 °C, 1007,2 hPa) y que falta B2 con el host y el ej. 3; aviso del
+  ST-LINK S/N en el `.launch` para otra placa; dos rayas fuera. **LEEME** al día con lo mismo y el reset del I2C.
+- **Sin medir:** que el rótulo «Use specific ST-LINK S/N» sea textual en CubeIDE 1.18.1 (`probable`).
+
 ## 2026-11-03 — TP5 (FreeRTOS, PL-B con Tomás): proyecto hecho, sin probar en placa
 
 - Trabajo de grupo (regla 2): vive en `Desktop\01 - UNSAM\Software de Vuelo\TP5 - FreeRTOS\`
