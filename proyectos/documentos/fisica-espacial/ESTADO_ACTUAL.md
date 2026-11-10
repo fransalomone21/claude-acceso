@@ -1,5 +1,15 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-10, en la PC: CMG para el jueves 12/11 (parcialito + una hora de clase a cargo de los alumnos, ANI-R15).**
+> **Apunte: 234 págs., publicado y verificado por MD5.** m22 suma «El CMG por dentro»: las tres velocidades angulares
+> (satélite, cardán, rotor), $bold(H)_r approx h hat(s)$, la cupla $-h dot(delta) hat(t) - bold(omega)_b times h hat(s)$
+> por el transporte, la proyección en los ejes del satélite, saturación y singularidades, el Skylab (Chubb y Seltzer 1971,
+> el paper nuevo) y el microsatélite de Lappas con números, y el giróscopo como sensor (Wrigley); tres figuras nuevas y
+> dos ecuaciones al formulario (146). **Guía nueva `practica/resumen-cmg.typ`** (7 págs.): lo que pide Aníbal contra cómo
+> lo contamos, las velocidades y la proyección con números, amplificación, Skylab, 12 preguntas y un guion para la hora de
+> clase; 28 controles en `validar.py` (695), en `OBLIGADOS` de consignas y símbolos. **Sin publicar: es nueva y la decide
+> Fran.** `probar-validar.py` 17 de 17 (el sabotaje 17 dejó de depender del cierre literal de la lista).
+
 > **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: el apunte de 230 pág. con el módulo `actitud` y las dos guías completas. Las decisiones que quedan son de contenido, en `.claude/nube/regreso/2026-11-05-fisica.md`.
 
 ## 2026-11-05 (noche, en la nube): fase 18 cerrada — el módulo `actitud` y lo del parcialito en m20 y m21

@@ -1,5 +1,18 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-10 — CMG (apunte m22 y guía del parcialito).** El estado, en `ESTADO_ACTUAL.md`. **Queda:** (1) si Fran dice
+> que la guía va pública: declararla en `.claude/apuntes-publicos.json` (carpeta sugerida `Fisica Espacial/Modelos de
+> Parcial/6 - Parcialito de CMG (12-11)`) y commitear; (2) el 2.º parcial se movió al **26/11** con el recuperatorio el
+> mismo día (ANI-R15): la carpeta de Drive «4 - 2do Parcial (19-11) y recuperatorio (26-11)» quedó con la fecha vieja;
+> renombrarla cambia la ruta de `apuntes-publicos.json` (decide Fran); (3) «entregar todos los problemas de la última
+> guía resueltos» (ANI-73) no dice cuál ni cuándo: preguntarle a Aníbal; (4) lo que traiga Aníbal por Classroom para el
+> 12/11 entra a `catedras` como ANI-R16 y se contrasta ANI-75; (5) `publicar-apuntes.ps1 -Verificar` dio el apunte al día
+> por MD5 y después 12 entradas «SIN PUBLICAR» seguidas, incluidas varias publicadas hace días (`probable`: falla de
+> rclone a mitad de corrida, no del contenido); volver a medir. **Trampas pagadas:** el lint de la galería frenaba por
+> T1 porque `galeria.typ` no tenía la coma del apunte (arreglado ahí); en `validar.py`, las variables de un bloque nuevo
+> dentro de `c_modelos()` pisan las de los modelos que se arman después (rojo en el modelo 3): prefijo propio (`k_`);
+> un sabotaje que reemplaza el cierre literal de una lista se rompe el día que la lista crece.
+
 > **2026-11-05, en la PC: PUBLICADO.** Lo de la noche en la nube ya está en `main` y en el Drive, verificado por MD5: el apunte de 230 pág. con el módulo `actitud` y las dos guías completas. Las decisiones que quedan son de contenido, en `.claude/nube/regreso/2026-11-05-fisica.md`.
 
 > **2026-11-05 (noche, en la nube) — fase 18 cerrada, sin publicar.** El estado, en `ESTADO_ACTUAL.md`. **Queda para la
