@@ -32,7 +32,7 @@ $py = Join-Path $paq 'python-3.11.9-amd64.exe'
 if (-not (Test-Path -LiteralPath $py)) {
     Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe' -OutFile $py -UseBasicParsing
 }
-Copy-Item "$PSScriptRoot\plataforma-comun.ps1", "$PSScriptRoot\PREPARAR-BLACK.ps1", "$PSScriptRoot\JUGAR-COOP-RED.ps1", "$PSScriptRoot\PROBAR-COOP-PC.ps1", "$PSScriptRoot\PROBAR-PLATAFORMA-S1.ps1" "$paq\scripts\lanzadores\" -Force
+Copy-Item "$PSScriptRoot\plataforma-comun.ps1", "$PSScriptRoot\PREPARAR-BLACK.ps1", "$PSScriptRoot\JUGAR-COOP-RED.ps1", "$PSScriptRoot\PROBAR-COOP-PC.ps1", "$PSScriptRoot\PROBAR-PLATAFORMA-S1.ps1", "$PSScriptRoot\ACCESOS-BLACK.ps1", "$PSScriptRoot\MISION.ps1" "$paq\scripts\lanzadores\" -Force
 Copy-Item "$black\herramientas\puente_mandos.py" "$paq\scripts\herramientas\" -Force
 Copy-Item "$PSScriptRoot\TRAER.ps1" "$paq\" -Force
 # el instalador de doble clic (134): Fran abre el pendrive, doble clic, y TRAER corre solo (sin tipear nada en la PC).

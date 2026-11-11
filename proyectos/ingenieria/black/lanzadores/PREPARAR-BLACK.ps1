@@ -40,26 +40,8 @@ if ($regla) { Write-Host "[ok] firewall: el juego ya esta permitido" -Foreground
 else { Write-Host "[..] firewall: la primera vez que hostees, Windows pregunta: Permitir (redes privadas)" -ForegroundColor Yellow }
 
 # 6. accesos directos
-$dest = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Juegos\BLACK'
-New-Item -ItemType Directory -Force $dest | Out-Null
-$ps = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
-$w = New-Object -ComObject WScript.Shell
-function Acceso([string]$nombre, [string]$script, [string]$extra, [string]$desc) {
-    $a = $w.CreateShortcut((Join-Path $dest "$nombre.lnk"))
-    $a.TargetPath = $ps
-    $a.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$(Join-Path $PSScriptRoot $script)`" $extra".Trim()
-    $a.WorkingDirectory = $PSScriptRoot
-    $a.IconLocation = "$Exe,0"
-    $a.Description = $desc
-    $a.Save()
-}
-Acceso 'BLACK solo'                 'JUGAR-COOP-RED.ps1' '-Solo'       'BLACK de un jugador, con el mando en los botones de PS2'
-Acceso 'BLACK coop - hostear'       'JUGAR-COOP-RED.ps1' '-Anfitrion'  'Coop por red: esta maquina hostea; muestra la IP para la otra'
-Acceso 'BLACK coop - unirse'        'JUGAR-COOP-RED.ps1' '-Preguntar'  'Coop por red: pide la IP de la que hostea (recuerda la ultima)'
-Acceso 'BLACK coop - misma maquina' 'PROBAR-COOP-PC.ps1' ''            'Dos copias en esta maquina, un mando cada una'
-Acceso 'BLACK coop - dos pantallas' 'PROBAR-COOP-PC.ps1' '-DosMonitores' 'Dos copias en esta maquina, una por monitor'
-Acceso 'BLACK coop - tele'          'PROBAR-COOP-PC.ps1' '-ArribaAbajo' 'Dos copias en la tele: pantalla partida arriba y abajo, sin bordes'
-Write-Host "[ok] accesos directos en $dest" -ForegroundColor Green
+# (138) ordenados en carpetas por como se juega: la lista vive en ACCESOS-BLACK.ps1 (se corre solo para rehacerlos)
+& (Join-Path $PSScriptRoot 'ACCESOS-BLACK.ps1')
 
 Write-Host ""
 if ($ok) { Write-Host "LISTO para jugar." -ForegroundColor Green } else { Write-Host "LISTO, con un aviso arriba." -ForegroundColor Yellow }

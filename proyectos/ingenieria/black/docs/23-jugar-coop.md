@@ -48,19 +48,24 @@ coop - unirse». Paquete medido el 2026-10-30: 7,6 GB (el disco es 7,3).
 
 ### En la tele, con la pantalla partida (138, 2026-11-11)
 
-Acceso **«BLACK coop - tele»** (`PROBAR-COOP-PC.ps1 -ArribaAbajo`): la copia 1 arriba y la 2 abajo, **sin bordes y
-sin barra de tareas** (el lanzador la esconde al abrir y la devuelve al cerrar; si una corrida muere sin devolverla, la
-devuelve el próximo arranque de cualquier modo partido). El lado a lado (`misma maquina`) también va sin bordes ahora.
+Los accesos están ordenados en `Escritorio\Juegos\BLACK` (los arma `lanzadores\ACCESOS-BLACK.ps1`, que corre solo o
+desde `PREPARAR-BLACK.ps1`): **BLACK solo**, **Elegir mision**, `Coop en la tele\` (**Tele - arriba y abajo
+(recomendado)**, **Tele - lado a lado**, **Notebook y tele**) y `Coop por red (dos computadoras)\` (**Hostear**,
+**Unirse**). Los dos cortes en una pantalla van **sin bordes y sin barra de tareas** (el lanzador la esconde al abrir
+y la devuelve al cerrar; si una corrida muere sin devolverla, la devuelve el próximo arranque).
 
-- **Arriba/abajo es el recomendado.** El juego agranda la vista para los costados según el ancho de la ventana: arriba/abajo
-  cada uno ve todo el ancho (como en consola); lado a lado cada uno ve un pasillo angosto.
-- **La resolución sale sola del alto de cada mitad:** el render apunta a 1080 líneas por jugador (tope del port: 200 %).
-  En una pantalla 1080p cada mitad (540) va al 200 % → 3840×1080 internos; en una tele 4K (mitad 1080) al 100 %, lo
-  mismo. Dos copias así son los píxeles de un cuadro 4K.
-- **Medido en la notebook** (2026-11-11, misión 3, 200 %, MSAA 4x + SMAA, GTAO): 60 fps las dos copias, la placa al
-  ~76 % **con el reloj bajo** (780 MHz, 18 W: sin exigir potencia). Con el cargador enchufado sobra margen.
-- **Con la tele por HDMI:** Windows en **«Mostrar sólo en 2»** (tecla Windows + P → *Sólo segunda pantalla*), así la
-  tele es la pantalla principal con su resolución nativa y la notebook se apaga. Sonido: la tele lo toma por el HDMI.
+- **Arriba/abajo es el recomendado.** El juego agranda la vista a lo ancho: arriba/abajo cada uno ve la escena entera
+  y llena su mitad. **Lado a lado el juego no baja de 4:3**: cada mitad muestra 960×720 con franjas negras arriba y
+  abajo (es del juego; el lanzador no lo puede cambiar).
+- **Resolución:** cada copia apunta a 3840×1080 píxeles internos (las dos juntas = un cuadro 4K). Arriba/abajo en 1080p:
+  200 %; en una tele 4K: 100 %. Lado a lado: 150 % (lo visible, 720 líneas, queda en 1080).
+- **Tope de 60 cuadros y MSAA 2x** en los dos cortes: la tele muestra 60, y con la tele en *Duplicar* el juego tomaba
+  los 144 Hz de la notebook (medido: 144 fps, placa al 86 %). Al 150-200 % la imagen ya está sobremuestreada; MSAA 2x
+  deja margen para el fuego y el humo, que es donde el juego pega bajones (Fran).
+- **Medido en la tele de la casa** (LG, 1080p, por HDMI en *Duplicar*, cargador enchufado, 2 mandos PS4; misión 3,
+  2026-11-11): arriba/abajo 144 fps sin tope con MSAA 4x (placa 86 %); lado a lado al 200 % la anfitriona caía a 34 fps
+  → 150 %: 60/60 con la placa al 71 % (MSAA 4x) y **52 % (MSAA 2x)**. Fuego y humo, sin medir: se ve jugando.
+- **Proyección:** anda en *Duplicar* y en *Sólo segunda pantalla* (tecla Windows + P). Sonido: por el HDMI de la tele.
 - Sin dos mandos prendidos el lanzador no abre (hace falta uno por ventana).
 
 En la 2 y la 3 las dos copias suenan por el mismo parlante (cada uno escucha su arma; el ambiente sale doble). En la 1

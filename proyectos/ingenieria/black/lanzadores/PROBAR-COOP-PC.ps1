@@ -63,13 +63,24 @@ if ($DosMonitores) {
     $alto = $b1.Height
     Set-Toml @{ display_mode = 'windowed'; width = $mitad; height = $b1.Height; fps_counter = $true; pause_on_focus_loss = $false }
 }
-# (138) El render es un % del ALTO de la ventana (port: render_percent "of the output height", 20..200). Se apunta a
-# 1080 lineas por jugador: la mitad de una pantalla 1080p (540) va a 200 %, y una mitad de una tele 4K (1080) al 100 %.
-# Dos copias a 3840x1080 internos cada una son los pixeles de UN cuadro 4K: medido en la notebook (RTX 4060 Laptop).
-$render = [int][Math]::Min(200, [Math]::Max(100, 5 * [Math]::Ceiling(108000 / $alto / 5)))
+# (138) El render es un % del lado de la ventana (port: render_percent, 20..200, escala ancho y alto). Cada copia apunta
+# a 3840x1080 = 4 147 200 pixeles internos: las dos juntas son UN cuadro 4K, que en la notebook (RTX 4060 Laptop) dio
+# 60 fps las dos (medido arriba/abajo en 1080p: 1920x540 al 200 %). Lado a lado en 1080p (960x1080) tambien da 200 %
+# (1920x2160, los mismos pixeles); en una tele 4K, 100 %. Con dos monitores, 100 % (sin medir mas que eso).
+$ancho = $lugares[0][2]
+$render = [int][Math]::Min(200, [Math]::Max(100, 5 * [Math]::Round(20 * [Math]::Sqrt(4147200 / ($ancho * $alto)))))
 if ($DosMonitores) { $render = 100 }
+# Lado a lado el juego no baja de 4:3: en 960x1080 dibuja 960x720 con franjas negras (medido (138)), y al 200 % la
+# anfitriona cayo a 34 fps con la placa al 100 %. Al 150 % lo visible ya son 1080 lineas.
+if (-not $ArribaAbajo -and -not $DosMonitores) { $render = [Math]::Min($render, 150) }
 Set-Toml @{ render_percent = $render }
-Write-Host "Render: $render % del alto de cada ventana ($alto px -> $([int]($alto * $render / 100)) lineas)." -ForegroundColor Cyan
+# (138) Partida en una pantalla = la tele: tope de 60 cuadros. Con la tele en "Duplicar" el juego tomaba los 144 Hz de la
+# notebook y corria a 144 (medido) con la placa al 86 % para una tele que muestra 60. El juego original iba a 30.
+if (-not $DosMonitores) { Set-Toml @{ fps_cap = 60 } }
+# (138) Y MSAA 2x en vez de 4x: al 150-200 % la imagen ya esta sobremuestreada, y el fuego y el humo (lo que hace pegar
+# bajones, Fran) cuestan por pixel y por muestra. SMAA sigue prendido.
+if (-not $DosMonitores) { Set-Toml @{ msaa = 2 } }
+Write-Host ("Render: {0} % de cada ventana ({1}x{2} -> {3}x{4} internos)." -f $render, $ancho, $alto, [int]($ancho * $render / 100), [int]($alto * $render / 100)) -ForegroundColor Cyan
 $nombre = if ($Etiqueta) { $Etiqueta } elseif ($Control) { 's2a-control' } elseif ($Cruzar) { 's2b-cruzado' } else { 's2b' }
 $corrida = New-CarpetaCorrida $nombre
 $inicio = Get-Date

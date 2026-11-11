@@ -10,7 +10,10 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 > -ArribaAbajo`): partido arriba/abajo, sin bordes, barra de tareas escondida mientras juegan, render según el alto de
 > cada mitad (1080 líneas por jugador). Medido: misión 3, 60 fps las dos copias (`docs/23` «En la tele»). `MISION.ps1`
 > no parseaba (`$Puerto:`): arreglado, y `pruebas/parsear-lanzadores.py` (en `controles.py`, con sabotaje) lo ve ahora.
-> Sin probar con mandos ni en la tele real (no había). El retome de abajo, (138) dificultad, sigue vigente: pasa a (139).
+> **(138b), en la tele de la casa (LG 1080p, 2 mandos PS4):** accesos ordenados en carpetas (`ACCESOS-BLACK.ps1`),
+> «Tele - lado a lado» al 150 % (al 200 % la anfitriona caía a 34 fps), tope 60 y MSAA 2x en los dos cortes; 60/60
+> medido en los dos. Falta: Fran jugándolo con fuego y humo (donde el juego pega bajones). El retome de abajo, (138)
+> dificultad, sigue vigente: pasa a (139).
 >
 > **(137b), 2026-11-07, NOTEBOOK, con Fran y Agustín jugando.** Terminaron la campaña cargando misiones por el canal
 > de control (`docs/23` «Cargar cualquier misión»: tabla de números internos, el perfil y su firma, la red por
