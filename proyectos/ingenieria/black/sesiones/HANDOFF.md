@@ -12,7 +12,10 @@ memoria del chat anterior, retome exactamente donde quedó ésta.
 > no parseaba (`$Puerto:`): arreglado, y `pruebas/parsear-lanzadores.py` (en `controles.py`, con sabotaje) lo ve ahora.
 > **(138b), en la tele de la casa (LG 1080p, 2 mandos PS4):** accesos ordenados en carpetas (`ACCESOS-BLACK.ps1`),
 > «Tele - lado a lado» al 150 % (al 200 % la anfitriona caía a 34 fps), tope 60 y MSAA 2x en los dos cortes; 60/60
-> medido en los dos. Falta: Fran jugándolo con fuego y humo (donde el juego pega bajones). El retome de abajo, (138)
+> medido en los dos. Falta: Fran jugándolo con fuego y humo (donde el juego pega bajones). Fran prefiere
+> arriba/abajo. **Auditoría P7 en rojo:** los commits 33b3dd8 y fc8e1cd no citan requisitos; trazan a L0-03, L1-02 y
+> L1-12 de `docs/20`, y **L1-12 dice «mitad vertical»**: el arriba/abajo que eligió Fran lo contradice, así que L1-12
+> se reescribe (con su sí) en la próxima sesión de requisitos. El retome de abajo, (138)
 > dificultad, sigue vigente: pasa a (139).
 >
 > **(137b), 2026-11-07, NOTEBOOK, con Fran y Agustín jugando.** Terminaron la campaña cargando misiones por el canal
