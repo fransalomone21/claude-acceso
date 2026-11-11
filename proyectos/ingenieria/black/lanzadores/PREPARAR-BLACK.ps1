@@ -58,6 +58,7 @@ Acceso 'BLACK coop - hostear'       'JUGAR-COOP-RED.ps1' '-Anfitrion'  'Coop por
 Acceso 'BLACK coop - unirse'        'JUGAR-COOP-RED.ps1' '-Preguntar'  'Coop por red: pide la IP de la que hostea (recuerda la ultima)'
 Acceso 'BLACK coop - misma maquina' 'PROBAR-COOP-PC.ps1' ''            'Dos copias en esta maquina, un mando cada una'
 Acceso 'BLACK coop - dos pantallas' 'PROBAR-COOP-PC.ps1' '-DosMonitores' 'Dos copias en esta maquina, una por monitor'
+Acceso 'BLACK coop - tele'          'PROBAR-COOP-PC.ps1' '-ArribaAbajo' 'Dos copias en la tele: pantalla partida arriba y abajo, sin bordes'
 Write-Host "[ok] accesos directos en $dest" -ForegroundColor Green
 
 Write-Host ""

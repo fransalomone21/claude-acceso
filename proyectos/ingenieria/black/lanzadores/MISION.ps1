@@ -32,7 +32,7 @@ function Ctl([string]$cmd) {
 }
 
 $estado = Ctl 'state'
-if (-not $estado) { Write-Host "El juego no contesta en el puerto $Puerto: abrilo con JUGAR-COOP-RED.ps1 -Anfitrion." -ForegroundColor Red; exit 1 }
+if (-not $estado) { Write-Host "El juego no contesta en el puerto ${Puerto}: abrilo con JUGAR-COOP-RED.ps1 -Anfitrion." -ForegroundColor Red; exit 1 }
 if ($Dificultad -lt 0) { $Dificultad = if ($estado -match 'difficulty=(\d)') { [int]$Matches[1] } else { 1 } }
 
 $nivel = $niveles[$Mision - 1]

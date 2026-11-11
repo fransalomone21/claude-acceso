@@ -46,6 +46,23 @@ coop - unirse». Paquete medido el 2026-10-30: 7,6 GB (el disco es 7,3).
 | **2. Notebook + monitor** | enchufar el monitor y `PROBAR-COOP-PC.ps1 -DosMonitores` | una ventana entera por pantalla, una sola máquina | lado a lado sí; con monitor no (no había uno enchufado) |
 | **3. Notebook sola** | `PROBAR-COOP-PC.ps1` | cero preparación | **sí**: 145 cuadros por segundo cada copia, cada mando su ventana (Fran) |
 
+### En la tele, con la pantalla partida (138, 2026-11-11)
+
+Acceso **«BLACK coop - tele»** (`PROBAR-COOP-PC.ps1 -ArribaAbajo`): la copia 1 arriba y la 2 abajo, **sin bordes y
+sin barra de tareas** (el lanzador la esconde al abrir y la devuelve al cerrar; si una corrida muere sin devolverla, la
+devuelve el próximo arranque de cualquier modo partido). El lado a lado (`misma maquina`) también va sin bordes ahora.
+
+- **Arriba/abajo es el recomendado.** El juego agranda la vista para los costados según el ancho de la ventana: arriba/abajo
+  cada uno ve todo el ancho (como en consola); lado a lado cada uno ve un pasillo angosto.
+- **La resolución sale sola del alto de cada mitad:** el render apunta a 1080 líneas por jugador (tope del port: 200 %).
+  En una pantalla 1080p cada mitad (540) va al 200 % → 3840×1080 internos; en una tele 4K (mitad 1080) al 100 %, lo
+  mismo. Dos copias así son los píxeles de un cuadro 4K.
+- **Medido en la notebook** (2026-11-11, misión 3, 200 %, MSAA 4x + SMAA, GTAO): 60 fps las dos copias, la placa al
+  ~76 % **con el reloj bajo** (780 MHz, 18 W: sin exigir potencia). Con el cargador enchufado sobra margen.
+- **Con la tele por HDMI:** Windows en **«Mostrar sólo en 2»** (tecla Windows + P → *Sólo segunda pantalla*), así la
+  tele es la pantalla principal con su resolución nativa y la notebook se apaga. Sonido: la tele lo toma por el HDMI.
+- Sin dos mandos prendidos el lanzador no abre (hace falta uno por ventana).
+
 En la 2 y la 3 las dos copias suenan por el mismo parlante (cada uno escucha su arma; el ambiente sale doble). En la 1
 no hay ese problema.
 

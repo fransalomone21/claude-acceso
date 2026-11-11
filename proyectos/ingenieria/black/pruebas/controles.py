@@ -30,6 +30,9 @@ CONTROLES = [
     ("probar-clon-comparte", ["pruebas/probar-clon-comparte.py"]),
     # (133) el puente de mandos de la plataforma: mapeo SDL -> canal de control y envio UDP a cada copia
     ("puente_mandos autotest", ["herramientas/puente_mandos.py", "--autotest"]),
+    # (138) que cada lanzador parsee: MISION.ps1 llego a main sin poder correr nunca ("$Puerto:" en un string)
+    ("parsear-lanzadores", ["pruebas/parsear-lanzadores.py"]),
+    ("parsear-lanzadores sabotaje", ["pruebas/parsear-lanzadores.py", "--sabotaje"]),
     ("prueba_herramientas", ["pruebas/prueba_herramientas.py"]),
     ("probar-controles", ["pruebas/probar-controles.py"]),
 ]

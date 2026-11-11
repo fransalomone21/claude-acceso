@@ -488,3 +488,48 @@
 - [archive-black] archive.org youtube-XFLRSOz5NWI: Call of Duty: Black Ops II - E3 2012: Strike Force Debut HD
 - [archive-black] archive.org youtube-Xf7YWvpwYsY: Call of Duty: Black Ops 2 - Team SUICIDE Trolling On Search & Destroy! (BO2 Trolling)
 - [archive-black] archive.org LOLBlackOps3OnPS3Xbox360LooksTERRIBLECallOfDutyCODBO3PS4Gameplay: LOL Black Ops 3 On PS 3 & Xbox 360 Looks TERRIBLE Call Of Duty COD BO 3 PS 4 Gameplay
+
+## 2026-11-11
+
+- [gh-black-criterion] kROM3r/BLACKReloadedMod -- 24 mods for BLACK (Criterion, 2006) in a single winmm.dll, for the XBE Recomp and the PC p (https://github.com/kROM3r/BLACKReloadedMod)
+- [gh-black-xbox] arieco57/bo3-recomp -- Black Ops III (Xbox 360) recompilado a Linux y Android - proyecto personal, muy beta (https://github.com/arieco57/bo3-recomp)
+- [gh-black-xbox] akirahayabusa/ngb-pc-native-port -- Ninja Gaiden Black (Hurricane zh x2.1) native PC loader: Xbox D3D8 HLE on D3D9 (https://github.com/akirahayabusa/ngb-pc-native-port)
+- [gh-black-xbox] manuk-bulan/BLACK-XBOX-TOOLS -- All asset modding game "Black XBOX Classic" (https://github.com/manuk-bulan/BLACK-XBOX-TOOLS)
+- [gh-black-xbox] AS97GitHub/Black-Font-Editor -- Open-source font editor for Black (Xbox) (https://github.com/AS97GitHub/Black-Font-Editor)
+- [gh-black-xbox] spartansprm/BO2-Android-xbox360 -- Port nativo de Black Ops II (Xbox 360) a Android ARM64 con renderizador Vulkan y controles (https://github.com/spartansprm/BO2-Android-xbox360)
+- [gh-black-ps2] stelaras0925-del/BlackKatRecomp -- Trying Static Recompilation for Pirates: Legends of Black Kat PS2 game using AI tools (https://github.com/stelaras0925-del/BlackKatRecomp)
+- [gh-issues-black-pc] Spark198rus/black-pc #44: Name keyboard and mouse keys in on-screen prompts (https://github.com/Spark198rus/black-pc/pull/44)
+- [gh-issues-black-pc] Spark198rus/black-pc #43: [Feature Request] "Hold to Aim" instead of "Toggle" (https://github.com/Spark198rus/black-pc/issues/43)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #172: [Feature Request] an option that makes the game stops sending you the warning message about the game (https://github.com/TGP482/BLACK-XBERecomp/issues/172)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #171: [Recomp Bug]: Keyboard custom bind not working after updating (https://github.com/TGP482/BLACK-XBERecomp/issues/171)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #170: [Feature Request]: Unlock menu framerate lock (30 FPS) and add customizable FPS cap options (https://github.com/TGP482/BLACK-XBERecomp/issues/170)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #169: [Original Bug]: Fix Silver Weapon Audio Issues (Silencer Audio Bug & Missing Scope Cover Sound) (https://github.com/TGP482/BLACK-XBERecomp/issues/169)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #168: [Feature Request]: Add Weapon Selector Menu & Stock/Silver Skin Configuration Toggle (https://github.com/TGP482/BLACK-XBERecomp/issues/168)
+- [gh-issues-xberecomp] TGP482/BLACK-XBERecomp #167: [Feature Request]: Add ADS FOV slider / multiplier and increase maximum FOV cap beyond 140 (https://github.com/TGP482/BLACK-XBERecomp/issues/167)
+- [archive-black] archive.org BossBattle158LegendOfZeldaBlack: Boss Battle 158: Legend Of Zelda Black
+- [archive-black] archive.org tgbm-review-pal: The Getaway Black Monday | 2004 | PAL Review | 10.OCT.2004
+- [archive-black] archive.org tmbo_20240127: Twisted Metal Black Online PAL REVIEW April 2003 PS2
+- [archive-black] archive.org black-2006-recomp-archive.-7z: BLACK (2006) Recomp Archive
+- [archive-black] archive.org thingiverse-3523602: Xbox One S Custom Controller Shell: Black Ops 4 Edition (3523602)
+- [archive-black] archive.org arxiv-0906.4392: Corotational Instability of Inertial-Acoustic Modes in Black-Hole Accretion Discs: Non-Bar
+- [archive-black] archive.org arxiv-1003.1040: Quantum Field, Thermodynamics and Black Hole on Coherent State Representation of Fuzzy Spa
+- [archive-black] archive.org arxiv-1203.1926: The Arduous Journey to Black-Hole Formation in Potential Gamma-Ray Burst Progenitors
+- [archive-black] archive.org multiplayer-teaser-call-of-duty-black-ops-h_fsM6LBi54: Multiplayer Teaser | Call of Duty: Black Ops | @CallofDuty | YouTube
+- [archive-black] archive.org black_20261019: Black (XBOX) (Win Port)
+- [archive-black] archive.org cd-i-prototype-disc-green-label-black-text-...02-mastering-code-scans: CD-I Prototype Disc (Green Label, Black Text; 02 Mastering Code; PDO) [Scans]
+- [archive-black] archive.org arxiv-gr-qc9708002: Black hole excision with matching
+- [archive-black] archive.org bliptv-20131013-033317-Achievementhunter-CallOfDutyBlackOps2EctoplasmicResidueGuide530: Call of Duty: Black Ops 2 - Ectoplasmic Residue Guide
+- [archive-black] archive.org black-sles-54030: Black [SLES54030]
+- [archive-black] archive.org black-death-proto-1-01: Black Death Prototype
+- [archive-black] archive.org jcesc-volume-18-issue-1-pages-31-47: Effect of Fenugreek (Trigonella foenum-graecum L.) and Black Seed (Nigella sativa L.) Addi
+- [archive-black] archive.org manualsonline-id-c73c23ea-2bcb-4fdb-a949-3cc6ff32eb8f: Black Box Computer Accessories DVI/VGA USB/PS2 1-Port KVM Module User Guide
+- [archive-black] archive.org gupol2e3qnszafbutsxwsa2h5xrfclwhqvdwtbic: Spine 571: Black Moon
+- [archive-black] archive.org arxiv-astro-ph0309754: Screw instability of the magnetic field connecting a rotating black hole with its surround
+- [archive-black] archive.org bliptv-20131013-033116-Achievementhunter-CallOfDutyBlackOps2KungFuGripGuide685: Call of Duty: Black Ops 2 - Kung Fu Grip Guide
+- [archive-black] archive.org g4tv.com-video39515-flvhd: g4tv.com-video39515-flvhd: Brutal Legend Brutal Thoughts with Jack Black Part 3
+- [archive-black] archive.org blackicewhitenoiserev18: Black ICE\White Noise Rev 18 (Atari Jaguar prototype cd-rom)
+- [archive-black] archive.org gta-sa-ptmg-biohazard-black-edition: GTA San Andreas (PTMG Édition BioHazard Black Edition)
+- [archive-black] archive.org black-ops-cold-war-the-movie-call-of-duty-black-ops-cold-war-warzone-1WIvsxulV6s: Black Ops Cold War: The Movie | Call of Duty: Black Ops Cold War & Warzone | @CallofDuty |
+- [archive-black] archive.org TomClancysRainbowSix3BlackArrowMay32004prototype: Tom Clancy's Rainbow Six 3 - Black Arrow (May 3, 2004 prototype)
+- [archive-black] archive.org SpoilerAlertShowEpisode31-BlackOps: Spoiler Alert Show Episode 31 - Black Ops
+- [archive-black] archive.org Black_tree_my_home_00100111: Black_tree_my_home_00100111

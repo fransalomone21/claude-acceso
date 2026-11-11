@@ -6,6 +6,12 @@ Se sobreescribe en cada cierre de sesión relevante. No es historial (para eso,
 `docs/03-bitacora.md`); es el paquete mínimo para que una sesión nueva, sin
 memoria del chat anterior, retome exactamente donde quedó ésta.
 
+> **(138), 2026-11-11, NOTEBOOK: el coop en la tele.** Acceso nuevo «BLACK coop - tele» (`PROBAR-COOP-PC.ps1
+> -ArribaAbajo`): partido arriba/abajo, sin bordes, barra de tareas escondida mientras juegan, render según el alto de
+> cada mitad (1080 líneas por jugador). Medido: misión 3, 60 fps las dos copias (`docs/23` «En la tele»). `MISION.ps1`
+> no parseaba (`$Puerto:`): arreglado, y `pruebas/parsear-lanzadores.py` (en `controles.py`, con sabotaje) lo ve ahora.
+> Sin probar con mandos ni en la tele real (no había). El retome de abajo, (138) dificultad, sigue vigente: pasa a (139).
+>
 > **(137b), 2026-11-07, NOTEBOOK, con Fran y Agustín jugando.** Terminaron la campaña cargando misiones por el canal
 > de control (`docs/23` «Cargar cualquier misión»: tabla de números internos, el perfil y su firma, la red por
 > ZeroTier). Perfil «fran» (`Profile.respaldo-135c`, sha `22A73979…`) puesto en las dos máquinas; el editado a mano lo
