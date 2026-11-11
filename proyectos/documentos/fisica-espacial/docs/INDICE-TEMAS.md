@@ -453,7 +453,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(ejemplo)* El satélite de dos discos y el meteorito (Problema Resuelto 18.6 del Beer)
 - **Cuando $theta$ también se mueve: el trompo y las tres conservaciones**
 
-  Ecuaciones: `<peon-precesion-libre>`, `<peon-tan-gamma>`, `<fig-peonza-componentes>`, `<fig-conos-directa>`, `<fig-ley-senos>`, `<fig-meteorito>`, `<fig-nutacion>`
+  Ecuaciones: `<peon-precesion-libre>`, `<fig-omega-peonza-libre>`, `<peon-tan-gamma>`, `<fig-peonza-componentes>`, `<fig-conos-directa>`, `<fig-ley-senos>`, `<fig-meteorito>`, `<fig-omega-trompo>`, `<fig-nutacion>`
 
 ### 22. El cuerpo que cambia de forma, y la actitud que se controla desde adentro  ·  `actitud`
 

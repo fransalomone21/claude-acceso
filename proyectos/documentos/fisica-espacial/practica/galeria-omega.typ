@@ -15,3 +15,7 @@
 #fig-omega-gimbal
 #pagebreak()
 #fig-omega-suma-euler
+#pagebreak()
+#fig-omega-peonza-libre-completa
+#pagebreak()
+#fig-omega-trompo-completa

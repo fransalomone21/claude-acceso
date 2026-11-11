@@ -264,6 +264,8 @@ comentario de la figura.
 | `fig-omega-observadores` | `euler-giroscopo` | la tabla de la cátedra dibujada: horquilla, disco e inercial, con la derivada relativa y el transporte de cada uno |
 | `fig-omega-gimbal` | `euler-giroscopo` | el Problema 3 de CR: $bold(H)_O$, la plataforma, el torquer y la barra $600 = 500 + 100$ |
 | `fig-omega-suma-euler` | `euler-giroscopo` | $bold(omega) = dot(phi) bold(K) + dot(theta) hat(f) + dot(psi) hat(k)$ punta con cola, con la base no ortonormal a la vista |
+| `fig-omega-peonza-libre` | `peonza` | la peonza libre en 3D: $bold(H)_G$ fijo, $hat(k)$ y $bold(omega)$ en un plano que precesa, sus dos conos y sus derivadas tangentes |
+| `fig-omega-trompo` | `peonza` | el trompo: la cupla del peso sobre la línea de nodos, $dif bold(H)_O$ paralelo a ella y las dos proyecciones de $bold(H)_O$ que se conservan |
 
 ## Lo que `estilo.typ` todavía no tiene
 

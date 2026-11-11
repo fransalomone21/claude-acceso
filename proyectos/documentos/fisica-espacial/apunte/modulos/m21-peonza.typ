@@ -1,5 +1,6 @@
 #import "../plantilla.typ": *
 #import "../biblioteca/figuras-euler.typ": fig-peonza-componentes, fig-ley-senos, fig-meteorito, fig-nutacion
+#import "../biblioteca/figuras-omega.typ": fig-omega-peonza-libre-completa, fig-omega-trompo-completa
 // voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Peonza simétrica, precesión directa y retrógrada", clave: "peonza")[
@@ -68,6 +69,20 @@ $ dot(phi) = H\/I' $ <peon-precesion-libre>
 de apertura del cono, $bold(H)_G$ es siempre el mismo vector fijo y $I'$ es
 siempre el mismo momento transversal: la precesión de un cuerpo libre es
 uniforme, sin que haga falta ninguna cupla que la mantenga así.
+
+Que $bold(H)_G$ no cambie no quiere decir que nada cambie. El eje del cuerpo
+y $bold(omega)$ sí se mueven: giran alrededor de $bold(H)_G$, cada uno en su
+cono, y sus derivadas son las tangentes a esos conos
+(@fig-omega-peonza-libre). Para el eje alcanza con $dif hat(k) \/ dif t =
+bold(omega) times hat(k)$, porque $hat(k)$ está pegado al cuerpo; el spin no
+lo mueve, así que sólo la precesión lo arrastra.
+
+#fig([La peonza libre en el espacio. $bold(H)_G$ queda fijo y hace de eje; el
+eje del cuerpo y $bold(omega)$ están en un mismo plano que gira alrededor de
+él con $dot(phi) = H \/ I'$. Las derivadas (rojo) son tangentes a los conos:
+cambia la dirección de $hat(k)$ y de $bold(omega)$, no su módulo.],
+fig-omega-peonza-libre-completa)
+<fig-omega-peonza-libre>
 
 == El ángulo del eje instantáneo: $tan gamma = (I\/I') tan theta$
 
@@ -489,6 +504,18 @@ $dot(psi)$) para cada $theta$, el trompo queda acotado: $theta$ oscila entre
 dos valores, y eso es la nutación (Beer, problemas 18.139 y 18.140). La
 precesión estable es el caso particular en que esa oscilación tiene amplitud
 cero.
+
+Las dos conservaciones de momento angular salen del mismo dibujo
+(@fig-omega-trompo): la cupla del peso respecto de $O$ es horizontal y
+perpendicular al eje del trompo, y $dif bold(H)_O = sum bold(M)_O thin dif t$
+va para el mismo lado. Un cambio que no tiene componente sobre $Z$ ni sobre
+$z$ no puede cambiar las proyecciones de $bold(H)_O$ sobre esos dos ejes.
+
+#fig([El trompo con su $bold(H)_O$. La cupla del peso, $c hat(k) times
+(-W bold(K))$, cae sobre la línea de nodos; $dif bold(H)_O$ también. Por eso
+las dos proyecciones punteadas, sobre la vertical y sobre el eje del trompo,
+quedan fijas mientras el eje precesa y nutaciona.], fig-omega-trompo-completa)
+<fig-omega-trompo>
 
 Mirado desde arriba, la punta del eje queda encerrada entre dos circunferencias,
 la de $theta_1$ y la de $theta_2$, y el dibujo que hace entre ellas depende de

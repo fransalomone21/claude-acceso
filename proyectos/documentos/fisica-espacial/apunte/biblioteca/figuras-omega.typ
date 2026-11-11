@@ -294,3 +294,118 @@
   masa3(v, _O, radio: 0.05)
   rotulo3(v, _O, [$O$], ancla: "north-east")
 })
+
+// ---------------------------------------------------------------------
+// Para el módulo `peonza`: el plano de H, z y omega se dibuja sobre una
+// horizontal _d que en la vista az 35 apunta justo a la izquierda de la
+// hoja (theta se ve en verdadera magnitud); la tangente _e = Z x _d viene
+// hacia el lector y, con la elevación, se ve hacia abajo.
+//   _d = (sin 35; -cos 35; 0); _e = Z x _d = (cos 35; sin 35; 0).
+// ---------------------------------------------------------------------
+#let _vp = vista3d(az: 35, el: 32)
+#let _d = (0.574, -0.819, 0)
+#let _e = (0.819, 0.574, 0)
+#let _en-plano(ang, largo) = suma3(esc3(largo * calc.cos(ang * 1deg), _Z), esc3(largo * calc.sin(ang * 1deg), _d))
+
+// 7. La peonza libre (cuerpo alargado, I = I'/2, theta = 35): H_G fijo, y
+// z y omega barriendo dos conos alrededor de él, en el mismo plano.
+//   tan gamma = (1/2) tan 35 => gamma = 19,3: omega queda a 15,7 de H.
+//   dk/dt = omega x k = phidot K x k (el spin no mueve a k):
+//   K x k = sin(theta) (Z x _d) = sin(theta) _e  -> sobre +_e.
+//   d omega/dt = phidot K x omega, también sobre +_e (omega gira rígido con
+//   el plano, con módulo fijo).
+#let fig-omega-peonza-libre = esquema(escala: 1.2cm, {
+  let v = _vp
+  let th = 35
+  let a-w = 15.7
+  let Lk = 3.2
+  let Lw = 2.5
+  let k = _en-plano(th, Lk)
+  let w = _en-plano(a-w, Lw)
+  // los dos conos: las circunferencias que barren las puntas
+  linea3(v, circulo3-pts((0, 0, Lk * calc.cos(th * 1deg)), _Z, Lk * calc.sin(th * 1deg)), color: c-guia, grosor: 0.5pt, punteada: true)
+  linea3(v, circulo3-pts((0, 0, Lw * calc.cos(a-w * 1deg)), _Z, Lw * calc.sin(a-w * 1deg)), color: c-dato.lighten(40%), grosor: 0.5pt, punteada: true)
+  // el cuerpo, alargado sobre z
+  cilindro3(v, esc3(0.55, unit3(k)), k, 0.3, 1.5, relleno: luma(215).transparentize(30%), tapa: luma(238).transparentize(30%))
+  // H_G fijo
+  flecha3(v, _O, (0, 0, 3.6), color: c-aux, grosor: 1.4pt)
+  rotulo3(v, (0, 0, 3.6), text(fill: c-aux)[$bold(H)_G$ fijo: $dot(bold(H))_G = 0$], ancla: "south")
+  giro3(v, (0, 0, 3.15), _Z, (1, 0, 0), 0.32, 290, color: c-verde)
+  rotulo3(v, (0.35, -0.2, 3.15), text(fill: c-verde)[$dot(phi) = H \/ I'$], ancla: "east")
+  // el eje z y omega
+  flecha3(v, _O, k, color: luma(40), grosor: 1.1pt)
+  rotulo3(v, k, [$hat(k)$ (eje $z$)], ancla: "west")
+  flecha3(v, _O, w, color: c-dato, grosor: 1.3pt)
+  rotulo3(v, esc3(0.7, w), text(fill: c-dato)[$bold(omega)$], ancla: "east")
+  // las derivadas: tangentes a sus conos, sobre +_e
+  flecha3(v, k, suma3(k, esc3(1.2, _e)), color: c-rojo, grosor: 1.1pt)
+  rotulo3(v, suma3(k, esc3(1.2, _e)), text(fill: c-rojo)[$dif hat(k) \/ dif t = bold(omega) times hat(k)$], ancla: "south-east")
+  flecha3(v, w, suma3(w, esc3(0.6, _e)), color: c-rojo, grosor: 0.9pt)
+  rotulo3(v, suma3(w, esc3(0.6, _e)), text(fill: c-rojo)[$dot(bold(omega))$], ancla: "east")
+  // los ángulos contra z
+  // e x Z = _d: girar Z alrededor de _e lo lleva hacia el eje del cuerpo
+  linea3(v, arco3-pts(_O, _e, _Z, 1.25, th), color: luma(80), grosor: 0.7pt)
+  rotulo3(v, _en-plano(th / 2, 1.4), text(fill: luma(70))[$theta$], ancla: "west")
+  masa3(v, _O, radio: 0.05)
+  rotulo3(v, _O, [$G$], ancla: "north-east")
+})
+#let fig-omega-peonza-libre-completa = block({
+  fig-omega-peonza-libre
+  _leyenda[
+    Cuerpo alargado ($I = I' \/ 2$, $theta = 35 degree$): con $tan gamma = (I \/ I') tan theta$, $gamma approx 19 degree$, y
+    $bold(omega)$ queda entre el eje y $bold(H)_G$. Los tres están en un plano que gira alrededor de
+    $bold(H)_G$ con $dot(phi)$; las puntas de $hat(k)$ y de $bold(omega)$ barren los dos círculos
+    punteados, y sus derivadas son las tangentes.
+  ]
+})
+
+// 8. El trompo: el peso hace una cupla horizontal sobre la línea de nodos,
+// y por eso dH_O no cambia ni la componente de H_O sobre Z ni la de sobre z.
+//   M_O = c k x (-W Z) = -W c (k x Z);  k x Z = sin(theta) (_d x Z) =
+//   -sin(theta) _e  =>  M_O = +W c sin(theta) _e.  dH_O va sobre +_e.
+#let fig-omega-trompo = esquema(escala: 1.15cm, {
+  // otra vista: con az 60, _e (la línea de nodos) se ve abajo a la
+  // izquierda y no se confunde con el peso, que es vertical
+  let v = vista3d(az: 60, el: 25)
+  let th = 40
+  let ku = _en-plano(th, 1)
+  let Lz = 4.3
+  let G = esc3(1.6, ku)
+  let H = suma3(esc3(2.3, ku), (0, 0, 1.3))
+  // piso, Z y el eje del trompo
+  linea3(v, circulo3-pts(_O, _Z, 0.9), color: luma(170), grosor: 0.5pt)
+  linea3(v, (_O, (0, 0, 3.6)), color: c-guia, grosor: 0.5pt, punteada: true)
+  rotulo3(v, (0, 0, 3.6), [$Z$], ancla: "south")
+  linea3(v, (_O, esc3(Lz, ku)), grosor: 1.2pt)
+  cilindro3(v, G, ku, 0.55, 0.22, relleno: c-dato.lighten(72%).transparentize(30%), tapa: c-dato.lighten(85%).transparentize(30%))
+  rotulo3(v, esc3(Lz, ku), [$z$], ancla: "south-east")
+  // el peso
+  flecha3(v, G, suma3(G, (0, 0, -1.3)), color: c-trazo, grosor: 1.0pt)
+  rotulo3(v, suma3(G, (0, 0, -1.3)), [$bold(W)$], ancla: "north")
+  // H_O y sus dos proyecciones que se conservan
+  flecha3(v, _O, H, color: c-aux, grosor: 1.4pt)
+  rotulo3(v, H, text(fill: c-aux)[$bold(H)_O$], ancla: "south")
+  let hz = H.at(2)
+  linea3(v, (H, (0, 0, hz)), color: c-aux.lighten(30%), grosor: 0.5pt, punteada: true)
+  masa3(v, (0, 0, hz), radio: 0.05, color: c-aux)
+  rotulo3(v, (0, 0, hz), text(fill: c-aux)[$bold(K) dot.op bold(H)_O = "cte"$], ancla: "west")
+  let hk = prod3(H, ku)
+  linea3(v, (H, esc3(hk, ku)), color: c-aux.lighten(30%), grosor: 0.5pt, punteada: true)
+  masa3(v, esc3(hk, ku), radio: 0.05, color: c-aux)
+  rotulo3(v, esc3(hk - 0.6, ku), text(fill: c-aux)[$I omega_z = "cte"$ (sobre $z$)], ancla: "east")
+  // la cupla del peso sobre la línea de nodos, y dH_O paralelo a ella
+  flecha3(v, _O, esc3(1.7, _e), color: c-rojo, grosor: 1.2pt)
+  rotulo3(v, esc3(1.7, _e), text(fill: c-rojo)[$sum bold(M)_O$ (línea de nodos)], ancla: "north")
+  flecha3(v, H, suma3(H, esc3(1.1, _e)), color: c-rojo, grosor: 1.0pt)
+  rotulo3(v, suma3(H, esc3(1.1, _e)), text(fill: c-rojo)[$dif bold(H)_O$], ancla: "north")
+  masa3(v, _O, radio: 0.06)
+  rotulo3(v, _O, [$O$], ancla: "north-west")
+})
+#let fig-omega-trompo-completa = block({
+  fig-omega-trompo
+  _leyenda[
+    La cupla del peso respecto de $O$ es horizontal y perpendicular al eje del trompo (está sobre la
+    línea de nodos). $dif bold(H)_O$ va para el mismo lado: no tiene componente sobre $Z$ ni sobre $z$, así
+    que esas dos proyecciones de $bold(H)_O$ no cambian nunca, aunque $theta$ suba y baje.
+  ]
+})
