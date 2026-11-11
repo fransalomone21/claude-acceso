@@ -56,12 +56,16 @@ poder decirlo, también.
   «vertical» la puso él mismo al arrancar.
 ]
 
-Con $theta$ el ángulo entre $bold(H)_G$ y $z$ —la nutación del módulo #M("euler-giroscopo"),
-ahora medida contra $bold(H)_G$ en vez de contra un $Z$ impuesto desde
-afuera— la componente transversal de $bold(H)_G$ es $H sin theta = I' dot(phi)
-sin theta$ (la $bold(H)_O$ de la deducción de la precesión estable, en el
-módulo #M("euler-giroscopo"), componente sobre $hat(e)$), y como $sin theta$
-aparece en los dos lados:
+Ahora el número. Si $bold(H)_G$ es fijo, lo uso de eje $Z$: entonces $theta$
+es el ángulo entre $bold(H)_G$ y el eje $z$ del cuerpo, la misma nutación del
+módulo #M("euler-giroscopo") pero medida contra $bold(H)_G$. Quiero
+$dot(phi)$, que es cuánto gira el eje alrededor de $bold(H)_G$. ¿Dónde aparece
+$dot(phi)$ en $bold(H)_G$? En la componente transversal, sobre $hat(e)$: ahí
+la omega es $-dot(phi) sin theta$ (la proyección de $dot(phi) bold(K)$ que
+saqué en el módulo #M("euler-giroscopo")) y el momento es el transversal,
+$I'$. Esa misma componente, mirada desde el vector fijo, es la proyección de
+$bold(H)_G$ sobre la transversal: $H sin theta$. Igualo las dos cosas, $H sin
+theta = I' dot(phi) sin theta$, y como $sin theta$ aparece en los dos lados:
 
 $ dot(phi) = H\/I' $ <peon-precesion-libre>
 
@@ -98,11 +102,16 @@ fig-omega-peonza-libre-completa)
   $bold(H)_G$; $gamma$, dónde está $bold(omega)$.
 ]
 
-Con $I$ el momento axial e $I'$ el transversal (módulo #M("euler-giroscopo")),
-y descomponiendo los dos vectores contra $z$: la componente axial de
-$bold(H)_G$ es $H cos theta = I omega_z = I omega cos gamma$, y la transversal
-$H sin theta = I' omega_"transv" = I' omega sin gamma$ (Beer ecs. 18.46 a
-18.48). Dividiendo:
+Lo pienso así: $bold(H)_G$ y $bold(omega)$ son dos flechas distintas, pero
+están atadas por momento por omega, componente a componente, en ejes
+principales. Los ejes principales que tengo a mano son el eje $z$ (momento
+axial $I$) y la transversal en el plano (momento transversal $I'$). Entonces
+proyecto las dos flechas sobre esos dos ejes. Sobre $z$: $bold(H)_G$ da $H cos
+theta$ y $bold(omega)$ da $omega cos gamma$, y la primera es $I$ por la
+segunda. Sobre la transversal: $H sin theta$ y $omega sin gamma$, atadas por
+$I'$. O sea, $H cos theta = I omega cos gamma$ y $H sin theta = I' omega sin
+gamma$ (Beer ecs. 18.46 a 18.48). Quiero comparar los ángulos sin saber $H$
+ni $omega$, así que divido una por otra y se van los dos módulos:
 
 $ tan gamma = I/I' tan theta $ <peon-tan-gamma>
 
@@ -126,8 +135,13 @@ pasa al revés.], fig-peonza-componentes)
 == Precesión directa y precesión retrógrada
 
 #deduccion("de dónde sale el criterio del signo")[
-  De la @euler-precesion-estable con $sum bold(M)_O = 0$: $I dot(psi) + (I -
-  I') dot(phi) cos theta = 0$, así que
+  Me pregunto: ¿el spin y la precesión giran para el mismo lado? Eso es el
+  signo de $dot(psi) \/ dot(phi)$. La peonza libre es una precesión estable
+  —$theta$, $dot(phi)$ y $dot(psi)$ fijos— a la que nadie le hace cupla, así
+  que tomo la @euler-precesion-estable y la igualo a cero. El factor $dot(phi)
+  sin theta$ de afuera no es cero (hay precesión y hay cono), así que lo que
+  se anula es el corchete: $I dot(psi) + (I - I') dot(phi) cos theta = 0$.
+  Despejo el cociente que me interesa:
   $ dot(psi)/dot(phi) = (I' - I)/I cos theta $
   Con $theta < 90degree$ (el eje de simetría no llega a ser perpendicular al
   eje de precesión), $cos theta > 0$, y el signo de $dot(psi)\/dot(phi)$ —si
@@ -231,8 +245,12 @@ barata de no confundir el signo en un parcial.
   respecto de su eje de simetría—, la precesión es retrógrada (sección
   anterior).
 
-  *La velocidad de precesión.* De $dot(psi)\/dot(phi) = ((I'-I)\/I)
-  cos theta$, con $(I'-I)\/I = I'\/I - 1 = 9\/16 - 1 = -7\/16$:
+  *La velocidad de precesión.* Tengo el spin y quiero la precesión. No hay
+  cupla, así que vale la relación de la peonza libre entre los dos, que sale
+  de anular el corchete de la precesión estable: $dot(psi)\/dot(phi) =
+  ((I'-I)\/I) cos theta$. La doy vuelta para despejar $dot(phi)$, y lo único
+  que necesito del cuerpo es el cociente de momentos, que ya tengo:
+  $(I'-I)\/I = I'\/I - 1 = 9\/16 - 1 = -7\/16$:
   $ dot(phi) = dot(psi) (I/(I'-I)) 1/(cos theta)
     = -1,5 (16/7) 1/(cos 2degree) $
   $ abs(dot(phi)) = (24/7)/(0,9994) approx 3,431 " rad/s" $
@@ -392,18 +410,25 @@ son *equipolentes*: misma cantidad de movimiento lineal y mismo momento
 respecto de $G$. Por eso $bold(H)_G$ después del choque es el del satélite
 antes más $bold(r) times m_0 bold(v)_0$ del meteorito.
 
-*Paso 2, de $bold(H)_G$ a $bold(omega)$*, componente a componente en los
-ejes principales: $omega_x = H_x \/ I'$, $omega_y = H_y \/ I'$, $omega_z =
-H_z \/ I$. De ahí el módulo $omega$ y el ángulo $gamma$ con el eje de
+*Paso 2, de $bold(H)_G$ a $bold(omega)$.* Momento por omega, pero al revés:
+tengo el momento angular y busco la omega, así que divido, y sólo puedo
+dividir componente a componente en ejes principales. Las transversales van
+con $I'$ y la axial con $I$: $omega_x = H_x \/ I'$, $omega_y = H_y \/ I'$,
+$omega_z = H_z \/ I$. De ahí el módulo $omega$ y el ángulo $gamma$ con el eje de
 simetría.
 
 *Paso 3, el eje de precesión* es la dirección de $bold(H)_G$, fija desde ese
 instante, y $theta$ (entre $bold(H)_G$ y el eje) sale de $tan theta =
 H_"transv" \/ H_z$ o de la @peon-tan-gamma.
 
-*Paso 4, la ley de los senos.* $bold(omega) = dot(phi) bold(K) + dot(psi)
-hat(k)$ es una suma de dos vectores *oblicuos*: uno sobre el eje de
-precesión, el otro sobre el eje de simetría. Dibujados punta con cola forman
+*Paso 4, la ley de los senos.* Ya tengo $bold(omega)$ entero y quiero
+partirlo en precesión y spin. Me acuerdo de qué es: la velocidad angular del
+cuerpo es la suma de sus giros, cada uno sobre su eje; sin nutación quedan
+dos, $bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$, el de precesión sobre
+$bold(H)_G$ y el spin sobre el eje del cuerpo. Esos dos ejes forman $theta$,
+no $90 degree$: no puedo proyectar y leer componentes, porque la base no es
+ortonormal. Lo que sí puedo es dibujarlos punta con cola y usar el triángulo:
+dos vectores *oblicuos* y su suma forman
 un triángulo con lados $dot(phi)$, $dot(psi)$ y $omega$, en el que el ángulo
 opuesto a $dot(phi)$ es $gamma$, el opuesto a $dot(psi)$ es $theta - gamma$, y
 el opuesto a $omega$ es $180degree - theta$. El teorema del seno da todo de
@@ -491,10 +516,17 @@ lineales, así que el Beer aconseja no resolverlas sino usar lo que se
 conserva:
 
 - *La energía*, porque el peso es conservativo y el apoyo en $O$ no hace
-  trabajo. Con $c$ la distancia de $O$ a $G$:
+  trabajo. Para la cinética pienso igual que para $bold(H)_O$: un medio de
+  momento por omega al cuadrado, eje principal por eje principal. Sobre
+  $hat(e)$ y $hat(f)$ las omegas son $-dot(phi) sin theta$ y $dot(theta)$, con
+  $I'$; sobre $hat(k)$, $omega_z$, con $I$. La potencial es el peso por la
+  altura de $G$, que está a $c cos theta$ arriba de $O$. Con $c$ la distancia de $O$ a $G$:
   $ 1/2 [I' (dot(phi)^2 sin^2 theta + dot(theta)^2) + I omega_z^2] + m g c cos theta = E $
 - *El momento angular sobre el eje vertical fijo $Z$*, porque el peso y la
-  reacción en $O$ son verticales y no hacen momento alrededor de $Z$:
+  reacción en $O$ son verticales y no hacen momento alrededor de $Z$. Para
+  escribirlo proyecto $bold(H)_O$ sobre $bold(K)$, y como $bold(K) = -sin theta
+  thin hat(e) + cos theta thin hat(k)$, me quedo con la componente sobre
+  $hat(e)$ por $-sin theta$ más la de $hat(k)$ por $cos theta$:
   $ bold(K) dot.op bold(H)_O = I' dot(phi) sin^2 theta + I omega_z cos theta = "cte" $
 - *El momento angular sobre el eje de giro $z$*, porque $O$ y $G$ están los
   dos sobre él: $I omega_z = "cte"$.
