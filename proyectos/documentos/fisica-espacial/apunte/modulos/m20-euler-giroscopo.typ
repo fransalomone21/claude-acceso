@@ -42,9 +42,22 @@ resulta barata.
   pide la derivada de $bold(H)_G$ *respecto del espacio fijo*. Pero
   $bold(H)_G$ sólo tiene componentes simples —las de la @iner-diagonal— en
   ejes que en cada instante son principales del cuerpo, y esos ejes en
-  general están girando. La @cin-derivada, con $bold(Omega)$ la velocidad
-  angular de *esos ejes* (no necesariamente la del cuerpo), resuelve
-  exactamente esa tensión:
+  general están girando.
+
+  Pensado de a un paso. Quiero $dot(bold(H))_G$, porque eso es la cupla.
+  $bold(H)_G$ es una flecha, y para hacer cuentas la tengo que escribir con
+  componentes en alguna base. ¿En cuál? En la que me deja escribirla fácil:
+  ejes principales, donde cada componente es un momento de inercia por una
+  omega. Pero esos ejes no están quietos: se mueven con el cuerpo, o con el
+  armazón que yo elija. Entonces, cuando derivo $H_x hat(i) + H_y hat(j) + H_z
+  hat(k)$, cambian dos cosas: los números $H_x$, $H_y$, $H_z$, y las flechas
+  $hat(i)$, $hat(j)$, $hat(k)$ sobre las que están parados. Derivar los números
+  con los versores congelados es el primer término. Lo de los versores ya lo
+  sé del módulo #M("cinematica-cr"): un versor que gira con $bold(Omega)$
+  cambia a razón $bold(Omega) times hat(i)$, y sumado sobre los tres, cada uno
+  pesado por su componente, da $bold(Omega) times bold(H)_G$. Con
+  $bold(Omega)$ la velocidad angular de *esos ejes* —no necesariamente la del
+  cuerpo—, eso es la @cin-derivada aplicada a $bold(H)_G$:
   $ dot(bold(H))_G = (dot(bold(H))_G)_(O x y z) + bold(Omega) times bold(H)_G $
   <euler-derivada-h>
   (Beer §18.5, ecs. 18.22 y 18.23, pág. 1169–1170 —las que la lista de la
@@ -71,6 +84,12 @@ círculo punteado. Lo que cambian las componentes se suma encima. La suma es
 lo que la cupla externa le hace a $bold(H)$ en ese $dif t$.],
 fig-omega-transporte-completa)
 <fig-omega-transporte>
+
+Para usarla de verdad la tengo que bajar a componentes, porque las cuplas me
+las dan por eje. El producto vectorial en una base ortonormal se arma en rueda
+$x arrow.r y arrow.r z$: la componente $x$ no usa nada de $x$, mezcla las otras
+dos —$y$ de $bold(Omega)$ con $z$ de $bold(H)$, menos al revés—, y así con
+las demás:
 
 $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
   (bold(Omega) times bold(H))_y = Omega_z H_x - Omega_x H_z, quad
@@ -110,10 +129,18 @@ $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
 
 == Las ecuaciones de Euler ($bold(Omega) = bold(omega)$, ejes clavados al cuerpo)
 
-Si los ejes giran exactamente con el cuerpo, $(dot(bold(H))_G)_(O x y z) =
-I_x dot(omega)_x hat(i) + I_y dot(omega)_y hat(j) + I_z dot(omega)_z hat(k)$
-—los tres momentos son constantes— y la @euler-derivada-h, componente a
-componente con la fórmula de arriba, da
+Lo pienso con los ejes clavados al cuerpo. Entonces los ejes giran con lo
+mismo que el cuerpo: $bold(Omega) = bold(omega)$. Son principales, así que
+$bold(H)_G = I_x omega_x hat(i) + I_y omega_y hat(j) + I_z omega_z hat(k)$.
+Los momentos de inercia no cambian, porque los ejes viajan pegados a la masa
+y la masa no se mueve respecto de ellos; entonces derivar las componentes es
+derivar las omegas: $(dot(bold(H))_G)_(O x y z) = I_x dot(omega)_x hat(i) +
+I_y dot(omega)_y hat(j) + I_z dot(omega)_z hat(k)$. Falta el transporte,
+$bold(omega) times bold(H)_G$. Su componente $x$, en rueda, es $omega_y H_z -
+omega_z H_y = omega_y (I_z omega_z) - omega_z (I_y omega_y) = -(I_y - I_z)
+omega_y omega_z$: el mismo producto de omegas dos veces, con distinto momento
+de inercia, y por eso sobrevive sólo si los momentos son distintos. Las otras
+dos salen igual girando las letras:
 
 $ sum M_x = I_x dot(omega)_x - (I_y - I_z) omega_y omega_z $
 $ sum M_y = I_y dot(omega)_y - (I_z - I_x) omega_z omega_x $
@@ -165,18 +192,28 @@ cojinetes no hicieran nada. Hacen, si el cuerpo está torcido.
 #deduccion("el disco torcido en sus cojinetes")[
   Un disco de momento axial $I$ y transversal $I'$ está montado en un eje que
   gira a $omega$ constante, pero *torcido*: su eje de simetría forma un ángulo
-  $beta$ con el eje de giro (Beer §18.7 y 18.8, págs. 1171–1172). Descomponiendo
-  $bold(omega)$ sobre los ejes principales del disco —$omega cos beta$ sobre su
-  eje de simetría, $omega sin beta$ de costado—, el momento angular es
+  $beta$ con el eje de giro (Beer §18.7 y 18.8, págs. 1171–1172).
+
+  Lo que sé es $bold(omega)$: va sobre el eje de giro, que es el de los
+  cojinetes. Lo que quiero es $bold(H)_G$, y la única forma que tengo de
+  sacarlo es momento por omega, *componente a componente en ejes principales
+  del disco*. El eje de giro no es principal (el disco está torcido), así que
+  no puedo multiplicar $bold(omega)$ entero por nada: primero lo proyecto
+  sobre los ejes del disco. Sobre su eje de simetría cae $omega cos beta$;
+  sobre el transversal que está en el mismo plano, $omega sin beta$. Cada
+  pedazo lo multiplico por *su* momento:
   $ bold(H)_G = I omega cos beta thin hat(e)_"eje" + I' omega sin beta thin hat(e)_"transv" $
   con $hat(e)_"eje"$ el versor del eje de simetría del disco y
   $hat(e)_"transv"$ el transversal en el mismo plano. Como $I != I'$, $bold(H)_G$
   *no* es paralelo a $bold(omega)$: queda entre el eje de giro y el eje del
-  disco. Y está clavado al disco, así que da vueltas con él: su derivada es
-  sólo el término de transporte de la @euler-derivada-h, $dot(bold(H))_G =
-  bold(omega) times bold(H)_G$. Su módulo es $omega$ por la parte de
-  $bold(H)_G$ perpendicular a $bold(omega)$, que es $I omega cos beta sin beta -
-  I' omega sin beta cos beta$:
+  disco. Ahora la derivada. Si me paro en el disco, $bold(H)_G$ tiene siempre
+  las mismas dos componentes: visto desde ahí no cambia. Pero el disco gira con
+  $bold(omega)$, y lo arrastra; entonces de la @euler-derivada-h queda sólo el
+  transporte, $dot(bold(H))_G = bold(omega) times bold(H)_G$. Un producto
+  vectorial con $bold(omega)$ sólo ve la parte de $bold(H)_G$ perpendicular a
+  $bold(omega)$, así que proyecto las dos componentes de $bold(H)_G$ sobre la
+  perpendicular al eje de giro: $I omega cos beta sin beta - I' omega sin beta
+  cos beta$. Multiplico por $omega$:
   $ abs(dot(bold(H))_G) = (I - I') omega^2 sin beta cos beta $
   // simbolos: beta, ehat_eje, ehat_transv
 ]
@@ -254,12 +291,23 @@ ejes.], fig-omega-pelota-libro)
   _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 2, punto 2: $d
   bold(H)_G \/ d t$, continuando el ejemplo del módulo #M("inercia"). Resuelto
   por la cátedra en «Ejercicio 2 CR 2026», con tres animaciones, una por
-  observador.)_ Con $bold(H)_G = 1/4 m r^2
-  omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k)$ (módulo #M("inercia")) y $bold(Omega) =
-  omega_2 hat(j)$ —los ejes están clavados a la horquilla, no al disco, y
-  $omega_1$, $omega_2$ son constantes—, la @euler-derivada-h se reduce a un solo
-  término: el primero es cero porque las componentes de $bold(H)_G$ en esta
-  base no cambian.
+  observador.)_
+
+  Primero, qué gira y con qué. El disco gira $omega_1$ sobre su eje $hat(k)$
+  respecto de la horquilla, y la horquilla gira $omega_2$ sobre la vertical
+  $hat(j)$; la velocidad angular del disco es la suma, $bold(omega) = omega_2
+  hat(j) + omega_1 hat(k)$. Para escribir $bold(H)_G$ necesito ejes principales
+  del disco: $hat(k)$ lo es (el eje de simetría) y cualquier transversal
+  también, así que me sirven $hat(i)$, $hat(j)$, $hat(k)$ clavados a la
+  *horquilla*, sin seguir el giro del disco. Multiplico cada componente de
+  $bold(omega)$ por su momento —$1/4 m r^2$ transversal, $1/2 m r^2$ axial— y
+  queda $bold(H)_G = 1/4 m r^2 omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k)$
+  (módulo #M("inercia")). Ahora, ¿cómo giran *mis ejes*? Con la horquilla, nada
+  más: $bold(Omega) = omega_2 hat(j)$. Las dos omegas son constantes, así que
+  las componentes de $bold(H)_G$ en esta base no cambian y el primer término de
+  la @euler-derivada-h es cero. Queda el transporte, y en el producto
+  vectorial el pedazo de $bold(H)_G$ sobre $hat(j)$ se va solo, porque es
+  paralelo a $bold(Omega)$:
   $ dot(bold(H))_G = bold(Omega) times bold(H)_G
     = omega_2 hat(j) times (1/4 m r^2 omega_2 hat(j) + 1/2 m r^2 omega_1 hat(k))
     = 1/2 m r^2 omega_1 omega_2 hat(i) $
@@ -334,24 +382,36 @@ ejes.], fig-omega-pelota-libro)
   $bold(H)_O$ de todo el sistema, y la única cupla externa relevante es la
   del torquer.
 
-  *La velocidad angular de los ejes vs. la del volante.* El gimbal gira con
-  la plataforma sobre $hat(j)$ y, cuando el torquer actúa, empieza a girar
-  *relativo* a la plataforma sobre $hat(i)$ —ésa es la variable que se busca:
+  *La velocidad angular de los ejes vs. la del volante.* Me pregunto qué
+  mueve a cada cosa. Mis ejes están pegados al gimbal, así que giran con lo
+  que gira el gimbal: la plataforma lo lleva sobre $hat(j)$ con $omega_p$, y el
+  torquer lo hace girar *relativo* a la plataforma sobre $hat(i)$ con
+  $Omega_x$ —ésa es la variable que se busca—. El volante hace todo eso y
+  además su propio spin sobre $hat(k)$. Sumo giros, cada uno sobre su eje:
   $ bold(Omega) = Omega_x hat(i) + omega_p hat(j), quad quad
     bold(omega) = Omega_x hat(i) + omega_p hat(j) + omega_s hat(k) $
   con $Omega_x = 0$ en el instante inicial (el gimbal «arranca quieto»,
   pero *su derivada* $dot(Omega)_x$ es justo lo que se pide).
 
-  *El momento angular.* $hat(i), hat(j), hat(k)$ son principales del volante
-  en todo instante (por su simetría de revolución sobre $hat(k)$), así que
-  con la @iner-diagonal:
+  *El momento angular.* Para $bold(H)_O$ no uso $bold(Omega)$ sino
+  $bold(omega)$, porque el momento angular es de la masa, y la masa es la del
+  volante. ¿Puedo multiplicar componente a componente? Sólo si los ejes son
+  principales del volante: lo son en todo instante, porque el volante es de
+  revolución sobre $hat(k)$ y cualquier transversal le sirve. Entonces cada
+  componente de $bold(omega)$ por su momento (la @iner-diagonal):
   $ bold(H)_O = I_x Omega_x hat(i) + I_y omega_p hat(j) + I_z omega_s hat(k)
     = 5 Omega_x hat(i) + 2,5 hat(j) + 1000 hat(k) " kg" dot.op "m"^2\/"s" $
   que en el instante inicial ($Omega_x = 0$) es $bold(H)_O = 2,5 hat(j) +
   1000 hat(k)$.
 
-  *La ecuación de momento, componente $x$.* Con la @euler-derivada-h y la
-  fórmula de componentes de más arriba:
+  *La ecuación de momento, componente $x$.* El torquer empuja sobre $hat(i)$,
+  así que me quedo con la componente $x$ de la @euler-derivada-h. El primer
+  término es lo que cambia la componente $x$ de $bold(H)_O$ vista desde el
+  gimbal: $I_x Omega_x$ cambia porque cambia $Omega_x$, y da $I_x
+  dot(Omega)_x$ (las otras dos componentes son constantes). El segundo es el
+  transporte en $x$, en rueda: $Omega_y H_z - Omega_z H_y$. $Omega_y$ es la
+  plataforma, $H_z$ es el volante entero, y $Omega_z = 0$ porque mis ejes no
+  siguen el spin. Lo grande de la cuenta está en ese producto:
   $ sum M_x = (dot(H)_O)_(O x y z, x) + (Omega_y H_z - Omega_z H_y)
     = I_x dot(Omega)_x + omega_p (I_z omega_s) - 0
     = 5 dot(Omega)_x + (0,5)(1000) $
@@ -479,20 +539,30 @@ Azul: $psi$, en el plano perpendicular a $z$ (punteado), de la línea de nodos
 al eje $x$ pegado al cuerpo.], fig-euler-angulos)
 <fig-euler-angulos>
 
-Los ejes naturales para escribir $bold(omega)$ son los que giran con $phi$ y
-$theta$ pero *no* con $psi$ —el segundo camino de la sección anterior,
-$bold(Omega) != bold(omega)$—, porque son principales del cuerpo (uno de
-ellos es $z$, el eje de simetría) sin tener que seguir el espín:
+Ahora lo armo pensando qué es cada cosa. $bold(omega)$ es la velocidad
+angular del rotor respecto del espacio. El rotor se mueve porque se mueven
+tres cosas, una dentro de otra: el balancín exterior gira $phi$ alrededor del
+$Z$ fijo, el interior gira $theta$ alrededor de la línea de nodos, y el rotor
+gira $psi$ alrededor de su eje. Cada giro aporta *la derivada de su ángulo
+sobre su propio eje*, y los giros se suman como vectores: $bold(omega) =
+dot(phi) bold(K) + dot(theta) hat(f) + dot(psi) hat(k)$ (@fig-omega-suma-euler).
+Esa suma está bien, pero no me sirve todavía: quiero $bold(H) = I omega$
+componente a componente, y eso sólo vale en una base ortonormal de ejes
+principales. $hat(f)$ y $hat(k)$ ya lo son; $bold(K)$ no, porque forma
+$theta$ con $hat(k)$. Entonces proyecto $bold(K)$ sobre los dos ejes del plano
+de $Z$ y $z$: sobre $hat(k)$ cae $cos theta$, y sobre $hat(e)$ cae $-sin theta$,
+con el menos porque $hat(e)$ apunta para el lado contrario de $Z$. Reemplazo
+y junto lo que cae sobre $hat(k)$. Y para mis ejes ($hat(e)$, $hat(f)$,
+$hat(k)$), ¿cuál es su $bold(Omega)$? Siguen a los dos balancines pero no al
+rotor —el rotor es redondo y no hace falta seguirlo—, así que es lo mismo sin
+el $dot(psi)$:
 
 $ bold(Omega) = -dot(phi) sin theta thin hat(e) + dot(theta) hat(f) + dot(phi) cos theta thin hat(k),
   quad quad bold(omega) = bold(Omega) + dot(psi) hat(k) $
 
-Antes de proyectar, conviene ver qué se está proyectando. $bold(omega)$ es la
-suma de tres giros, uno por cardán: $dot(phi) bold(K) + dot(theta) hat(f) +
-dot(psi) hat(k)$, punta con cola (@fig-omega-suma-euler). Es la pregunta del
-parcialito de cuerpo rígido: esa base *no* es ortonormal, porque $bold(K)$ y
-$hat(k)$ forman el ángulo $theta$, y por eso hay que pasar $bold(K)$ a $hat(e)$
-y $hat(k)$ antes de usar $bold(H) = I omega$ componente a componente.
+Es la pregunta del parcialito de cuerpo rígido: la base de los tres giros
+*no* es ortonormal, y hay que decir por qué ($bold(K)$ y $hat(k)$ forman
+$theta$) y pasar a una que sí lo sea, que es lo que acabo de hacer.
 
 #fig([La velocidad angular del rotor como suma de los tres giros de Euler,
 punta con cola: la precesión sobre el $Z$ fijo, la nutación sobre la línea de
@@ -510,9 +580,16 @@ thin hat(e) + cos theta thin hat(k)$ (ec. 18.34) y la precesión aporta un
 menos—. Ese menos no es decorativo: con $hat(e)$ apuntando para el otro lado
 el corchete de la @euler-precesion-estable cambia de signo por dentro, y en
 el módulo #M("peonza") eso da vuelta la precesión directa y la retrógrada.
-Este apunte lo sabe por las malas. Con $I'$ el momento de inercia transversal
-—sobre $hat(e)$ o $hat(f)$— e $I$ el momento sobre el eje de simetría $z$,
-$bold(H)_O = I' Omega_e hat(e) + I' Omega_f hat(f) + I omega_z hat(k)$, y las
+Este apunte lo sabe por las malas. Con $bold(omega)$ ya en una base de ejes
+principales, $bold(H)_O$ sale multiplicando: lo que cae sobre $hat(e)$ y
+$hat(f)$ por el momento transversal $I'$, lo que cae sobre $hat(k)$ por el
+axial $I$. Ojo con qué omega va en cada lugar: sobre $hat(e)$ y $hat(f)$ las
+componentes de $bold(omega)$ y de $bold(Omega)$ son iguales (el spin no aporta
+nada ahí), y sobre $hat(k)$ va la de $bold(omega)$, que sí lleva el spin:
+$bold(H)_O = I' Omega_e hat(e) + I' Omega_f hat(f) + I omega_z hat(k)$. Para
+la cupla, otra vez los dos pedazos de la @euler-derivada-h: derivar estas
+componentes (que ahora sí cambian, porque cambian los ángulos) y sumarle
+$bold(Omega) times bold(H)_O$. Las
 tres componentes de $sum bold(M)_O = dot(bold(H))_O$ dan las tres ecuaciones
 diferenciales del giróscopo (Beer ec. 18.39, pág. 1188), cuya solución general
 no es elemental. *Se citan porque son las que hay que resolver en el caso
@@ -597,7 +674,13 @@ fig-euler-bloqueo)
 #deduccion("de dónde sale la cupla que sostiene una precesión constante")[
   *Precesión estable* es el caso en que $theta$, $dot(phi)$ y $dot(psi)$ son
   las tres constantes: el eje $z$ barre un cono perfecto alrededor de $Z$, a
-  velocidad angular y ángulo de apertura fijos. Entonces $dot(theta) = 0$ y
+  velocidad angular y ángulo de apertura fijos.
+
+  Lo pienso en orden. Si $theta$ no cambia, no hay nutación: $dot(theta) = 0$
+  y se va el término sobre $hat(f)$. Si además $dot(phi)$ y $dot(psi)$ son
+  constantes, las componentes de $bold(Omega)$ y de $bold(omega)$ en mis ejes
+  son números fijos, y $bold(H)_O$, que es momento por omega, también:
+  derivar sus componentes da cero. Toda la cupla va a salir del transporte. Entonces $dot(theta) = 0$ y
   $bold(Omega) = -dot(phi) sin theta thin hat(e) + dot(phi) cos theta thin
   hat(k)$ es constante en el tiempo *dentro* de la base $(hat(e), hat(f),
   hat(k))$ que gira con ella —su módulo y su ángulo con $hat(k)$ no cambian—,

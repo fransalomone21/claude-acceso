@@ -305,6 +305,21 @@ lo puede leer. `--listar archivo.typ` da la lista para auditar; corre en
 Todo documento nuevo de `practica/` entra a su `OBLIGADOS` el día que nace;
 al 2026-10-29 cumple sólo la guía del parcialito 5.
 
+**14. Cada ecuación que se arma se llega pensando en voz alta, como proceso de
+entendimiento, aunque lo que use ya se haya explicado antes.** Pedido de Fran,
+2026-11-11, sobre los módulos 20 en adelante: *«decí cosas como las que
+pensaría yo tratando de entenderlo en mi voz interior: como omega es la
+velocidad de tal, me tengo que fijar en las derivadas de tales ángulos, y como
+lo quiero representar en tal eje por tal motivo, proyecto esto con aquello»*,
+y enseguida *«no quiero que sean sólo comentarios, quiero que lo incorpores
+como proceso de entendimiento»*. Entonces no es una caja ni un cartel (regla
+8): es la deducción misma, en primera persona del que la piensa —qué es cada
+vector, respecto de qué, de qué giros o ángulos depende, en qué base conviene
+escribirlo y por qué, qué se proyecta sobre qué—, y recién ahí la ecuación.
+Repetir lo ya definido es a propósito: fija y refresca. Vale para las
+ecuaciones que se *arman*; las que sólo se citan siguen con la regla 7. Se
+aplicó el 2026-11-11 a los módulos 20, 21 y 22.
+
 ## Dónde está cada cosa
 
 ```
