@@ -1,5 +1,10 @@
 # Estado actual
 
+> **2026-11-11, (138)/(138b): el coop en la tele.** Accesos en `Escritorio\Juegos\BLACK` ordenados en carpetas
+> (`lanzadores\ACCESOS-BLACK.ps1`); en una pantalla, arriba/abajo (el recomendado y el que prefiere Fran) o lado a lado,
+> sin bordes ni barra de tareas, tope 60, MSAA 2x, render por tamaño de ventana. Medido 60/60 en la tele LG de la casa.
+> Detalle: `docs/23-jugar-coop.md` «En la tele». Lo que sigue en el proyecto: la dificultad para dos (HANDOFF).
+
 > **2026-11-05: commiteado a pedido de Fran lo que estaba sin commitear desde el 2026-10-30/31:** lo que suena mal por red (`docs/23-jugar-coop.md`), el lanzador de red y las novedades del vigía. El trabajo de BLACK no avanzó en esa sesión.
 
 Índice operativo compacto. **Esto se lee primero**, entero, en cualquier
