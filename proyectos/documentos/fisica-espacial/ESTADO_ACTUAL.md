@@ -1,5 +1,15 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-11, en la PC: omegas, momentos angulares y sus derivadas, dibujados y pensados en voz alta (m20 a m22).**
+> **Apunte: 244 págs., publicado** (cada commit de módulo lo subió el hook; MD5 al día). Biblioteca nueva
+> `apunte/biblioteca/figuras-omega.typ` con **10 figuras** (galería `practica/galeria-omega.typ`, en `compilar.ps1`,
+> `verificar-figuras.py` en verde): m20 el transporte sobre $bold(H)$, pelota contra libro, la horquilla con
+> $dot(bold(H))_G$, los tres observadores, el volante en el gimbal (600 = 500 + 100) y $bold(omega)$ como suma de los
+> giros de Euler; m21 la peonza libre en 3D y el trompo con lo que se conserva; m22 las omegas de la rueda de reacción
+> y las dos partes de $dif bold(H)_r \/ dif t$ del CMG. **Regla propia 14 nueva** (pedido de Fran): cada ecuación que
+> se arma se llega pensando en voz alta, integrado a la deducción; aplicada a m20, m21 y m22. `verificar-apunte.py`,
+> `indice-temas.py`, `verificar-anexos.py` (146) y `verificar-simbolos.py` en verde; páginas tocadas miradas.
+
 > **2026-11-10 (noche), en la PC: los dibujos del profe, de los ángulos de Euler en adelante.** Pedido de Fran: «todos
 > los dibujos útiles que usaría un profe». m20 no tenía ninguna figura desde los ángulos de Euler y m21 tenía dos;
 > entran **12 figuras nuevas** en `apunte/biblioteca/figuras-euler.typ` (catálogo en `docs/figuras.md`): los tres

@@ -1,5 +1,16 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-11 — 10 figuras de omega y H (`biblioteca/figuras-omega.typ`) y la regla 14 en m20-m22** (estado, en ESTADO).
+> **Queda:** (1) la regla 14 (pensar en voz alta antes de cada ecuación que se arma) vale de acá en adelante; Fran la
+> pidió «del 20 en adelante», así que m1-m19 **no** se tocan salvo que lo pida; (2) la guía del CMG
+> (`practica/resumen-cmg.typ`) podría usar `fig-omega-cmg-dos` y `fig-omega-suma-euler`. **Trampas pagadas:** (a) una
+> fracción apilada en un rótulo de figura (`(dif k)/(dif t)`) la lee `verificar-figuras.py` como dos rótulos que se
+> pisan: en figuras, la barra en línea (`dif hat(k) \/ dif t`); (b) en una vista 3D, la derivada de un vector que gira
+> sale encimada sobre el propio vector si la tangente cae casi en la dirección de la cámara: se elige el acimut con
+> la cuenta (`cos az = -tan(el)/2` para $bold(H) = 2 hat(k) + hat(j)$) o se pone el plano del vector de frente;
+> (c) una figura alta que no entra deja media página en blanco y, si se la hace flotar sola, se desordena la
+> numeración: flotan juntas las vecinas (`figure(placement: auto)`).
+
 > **2026-11-10 (noche) — 12 figuras nuevas en m20 y m21** (`biblioteca/figuras-euler.typ`; el estado, en ESTADO).
 > **Queda:** (1) la retrógrada de la ley de los senos es esquema, no a escala (en el 18.127 el triángulo casi no se
 > ve), y la nutación es cualitativa: los dos lo dicen en el epígrafe; (2) la guía del parcialito de CMG
