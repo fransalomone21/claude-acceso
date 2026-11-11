@@ -97,8 +97,12 @@ llegan a lo mismo, la cuenta está bien y además se entendió por qué.
 === Primer camino: el momento angular que crece
 
 // simbolos: I_0, m, H_z
-El momento angular de todo el sistema alrededor de $z$ es el de la nave sin
-los módulos más el de los dos módulos. La nave sin los módulos tiene un
+Me pregunto qué tengo y qué quiero. Quiero la cupla, y la cupla es lo que
+cambia el momento angular; entonces primero escribo $H_z$ y después lo
+derivo. Todo gira con la misma $omega_0$ alrededor de $z$, así que el momento
+angular sobre $z$ es momento de inercia por $omega_0$, y el momento de
+inercia se suma pieza por pieza. El momento angular de todo el sistema
+alrededor de $z$ es el de la nave sin los módulos más el de los dos módulos. La nave sin los módulos tiene un
 momento de inercia $I_0$ alrededor de $z$ que la guía no da —y, spoiler, no
 va a hacer falta—. Cada módulo es una partícula de masa $m = 10$ kg a
 distancia $r$ del eje, así que aporta $m r^2$ al momento de inercia (el
@@ -115,8 +119,10 @@ revés.
 // simbolos: omega
 
 // simbolos: tau
-¿Cuánto crece por segundo? Derivando, con $I_0$, $m$ y $omega_0$ constantes y
-la regla de la cadena sobre $r^2$:
+¿Cuánto crece por segundo? Miro qué cambia adentro de $H_z$: $I_0$ no, la
+masa no, $omega_0$ no (la fijan los propulsores); lo único que se mueve es
+$r$, y está al cuadrado. Entonces derivo $r^2$ con la regla de la cadena,
+$2 r dot(r)$, y el resto queda de factor:
 
 $ (d H_z)/(d t) = 2 m dot.op 2 r dot(r) dot.op omega_0 = 4 m r dot(r) omega_0 $
 
@@ -590,9 +596,15 @@ pieza es la suma de las flechas que tiene debajo.], fig-act-cmg-giros)
 // simbolos: H_r, I_s, I_t
 El rotor es simétrico alrededor de $hat(s)$: *$I_s$* es su momento de inercia
 axial, sobre $hat(s)$, e *$I_t$* el transversal, sobre cualquier eje
-perpendicular por su centro. La terna del cardán es principal para él, así que
-su momento angular $bold(H)_r$ es cada componente de $bold(omega)_r$ por su
-momento de inercia (módulo #M("inercia")):
+perpendicular por su centro. Pienso el momento angular como siempre: momento
+por omega, componente a componente, en ejes principales. ¿Cuál omega? La del
+rotor, $bold(omega)_r$, porque $bold(H)_r$ es de la masa del rotor. ¿Qué ejes?
+La terna del cardán, que es principal para el rotor aunque no siga su spin
+(el rotor es redondo). Entonces necesito las tres componentes de
+$bold(omega)_r$ en esa terna: el spin y el cardán ya están escritos sobre
+$hat(s)$ y $hat(g)$, pero $bold(omega)_b$ está en la terna del satélite, así
+que lo proyecto sobre cada versor del cardán con un producto escalar. Cada
+componente, por su momento (módulo #M("inercia")):
 
 $ bold(H)_r = I_s (Omega_s + bold(omega)_b dot.op hat(s)) hat(s)
   + I_t (dot(delta) + bold(omega)_b dot.op hat(g)) hat(g)
@@ -610,9 +622,13 @@ que es la $h = I omega$ del paper de Lappas, Steyn y Underwood (2002, pág.
 
 === La derivada: de dónde sale la cupla de salida
 
-Con el teorema del transporte (la @cin-derivada), mirando desde el cardán:
-$h$ no cambia y $hat(s)$ está quieto en el cardán, así que la derivada
-relativa es cero y queda sólo el transporte,
+Quiero la cupla, así que derivo $bold(H)_r = h hat(s)$. Elijo desde dónde
+mirar: desde el cardán, porque ahí $hat(s)$ está quieto. Entonces, con el
+teorema del transporte (la @cin-derivada), la derivada relativa es lo que
+cambia $h hat(s)$ visto desde el cardán: nada, porque $h$ es fijo y $hat(s)$
+no se mueve ahí. Queda sólo el transporte, con la velocidad angular de *mis
+ejes*, que es la del cardán, $bold(Omega)_g$; la abro en sus dos giros y cada
+uno lo cruzo con $h hat(s)$:
 $ (d bold(H)_r)/(d t) = bold(Omega)_g times h hat(s)
   = (bold(omega)_b + dot(delta) hat(g)) times h hat(s)
   = h dot(delta) hat(t) + bold(omega)_b times h hat(s) $
@@ -676,7 +692,11 @@ mismo que el satélite en órbita circular no acelera.], align(center, fig-cmg-a
 
 Ahora con el satélite quieto ($bold(omega)_b = bold(0)$), para ver la cupla de
 salida sola, y en los ejes del satélite, que es donde la necesita el que
-controla la actitud. Con $hat(g) = hat(k)$ y el ángulo de cardán $delta$
+controla la actitud. Pienso: la cupla me dio sobre $hat(t)$, que es un versor
+del cardán, y el cardán está girado $delta$ respecto del satélite alrededor de
+$hat(k)$. Entonces escribo los versores del cardán con los del satélite:
+$hat(s)$ está a $delta$ de $hat(i)$ en el plano de $hat(i)$ y $hat(j)$, y $hat(t)$ es $hat(s)$
+girado $90 degree$ más. Con $hat(g) = hat(k)$ y el ángulo de cardán $delta$
 medido desde $hat(i)$:
 $ hat(s) = cos delta thin hat(i) + sin delta thin hat(j), quad quad
   hat(t) = hat(k) times hat(s) = - sin delta thin hat(i) + cos delta thin hat(j) $
