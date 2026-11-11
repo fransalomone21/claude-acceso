@@ -409,3 +409,94 @@
     que esas dos proyecciones de $bold(H)_O$ no cambian nunca, aunque $theta$ suba y baje.
   ]
 })
+
+// ---------------------------------------------------------------------
+// 9. La rueda de reacción (m22, Adicional 2), con I = 4 I_R. En unidades
+// de M T / I_R:  omega_nave = -1/(4 - 1) = -1/3;  omega_rel = 4/3;
+// omega_R = omega_nave + omega_rel = 1.  H: rueda I_R omega_R = +M T;
+// nave sin rueda (I - I_R) omega_nave = 3 (-1/3) = -M T.  Total 0.
+// ---------------------------------------------------------------------
+#let fig-omega-rueda = esquema(escala: 1.0cm, {
+  let u = 2.2
+  let base(x) = cetz.draw.line((x - 0.45, 0), (x + 0.45, 0), stroke: 0.6pt + luma(120))
+  // eje z
+  cetz.draw.line((-0.6, -1.4), (-0.6, 3.0), stroke: (paint: c-guia, thickness: 0.5pt, dash: "dashed"))
+  rotulo((-0.6, 3.0), text(fill: luma(80))[$z$], ancla: "south")
+  rotulo((-0.7, 0), text(fill: luma(80), size: 7.5pt)[0], ancla: "east")
+  // la nave
+  base(0.6)
+  flecha((0.6, 0), (0.6, -u / 3), color: c-verde, grosor: 1.4pt)
+  rotulo((0.6, -u / 3), text(fill: c-verde)[$omega_"nave" = -1\/3$], ancla: "north")
+  // la rueda respecto de la nave, sumada a la nave (punta con cola)
+  base(2.6)
+  flecha((2.35, 0), (2.35, -u / 3), color: c-verde, grosor: 0.9pt, punteada: true)
+  cetz.draw.line((2.35, -u / 3), (2.6, -u / 3), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dotted"))
+  flecha((2.6, -u / 3), (2.6, u), color: c-ambar, grosor: 1.4pt)
+  rotulo((2.6, u / 3), text(fill: c-ambar)[$omega_"rel" = 4\/3$], ancla: "west")
+  // la rueda respecto del espacio
+  base(4.8)
+  flecha((4.8, 0), (4.8, u), color: c-dato, grosor: 1.4pt)
+  rotulo((4.8, u), text(fill: c-dato)[$omega_R = 1$], ancla: "south")
+  cetz.draw.line((2.75, u), (4.65, u), stroke: (paint: c-guia, thickness: 0.4pt, dash: "dotted"))
+  rotulo((3.7, -1.15), text(size: 7.5pt)[$omega_R = omega_"nave" + omega_"rel"$], ancla: "north")
+  // los dos momentos angulares
+  cetz.draw.line((6.3, -1.4), (6.3, 3.0), stroke: (paint: luma(200), thickness: 0.5pt))
+  base(7.4)
+  flecha((7.4, 0), (7.4, u), color: c-aux, grosor: 1.4pt)
+  rotulo((7.4, u), text(fill: c-aux)[rueda: $I_R omega_R = +M T$], ancla: "south")
+  base(9.4)
+  flecha((9.4, 0), (9.4, -u), color: c-aux, grosor: 1.4pt)
+  rotulo((9.4, -u), text(fill: c-aux)[nave: $(I - I_R) omega_"nave" = -M T$], ancla: "north")
+  rotulo((8.4, 0.9), text(size: 7.5pt)[suma: $bold(0)$], ancla: "center")
+})
+#let fig-omega-rueda-completa = block({
+  fig-omega-rueda
+  _leyenda[
+    Velocidades en unidades de $M T \/ I_R$, con $I = 4 I_R$. A la izquierda, las tres omegas sobre $z$:
+    la de la rueda respecto del espacio es la de la nave más la relativa, punta con cola. A la derecha,
+    los dos momentos angulares: iguales y opuestos, porque el motor es una cupla interna.
+  ]
+})
+
+// ---------------------------------------------------------------------
+// 10. Las dos partes de la derivada de H_r en un CMG (m22): con ĝ = Z,
+// ŝ = X y t̂ = ĝ x ŝ = Z x X = Y. El satélite gira con omega_b sobre t̂:
+//   cardán:     delta-dot ĝ x h ŝ = h delta-dot t̂        -> +Y
+//   satélite:   omega_t t̂ x h ŝ = h omega_t (Y x X) = -h omega_t ĝ -> -Z
+//   tau_sat = -(las dos): -h delta-dot t̂ + h omega_t ĝ.
+// ---------------------------------------------------------------------
+#let fig-omega-cmg-dos = esquema(escala: 1.1cm, {
+  let v = _vista
+  let H = (2.8, 0, 0)
+  let p1 = suma3(H, (0, 1.9, 0))
+  let p2 = suma3(p1, (0, 0, -1.0))
+  // el rotor, en su cardán
+  linea3(v, circulo3-pts(_O, (0, 1, 0), 0.95), color: c-verde, grosor: 1.6pt)
+  linea3(v, ((0, 0, 0.95), (0, 0, 1.5)), grosor: 1.6pt)
+  linea3(v, ((0, 0, -0.95), (0, 0, -1.4)), grosor: 1.6pt)
+  _disco(v, 0.7, alto: 0.22)
+  // el eje del cardán y su giro
+  flecha3(v, (0, 0, 1.5), (0, 0, 2.5), color: c-verde, grosor: 1.1pt)
+  rotulo3(v, (0, 0, 2.5), text(fill: c-verde)[$dot(delta) hat(g)$ (motor del cardán)], ancla: "south")
+  giro3(v, (0, 0, 2.05), _Z, (1, 0, 0), 0.28, 290, color: c-verde)
+  // el giro del satélite, sobre t̂
+  flecha3(v, (0, 1.1, 0), (0, 2.6, 0), color: c-trazo, grosor: 1.1pt)
+  rotulo3(v, (0, 2.6, 0), [$bold(omega)_b$ (el satélite gira sobre $hat(t)$)], ancla: "west")
+  // H_r y las dos partes de su derivada, punta con cola
+  flecha3(v, _O, H, color: c-aux, grosor: 1.4pt)
+  rotulo3(v, H, text(fill: c-aux)[$bold(H)_r = h hat(s)$], ancla: "south-east")
+  flecha3(v, H, p1, color: c-ambar, grosor: 1.2pt)
+  rotulo3(v, suma3(H, (0, 1.0, 0)), text(fill: c-ambar)[$h dot(delta) hat(t)$: el cardán], ancla: "east")
+  flecha3(v, p1, p2, color: c-rojo, grosor: 1.2pt)
+  rotulo3(v, p2, text(fill: c-rojo)[$bold(omega)_b times h hat(s)$: el satélite], ancla: "north")
+  flecha3(v, H, p2, color: c-dato, grosor: 0.8pt, punteada: true)
+})
+#let fig-omega-cmg-dos-completa = block({
+  fig-omega-cmg-dos
+  _leyenda[
+    #text(fill: c-ambar)[*ámbar*: lo que mueve a $bold(H)_r$ el motor del cardán; da la cupla de salida.] \
+    #text(fill: c-rojo)[*rojo*: lo que lo mueve que el satélite gire; con $bold(omega)_b$ sobre $hat(t)$ cae sobre
+    $-hat(g)$, y esa parte la aguanta el motor del cardán.] \
+    #text(fill: c-dato)[*punteado*: la suma, $dif bold(H)_r \/ dif t$; el satélite recibe la opuesta, $bold(tau)_"sat"$.]
+  ]
+})

@@ -1,5 +1,6 @@
 #import "../plantilla.typ": *
 #import "../biblioteca/figuras-cmg.typ": fig-cmg-3d, fig-cmg-analogia, fig-cmg-silla, fig-cmg-piramide
+#import "../biblioteca/figuras-omega.typ": fig-omega-rueda-completa, fig-omega-cmg-dos-completa
 // voz: 2026-11-05 -- escrito con la voz de la regla propia 8 (CLAUDE.md), fase 18
 // cada letra, presentada en palabras donde aparece primero: lo mide practica/verificar-simbolos.py (OBLIGADOS)
 
@@ -387,6 +388,18 @@ como tenía que ser. Escrito con $omega_"rel"$, $I omega_"nave" + I_R
 omega_"rel" = 0$; y si se reemplazan los dos resultados, $I (-M T) \/ (I -
 I_R) + I M T \/ (I - I_R) = 0$. Cierra.
 
+Con números chicos se ve mejor (@fig-omega-rueda). Si la nave entera tiene
+cuatro veces el momento de inercia de la rueda, la nave gira a un tercio de
+$M T \/ I_R$ para atrás, la rueda a cuatro tercios para adelante *respecto de
+la nave*, y la suma —lo que ve alguien de afuera— da justo $M T \/ I_R$.
+
+#fig([Las tres velocidades angulares de la rueda de reacción y los dos
+momentos angulares, con $I = 4 I_R$ y en unidades de $M T \/ I_R$. La
+relativa se suma a la de la nave punta con cola; los momentos angulares de la
+rueda y de la nave sin la rueda son iguales y opuestos.],
+fig-omega-rueda-completa)
+<fig-omega-rueda>
+
 #fig([El momento angular, repartido. Antes de prender el motor, todo quieto:
 $bold(H) = bold(0)$. Después de $T$ segundos, la rueda lleva $I_R omega_R$
 hacia $+z$ y la nave sin la rueda lleva lo mismo hacia $-z$: las dos flechas
@@ -623,6 +636,18 @@ $ bold(tau)_"sat" = - h dot(delta) hat(t) - bold(omega)_b times h hat(s) $ <act-
   Por eso el motor no trabaja gratis cuando el satélite maniobra: además de
   acelerar el cardán, sostiene esa cupla (Lappas, ecs. 6 a 8, pág. 106).
 
+Las dos partes, dibujadas en la punta de $bold(H)_r$ (@fig-omega-cmg-dos): el
+cardán la empuja sobre $hat(t)$, y si además el satélite gira sobre $hat(t)$,
+el transporte la empuja sobre $-hat(g)$, justo contra el eje del motor.
+
+#figure(placement: auto, kind: "fig", supplement: [Figura], caption: [Las dos
+partes de $dif bold(H)_r \/ dif t$ en un CMG, punta con cola. La del cardán, $h
+dot(delta) hat(t)$, da la cupla de salida; la del satélite, $bold(omega)_b times
+h hat(s)$, con el satélite girando sobre $hat(t)$, cae sobre el eje del cardán y
+la aguanta el motor. El satélite recibe la suma cambiada de signo, la
+@act-cmg-cupla.], align(center, fig-omega-cmg-dos-completa))
+<fig-omega-cmg-dos>
+
 #cuidado[
   *El rotor no se frena.* $h$ no cambió en ningún momento: lo que el CMG le
   pasa al satélite sale de *girar la dirección* de $bold(H)_r$, no de gastar
@@ -630,21 +655,21 @@ $ bold(tau)_"sat" = - h dot(delta) hat(t) - bold(omega)_b times h hat(s) $ <act-
   velocidad. Ésa es toda la diferencia de la tabla, en una línea.
 ]
 
-#fig([Un CMG por dentro, con todos sus vectores. Sobre el satélite (la
+#figure(placement: auto, kind: "fig", supplement: [Figura], caption: [Un CMG por dentro, con todos sus vectores. Sobre el satélite (la
 placa), un motor gira el cardán —el anillo verde— alrededor de $hat(g)$ con
 $dot(delta)$. Adentro, el rotor gira con $Omega_s$ sobre $hat(s)$ y lleva
 $bold(H)_r = h hat(s)$, a un ángulo $delta$ del eje $hat(i)$ del satélite.
 Al girar el cardán, la punta de $bold(H)_r$ se mueve sobre $hat(t)$ (azul), y
 el satélite recibe la cupla al revés, $-h dot(delta) hat(t)$ (rojo). Cuando
 veas uno, buscá esas tres flechas: el eje del cardán, el del rotor y la cupla,
-perpendicular a los dos.], fig-cmg-3d)
+perpendicular a los dos.], align(center, fig-cmg-3d))
 <fig-cmg-3d>
 
-#fig([La analogía de Aníbal, dibujada. La fuerza central empuja de costado a la
+#figure(placement: auto, kind: "fig", supplement: [Figura], caption: [La analogía de Aníbal, dibujada. La fuerza central empuja de costado a la
 velocidad $bold(v)$ del satélite en órbita, y el cambio $Delta bold(v)$ la gira
 sin agrandarla; la cupla del cardán empuja de costado a $bold(H)_r$, y $Delta
 bold(H)_r$ lo gira sin cambiarle el tamaño $h$. El rotor no se frena por lo
-mismo que el satélite en órbita circular no acelera.], fig-cmg-analogia)
+mismo que el satélite en órbita circular no acelera.], align(center, fig-cmg-analogia))
 <fig-cmg-analogia>
 
 === Proyectar: la misma cupla vista desde el satélite

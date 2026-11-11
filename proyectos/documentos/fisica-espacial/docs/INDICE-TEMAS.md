@@ -477,7 +477,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - **Y leído al revés: el giróscopo que mide**
 - **Cierre de la Parte V, y del apunte**
 
-  Ecuaciones: `<fig-act-brazos>`, `<act-hz>`, `<act-tau-brazos>`, `<fig-act-pareja>`, `<act-empuje>`, `<fig-act-hz>`, `<fig-act-coriolis>`, `<fig-act-yoyo>`, `<act-yoyo>`, `<fig-act-rueda-corte>`, `<fig-act-par>`, `<act-rueda>`, `<act-nave>`, `<act-rel>`, `<fig-act-reparto>`, `<fig-act-saturacion>`, `<fig-act-actuadores>`, `<act-cmg-omega>`, `<fig-act-cmg-giros>`, `<act-cmg-cupla>`, `<fig-cmg-3d>`, `<fig-cmg-analogia>`, `<fig-act-cmg-proyeccion>`, `<fig-act-cmg-singular>`, `<fig-cmg-piramide>`, `<fig-cmg-silla>`
+  Ecuaciones: `<fig-act-brazos>`, `<act-hz>`, `<act-tau-brazos>`, `<fig-act-pareja>`, `<act-empuje>`, `<fig-act-hz>`, `<fig-act-coriolis>`, `<fig-act-yoyo>`, `<act-yoyo>`, `<fig-act-rueda-corte>`, `<fig-act-par>`, `<act-rueda>`, `<act-nave>`, `<act-rel>`, `<fig-omega-rueda>`, `<fig-act-reparto>`, `<fig-act-saturacion>`, `<fig-act-actuadores>`, `<act-cmg-omega>`, `<fig-act-cmg-giros>`, `<act-cmg-cupla>`, `<fig-omega-cmg-dos>`, `<fig-cmg-3d>`, `<fig-cmg-analogia>`, `<fig-act-cmg-proyeccion>`, `<fig-act-cmg-singular>`, `<fig-cmg-piramide>`, `<fig-cmg-silla>`
 
 ## Anexo A — la guía de la cátedra, ficha por ficha
 

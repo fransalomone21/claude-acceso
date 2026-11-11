@@ -266,6 +266,8 @@ comentario de la figura.
 | `fig-omega-suma-euler` | `euler-giroscopo` | $bold(omega) = dot(phi) bold(K) + dot(theta) hat(f) + dot(psi) hat(k)$ punta con cola, con la base no ortonormal a la vista |
 | `fig-omega-peonza-libre` | `peonza` | la peonza libre en 3D: $bold(H)_G$ fijo, $hat(k)$ y $bold(omega)$ en un plano que precesa, sus dos conos y sus derivadas tangentes |
 | `fig-omega-trompo` | `peonza` | el trompo: la cupla del peso sobre la línea de nodos, $dif bold(H)_O$ paralelo a ella y las dos proyecciones de $bold(H)_O$ que se conservan |
+| `fig-omega-rueda` | `actitud` | la rueda de reacción con $I = 4 I_R$: $omega_"nave"$, $omega_"rel"$ y $omega_R$ sobre $z$, punta con cola, y los dos $bold(H)$ opuestos |
+| `fig-omega-cmg-dos` | `actitud` | las dos partes de $dif bold(H)_r \/ dif t$ en un CMG: la del cardán (cupla de salida) y la del satélite que gira (sobre el eje del cardán) |
 
 ## Lo que `estilo.typ` todavía no tiene
 
