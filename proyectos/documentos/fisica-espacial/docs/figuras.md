@@ -250,6 +250,21 @@ usaría un profe»): viven en `biblioteca/figuras-euler.typ`, con halo en los r�
 | `fig-meteorito` | `peonza` | el PR 18.6: los dos discos, el meteorito en $C$ y el $bold(H)_G$ antes y después |
 | `fig-nutacion` | `peonza` | la punta del eje vista desde arriba entre $theta_1$ y $theta_2$: ondas, cúspides y rulos |
 
+**Las omegas, los momentos angulares y sus derivadas** (2026-11-11, pedido de Fran: «quiero ver los
+omegas, los momentos angulares y sus derivadas», del módulo 20 en adelante): viven en
+`biblioteca/figuras-omega.typ`, con halo, y su galería es `practica/galeria-omega.typ`, medida por
+`verificar-figuras.py` en cada `practica\compilar.ps1`. Cada sentido sale de una cuenta escrita en el
+comentario de la figura.
+
+| Figura | Módulo (clave) | Qué muestra |
+|---|---|---|
+| `fig-omega-transporte` | `euler-giroscopo` | la @euler-derivada-h dibujada: en $dif t$ la punta de $bold(H)$ se corre $bold(Omega) times bold(H) thin dif t$ (tangente al círculo) más lo que cambian las componentes |
+| `fig-omega-pelota-libro` | `euler-giroscopo` | $bold(H)_G$ contra $bold(omega)$ en dos ejes principales: paralelos con momentos iguales, separados con $I_z = 2 I_x$, y $bold(omega) times bold(H)_G$ saliendo de la hoja |
+| `fig-omega-horquilla` | `euler-giroscopo` | el Problema 2 de CR: $omega_1 hat(k)$, $omega_2 hat(j)$, $bold(omega)$, $bold(H)_G$ (que no la acompaña) y $dot(bold(H))_G$ sobre $hat(i)$, tangente al cono |
+| `fig-omega-observadores` | `euler-giroscopo` | la tabla de la cátedra dibujada: horquilla, disco e inercial, con la derivada relativa y el transporte de cada uno |
+| `fig-omega-gimbal` | `euler-giroscopo` | el Problema 3 de CR: $bold(H)_O$, la plataforma, el torquer y la barra $600 = 500 + 100$ |
+| `fig-omega-suma-euler` | `euler-giroscopo` | $bold(omega) = dot(phi) bold(K) + dot(theta) hat(f) + dot(psi) hat(k)$ punta con cola, con la base no ortonormal a la vista |
+
 ## Lo que `estilo.typ` todavía no tiene
 
 Se agrega cuando el módulo que lo necesite lo pida, no antes:

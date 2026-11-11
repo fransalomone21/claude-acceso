@@ -433,7 +433,7 @@ lado. Se referencian en la prosa como `@etiqueta`.
   - *(de donde sale)* por qué un cuerpo que pierde energía termina girando sobre su eje mayor
 - **Lo que se usa después**
 
-  Ecuaciones: `<euler-derivada-h>`, `<euler-euler-clasicas>`, `<fig-euler-angulos>`, `<fig-euler-efk>`, `<fig-euler-cardanes>`, `<fig-euler-bloqueo>`, `<euler-precesion-estable>`, `<fig-precesion-estable>`, `<euler-precesion-90>`, `<euler-precesion-inclinada>`, `<fig-dos-raices>`, `<fig-ladrillo-ejes>`, `<fig-explorer>`
+  Ecuaciones: `<euler-derivada-h>`, `<fig-omega-transporte>`, `<euler-euler-clasicas>`, `<fig-omega-pelota-libro>`, `<fig-omega-horquilla>`, `<fig-omega-observadores>`, `<fig-omega-gimbal>`, `<fig-euler-angulos>`, `<fig-omega-suma-euler>`, `<fig-euler-efk>`, `<fig-euler-cardanes>`, `<fig-euler-bloqueo>`, `<euler-precesion-estable>`, `<fig-precesion-estable>`, `<euler-precesion-90>`, `<euler-precesion-inclinada>`, `<fig-dos-raices>`, `<fig-ladrillo-ejes>`, `<fig-explorer>`
 
 ### 21. Peonza simétrica, precesión directa y retrógrada  ·  `peonza`
 

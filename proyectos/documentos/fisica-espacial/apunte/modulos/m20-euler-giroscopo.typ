@@ -1,5 +1,6 @@
 #import "../plantilla.typ": *
 #import "../biblioteca/figuras-euler.typ": fig-euler-angulos, fig-euler-cardanes, fig-euler-efk, fig-euler-bloqueo, fig-precesion-estable, fig-dos-raices, fig-ladrillo-ejes, fig-explorer
+#import "../biblioteca/figuras-omega.typ": fig-omega-transporte-completa, fig-omega-pelota-libro, fig-omega-horquilla-completa, fig-omega-observadores, fig-omega-gimbal, fig-omega-suma-euler
 // voz: 2026-09-25 -- pasada de la fase 11, tanda (d)
 
 #modulo("Ecuaciones de Euler y el giróscopo", clave: "euler-giroscopo")[
@@ -56,6 +57,20 @@ resulta barata.
   no fueran cíclicos entre sí— y el segundo es el precio de que los ejes
   giren, exactamente como en cualquier otra aplicación de la @cin-derivada.
 ]
+
+Dibujada, la @euler-derivada-h es una suma de dos flechitas en la punta de
+$bold(H)$ (@fig-omega-transporte). Aunque las componentes de $bold(H)$ no
+cambien nada, si los ejes giran la punta se mueve igual, tangente al círculo
+que barre alrededor de $bold(Omega)$: ése es el término que se olvida, y es
+justo el que hace andar al giróscopo.
+
+#fig([El teorema del transporte aplicado a $bold(H)$, en un $dif t$. Los ejes
+giran con $bold(Omega)$; si las componentes de $bold(H)$ quedaran congeladas,
+la punta igual se correría $bold(Omega) times bold(H) thin dif t$, tangente al
+círculo punteado. Lo que cambian las componentes se suma encima. La suma es
+lo que la cupla externa le hace a $bold(H)$ en ese $dif t$.],
+fig-omega-transporte-completa)
+<fig-omega-transporte>
 
 $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
   (bold(Omega) times bold(H))_y = Omega_z H_x - Omega_x H_z, quad
@@ -212,6 +227,21 @@ paralelo a $bold(omega)$. Con una pelota —momentos iguales— la mano no sient
 nada, porque ese término se anula. Con un libro de Beer, que pesa como un
 ladrillo, se siente bastante.
 
+La @fig-omega-pelota-libro es esa diferencia en dos ejes principales. En la
+pelota $bold(H)_G = I bold(omega)$ y los dos vectores van juntos; en el libro
+cada componente de $bold(omega)$ se multiplica por *su* momento de inercia, y
+$bold(H)_G$ se va hacia el eje de momento más grande. Ese ángulo entre los dos
+es todo el término giroscópico: sin él, $bold(omega) times bold(H)_G$ es cero.
+
+#fig([Pelota y libro girando con la misma $bold(omega)$, a $45 degree$ entre
+dos ejes principales. Las componentes de $bold(H)_G$ son $I_x omega_x$ e $I_z
+omega_z$: con momentos iguales, $bold(H)_G$ es paralelo a $bold(omega)$; con
+$I_z = 2 I_x$, se inclina hacia $z$ y $bold(omega) times bold(H)_G$ sale de la
+hoja. Para que la rotación siga igual, alguien tiene que hacer esa cupla: es el
+término $(I_y - I_z) omega_y omega_z$ de Euler, en su versión de este par de
+ejes.], fig-omega-pelota-libro)
+<fig-omega-pelota-libro>
+
 #guia("qué ejercicios cubre este módulo")[
   El punto 2 del Problema 2 (la cupla que sostiene al disco de la horquilla)
   y el Problema 3 completo (el volante en el gimbal). Los ángulos de Euler y
@@ -245,6 +275,13 @@ ladrillo, se siente bastante.
     de inercia.
   ]
 
+  #fig([El disco en la horquilla, con los tres vectores juntos. $bold(omega)$
+  es la suma de los dos giros; $bold(H)_G$ no la acompaña, porque sobre el eje
+  del disco el momento es el doble. La horquilla arrastra a $bold(H)_G$ por el
+  círculo punteado, y la derivada es la tangente: horizontal, sobre $hat(i)$,
+  donde la cupla tiene que estar.], fig-omega-horquilla-completa)
+  <fig-omega-horquilla>
+
   *La misma cuenta con ejes clavados al disco* —la parte «opcional» de la
   resolución de la cátedra, y la prueba de que la terna se elige por
   comodidad y no por necesidad—. Con $phi.alt = omega_1 t$ el ángulo girado
@@ -270,7 +307,15 @@ ladrillo, se siente bastante.
   $bold(H)_G$; el de afuera ve a $bold(H)_G$ barrer un cono alrededor de la
   vertical, con semiángulo $arctan(2 omega_1\/omega_2)$, y a $dot(bold(H))_G$
   tangente al cono. Tres películas distintas del mismo vector, y el teorema
-  del transporte de la @cin-derivada es el traductor entre las tres.
+  del transporte de la @cin-derivada es el traductor entre las tres
+  (@fig-omega-observadores).
+
+  #fig([La tabla de la cátedra, dibujada. Cada observador ve moverse a
+  $bold(H)_G$ distinto —quieto, en un cono alrededor del disco o en un cono
+  alrededor de la vertical— y le asigna a la derivada relativa un pedazo
+  distinto; el transporte pone el resto. La flecha total en la punta es la
+  misma en los tres.], fig-omega-observadores)
+  <fig-omega-observadores>
 ]
 
 #ejemplo("El volante en el gimbal: por qué 600 N·m dan sólo 20 rad/s²", nivel: "a fondo")[
@@ -327,6 +372,13 @@ ladrillo, se siente bastante.
     el eje: buena parte de la cupla aplicada se gasta en seguirle el ritmo a
     un $bold(H)$ grande, no en acelerar nada.
   ]
+
+  #fig([El volante en el gimbal. $bold(H)_O$ va casi entero sobre el eje del
+  volante; la plataforma lo hace girar alrededor de $hat(j)$, y sólo eso ya
+  pide $bold(Omega) times bold(H)_O = 500$ N·m sobre $hat(i)$, el eje del
+  torquer. De los $600$ que pone el torquer, abajo, quedan $100$ para acelerar
+  el gimbal.], fig-omega-gimbal)
+  <fig-omega-gimbal>
 
   *Cambiando un número por vez*, la fórmula $dot(Omega)_x = (M_x - omega_p
   I_z omega_s)\/I_x$ cuenta toda la historia. Sin plataforma, o con el volante
@@ -434,6 +486,20 @@ ellos es $z$, el eje de simetría) sin tener que seguir el espín:
 
 $ bold(Omega) = -dot(phi) sin theta thin hat(e) + dot(theta) hat(f) + dot(phi) cos theta thin hat(k),
   quad quad bold(omega) = bold(Omega) + dot(psi) hat(k) $
+
+Antes de proyectar, conviene ver qué se está proyectando. $bold(omega)$ es la
+suma de tres giros, uno por cardán: $dot(phi) bold(K) + dot(theta) hat(f) +
+dot(psi) hat(k)$, punta con cola (@fig-omega-suma-euler). Es la pregunta del
+parcialito de cuerpo rígido: esa base *no* es ortonormal, porque $bold(K)$ y
+$hat(k)$ forman el ángulo $theta$, y por eso hay que pasar $bold(K)$ a $hat(e)$
+y $hat(k)$ antes de usar $bold(H) = I omega$ componente a componente.
+
+#fig([La velocidad angular del rotor como suma de los tres giros de Euler,
+punta con cola: la precesión sobre el $Z$ fijo, la nutación sobre la línea de
+nodos y el spin sobre el eje del rotor. $bold(K)$ y $hat(k)$ no son
+perpendiculares (forman $theta$): la suma es correcta, pero leer sus
+componentes exige proyectar.], fig-omega-suma-euler)
+<fig-omega-suma-euler>
 
 (Beer ecs. 18.33 a 18.38, pág. 1187–1188.) Los ejes son exactamente los del
 Beer (su fig. 18.16): $hat(k)$ sobre el eje de simetría; $hat(f)$ sobre la
