@@ -23,6 +23,8 @@
 )
 
 #let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
+// El título y su origen no se quedan solos al pie: pegados a lo que sigue.
+#let origen(cuerpo) = block(above: 2pt, below: 6pt, sticky: true, text(size: 9pt, fill: luma(90), style: "italic", cuerpo))
 #let manos(cuerpo) = caja([Con las manos], c-ambar, cuerpo)
 #let tabla(cols, ..celdas) = {
   set par(justify: false)
@@ -43,6 +45,13 @@
   secciones 1 a 7 son el tema entero, la 8 es el parcialito 5 contestado y
   pasado a un CMG, la 9 son las preguntas que pueden caer con su respuesta, y
   la 10 es un guion para la hora de clase.
+
+  *Cómo está contado cada tema.* Primero, en rosa, *para qué sirve*: qué te
+  da, qué consecuencias tiene en un satélite de verdad, dónde está lo simple y
+  dónde lo complicado. Después, en violeta, *la duda* que seguramente te vas a
+  hacer, y en verde la respuesta *con los dedos*, sin cuentas. Recién ahí la
+  cuenta. Y al pie de las páginas, en un globito, qué es cada letra y respecto
+  de qué se mide, para no tener que volver atrás a buscarla.
 
   *Qué esperar del parcialito.* El último (29/10, cuerpo rígido) tuvo seis
   preguntas sobre el giróscopo en cardanes del Beer: definir los tres ángulos
@@ -98,8 +107,79 @@
     constante. $h$ es el módulo del momento angular del rotor.
 ]
 
+*Cada vector, con su documento.* La mitad de los errores de este tema no son
+de cuenta: son de no saber *de qué pieza* es un vector, *respecto de qué* se
+mide y *en qué ejes* está escrito. Cuatro preguntas, siempre las mismas; la
+tabla las contesta para todos los vectores de la guía, y al pie de las
+páginas, en un globito, te las vuelvo a recordar donde hagan falta.
+
+// simbolos: omega_b, Omega_g, omega_r, H_r, tau_sat
+#tabla((0.75fr, 1.45fr, 1.5fr, 1.45fr),
+  [*Vector*], [*Qué es, y de qué pieza*], [*Respecto de qué*], [*En qué ejes lo escribimos*],
+  [$bold(omega)_b$], [la velocidad angular del satélite], [del espacio: es absoluta], [los del satélite, $hat(i)$, $hat(j)$, $hat(k)$],
+  [$dot(delta) hat(g)$], [el giro del cardán], [*del satélite*: es lo que ve alguien sentado en el satélite], [sobre $hat(g)$, que está clavado al satélite],
+  [$Omega_s hat(s)$], [el spin del rotor], [*del cardán*: lo que ve alguien sentado en el cardán], [sobre $hat(s)$, clavado al cardán],
+  [$bold(Omega)_g$], [la velocidad angular del cardán, y por eso la de la terna $hat(s)$, $hat(t)$, $hat(g)$], [del espacio: $bold(omega)_b + dot(delta) hat(g)$], [la que convenga; es la $bold(Omega)$ del teorema del transporte],
+  [$bold(omega)_r$], [la velocidad angular del rotor], [del espacio: las tres de arriba, sumadas], [cualquiera: el vector es uno solo],
+  [$bold(H)_r$], [el momento angular del rotor], [de su centro, que es su centro de masa], [los del cardán: $approx h hat(s)$],
+  [$bold(tau)_"sat"$], [la cupla que *recibe* el satélite del CMG], [de su centro de masa], [los del satélite, cuando se proyecta],
+)
+
+#duda[Cuando escribo la derivada de un vector «en los ejes del cardán», ¿la estoy midiendo desde el cardán?]
+#dedos[No, y es la confusión número uno del tema. Son dos preguntas distintas:
+*quién mira* el vector para decir cuánto cambió, y *con qué regla lo anota*
+una vez que tiene el cambio. Un auto que dobla: el cambio de su velocidad lo
+ve alguien parado en la vereda —eso es «respecto del espacio»—, y ese mismo
+cambio lo podés anotar como «tanto hacia la izquierda del auto y tanto hacia
+adelante» —eso es «escrito en los ejes del auto»—. Mirar desde la vereda y
+anotar con los ejes del auto no se contradicen. En el CMG, la segunda ley de
+Newton pide el cambio visto *desde el espacio*, siempre; lo escribimos en los
+ejes del cardán o del satélite porque ahí los números salen lindos.]
+
+*Las dudas que despierta el tema, en orden.* Cada una vuelve a aparecer, en
+violeta, justo antes de la explicación que la contesta; primero va la
+explicación con los dedos y después la cuenta.
+
++ Si el rotor gira siempre igual, ¿de dónde sale la cupla? (sección 1)
++ ¿Por qué las velocidades angulares se suman y los giros grandes no? (2)
++ Si el momento angular es «momento de inercia por velocidad angular», ¿por
+  qué el del rotor apunta sólo sobre su eje? (3)
++ La derivada del momento angular, ¿la veo desde el cardán o desde el
+  espacio? ¿De dónde sale el producto vectorial? (3)
++ ¿Por qué en el transporte va la velocidad angular del cardán y no la del
+  rotor? (3)
++ ¿Quién le hace la cupla a quién, y por qué el menos? (3)
++ Si el vector es el mismo, ¿para qué se proyecta? (4)
++ Si sale mil veces más cupla de la que entra, ¿no se viola la energía? (5)
++ Si dos CMG antiparalelos suman cero, ¿por qué también se traban? (6)
++ ¿Por qué un CMG saturado no se descarga solo? (6)
++ Si los tres versores del parcialito miden uno, ¿por qué la base no es
+  ortonormal? (8)
+
 = 1. Qué es un CMG, en una frase y en las manos
 #origen[Apunte, módulo 22, «El CMG por dentro» y la tabla de los tres actuadores; módulo 20, el volante en el gimbal; Curtis §12.9.]
+
+#gancho[Un satélite que tiene que apuntar —un telescopio al Sol, una cámara a
+una ciudad, una antena a la Tierra— necesita girar sobre sí mismo, y en el
+espacio no hay contra qué apoyarse. Tiene tres maneras: tirar gas, que se
+acaba y ensucia lo que tenga cerca; acelerar una rueda, que da poca cupla; o
+*torcer* un rotor que ya gira, que es el CMG. El CMG es el que da mucha cupla
+con poco motor, y por eso lo eligieron el Skylab, que tenía que tener su
+telescopio clavado en el Sol, y el microsatélite de Surrey, que tenía que
+girar rápido. Entenderlo te da cuatro cosas: cuánta cupla sale, para qué
+lado, cuánto aguanta antes de llenarse y dónde se traba. Lo simple es la
+cuenta, una sola multiplicación. Lo complicado es que la cupla cambia de
+dirección mientras la usás, y que con varios CMG hay posiciones en las que,
+aunque te quede capacidad, no podés empujar para el lado que querés.]
+
+#duda[Si el rotor gira siempre a la misma velocidad, ¿de dónde sale la cupla? ¿No hay que frenarlo o acelerarlo para que cambie su momento angular?]
+#dedos[El momento angular es una *flecha*, y una flecha cambia de dos maneras:
+estirándose o girando. Una rueda de reacción la estira —acelera el rotor—;
+un CMG la gira —le tuerce el eje al rotor—. Las dos cosas son un cambio, y
+todo cambio de momento angular cuesta una cupla. Agarrá un lápiz por atrás y
+giralo en el aire sin cambiarle el largo: la goma de la punta recorrió un
+arquito. Ese arquito es el cambio de momento angular de un CMG, y la cupla
+que hizo falta para provocarlo es la que el satélite recibe al revés.]
 
 *La idea.* Un CMG es un rotor que gira *siempre igual*, rapidísimo, montado
 en un cardán que un motor hace girar. El rotor no se frena nunca: lo único
@@ -110,7 +190,7 @@ otro. Es la analogía de Aníbal: una fuerza perpendicular a la velocidad le
 cambia la dirección y no el módulo; una cupla perpendicular a $bold(H)$,
 igual.
 
-// simbolos: v, Delta, H_r
+// simbolos: v, Delta
 #figure(fig-cmg-analogia, caption: [La analogía, dibujada. A la izquierda, la
 velocidad $bold(v)$ de un satélite en órbita: la fuerza central la empuja de
 costado y el cambio $Delta bold(v)$ sale perpendicular, así que gira sin
@@ -163,10 +243,25 @@ acá la cupla hace girar la silla.])
 = 2. Las tres velocidades angulares
 #origen[Beer §18.9 (el giróscopo en cardanes: cada articulación suma su giro relativo), la hoja 2 del resumen manuscrito de Aníbal y el parcialito del 29/10, que pidió escribir esto mismo.]
 
+#gancho[Todo lo que viene —el momento angular del rotor, la cupla, la
+proyección— se arma con tres flechas: cómo gira el satélite, cómo gira el
+cardán y cómo gira el rotor. Si una sale mal (la del rotor sin la del
+satélite, por ejemplo), la cupla sale mal y ninguna cuenta lo avisa. Lo
+simple: se suman. Lo sutil: cada una se mide respecto de una pieza distinta,
+y en el examen eso es lo que se corrige.]
+
+#duda[¿Por qué las velocidades angulares se suman, si los giros no se pueden sumar como vectores?]
+#dedos[Por lo mismo que en la cinta del aeropuerto: si la cinta te lleva a
+1 m/s y vos caminás a 1 m/s sobre ella, vas a 2 m/s respecto del piso. Cada
+pieza «camina» sobre la que la sostiene: el cardán gira sobre el satélite, el
+rotor sobre el cardán. Lo que no se suma son los giros *grandes*: girá un
+libro 90° de costado y después 90° de frente, repetilo en el orden inverso, y
+queda distinto (apunte, módulo 18). Una velocidad angular es un giro
+chiquito, de un instante, y los giros chiquitos sí conmutan.]
+
 Hay tres cuerpos: el satélite, el cardán y el rotor. *Cada articulación suma
 su giro relativo al de la pieza que la sostiene*:
 
-// simbolos: omega_b, Omega_g, omega_r
 - el satélite gira con $bold(omega)_b$ respecto del espacio;
 - el cardán, con $bold(Omega)_g = bold(omega)_b + dot(delta) hat(g)$;
 - el rotor, con $bold(omega)_r = bold(omega)_b + dot(delta) hat(g) + Omega_s hat(s)$.
@@ -175,7 +270,9 @@ su giro relativo al de la pieza que la sostiene*:
 Del apunte, módulo 22.])
 
 *¿Qué ejes?* Los del cardán, $(hat(s), hat(t), hat(g))$, que giran con
-$bold(Omega)_g$ y *no* con $bold(omega)_r$: siguen al cardán y no al spin.
+$bold(Omega)_g$#burbuja[$bold(Omega)_g$: la velocidad angular del cardán
+respecto del espacio, $bold(omega)_b + dot(delta) hat(g)$. Es también la de
+la terna $hat(s)$, $hat(t)$, $hat(g)$, porque va pegada al cardán.] y *no* con $bold(omega)_r$: siguen al cardán y no al spin.
 Es el «no siempre $bold(Omega) = bold(omega)$» que Aníbal subrayó, y el mismo
 truco del balancín interior del Beer: ejes principales del rotor que no dan
 vueltas con él.
@@ -204,21 +301,81 @@ $hat(s)$.
 = 3. El momento angular del rotor, y de dónde sale la cupla
 #origen[Apunte, módulo 22; el teorema del transporte del módulo 18 (la «relación fundamental» del Beer, §15.10); Lappas 2002, ec. 1, pág. 104.]
 
+#gancho[Ésta es la sección que te dice qué pasa *adentro* del aparato. El
+rotor no se puede torcer solo: lo tuercen los cojinetes del cardán, y lo que
+ellos empujan es la cupla de salida entera —mil y pico de veces lo que hace
+el motor, como se ve en la sección 5—. Eso dimensiona la estructura: los
+cojinetes y el soporte se diseñan para esa cupla, no para la del motor. Y la
+cuenta muestra un segundo término que sólo existe si el satélite ya está
+girando: cae sobre el eje del cardán, el motor lo tiene que vencer, y es la
+manera en que el satélite y el CMG se empujan entre sí. Lo simple: con el
+satélite quieto, todo es una multiplicación. Lo complicado: con el satélite
+girando, ya no.]
+
+#duda[¿No era $bold(H) = I bold(omega)$? Entonces el momento angular del rotor tendría que apuntar como $bold(omega)_r$, y no sólo sobre $hat(s)$.]
+#dedos[$bold(H) = I bold(omega)$ es la versión de un solo eje. En tres
+dimensiones el rotor tiene *dos* momentos de inercia distintos —uno grande
+sobre su eje y otro de costado—, y cada uno *multiplica sólo su componente*
+de $bold(omega)_r$: el de spin agranda la componente sobre $hat(s)$, el de
+costado agranda las otras dos. Si los dos fueran iguales, las tres
+componentes se estirarían igual y la flecha del momento angular quedaría
+paralela a la de la velocidad angular; como no lo son, se tuerce hacia el eje
+que más pesa. En el CMG, encima, la componente de spin ya es diez mil veces
+más grande que las otras, así que el resultado es una flecha prácticamente
+sobre $hat(s)$. (Es la misma razón por la que $bold(H)$ y $bold(omega)$ casi
+nunca son paralelos: apunte, módulo 19.)]
+
 // simbolos: I_s
 *El momento angular.* El rotor es simétrico alrededor de $hat(s)$, con $I_s$
 su momento de inercia sobre ese eje. Como $Omega_s$ es enorme frente a los
-otros giros, su momento angular $bold(H)_r$ es, con muy buena aproximación,
+otros giros, su momento angular $bold(H)_r$#burbuja[$bold(H)_r$: el momento
+angular del rotor, tomado respecto de su centro, que es su centro de masa.]
+es, con muy buena aproximación,
 $ bold(H)_r approx h hat(s), quad quad h = I_s Omega_s $
 La aproximación tira los términos de $dot(delta)$ y de $bold(omega)_b$, que
 con los números de arriba son diez mil veces más chicos (ANI-53: se dice y se
 justifica).
 
-*La derivada.* Mirando desde el cardán, $h$ no cambia y $hat(s)$ está quieto,
-así que sólo queda el transporte:
-$ (d bold(H)_r)/(d t) = bold(Omega)_g times h hat(s) = h dot(delta) hat(t) + bold(omega)_b times h hat(s) $
-Ésa es la cupla que el satélite le hace al rotor. El satélite recibe la
-opuesta:
-// simbolos: tau_sat
+#duda[Esa derivada, ¿es la que veo sentado en el cardán o la que ve alguien desde el espacio? ¿Y de dónde sale el producto vectorial?]
+#dedos[Sentado en el cardán, ves el rotor girando siempre igual y su eje
+quieto frente a vos: para vos, $bold(H)_r$ *no cambia*. Pero el cardán gira y
+te lleva. Desde el espacio, esa flecha que vos ves quieta se mueve: su punta
+recorre un arquito, y el arquito de una flecha que gira es siempre «velocidad
+de giro por la flecha», un producto vectorial —la punta de un segundero se
+mueve perpendicular al segundero—. La segunda ley de Newton, cupla igual a
+cambio del momento angular, vale para el que mira *desde el espacio*: la
+derivada que importa es ésa, y se arma con lo que ves vos (nada) más lo que
+te lleva el cardán.]
+
+*La derivada, mirada desde el espacio.* Con el subíndice diciendo quién
+mira —«esp», el espacio; «car», alguien sentado en el cardán—, el teorema
+del transporte da
+$ ((d bold(H)_r)/(d t))_"esp" = ((d bold(H)_r)/(d t))_"car" + bold(Omega)_g times bold(H)_r $
+y como la del cardán vale cero,
+$ ((d bold(H)_r)/(d t))_"esp" = bold(Omega)_g times h hat(s) = h dot(delta) hat(t) + bold(omega)_b times h hat(s) $
+*Y escrita en los ejes del cardán*: $h dot(delta)$ sobre $hat(t)$, más lo
+que agregue el satélite si gira. Mirada desde el espacio, anotada con la
+regla del cardán: son dos cosas distintas y no se pisan.
+
+#duda[¿Por qué en el transporte va $bold(Omega)_g$, la del cardán, y no $bold(omega)_r$, que es la del rotor?]
+#dedos[Porque la $bold(Omega)$ del transporte no es «la velocidad del
+cuerpo»: es la velocidad *de los ejes en los que te sentaste*. Nos sentamos
+en el cardán, que no da vueltas con el spin, así que va la del cardán. Si te
+sentaras en el rotor también daría bien, pero verías las componentes de
+$bold(H)_r$ dar vueltas a miles de rpm: misma respuesta, mucha más cuenta. Es
+el «no siempre $bold(Omega) = bold(omega)$» de Aníbal.]
+
+#duda[¿Quién le hace la cupla a quién? ¿Y por qué el satélite la recibe con un menos?]
+#dedos[El rotor, solo, no puede girar su propia flecha: alguien lo tiene que
+empujar, y ese alguien es el cardán, apoyado en el satélite. Acción y
+reacción: lo que el satélite, a través del cardán y sus cojinetes, le hace al
+rotor, el rotor se lo devuelve al satélite al revés. Como nadie de afuera tocó
+nada, el momento angular que gana uno lo pierde el otro.]
+
+La derivada de arriba es, entonces, la cupla que el satélite le hace al
+rotor, y el satélite recibe la opuesta, $bold(tau)_"sat"$#burbuja[$bold(tau)_"sat"$:
+la cupla que *recibe* el satélite, no la que hace. Es la derivada del espacio
+con el signo cambiado.]:
 $ bold(tau)_"sat" = - h dot(delta) hat(t) - bold(omega)_b times h hat(s) $
 
 - *$- h dot(delta) hat(t)$ es la cupla de salida:* perpendicular al eje del
@@ -245,6 +402,19 @@ el motor del cardán no trabaja gratis mientras el satélite maniobra.
 = 4. Proyectar: la cupla vista desde el satélite
 #origen[Apunte, módulo 22, figura de la cupla proyectada. Lo que pidió el parcialito del 29/10: bajar cada vector a la terna que se eligió.]
 
+#gancho[El control de actitud piensa en los ejes del satélite: cuánto lo
+hace girar cada cupla alrededor de su eje largo, de su eje corto, de su eje
+de apuntado. Proyectar es lo que traduce el CMG a ese idioma, y de paso
+muestra la consecuencia más incómoda del aparato: la cupla *gira con el
+cardán*. Si querés empujar siempre para el mismo lado, el cardán no puede
+girar mucho; si gira mucho, empuja para otro lado. Es la primera pista de por
+qué hace falta más de un CMG.]
+
+#duda[Si el vector es el mismo, ¿para qué lo proyecto en los ejes del satélite?]
+#dedos[Porque el que pregunta es el satélite. Proyectar no cambia la flecha:
+es leer su sombra sobre cada una de las tres reglas del satélite. La flecha
+es una sola; las sombras dependen de dónde pongas las reglas.]
+
 Con el satélite quieto y el cardán sobre $hat(k)$:
 $ hat(s) = cos delta thin hat(i) + sin delta thin hat(j), quad quad
   hat(t) = hat(k) times hat(s) = - sin delta thin hat(i) + cos delta thin hat(j) $
@@ -259,7 +429,10 @@ control.
 ejes del satélite, y la cupla de salida. Del apunte, módulo 22.])
 
 *Con $delta = 30degree$ y $h dot(delta) = 0,042$ N·m:*
-$bold(tau)_"sat" = 0,042 (0,5; -0,866; 0) = (0,021; -0,0364; 0)$ N·m. La
+$bold(tau)_"sat" = 0,042 (0,5; -0,866; 0) = (0,021; -0,0364; 0)$ N·m#burbuja[Esas
+tres componentes son las de los ejes del *satélite*, $hat(i)$, $hat(j)$,
+$hat(k)$; el vector es el mismo de la sección 3, que estaba escrito en los del
+cardán.]. La
 lectura que vale el punto: *la cupla de salida gira con $delta$*. Con
 $delta = 0$ va toda sobre $-hat(j)$; con $delta = 90degree$, toda sobre
 $+hat(i)$. Un CMG de un cardán da cupla en una sola dirección por vez, y
@@ -267,6 +440,13 @@ siempre en el plano perpendicular a su cardán.
 
 = 5. Torque de salida y amplificación
 #origen[Apunte, módulo 20 (el volante en el gimbal: $500$ N·m de salida contra $2,5$ de entrada) y módulo 22; los dos nombres que Aníbal dio para el parcialito del cap. 18.]
+
+#gancho[Es la razón por la que existe el CMG: con un motor de juguete en el
+cardán se mueve un satélite entero. Lo que hay que llevarse es cuánto
+amplifica, de qué depende —del momento angular del rotor y de qué tan rápido
+se gira el cardán, no del motor— y de dónde *no* sale: no sale de la nada.
+Es también lo que Aníbal nombró para el parcialito del cap. 18, «torque de
+salida, amplificación de torques».]
 
 // simbolos: I_G, deltaddot
 Hay dos cuplas sobre ejes distintos. *La de entrada* la pone el motor sobre
@@ -281,8 +461,37 @@ dot.double(delta) = 10^(-4) dot.op 0,24 = 2,4 times 10^(-5)$ N·m y salen
 $0,042$ N·m: una amplificación de unas $1750$ veces. Una rueda de reacción
 tiene amplificación uno: su cupla de salida es la de su motor.
 
+#duda[Si sale mil setecientas veces más cupla de la que pone el motor, ¿no estoy sacando energía de la nada?]
+#dedos[No: se amplifica la *cupla*, no la energía. Es una palanca: con la
+mano hacés poca fuerza y levantás una piedra pesada, pero la mano recorre
+mucho y la piedra poco. Acá la cupla grande la hacen los cojinetes,
+empujando de costado sobre $hat(t)$, y con el satélite quieto nada gira
+todavía en esa dirección: una cupla que no hace girar nada no trabaja. ¿Y
+cuando el satélite ya gira y gana energía? Ahí aparece el término que cae
+sobre el eje del cardán, el _gyro torque_ de la sección 3: el motor lo tiene
+que vencer, y lo que pone es justo lo que gana el satélite.]
+
+*La cuenta que lo confirma*, con la misma aproximación $bold(H)_r approx h
+hat(s)$. La potencia que recibe el satélite es su cupla por su velocidad
+angular; el término $bold(omega)_b times h hat(s)$ es perpendicular a
+$bold(omega)_b$ y no aporta:
+$ bold(tau)_"sat" dot.op bold(omega)_b = - h dot(delta) thin (hat(t) dot.op bold(omega)_b) $
+El motor, para sostener $dot(delta)$, tiene que dar sobre $hat(g)$ la parte
+del cambio de $bold(H)_r$ que cae ahí, $(bold(omega)_b times h hat(s)) dot.op
+hat(g) = - h thin (bold(omega)_b dot.op hat(t))$ —producto mixto, y $hat(s)
+times hat(g) = -hat(t)$—, y su potencia es eso por $dot(delta)$: la misma.
+Con el satélite quieto, las dos valen cero.
+
 = 6. Varios CMG: saturación y posiciones singulares
 #origen[Apunte, módulo 22; Lappas 2002, pág. 102 (cuatro en pirámide); Chubb y Seltzer 1971, fig. 3 (la posición antiparalela).]
+
+#gancho[Un CMG solo empuja en un plano: el perpendicular a su cardán. Para
+los tres ejes hacen falta varios, y ahí aparece lo complicado de verdad, que
+no es la física sino el *reparto*: decidir cuánto gira cada cardán para que la
+suma dé la cupla pedida sin que el conjunto quede mal parado. Los ingenieros
+del Skylab escribieron para eso una ley entera de distribución. Y es acá donde
+el CMG tiene sus dos límites: uno que también tiene la rueda (llenarse) y uno
+que es sólo suyo (trabarse).]
 
 // simbolos: H_c
 Con varios CMG la cupla es la suma, y el momento angular del conjunto,
@@ -298,6 +507,20 @@ cambia. Dos límites:
   saturado: el CMG «se traba». Por eso hacen falta *al menos cuatro* CMG de
   un cardán, en pirámide, para los tres ejes.
 
+#duda[Si con dos CMG antiparalelos el momento angular del conjunto es cero, ¿por qué eso también es un problema?]
+#dedos[Porque lo que importa no es cuánto momento angular hay guardado sino
+*hacia dónde puede empujar* cada CMG, que es siempre sobre su $hat(t)$. Con
+los dos rotores sobre la misma recta —para el mismo lado o para lados
+opuestos—, los dos $hat(t)$ también quedan sobre una misma recta, y los dos
+sólo saben empujar para ahí. Es un auto con el volante trabado: el motor
+anda, pero no dobla.]
+
+#duda[¿Y por qué un CMG saturado no se descarga solo, girando los cardanes para otro lado?]
+#dedos[Porque todo lo que pasa adentro del satélite reparte el momento
+angular entre sus piezas, pero no lo saca. Pasarte la plata de un bolsillo al
+otro no te hace más pobre. Para sacarlo hace falta una cupla de *afuera*: un
+propulsor, el campo magnético de la Tierra o la gravedad.]
+
 #figure(fig-act-cmg-singular, caption: [Dos CMG sobre el mismo eje de cardán:
 abiertos, paralelos y antiparalelos. Del apunte, módulo 22.])
 
@@ -310,6 +533,12 @@ tres.])
 
 = 7. Dos satélites de verdad, y el giróscopo que mide
 #origen[Chubb y Seltzer 1971 (Skylab, NASA TN D-6068); Lappas, Steyn y Underwood 2002; Wrigley y Hollister 1965. Los tres, de la cátedra.]
+
+#gancho[Los números de verdad, de los papers de la cátedra. Ver cuánto
+guarda un CMG grande y uno chico, y cuánto tarda en llenarse, te da el orden
+de magnitud para contestar un «opine» sin calculadora: un satélite con cuplas
+externas que siempre empujan para el mismo lado se satura, y la pregunta de
+ingeniería es cada cuánto y cómo se descarga sin gastar.]
 
 *El Skylab.* Tres CMG de *doble* cardán, ortogonales, de $2700$ N·m·s cada
 uno, con el rotor a $149$ vueltas por segundo ($936$ rad/s): el rotor tiene
@@ -405,6 +634,14 @@ dónde puede venir el del jueves.
   $dot(phi)$ es la velocidad de *precesión*, $dot(theta)$ la de *nutación* y
   $dot(psi)$ la de *giro propio* o *spin* (Beer §18.9; la hoja 2 de Aníbal).
 ]
+
+#duda[Si $bold(K)$, $hat(j)$ y $hat(k)$ miden uno los tres, ¿por qué no es una base ortonormal?]
+#dedos[Unitario quiere decir «mide uno», no «es perpendicular a los otros», y
+ortonormal pide las dos cosas. Poné el índice vertical, como el eje fijo
+$bold(K)$, y el pulgar inclinado, como el eje del rotor $hat(k)$: miden lo
+mismo, pero entre ellos queda el ángulo $theta$, que no es recto. Con esa base
+se puede escribir el vector, pero sus tres números no son las tres sombras
+independientes de la flecha.]
 
 #pregunta(5, [¿Es ortonormal la base del punto 3? ¿Por qué?])[
   No. Los tres versores son unitarios, y $hat(j)$ es perpendicular a los
@@ -527,6 +764,21 @@ rotor es el rotor.
   Con $bold(omega) times bold(H)_s = bold(M)$: si la cupla la pone un
   resorte, el ángulo torcido es proporcional a la velocidad de giro (_rate
   gyro_); si la pone un amortiguador, al ángulo girado (integrador).
+]
+
+#pregunta(13, [La derivada de $bold(H)_r$ que entra en el teorema del transporte, ¿está medida desde el cardán o desde el espacio? ¿Y escrita en qué ejes?])[
+  Medida desde el espacio: es la que pide la segunda ley. Escrita en los ejes
+  del cardán, porque ahí sale corta. La derivada vista desde el cardán vale
+  cero —el rotor gira siempre igual sobre un eje que el cardán ve quieto— y
+  el transporte agrega $bold(Omega)_g times bold(H)_r$.
+]
+
+#pregunta(14, [La cupla de salida es mil veces la del motor del cardán. ¿Se viola la conservación de la energía?])[
+  No: se amplifica la cupla, no la potencia. La cupla de salida la hacen los
+  cojinetes sobre $hat(t)$ y, con el satélite quieto, no trabaja. Cuando el
+  satélite gira, el motor vence el _gyro torque_ sobre $hat(g)$ y pone
+  exactamente la potencia que gana el satélite, $- h dot(delta) thin (hat(t)
+  dot.op bold(omega)_b)$.
 ]
 
 = 10. Para la hora de clase: un guion de cuatro bloques

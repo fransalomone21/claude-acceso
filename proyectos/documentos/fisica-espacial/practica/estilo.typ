@@ -4,6 +4,7 @@
 //  copia), pero sin la maquinaria de modulos: estos documentos son cortos.
 // =====================================================================
 #import "../apunte/biblioteca/paleta.typ": *
+#import "../apunte/biblioteca/dudas.typ": *
 
 #let documento(titulo: "", subtitulo: "", encabezado: "", body) = {
   set document(title: titulo, author: "Apunte de Física Espacial — UNSAM")

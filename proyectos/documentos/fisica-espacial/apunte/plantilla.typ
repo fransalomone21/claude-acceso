@@ -9,6 +9,7 @@
 // de abajo re-exportan las figuras: cada módulo hace
 // `#import "../plantilla.typ": *` y con eso ya tiene fig-*.
 #import "biblioteca/paleta.typ": *
+#import "biblioteca/dudas.typ": *
 #import "biblioteca/figuras.typ": *
 
 // ---------- Contadores propios ----------
