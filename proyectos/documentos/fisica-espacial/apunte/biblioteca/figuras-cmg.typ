@@ -113,7 +113,8 @@
 // La silla y la rueda (la demostración de la niña con la rueda, al revés):
 // la rueda gira con H horizontal; la persona le inclina el eje; el H de la
 // rueda gana un DeltaH hacia arriba, y la silla gira con -DeltaH (de arriba,
-// en sentido horario). Nadie de afuera tocó nada.
+// en sentido horario). Lo único de afuera es el cojinete, que sólo hace
+// torque horizontal: por eso se conserva la componente vertical de H.
 // ---------------------------------------------------------------------
 #let fig-cmg-silla = esquema(escala: 1.0cm, {
   let v = vista3d(az: -30, el: 14)
@@ -147,6 +148,124 @@
   giro3(v, (0, 0, -1.33), (0, 0, -1), (1, 0, 0), 0.95, 300, color: c-rojo)
   flecha3r(v, (-1.3, 0, -1.0), (-1.3, 0, -2.0), [silla: $-Delta bold(H)$], color: c-rojo, ancla: "east")
 })
+
+// ---------------------------------------------------------------------
+// Las fuerzas de las manos sobre el eje (pedido de Fran, 2026-11-12: «si hago
+// fuerzas verticales opuestas sobre el eje, el torque sale del dibujo; ¿no
+// debería darme un DeltaH paralelo?»). Sí: DeltaH es paralelo a tau SIEMPRE.
+// Tres paneles en el plano del dibujo: rueda quieta (el eje gira en el plano),
+// rueda girando con las mismas fuerzas (la punta de H sale del dibujo), y las
+// fuerzas que hacen falta para que el eje suba en el plano (una que entra y
+// otra que sale: tau queda en el plano, perpendicular a H).
+// ---------------------------------------------------------------------
+#let _sale(p, color: c-rojo) = {
+  cetz.draw.circle(p, radius: 0.16, stroke: 0.8pt + color, fill: white)
+  cetz.draw.circle(p, radius: 0.045, fill: color, stroke: none)
+}
+#let _entra(p, color: c-rojo) = {
+  cetz.draw.circle(p, radius: 0.16, stroke: 0.8pt + color, fill: white)
+  let (x, y) = p
+  let d = 0.11
+  cetz.draw.line((x - d, y - d), (x + d, y + d), stroke: 0.8pt + color)
+  cetz.draw.line((x - d, y + d), (x + d, y - d), stroke: 0.8pt + color)
+}
+#let _rueda-de-canto(L: 1.3) = {
+  cetz.draw.line((-L, 0), (L, 0), stroke: 1.4pt + luma(60))
+  cetz.draw.rect((-0.09, -0.85), (0.09, 0.85), fill: c-dato.lighten(75%), stroke: 0.6pt + c-dato.darken(10%))
+}
+#let fig-cmg-manos = paneles(
+  ("1. rueda quieta", esquema(escala: 0.8cm, {
+    _rueda-de-canto()
+    flecha((1.3, 0), (1.3, 1.1), color: c-rojo)
+    rotulo((1.38, 1.0), text(fill: c-rojo)[$bold(F)$], ancla: "west")
+    flecha((-1.3, 0), (-1.3, -1.1), color: c-rojo)
+    rotulo((-1.38, -1.0), text(fill: c-rojo)[$-bold(F)$], ancla: "east")
+    _sale((0, 1.35), color: c-aux)
+    rotulo((0.22, 1.35), text(fill: c-aux)[$bold(tau)$ sale], ancla: "west")
+    cetz.draw.arc((0.0, 0.0), start: 198deg, stop: 245deg, radius: 1.0, anchor: "origin",
+      stroke: (paint: luma(90), thickness: 0.7pt, dash: "dashed"), mark: (end: "stealth", scale: 0.4, fill: luma(90)))
+    rotulo((0, -1.5), text(size: 7.5pt)[sin giro, $bold(H)$ chico:\ el eje gira *en el plano*], ancla: "north")
+  })),
+  ("2. rueda girando, mismas manos", esquema(escala: 0.8cm, {
+    _rueda-de-canto()
+    flecha((1.3, 0), (1.3, 1.1), color: c-rojo)
+    flecha((-1.3, 0), (-1.3, -1.1), color: c-rojo)
+    _sale((0, 1.35), color: c-aux)
+    rotulo((0.22, 1.35), text(fill: c-aux)[$bold(tau)$ sale], ancla: "west")
+    flecha((0.1, 0.0), (2.4, 0.0), color: c-dato, grosor: 1.3pt)
+    rotulo((1.75, -0.12), text(fill: c-dato)[$bold(H)$], ancla: "north")
+    _sale((2.62, 0.0), color: c-aux)
+    rotulo((2.62, 0.25), text(fill: c-aux)[$Delta bold(H)$ sale], ancla: "south")
+    rotulo((0.6, -1.5), text(size: 7.5pt)[$Delta bold(H) parallel bold(tau)$: la punta de $bold(H)$\ se va *hacia vos*; el eje no sube], ancla: "north")
+  })),
+  ("3. para que suba en el plano", esquema(escala: 0.8cm, {
+    _rueda-de-canto()
+    flecha((0.1, 0.0), (2.4, 0.0), color: c-dato.lighten(40%), punteada: true)
+    flecha((0.1, 0.0), (2.3, 0.75), color: c-dato, grosor: 1.3pt)
+    _entra((1.3, 0))
+    rotulo((1.3, -0.25), text(fill: c-rojo)[$bold(F)$ entra], ancla: "north")
+    _sale((-1.3, 0))
+    rotulo((-1.3, -0.25), text(fill: c-rojo)[$-bold(F)$ sale], ancla: "north")
+    flecha((0, 0.95), (0, 1.75), color: c-aux)
+    rotulo((0.1, 1.6), text(fill: c-aux)[$bold(tau)$], ancla: "west")
+    rotulo((2.3, 0.75), text(fill: c-dato)[$bold(H) + Delta bold(H)$], ancla: "south-west")
+    flecha((2.4, 0.0), (2.32, 0.7), color: c-aux)
+    rotulo((2.5, 0.25), text(fill: c-aux)[$Delta bold(H)$], ancla: "west")
+    rotulo((0.6, -1.5), text(size: 7.5pt)[$bold(tau)$ en el plano y $perp bold(H)$:\ un extremo hacia adentro, el otro hacia afuera], ancla: "north")
+  })),
+)
+
+// ---------------------------------------------------------------------
+// Los torques de la silla, vistos de costado (el plano vertical que contiene
+// al eje de la rueda). Mismos números que fig-cmg-silla: H horizontal que se
+// inclina 28 grados hacia arriba. (a) la rueda: tau_manos paralelo a DeltaH;
+// (b) persona + silla: reciben -tau_manos; la parte vertical la hace girar,
+// la horizontal la frena el cojinete; (c) el sistema entero: el único torque
+// de afuera es el del cojinete, horizontal => H vertical se conserva.
+// ---------------------------------------------------------------------
+#let fig-cmg-silla-torques = {
+  let al = 28
+  let L = 2.0
+  let a0 = (L, 0)
+  let a1 = (L * calc.cos(al * 1deg), L * calc.sin(al * 1deg))
+  let dH = (a1.at(0) - a0.at(0), a1.at(1) - a0.at(1))
+  let k = 2.4
+  let tq = (k * dH.at(0), k * dH.at(1))
+  paneles(
+    ("a. la rueda", esquema(escala: 0.8cm, {
+      flecha((0, 0), a0, color: c-dato.lighten(40%), punteada: true)
+      rotulo(a0, text(fill: c-dato.lighten(20%))[antes], ancla: "west")
+      flecha((0, 0), a1, color: c-dato)
+      rotulo(a1, text(fill: c-dato)[$bold(H)_"rueda"$], ancla: "south-west")
+      flecha(a0, a1, color: c-aux)
+      rotulo((a0.at(0) + 0.05, 0.45), text(fill: c-aux)[$Delta bold(H)$], ancla: "west")
+      flecha((-0.6, -0.2), (-0.6 + tq.at(0), -0.2 + tq.at(1)), color: c-rojo, grosor: 1.2pt)
+      rotulo((-0.6 + tq.at(0), -0.2 + tq.at(1)), text(fill: c-rojo)[$bold(tau)_"manos"$], ancla: "south")
+      rotulo((0.7, -0.6), text(size: 7.5pt)[las manos hacen el $Delta bold(H)$:\ $bold(tau)_"manos" = Delta bold(H) \/ Delta t$], ancla: "north")
+    })),
+    ("b. persona y silla", esquema(escala: 0.8cm, {
+      let P = (0, 1.6)
+      let Q = (-tq.at(0), 1.6 - tq.at(1))
+      flecha(P, Q, color: c-rojo, grosor: 1.2pt)
+      rotulo(P, text(fill: c-rojo)[$-bold(tau)_"manos"$], ancla: "south")
+      flecha(P, (0, Q.at(1)), color: c-verde)
+      rotulo((-0.08, 0.6), text(fill: c-verde)[vertical:\ gira la silla], ancla: "east")
+      flecha((0, Q.at(1)), Q, color: luma(90))
+      rotulo((Q.at(0) + 0.1, Q.at(1) - 0.05), text(fill: luma(70))[horizontal], ancla: "north-west")
+      flecha((Q.at(0), Q.at(1) - 0.55), (0, Q.at(1) - 0.55), color: c-teal, grosor: 1.2pt)
+      rotulo((Q.at(0) / 2, Q.at(1) - 0.65), text(fill: c-teal)[$bold(tau)_"cojinete"$ la anula], ancla: "north")
+    })),
+    ("c. todo junto", esquema(escala: 0.8cm, {
+      flecha((-0.8, 0), (0.8, 0), color: c-teal, grosor: 1.2pt)
+      rotulo((0, -0.15), text(fill: c-teal)[$bold(tau)_"cojinete"$: el único de afuera,\ y es horizontal], ancla: "north")
+      flecha((-0.5, 0.5), (-0.5, 1.5), color: c-aux)
+      rotulo((-0.6, 1.2), text(fill: c-aux)[rueda:\ $+Delta H_z$], ancla: "east")
+      flecha((0.5, 1.5), (0.5, 0.5), color: c-rojo)
+      rotulo((0.6, 1.2), text(fill: c-rojo)[silla:\ $-Delta H_z$], ancla: "west")
+      rotulo((0, 1.95), text(size: 7.5pt)[$H_z$ total: se conserva], ancla: "south")
+    })),
+  )
+}
 
 // ---------------------------------------------------------------------
 // Cuatro CMG de un cardán en pirámide (Lappas 2002, fig. 15): cada cardán

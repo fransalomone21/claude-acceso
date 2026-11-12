@@ -14,7 +14,7 @@
 // =====================================================================
 #import "estilo.typ": *
 #import "../apunte/biblioteca/figuras.typ": fig-act-cmg-giros, fig-act-cmg-proyeccion, fig-act-cmg-singular, fig-act-actuadores
-#import "../apunte/biblioteca/figuras-cmg.typ": fig-cmg-3d, fig-cmg-analogia, fig-cmg-silla, fig-cmg-piramide
+#import "../apunte/biblioteca/figuras-cmg.typ": fig-cmg-3d, fig-cmg-analogia, fig-cmg-silla, fig-cmg-piramide, fig-cmg-manos, fig-cmg-silla-torques
 
 #show: documento.with(
   titulo: [Guía para el parcialito — CMG],
@@ -228,10 +228,60 @@ Del apunte, módulo 22.])
 #figure(fig-cmg-silla, caption: [La silla y la rueda, con vectores. La rueda
 gira con su momento angular horizontal (punteado, «antes»); quien está
 sentado le inclina el eje y el momento angular de la rueda gana un $Delta
-bold(H)$ hacia arriba. Nadie de afuera tocó nada, así que la silla se lleva
-$-Delta bold(H)$: gira, vista de arriba, en sentido horario. Es la niña con
-la rueda de la cátedra, jugada al revés: ella sentía la cupla en las manos;
-acá la cupla hace girar la silla.])
+bold(H)$ hacia arriba. Lo único de afuera que toca al conjunto es el cojinete
+de la silla, que no deja volcar pero sí girar: la parte vertical de $Delta
+bold(H)$ no la frena nadie, así que la silla se la lleva al revés y gira,
+vista de arriba, en sentido horario. Es la niña con la rueda de la cátedra,
+jugada al revés: ella sentía la cupla en las manos; acá la cupla hace girar
+la silla.])
+
+#duda[Si para girar el eje empujo un extremo para arriba y el otro para
+abajo, la regla de la mano derecha me da un torque que sale del dibujo. ¿No
+debería darme un $Delta bold(H)$ paralelo a ese torque? Porque yo veo que el
+eje sube.]
+#dedos[Sí: $Delta bold(H)$ es paralelo al torque *siempre*, sin excepción. Lo
+que falla es suponer qué fuerzas hacen subir el eje. Con la rueda quieta, ese
+par de fuerzas hace girar el eje en el plano del dibujo, y no hay sorpresa.
+Con la rueda girando, el mismo par manda la punta de $bold(H)$ hacia donde
+apunta el torque, o sea *hacia vos*: el eje se te va de costado. Para que el
+eje suba en el plano, el torque tiene que estar en el plano y apuntar para
+arriba, y eso se logra empujando un extremo hacia adentro del dibujo y el otro
+hacia afuera, como girando un volante. Regla de bolsillo: la punta de
+$bold(H)$ va adonde apunta el torque, no adonde empujan las manos; sin giro
+las dos coinciden, con mucho giro quedan a 90°.]
+
+// simbolos: F
+#figure(fig-cmg-manos, caption: [Las mismas manos, con y sin giro. $bold(F)$
+es la fuerza de cada mano sobre un extremo del eje; el círculo con punto es
+algo que sale del dibujo, el de la cruz algo que entra. (1) Sin giro, el par
+hace girar el eje en el plano. (2) Con giro, el mismo par lleva la punta de
+$bold(H)$ fuera del dibujo. (3) Para inclinar el eje en el plano, el par
+tiene que ser perpendicular al dibujo.])
+
+// simbolos: tau_manos
+#duda[¿Y quién hace qué torque sobre quién? Me mareo con las flechas.]
+#dedos[Tres torques, de a uno. *Las manos sobre la rueda*:
+$bold(tau)_"manos" = Delta bold(H) \/ Delta t$, paralelo a la flecha
+$Delta bold(H)$; es lo que hace falta para torcerle el $bold(H)$ a la rueda.
+*La rueda sobre vos*: $-bold(tau)_"manos"$, acción y reacción, que baja por
+el cuerpo hasta el asiento. *El cojinete sobre la silla*:
+$bold(tau)_"cojinete"$, que sólo puede ser horizontal, porque el eje de la
+silla gira libre en vertical. Entonces $-bold(tau)_"manos"$ se parte en dos:
+lo vertical no lo frena nadie y hace girar la silla; lo horizontal lo anula el
+cojinete, y por eso no te volcás. Mirando el conjunto entero, el único torque
+de afuera es el del cojinete y es horizontal, así que la componente vertical
+del momento angular total, $H_z$, no cambia: lo que la rueda gana para
+arriba, la silla lo pierde para abajo. Es el CMG con otra ropa: el cardán hace
+el $Delta bold(H)$ del rotor y el satélite se queda con $-Delta bold(H)$.]
+
+// simbolos: tau_cojinete, H_z
+#figure(fig-cmg-silla-torques, caption: [Los torques de la silla, vistos de
+costado. (a) $bold(tau)_"manos"$, el torque de tus manos sobre la rueda, es
+paralelo a $Delta bold(H)$. (b) Vos y la silla reciben
+$-bold(tau)_"manos"$: la parte vertical hace girar la silla y la horizontal
+la anula $bold(tau)_"cojinete"$, el torque del cojinete. (c) El único torque
+de afuera es horizontal, así que $H_z$, la componente vertical del momento
+angular total, se conserva.])
 
 #trampa[
   *Amplificación no es magia.* El CMG da mucha más cupla que la que pone el
