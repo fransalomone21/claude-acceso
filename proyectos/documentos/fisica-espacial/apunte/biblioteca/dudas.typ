@@ -50,7 +50,10 @@
   #text(fill: c-verde, weight: "bold")[Con los dedos:] #cuerpo
 ]
 
+// Ancho fijo, apenas menos que el renglón: así el número de la nota queda al
+// lado del globito y no solo en un renglón arriba (pasaba con los largos).
 #let burbuja(cuerpo) = footnote(box(
+  width: 100% - 1.4em,
   fill: c-teal.lighten(90%),
   stroke: 0.5pt + c-teal.lighten(45%),
   radius: 5pt,

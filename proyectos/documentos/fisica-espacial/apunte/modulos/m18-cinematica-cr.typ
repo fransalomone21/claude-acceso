@@ -21,6 +21,22 @@ dónde apunta*: una antena, una cámara, un panel solar y un motor apuntan a
 algún lado, y ese lado es lo que hay que controlar. Un satélite en la órbita
 perfecta con la antena mirando al Sol es chatarra muy bien ubicada.
 
+#gancho[Todo lo que viene de acá al final del apunte contesta una sola
+pregunta de ingeniería: cómo se controla hacia dónde apunta un satélite, y
+qué hace solo si nadie lo controla. Las respuestas están entre las más raras
+de la física clásica. Un cuerpo que gira rápido se resiste a que le cambien
+el eje y, si se lo empuja, se corre de costado: es el giróscopo, y con él se
+navega sin GPS. Un satélite que gira alrededor del eje equivocado termina
+dando tumbos sin que nada lo toque: le pasó al Explorer 1. Una cupla chiquita
+puesta en el lugar justo produce una enorme en otro: es el CMG, con el que se
+apuntan estaciones espaciales enteras. Entender esta parte es poder predecir
+todo eso antes de lanzar. Lo simple: sale de una sola ley, cupla igual a
+cambio del momento angular. Lo complicado son dos cosas que en el plano no
+existían: en tres dimensiones el momento angular y la velocidad angular dejan
+de apuntar para el mismo lado, y los ejes desde los que conviene mirar giran
+ellos también. Este módulo arma la segunda dificultad —los ejes que giran—;
+el que sigue, la primera.]
+
 Este módulo es, casi de punta a punta, el Beer, capítulo 15: la cátedra arma
 la lista de cuerpo rígido entera sobre el Beer, y avisa de entrada que «son
 muy útiles los resúmenes que hace el Beer al final (o a la mitad) de cada
@@ -79,6 +95,22 @@ norteamericano, y la historia está al final del módulo #M("euler-giroscopo").
 
 == Con un punto fijo, todo movimiento es una rotación
 
+#gancho[Reduce cualquier movimiento de un cuerpo con un punto fijo —un trompo
+sobre su punta, un satélite girando alrededor de su centro de masa— a una
+sola flecha, $bold(omega)$: un eje y una rapidez. Con esa flecha se saca la
+velocidad de cualquier punto del cuerpo con un producto vectorial, sin
+seguirlos de a uno: dónde está la punta de un panel, cuán rápido se mueve una
+antena. Lo que lo complica es que el eje no se queda quieto, y de eso sale
+todo lo raro del resto de la parte.]
+
+#duda[Si el cuerpo se puede mover de cualquier manera, ¿cómo puede ser que en cada instante gire alrededor de un solo eje?]
+#dedos[Pinchá una naranja por el centro con un tenedor —ése es el punto
+fijo— y marcale dos puntos con birome. Llevala a cualquier posición nueva,
+con todas las vueltas que se te ocurran. Siempre existe un pinche, una recta
+por el centro, alrededor del cual *un solo giro* la habría dejado igual. La
+demostración de abajo lo prueba con dos puntos y dos bisectrices; la naranja
+lo prueba en la cocina.]
+
 #deduccion("por qué siempre hay un eje, aunque el cuerpo se mueva de cualquier manera")[
   Sea un cuerpo con un punto $O$ fijo. En lugar de mirarlo entero, se recorta
   una esfera con centro en $O$: la posición de la esfera determina la del
@@ -106,6 +138,13 @@ $ bold(a) = bold(alpha) times bold(r) + bold(omega) times (bold(omega) times bol
   quad quad bold(alpha) = (d bold(omega))/(d t) $ <cin-a>
 
 (Beer ecs. 15.37 a 15.39, pág. 989.)
+
+#duda[Si la rapidez de giro no cambia nunca, ¿puede haber aceleración angular?]
+#dedos[Sí. $bold(omega)$ es una flecha, y $bold(alpha)$ es la velocidad de su
+punta. Si la flecha gira sin estirarse —un trompo que precesa, una rueda de
+auto en una curva—, su punta se mueve, y eso es $bold(alpha)$, de costado. Es
+lo mismo que la piedra revoleada: rapidez constante, aceleración que no es
+cero, porque la velocidad cambia de *dirección*.]
 
 #cuidado[
   *$bold(alpha)$ no apunta, en general, a lo largo del eje instantáneo.* En el
@@ -145,6 +184,22 @@ $ bold(a) = bold(alpha) times bold(r) + bold(omega) times (bold(omega) times bol
 ]
 
 == Las velocidades angulares se suman; las rotaciones finitas, no
+
+#gancho[Te deja armar la velocidad angular de un mecanismo de piezas
+articuladas sumando lo que aporta cada articulación: el disco en su horquilla,
+el giróscopo en sus cardanes, el rotor de un CMG dentro de un satélite que
+maniobra. Es la primera cuenta de casi todo problema de esta parte, y la que
+pide escribir el parcialito. Lo simple: es una suma. Lo traicionero: cada
+sumando se mide respecto de una pieza distinta, y los giros *grandes* no se
+suman.]
+
+#duda[¿Por qué las velocidades angulares se pueden sumar, si los giros de un libro no?]
+#dedos[Por lo mismo que en la cinta del aeropuerto: si la cinta te lleva a
+1 m/s y vos caminás a 1 m/s sobre ella, vas a 2 m/s respecto del piso. Cada
+pieza «camina» sobre la que la sostiene: el disco gira sobre la horquilla, la
+horquilla sobre el piso. Los giros grandes, en cambio, dependen del orden
+—el libro de abajo lo muestra—. Una velocidad angular es un giro chiquito, de
+un instante, y con giros chiquitos el orden deja de importar.]
 
 #deduccion("por qué las velocidades angulares son vectores de verdad")[
   Un cuerpo con un punto fijo $O$ gira a la vez alrededor de dos ejes, con
@@ -209,7 +264,11 @@ fig-suma-omegas)
   $hat(k)$ —el eje del disco— gira con la horquilla, así que $bold(omega)$
   cambia de dirección aunque no cambie de módulo. Con la @cin-derivada, que se
   deduce dos secciones más abajo, y $bold(Omega) = omega_2 hat(j)$ la velocidad
-  angular de los ejes elegidos:
+  angular de los ejes elegidos#burbuja[$bold(Omega)$: la velocidad angular de
+  los *ejes* que elegiste —acá, clavados a la horquilla—, respecto del
+  espacio. No es la del disco, $bold(omega)$. Y $(dot(bold(omega)))_(O x y z)$
+  es cómo cambia $bold(omega)$ vista *desde la horquilla*: cero, porque desde
+  ahí los dos giros son constantes y sobre ejes quietos.]:
   $ bold(alpha) = underbrace((dot(bold(omega)))_(O x y z), = 0) + bold(Omega) times bold(omega)
     = omega_2 hat(j) times (omega_2 hat(j) + omega_1 hat(k)) = omega_1 omega_2 hat(i) $
 
@@ -226,6 +285,19 @@ fig-suma-omegas)
 ]
 
 == El eje instantáneo se mueve: cono espacial y cono corporal
+
+#gancho[Es la manera de *ver* una precesión sin resolver una sola ecuación.
+Dos conos y una regla de juego —uno rueda sobre el otro— te dicen hacia
+dónde se mueve el eje de un cuerpo que gira libre, y en el módulo #M("peonza")
+te dicen si precesa para el mismo lado que su spin o al revés, que es la
+pregunta que separa un satélite achatado de uno alargado.]
+
+#duda[¿Qué rueda sobre qué? ¿Esos conos son algo del cuerpo, o un dibujo?]
+#dedos[Son un dibujo, pero de algo real. Imaginá dos conos de cartulina: uno
+pegado al cuerpo, otro pegado a la pieza donde estás vos. El cuerpo se mueve
+exactamente como si su cono rodara sobre el tuyo sin patinar. La recta donde
+se tocan es el eje instantáneo: como el punto de una rueda que toca el piso,
+los puntos del cuerpo que están sobre ella, en ese instante, no se mueven.]
 
 El eje instantáneo cambia de un instante a otro, y cambia respecto de *dos*
 cosas distintas: respecto del espacio y respecto del cuerpo. Barre entonces
@@ -272,6 +344,57 @@ El módulo #M("marcos") ya contestó esta pregunta para el caso chico: plano, y
 con $bold(Omega)$ constante. Lo que sigue es el caso general —tres dimensiones,
 y un $bold(Omega)$ que puede cambiar—, y de él la @marcos-rotante sale como
 caso particular: no son dos resultados, es uno y su recorte.
+
+#gancho[Es la llave de toda la Parte V, y la que más se confunde, así que
+vale la pena venderla bien. La segunda ley de Newton —cupla igual a cambio
+del momento angular— sólo vale para el que mira desde el espacio. Pero los
+números lindos, los momentos de inercia que no cambian, viven en ejes
+clavados al cuerpo, que giran. Este teorema es el traductor entre los dos: te
+deja hacer la cuenta en los ejes cómodos y devolverle a Newton lo que pide.
+La consecuencia es que aparecen términos que nadie puso a mano —el efecto
+giroscópico, la centrífuga, Coriolis— y que son exactamente el precio de
+mirar desde algo que gira. Lo simple: es una suma de dos términos. Lo que
+cuesta: decidir quién mira, en qué ejes se anota y qué $bold(Omega)$ va.]
+
+*Antes de la cuenta, las cuatro preguntas de cada vector.* La mitad de los
+errores de esta parte no son de álgebra: son de no haberse hecho alguna de
+estas cuatro preguntas. De acá al final del apunte cada vector las tiene
+contestadas, y al pie de las páginas, en un globito, se recuerdan donde hagan
+falta.
+
+#figure(
+  table(
+    columns: (1.15fr, 1.9fr, 2fr),
+    inset: 5pt,
+    align: left,
+    table.header([*La pregunta*], [*Qué contesta*], [*Dónde se lee en la notación*]),
+    [¿Qué es?], [la cantidad física: velocidad angular, momento angular, cupla], [la letra: $bold(omega)$, $bold(H)$, $bold(M)$],
+    [¿Respecto de qué punto?], [sólo para lo que depende del punto: la posición, el momento angular, la cupla], [el subíndice de la letra: $bold(H)_G$ respecto del centro de masa, $bold(H)_O$ respecto de un punto fijo $O$],
+    [¿Quién lo mira para derivarlo?], [qué sistema considera quietos sus ejes al decir «cambió»], [el subíndice del paréntesis: $(dot(bold(Q)))_(O X Y Z)$ el fijo, $(dot(bold(Q)))_(O x y z)$ el que gira],
+    [¿En qué ejes se anota?], [la base de las componentes: la regla con que se mide], [los versores que aparecen: los del fijo, o $hat(i)$, $hat(j)$, $hat(k)$ del que gira],
+  ),
+  caption: [Las cuatro preguntas. Las dos últimas son *independientes*: se puede derivar mirando desde el espacio y anotar el resultado en los ejes del cuerpo, y es exactamente lo que hacen las ecuaciones de Euler del módulo #M("euler-giroscopo").],
+)
+
+#duda[La derivada de un vector, ¿no es una sola? ¿Cómo puede depender de quién la mira?]
+#dedos[Pintá una flecha en el piso de una calesita, del centro hacia el
+borde. El chico que va arriba la ve siempre igual: para él la flecha no
+cambia, y su derivada es cero. La mamá que mira desde afuera la ve dar
+vueltas: para ella la punta se mueve todo el tiempo. Los dos tienen razón,
+porque «cambió» quiere decir «cambió *comparada con algo*», y cada uno compara
+contra lo que tiene quieto adelante. La diferencia entre lo que ven los dos
+es lo que el giro de la calesita le agrega a la flecha: un producto
+vectorial, el de la fórmula de abajo.]
+
+#duda[Si escribo un vector con los versores del sistema que gira, ¿ya lo estoy mirando desde el sistema que gira?]
+#dedos[No, y es la confusión que más cuesta en toda la parte. Una cosa es
+*quién mira* para decir cuánto cambió el vector; otra, *con qué regla anota*
+el resultado. Un auto que dobla: cuánto cambió su velocidad lo dice alguien
+parado en la vereda —eso es «mirado desde el espacio»—, y ese cambio lo podés
+anotar como «tanto hacia adelante del auto y tanto hacia su izquierda» —eso
+es «escrito en los ejes del auto»—. Las dos cosas a la vez, sin
+contradicción. En la fórmula, el subíndice del paréntesis dice quién mira;
+los versores en que después anotes el resultado son otra elección, y libre.]
 
 #deduccion("cómo se relacionan las dos derivadas")[
   Dos sistemas con el mismo origen $O$: uno fijo, $O X Y Z$, y uno que gira con
@@ -331,6 +454,13 @@ como vectores.], fig-vector-rotante)
   lo que se aprendió a hacer en polares vuelve a servir acá sin traducción.
 ]
 
+#duda[¿Qué velocidad angular va en el producto vectorial: la del cuerpo o la de los ejes?]
+#dedos[La de la silla en la que te sentaste. El término $bold(Omega) times
+bold(Q)$ es lo que el giro *de tus ejes* le agrega a lo que ves. Si te
+sentaste en el cuerpo, es la del cuerpo; si te sentaste en una pieza que no
+lo acompaña en todo —la horquilla del disco, el balancín de un giróscopo, el
+cardán de un CMG—, es la de esa pieza.]
+
 #geometria[
   *$bold(Omega)$ es la velocidad angular del SISTEMA; $bold(omega)$ es la del
   CUERPO. No siempre son la misma, y confundirlas es el error caro de este
@@ -379,6 +509,10 @@ como vectores.], fig-vector-rotante)
   *(b) La velocidad angular de los ejes.* Los ejes están clavados al gimbal,
   que en ese instante sólo acompaña a la plataforma:
   $ bold(Omega) = omega_p hat(j) = 0,5 hat(j) " rad/s" $
+  Es la velocidad angular de los ejes#burbuja[$bold(Omega)$: la de los ejes
+  $x y z$, clavados al gimbal, respecto del espacio. $bold(omega)$: la del
+  volante, también respecto del espacio. Las dos se anotan en los mismos
+  ejes $x y z$, y aun así son flechas distintas.], no la del volante.
 
   #geometria[
     *$bold(Omega) != bold(omega)$, y ésta es la línea del problema donde se
@@ -409,12 +543,29 @@ como vectores.], fig-vector-rotante)
 
 == Dos puntos cualesquiera: el movimiento general
 
+#gancho[Un satélite no tiene ningún punto clavado: se traslada y gira a la
+vez. Esta sección te dice que igual alcanza con dos datos —cómo se mueve un
+punto que elijas y cómo gira el cuerpo— para saber cómo se mueve cualquier
+otro: la punta de un panel, la boquilla de un propulsor, el foco de una
+cámara. Lo simple: un solo $bold(omega)$ para todo el cuerpo. Lo que hay que
+cuidar: desde qué punto se mide la flecha que va al otro.]
+
+#duda[Si cambio el punto de referencia, ¿cambia la velocidad angular?]
+#dedos[No. Subite a cualquier lugar de una calesita, al centro o al borde:
+desde todos lados ves al resto girar igual de rápido. Cambia cuánto se
+traslada cada punto, no cuánto gira el cuerpo.]
+
 Si el cuerpo no tiene ningún punto fijo, se elige un punto $A$ del cuerpo como
 referencia y se mira el movimiento *relativo* a un sistema que traslada con
 $A$ pero no rota. Respecto de ese sistema, $A$ está fijo — y vale todo lo de
 arriba:
 
 $ bold(v)_B = bold(v)_A + bold(omega) times bold(r)_(B slash A) $ <cin-vgen>
+
+con $bold(r)_(B slash A)$#burbuja[$bold(r)_(B slash A)$: la flecha que sale
+de $A$ y llega a $B$, los dos puntos del mismo cuerpo. $bold(omega)$ y
+$bold(alpha)$, las del cuerpo respecto del espacio.] la posición de $B$
+medida desde $A$, y
 
 $ bold(a)_B = bold(a)_A + bold(alpha) times bold(r)_(B slash A)
   + bold(omega) times (bold(omega) times bold(r)_(B slash A)) $ <cin-agen>
@@ -439,8 +590,27 @@ que se desplaza *dentro* de un sistema que además gira. Es la situación del
 módulo #M("marcos"), ahora sin las dos restricciones que allá la hacían corta
 —el plano y el $bold(Omega)$ constante—. Es el Beer §15.14, y también el
 Roederer §5.h («Sistemas no-inerciales en rotación», pág. 193), que lo cuenta
-desde la fuerza de Coriolis en la Tierra. Se aplica la @cin-derivada dos veces
-—una a $bold(r)$ y otra al resultado— y sale:
+desde la fuerza de Coriolis en la Tierra.
+
+#gancho[Es lo que pasa cuando algo se mueve *adentro* de algo que gira: un
+astronauta que camina en una estación que rota, combustible que corre por un
+tanque, un brazo que se despliega en un satélite que gira. Te dice qué
+fuerzas aparecen de la nada —la centrífuga y la de Coriolis— y a quién le
+toca pagarlas. En el módulo #M("actitud") es exactamente esto lo que frena a
+un satélite que estira sus brazos. Lo simple: son cuatro términos y cada uno
+tiene su porqué. Lo traicionero: el 2 de Coriolis, que sale de dos lugares
+distintos.]
+
+#duda[¿Por qué Coriolis lleva un 2? ¿No alcanza con sumar el giro una vez?]
+#dedos[Porque el giro le juega dos veces a la partícula que camina hacia
+afuera. Una: la dirección en que camina va girando, así que su velocidad
+relativa cambia de dirección. Dos: al alejarse del centro llega a lugares
+del disco que van más rápido, así que la velocidad de arrastre crece. Cada
+efecto aporta lo mismo, y la suma es el doble. La hormiga de abajo lo
+muestra con números.]
+
+Se aplica la @cin-derivada dos veces —una a $bold(r)$ y otra al resultado— y
+sale:
 
 $ bold(v)_P = bold(Omega) times bold(r) + (dot(bold(r)))_(O x y z) $ <cin-coriolis-v>
 
@@ -468,6 +638,10 @@ cambia.
   *Velocidad.* Con la @cin-derivada, la derivada que ve el disco es $v
   hat(e)_1$ y el transporte agrega $bold(Omega) times bold(r)$:
   $ bold(v)_I = v hat(e)_1 + Omega v t thin hat(e)_2 $
+  Ojo con lo que dice esa $bold(v)_I$#burbuja[$bold(v)_I$: la velocidad de la
+  hormiga mirada desde el inercial —el de afuera del disco—, pero *anotada*
+  con los versores del disco, $hat(e)_1$ y $hat(e)_2$. Mirar desde un lado y
+  anotar con la regla de otro, otra vez.]: es la que ve el de afuera.
   La radial es lo que camina la hormiga; la tangencial, lo que la arrastra
   el disco.
 
