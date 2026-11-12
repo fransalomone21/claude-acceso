@@ -1,5 +1,17 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-12 — cuatro tiempos en m18-m22 y en la guía de CMG** (regla propia 15; el estado, en ESTADO). **Queda:**
+> (1) la regla vale para lo nuevo; m1-m17 y los otros documentos de `practica/` **no** se tocan salvo que Fran lo pida;
+> (2) Fran no leyó todavía m19-m22: si algo de cómo está contado no le cierra, es el próximo pedido. **Trampas
+> pagadas:** (a) un `#gancho` pegado (`sticky`) a la duda arrastra los dos a la página siguiente y deja cuartos de
+> página en blanco: el gancho no es sticky, la duda sí y no se parte; (b) un globito largo dejaba el número de la nota
+> solo en un renglón: el globito va con ancho fijo (`100% - 1.4em`); (c) en la guía de practica, título + `#origen`
+> quedaban huérfanos al pie: el `origen` de esa guía es sticky (sólo ahí, para no re-maquetar las otras); (d)
+> `underbrace` lo cuenta `verificar-simbolos.py` como símbolo; (e) los agentes escribieron física con analogías
+> verosímiles y al revés (la retrógrada con el cuerpo *adentro* del cono espacial, el gimbal sin cupla que «se
+> acomoda» en vez de oscilar, la energía «sin un I único», «el peso no gasta nada»): todo texto de física de un agente
+> se lee entero contra la física antes de commitear. Cada agente gastó 150-205 K tokens, no los 60-100 K estimados.
+
 > **2026-11-11 — 10 figuras de omega y H (`biblioteca/figuras-omega.typ`) y la regla 14 en m20-m22** (estado, en ESTADO).
 > **Queda:** (1) la regla 14 (pensar en voz alta antes de cada ecuación que se arma) vale de acá en adelante; Fran la
 > pidió «del 20 en adelante», así que m1-m19 **no** se tocan salvo que lo pida; (2) la guía del CMG

@@ -320,6 +320,28 @@ Repetir lo ya definido es a propósito: fija y refresca. Vale para las
 ecuaciones que se *arman*; las que sólo se citan siguen con la regla 7. Se
 aplicó el 2026-11-11 a los módulos 20, 21 y 22.
 
+**15. Cada tema se cuenta en cuatro tiempos: para qué sirve, la duda, con los
+dedos, y recién ahí lo formal; y las letras se recuerdan al pie.** Pedido de
+Fran, 2026-11-12, sobre el cuerpo rígido: *«antes de cualquier explicación
+teórica, de cualquier nuevo concepto o caso, hacé la explicación con los
+dedos»*, *«primero generá las posibles dudas, y después las explicaciones que
+abracen esas dudas»*, y *«quiero que cada tema lo vendas: para qué sirve, qué
+información te da, dónde hay complejidad y dónde simplicidad; como un cuento,
+pero formal»*. Las piezas viven en `apunte/biblioteca/dudas.typ` (las importan
+la plantilla del apunte y la de `practica/`): `#gancho` («Para qué sirve:»,
+rosa), `#duda` (violeta, en la voz del lector, pegada a su respuesta),
+`#dedos` («Con los dedos:», verde) y `#burbuja` (nota al pie en un globito:
+qué es una letra, respecto de qué punto, quién la mira para derivarla y en qué
+ejes se anota). No son cajas (regla 8): son entradas en color en la prosa. Las
+cuatro preguntas de cada vector están en una tabla del módulo
+#M("cinematica-cr"), en la sección del teorema del transporte. Aplicada el
+2026-11-12 a los módulos 18 a 22 y a la guía de CMG; vale para todo módulo o
+guía nueva, y para los módulos 1 a 17 sólo si Fran lo pide. **Si lo escriben
+agentes, su diff se lee entero contra la física antes de commitear**: el
+2026-11-12 cuatro agentes devolvieron cuatro analogías verosímiles y al revés
+(una en cada módulo), todas marcadas «confirmado» o «probable» por ellos
+mismos.
+
 ## Dónde está cada cosa
 
 ```

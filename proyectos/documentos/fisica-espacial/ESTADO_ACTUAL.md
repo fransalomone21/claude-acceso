@@ -1,5 +1,15 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-12, en la PC: el cuerpo rígido contado en cuatro tiempos (regla propia 15, pedido de Fran).** Cada tema de
+> m18 a m22 y de la guía de CMG arranca con *para qué sirve* (qué te da, consecuencias, dónde está lo simple y lo
+> complicado), sigue con *la duda* en la voz de Fran, *con los dedos*, y recién ahí lo formal, que no se tocó; globitos
+> al pie con qué es cada letra, respecto de qué punto, quién la mira y en qué ejes se anota. m18 suma la tabla de las
+> cuatro preguntas de cada vector (medido desde ≠ anotado en). Piezas en `apunte/biblioteca/dudas.typ`. **Apunte: 258
+> págs.; guía de CMG v3: 13 págs.** (con la energía de la amplificación: se amplifica la cupla, no la potencia, y las
+> preguntas 13 y 14), las dos publicadas y al día por MD5. m19-m22 los escribieron cuatro agentes en paralelo y se
+> revisaron acá (cuatro errores de física corregidos). `verificar-apunte.py`, `indice-temas.py`, `verificar-anexos.py`
+> (146), `verificar-simbolos.py`, `verificar-consignas.py` (64) y `validar.py` (695) en verde.
+
 > **2026-11-11, en la PC: omegas, momentos angulares y sus derivadas, dibujados y pensados en voz alta (m20 a m22).**
 > **Apunte: 244 págs., publicado** (cada commit de módulo lo subió el hook; MD5 al día). Biblioteca nueva
 > `apunte/biblioteca/figuras-omega.typ` con **10 figuras** (galería `practica/galeria-omega.typ`, en `compilar.ps1`,
