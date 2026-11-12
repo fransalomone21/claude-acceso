@@ -1,5 +1,20 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-11-12 (sesión de fisica-espacial) — RETOME PARA UNA TANDA CON FABLE, hasta el 16/11.** Fran suspendió la regla 8
+> («Fable nunca») hasta el 16/11/2026 inclusive, sólo para arquitectura del método (perfil `f9ee1e0`). Se abre en un
+> **chat nuevo** con Fable 5.2, esfuerzo alto, sin fan-out. **Primero:** `.\cascada.ps1 arquitectura-se -Necesidad
+> metodo,diseno` y leer lo que exige; después `defectos.py listar --estado abierto` y las filas 13c, 15c, 15d, 44, 49l,
+> 49p y 49q de `ORDEN-DE-ATAQUE.md`. **El orden:** (a) DA-104, el tronco que paga cada sesión de materia (333 907
+> caracteres para editar un apunte, 2 de 28 lecturas usadas): armar la propuesta con números y **preguntarle a Fran
+> antes de tocar `.claude/cascada.json`** (choca con su «en la duda, también»); (b) mientras decide, DA-123 (una
+> pregunta de la auditoría sobre quién leyó el diff de cada agente, con sabotaje) y DA-122 (el costo medido por agente
+> en la línea Motor antes de decidir; el viejo 110 K pasa a 150-205 K por agente que escribe); (c) DA-049 junto con
+> DA-104; (d) DA-124 y DA-089 si queda. **El plan:** Fable tiene tope del 50 % de los límites; el «Restablecimiento de
+> Fable» (vence el 17/11, 4:59) devuelve al semanal lo que consumió Fable y se usa al agotar la cuota; el
+> «Restablecimiento completo» (vence el 10/12) **no se usa**: es para la semana del parcial del 26/11. **Ya hecho, no
+> rehacer:** DA-122 a DA-124 registrados y ubicados, DA-049 y DA-104 a urgencia alta (perfil `bcc7f5c`), lección 486.
+> El mensaje de retome completo es el último del chat de la sesión `33e37b6b`.
+
 > **2026-11-05 (en la PC, regreso de la nube) — HECHO: integrado, publicado y medido** (ESTADO, arriba). **Sigue sin tocar, y
 > es de Fran:** (1) 6 accesos compartidos sin declarar en
 > Drive; (2) las decisiones de los informes (`.claude/nube/regreso/`). **Rojos del arranque que no son de esto:** las lecciones
