@@ -18,6 +18,8 @@ Push-Location $aqui
 try {
     python recortar.py
     if ($LASTEXITCODE -ne 0) { throw 'recortar.py en rojo' }
+    python recortar-skylab.py
+    if ($LASTEXITCODE -ne 0) { throw 'recortar-skylab.py en rojo' }
     python validar.py
     if ($LASTEXITCODE -ne 0) { throw 'validar.py en rojo' }
     python figuras-cr.py

@@ -1,5 +1,13 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-12 (tarde) — el Skylab entero en la guía de CMG** (estado, en ESTADO). **Queda:** (1) en el CMG Z, «X es el
+> de $dot(delta)_(1(3))$» sale de leer la Figura 2 (probable, no lo dice el texto del paper); si Aníbal da otra cosa en
+> la clase, se corrige en la guía y en el Word del parcialito; (2) los números nuevos de la sección (2,9e-3 rad, 0,5753e7
+> kg·m², 8100 N·m·s) no tienen control en `validar.py`. **Trampas pagadas:** (a) una captura alta que no entra deja media
+> página en blanco: el texto (la duda) va antes y las figuras juntas después; (b) `typst compile` suelto desde
+> `practica/` necesita `--root ..` (importa la paleta del apunte); (c) los recortes por texto usan la capa OCR del paper,
+> que trae errores («astron.aut»): se ancla en un fragmento que el OCR leyó bien.
+
 > **2026-11-12 — cuatro tiempos en m18-m22 y en la guía de CMG** (regla propia 15; el estado, en ESTADO). **Queda:**
 > (1) la regla vale para lo nuevo; m1-m17 y los otros documentos de `practica/` **no** se tocan salvo que Fran lo pida;
 > (2) Fran no leyó todavía m19-m22: si algo de cómo está contado no le cierra, es el próximo pedido. **Trampas

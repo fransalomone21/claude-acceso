@@ -607,6 +607,95 @@ gradiente de gravedad —una cupla *externa*— empuje para el otro lado y
 desature gratis. Los propulsores, sólo si los CMG pasan del $95$ % de su
 capacidad.
 
+#let captura(archivo, ancho, de) = figure(
+  image("recortes/skylab-" + archivo + ".png", width: ancho),
+  caption: text(size: 8.5pt)[Chubb y Seltzer 1971, #de.],
+  supplement: none, numbering: none,
+)
+
+== El sistema entero del Skylab, para seguir la clase
+#origen[Chubb y Seltzer, _Skylab Attitude and Pointing Control System_, NASA TN D-6068 (1971), págs. 3 a 6. Las capturas son del paper, sin tocar.]
+
+#gancho[Es el primer CMG grande que voló con gente adentro, y el paper es
+corto: si entendés las cinco piezas de abajo —qué tenía que cumplir, con qué
+lo cumplía, cómo repartía el trabajo entre los tres CMG, cómo no se llenaba y
+quién hacía las cuentas— podés seguir cualquier cosa que se diga en la clase
+y defender el parcialito pregunta por pregunta.]
+
+// simbolos: Z
+*1. Qué tenía que cumplir.* Apuntar el telescopio solar (el ATM) al Sol con
+mucha precisión mientras lo empujan cuplas de afuera —gradiente gravitatorio
+y arrastre aerodinámico— y de adentro —los astronautas moviéndose—. Eran tres
+sistemas anidados: el *CMG* sostiene a toda la estación, el *EPS* (un cardán
+fino de dos ejes) aísla al paquete de instrumentos de los sacudones que dejan
+los astronautas, y el *TACS* (seis propulsores de gas frío) queda para lo
+grueso y de reserva. En rolido (eje $Z$, alrededor de la línea al Sol) al CMG
+le pedían $plus.minus 2,9 times 10^(-3)$ rad: la pregunta 2.2 del parcialito.
+
+#captura("tabla2", 8cm, [pág. 3, Tabla II: lo que le pedían al control por CMG])
+
+*2. Por qué CMG.* Porque compensa las cuplas cíclicas sin gastar nada, da
+cupla de sobra para la respuesta dinámica (el gradiente gravitatorio solo,
+como control pasivo, ni llegaba a la precisión ni daba la cupla), y porque el
+gas de los propulsores habría ensuciado la óptica justo cuando estaba
+expuesta.
+
+#captura("por-que", 9cm, [pág. 3, sección 5])
+
+// simbolos: deltadot_1, deltadot_3, I_z, X, Y
+*3. Con qué.* Tres CMG de doble cardán montados ortogonales, de $2700$
+N·m·s cada uno. En cada uno, $dot(delta)_1$ es la velocidad del cardán
+interno y $dot(delta)_3$ la del externo, el que lleva el torquer. En el CMG
+$Z$ el rotor gira en $Z$, el externo queda en $Y$ y el interno en $X$: por
+eso el eje $X$ es el de $dot(delta)_(1(3))$, la pregunta 2.4. Y la
+estación, con $I_z$ su momento de inercia alrededor de $Z$: $I_z = 0,5753
+times 10^7$ kg·m², la 2.3.
+
+#duda[Si cada CMG tiene dos cardanes, son seis ángulos para dar tres
+componentes de cupla. ¿Qué hace con los tres que sobran?]
+#dedos[Los usa para *acomodar* los rotores sin mover la estación. La ley de
+control del paper tiene tres partes: la de *steering* usa tres grados de
+libertad para que la cupla salga exactamente como se pide; la de
+*distribución* gira los rotores de a pares alrededor de su suma —eso no
+cambia el momento angular total, así que no le hace nada a la estación—
+hasta que los tres tengan la misma componente sobre la normal a la órbita; y
+la de *rotación* achica los ángulos de cardán más grandes para no llegar a
+los topes. La distribución es la que evita la trampa de la Figura 3: dos
+rotores antiparalelos, que no están saturados pero ya no pueden dar cupla en
+algunas direcciones.]
+
+#captura("fig2", 9.5cm, [pág. 4, Figura 2: el cúmulo de tres CMG])
+#captura("tabla3", 6.5cm, [pág. 4, Tabla III])
+
+#captura("fig3-4", 6.5cm, [pág. 5, Figuras 3 y 4: la posición antiparalela y la ley de distribución])
+
+*4. Cómo no se llenaba.* La Figura 5 es lo que juntan los CMG en una órbita:
+casi todo sube y baja (cíclico, se devuelve solo), pero queda un resto que
+siempre empuja para el mismo lado, sobre todo alrededor de $X$, y el techo de
+los tres es $8100$ N·m·s. Sin hacer nada, se saturan en menos de un día. Lo
+atacaron por dos lados: elegir la orientación alrededor de $Z$ que minimiza
+ese resto (comparando cada día el momento angular con el del día anterior) y,
+de noche, *maniobrar la estación en dos ejes* para que el gradiente
+gravitatorio empuje al revés y los descargue gratis. El ángulo de la maniobra
+sale de cuánto se juntó durante el día. Los propulsores, sólo si hacía falta.
+
+#captura("fig5", 5.2cm, [pág. 6, Figura 5: el momento angular que juntan los CMG en una órbita])
+#captura("desat", 9cm, [pág. 6: la desaturación de noche con el gradiente gravitatorio])
+
+*5. Quién hace las cuentas.* Sensores de Sol para la adquisición y
+giróscopos de velocidad (los _rate gyros_ de Wrigley) para lo fino, todo
+redundante para una misión de 240 días; la computadora del ATM corre las
+leyes de los CMG cinco veces por segundo y la navegación una vez por segundo,
+y manda también la desaturación y el cambio a equipos de reserva.
+
+#posta[
+  El Skylab en una frase: tres CMG sostienen la estación y se reparten el
+  trabajo con una ley que los mantiene abiertos; el resto que no es cíclico
+  lo junta de día y lo devuelve de noche usando la gravedad, y los
+  propulsores ni se tocan. Si en la clase te preguntan algo, volvé a esa
+  frase: casi todo cuelga de ahí.
+]
+
 // simbolos: alpha, tau, I_sat
 *El microsatélite de Surrey.* Del requisito al CMG: un satélite de
 $I_"sat" = 2,5$ kg·m² tiene que girar $30degree$ en $10$ s. Acelerando $5$ s

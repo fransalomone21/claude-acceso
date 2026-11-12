@@ -1,5 +1,12 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-12 (tarde), en la PC: el Skylab entero en la guía de CMG (16 págs.).** Pedido de Fran para seguir la clase de
+> hoy y defender el parcialito 6: sección 7 suma «El sistema entero del Skylab» (requerimientos, por qué CMG, el cúmulo y
+> qué eje es X en el CMG Z, la ley de control en tres partes, la desaturación de noche con el gradiente, sensores y
+> computadora) con 7 capturas del paper (Chubb y Seltzer 1971). Las capturas las genera `practica/recortar-skylab.py`
+> (en `compilar.ps1`) a `practica/recortes/`, ignorado. El parcialito 6 lo contestó Fran en Word (fuera del repo).
+> `compilar.ps1` en verde (validar, símbolos, consignas, lint); páginas 11-13 miradas.
+
 > **2026-11-12, en la PC: el cuerpo rígido contado en cuatro tiempos (regla propia 15, pedido de Fran).** Cada tema de
 > m18 a m22 y de la guía de CMG arranca con *para qué sirve* (qué te da, consecuencias, dónde está lo simple y lo
 > complicado), sigue con *la duda* en la voz de Fran, *con los dedos*, y recién ahí lo formal, que no se tocó; globitos
