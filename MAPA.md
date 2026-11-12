@@ -119,8 +119,24 @@ movió — seis de ellos viven en el menú Inicio, no en el Escritorio.
   **no se mudaron**: fuera de Linux se rompe el flujo de compilar ahí. Los de
   la carpeta raíz son de Programación 1C 2026; `espaciales\` es de Software de
   Vuelo.
-- Las **descargas** siguen en `Downloads`, que no se ordena: lo que sirve se
-  mueve a su materia.
+- Las **descargas** siguen en `Downloads`, que desde el 2026-11-12 es una
+  **bandeja**: queda lo de la última semana, lo que un script o un documento
+  del repo nombra por ruta (BLACK usa `PCSX2-MCP` y lo de DLSS5 desde ahí) y
+  `_Sin clasificar por tipo\`. Lo demás se mudó a su área, en una subcarpeta
+  `De Descargas` de cada una.
+
+**El orden de la notebook del 2026-11-12** (disco al 98 %): sumó al
+Escritorio `_CUARENTENA - candidatos a borrar\` (por **tipo**, con LEEME por
+carpeta, planilla y `deshacer.ps1`; se vacía sólo con el OK de Fran) y
+`_PLANO\` (el plano navegable `plano.html` con buscador, que **se regenera
+midiendo** con `_PLANO\herramientas\generar_plano.py`, y las mudanzas con su
+planilla y su deshacer). `C:\Users\frans\OneDrive` ya no existe: fue a la
+cuarentena después de rescatar lo único sin copia y de reapuntar 12 accesos
+directos que todavía abrían programas desde ahí. Las herramientas viven en
+`_PLANO` y no en el repo porque llevan rutas y nombres personales. Dos reglas
+que salieron de ahí y valen para toda mudanza: **por permiso, no por
+exclusión** (sólo se tocan las carpetas de contenido del usuario) y **lo que
+un programa o el repo nombra por ruta no se mueve** (DA-125).
 
 **El Escritorio se ordenó el 2026-09-17** y pasó de 33 items a 15. Lo que
 cambió de lugar, porque los nombres viejos aparecen en sesiones anteriores:

@@ -24,6 +24,20 @@
         "proyectos/documentos/catedras/taller-de-fisica/exposicion/simulacion"
       ],
       "port": 8766
+    },
+    {
+      "name": "plano-notebook",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8767",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "C:/Users/frans/Desktop/_PLANO"
+      ],
+      "port": 8767
     }
   ]
 }
