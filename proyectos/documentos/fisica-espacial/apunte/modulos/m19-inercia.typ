@@ -45,6 +45,28 @@ letra cambiada.
 
 == $bold(H)_G$ por integrales: momentos y productos de inercia
 
+#gancho[Todo lo que un satélite hace cuando gira se resume en una pregunta:
+cuánto momento angular tiene y para dónde apunta. En el plano la respuesta era
+un producto, $I omega$, y se acabó. Acá aparece lo que esa cuenta escondía:
+para saber cuánto le cuesta al cuerpo girar no alcanza un número, hace falta
+saber cómo está repartida la masa alrededor del centro, y eso son seis datos.
+A cambio te dan algo muy concreto: qué ejes del cuerpo son «mansos» (se gira
+sobre ellos y los apoyos no tienen que hacer ninguna fuerza extra) y cuáles
+son traicioneros (el cuerpo tira de costado y todo lo que lo sostiene
+sufre). Lo simple es la idea de fondo: la masa lejos del eje cuesta más.
+Lo complicado es que «lejos del eje» depende de para dónde gires, y por
+eso un número solo no alcanza. Es la diferencia entre un volante quieto y uno
+que sacude el auto.]
+
+#duda[En el plano alcanzaba con un número, $I$. ¿Por qué en el espacio hacen falta seis?]
+#dedos[Porque en el plano el eje de giro era uno solo, perpendicular a la
+hoja, y «cuánto cuesta girar» tenía una sola respuesta. En el espacio podés
+girar alrededor de cualquier eje, y la respuesta cambia con el eje: agarrá un
+libro y hacelo girar sobre su lomo, y después sobre la línea que une las
+tapas por el medio: no te cuesta lo mismo. Tres ejes, tres números. Y otros
+tres que cuentan cuánto se «cruzan» los ejes entre sí cuando la masa está
+repartida torcida. En total, seis.]
+
 #deduccion("de dónde salen los seis números que hacen falta")[
   Un cuerpo rígido gira con velocidad angular $bold(omega)$ alrededor de su
   centro de masa $G$. Un elemento de masa $d m$, en la posición $bold(r)$
@@ -66,6 +88,16 @@ letra cambiada.
   es otra cosa, y es exactamente el tipo de cuenta que se hace una vez en la
   vida y después se confía en el resultado.
 ]
+
+#duda[Un momento de inercia es lo que le cuesta girar al cuerpo. Pero un
+producto de inercia, ¿qué sería? No parece una inercia de nada.]
+#dedos[No lo es: es una medida de cuán *torcida* está la masa respecto de un
+par de ejes. Poné dos pesitas, una arriba a la derecha y otra abajo a la
+izquierda: están repartidas «en diagonal», y esa diagonal no se cancela. Si en
+cambio por cada pesita a un lado hay otra igual en el lado opuesto, las
+contribuciones se anulan de a pares y el producto da cero (el cubo, el disco).
+Lo que valga el producto es cuánto se va a torcer el momento angular, como
+vas a ver enseguida.]
 
 Definiendo los *momentos de inercia* $I_x = integral (y^2+z^2) d m$ (y cíclico
 para $I_y$, $I_z$) y los *productos de inercia* $I_(x y) = integral x y thin
@@ -101,6 +133,28 @@ $ H_z = -I_(x z) omega_x - I_(y z) omega_y + I_z omega_z $
 
 == El tensor de inercia
 
+#gancho[Los seis números se guardan en una tabla, y esa tabla es la
+herramienta que vas a usar en todo lo que sigue: le das la velocidad angular
+y te devuelve el momento angular. Si la entendés como una máquina, se vuelve
+mansa; si la tomás por un número, te engaña en la primera cuenta. Lo simple
+es que es lineal: el doble de giro da el doble de momento angular. Lo
+complicado es que lo que sale, en general, no apunta para donde apuntaba lo que
+entró. De esa última frase sale casi todo lo raro de un satélite que gira: el
+bamboleo, la precesión, el eje que no se banca.]
+
+#duda[El tensor de inercia, ¿es un número? ¿O un vector, con tres componentes
+constantes que no tienen por qué ser iguales?]
+#dedos[Ni una cosa ni la otra. Un número es un tamaño y un vector es una
+flecha, que apunta para algún lado. El tensor no apunta a ninguna parte: es
+una *máquina* que se come una flecha ($bold(omega)$) y devuelve otra
+($bold(H)_G$). Se anota como una tabla de $3 times 3$. Pensala como una goma
+elástica en la que dibujaste una flecha: si la estirás más en una dirección que
+en otra, la flecha se alarga y se inclina hacia la dirección más estirada. Si
+las direcciones de estirado son los ejes principales, cada casilla de la
+diagonal estira una componente por su momento de inercia y nada más. Si estirás
+en diagonal, una flecha dibujada sobre $x$ sale con una parte sobre $y$: eso
+es lo que hacen los productos de inercia, *mezclar* componentes.]
+
 Las tres ecuaciones de arriba son un sistema lineal, y se escriben como una
 sola ecuación matricial:
 
@@ -111,7 +165,9 @@ $ mat(H_x; H_y; H_z) = mat(I_x, -I_(x y), -I_(x z);
 (Beer ec. 18.8, pág. 1153.) Esa matriz simétrica de $3 times 3$ es el
 *tensor de inercia*: otra vez son *seis* números —como los seis grados de
 libertad del módulo #M("cinematica-cr"), pero éstos no describen dónde está el cuerpo sino
-*cómo* está hecho— y no cambian mientras el cuerpo no se deforme. La palabra
+*cómo* está hecho— y no cambian mientras el cuerpo no se deforme#burbuja[$bold(I)$ es el tensor respecto de $G$ y se anota en ejes pegados al
+cuerpo: ahí sus casillas son constantes. En ejes quietos en el espacio, las
+mismas casillas cambiarían a medida que el cuerpo gira.]. La palabra
 «tensor» asusta más de lo que muerde: acá es una matriz que come un vector
 y devuelve otro.
 
@@ -137,6 +193,52 @@ y devuelve otro.
 ]
 
 == Por qué $bold(H)_G$ y $bold(omega)$ casi nunca son paralelos
+
+#gancho[Una rueda de auto con el centro de masa justo sobre el eje gira con
+rapidez constante, nadie la acelera, y sin embargo el volante tiembla.
+Esta sección explica por qué, y es la que más vale la pena entender del
+módulo: el momento angular y la velocidad angular casi nunca apuntan para el
+mismo lado, y cuando no lo hacen el cuerpo le exige cupla a todo lo que lo
+sostiene, aunque gire parejo. Te da una información muy práctica: sobre qué
+ejes puede girar un cuerpo sin hacer vibrar nada. Y tiene consecuencias de
+satélite: lo mismo que hace temblar la rueda es lo que hace que un cuerpo
+libre, sin que nadie lo toque, se ponga a bambolear. Lo simple es la receta:
+si el giro va sobre un eje principal, todo es como en el plano. Lo complicado
+es todo lo demás.]
+
+#duda[Si $I$ es una propiedad del cuerpo y multiplicar por una constante no
+gira ninguna flecha, ¿cómo puede $bold(H)_G$ salir torcido respecto de
+$bold(omega)$?]
+#dedos[Porque $I$ no es una constante: son tres, una por eje. Cada momento
+de inercia pondera *su* componente de $bold(omega)$: si el cuerpo es «más
+pesado» para girar alrededor de $x$ que alrededor de $y$, la parte de
+$bold(omega)$ sobre $x$ se agranda más y la flecha sale deformada. Con
+números cualesquiera: $bold(omega) = (1; 1; 0)$ con $I_x = 2$ e $I_y = 1$ da
+$bold(H)_G = (2; 1; 0)$. La $bold(omega)$ iba a $45°$ del eje $x$; la
+$bold(H)_G$ va a unos $27°$: se acostó hacia el eje pesado. Es la goma de la
+sección anterior, estirada el doble para un lado y nada para el otro.]
+
+#duda[¿Cuándo sí van paralelos?]
+#dedos[Cuando la flecha cae justo sobre una dirección de estirado: la goma
+la alarga sin inclinarla. Eso son dos casos. Uno: $bold(omega)$ va sobre un
+eje principal. Dos: los tres momentos son iguales, como en la esfera o el cubo,
+y entonces la goma se estira lo mismo para todos lados, y ninguna flecha se
+tuerce. (Un caso intermedio: si dos momentos son iguales, cualquier
+$bold(omega)$ en el plano de esos dos también da paralelo.)]
+
+#duda[Bueno, no son paralelos. ¿Y qué? Si el cuerpo gira igual, ¿a quién le
+importa para dónde apunta el momento angular?]
+#dedos[A los apoyos. Con la rueda girando, el momento angular $bold(H)_G$#burbuja[$bold(H)_G$: el momento angular del cuerpo respecto de su centro de masa $G$, visto desde el espacio y anotado en ejes pegados al cuerpo. $bold(omega)$: la velocidad angular del cuerpo respecto del espacio.]
+no se queda quieto: da vueltas con la rueda, como la aguja de un reloj
+que fuera clavada en un eje torcido. Un vector que da vueltas cambia, aunque
+su largo no cambie, y el momento angular sólo cambia si alguien le hace una
+cupla. Esa cupla la hacen los rulemanes, gira junto con la rueda, y eso es
+la vibración que sentís en el volante. Balancear es pegar plomitos hasta que el
+eje pase a ser principal: entonces $bold(H)_G$ queda paralelo a $bold(omega)$,
+sobre el eje, quieto, y los apoyos no tienen nada que hacer. Y si la rueda
+flotara libre en el espacio, sin apoyos, pasaría lo contrario: $bold(H)_G$
+queda fijo y es $bold(omega)$ la que se pone a girar alrededor de él, que es
+el bamboleo del módulo #M("peonza").]
 
 #cuidado[
   *$bold(H)_G = I bold(omega)$, con $I$ un número, sólo vale si $bold(omega)$
@@ -215,6 +317,22 @@ bold(omega)$ y no hace falta cupla: el eje es principal.
 
 == Los ejes principales sin calcular nada: la simetría
 
+#gancho[Encontrar los ejes principales con el determinante es una cuenta que
+nadie quiere hacer dos veces. Lo bueno es que el cuerpo suele regalártelos si
+lo mirás bien. Te sirve para decir, sin calcular nada, sobre qué ejes puede
+girar un satélite sin vibrar y cuáles de sus tres momentos son iguales, que es
+lo que decide si se porta como un trompo simétrico o como un ladrillo. Lo
+simple son los espejos y los giros: una simetría y listo. Lo complicado,
+que es fácil de olvidar, es que la simetría vale respecto del centro: corrés
+el punto y se te arruina.]
+
+#duda[¿Y si el cuerpo no tiene ninguna simetría linda? ¿Se acabó el atajo?]
+#dedos[Los ejes principales existen siempre: eso lo garantiza el álgebra de las
+matrices simétricas. Lo que no existe siempre es el atajo. Un cuerpo sin
+simetrías se resuelve con el determinante, y uno con simetrías aproximadas
+tiene ejes principales aproximados, que es el caso de casi todos los
+satélites reales.]
+
 El Beer afirma que los ejes principales existen y manda a buscarlos al
 Apéndice B. La clase escrita de la cátedra dice de dónde sale que existan:
 un eje principal es una dirección $hat(bold(n))$ en la que el tensor
@@ -244,6 +362,13 @@ reglas, cada una con su porqué en una línea:
   Es el caso de un ladrillo.
 + *Simetría cúbica* (cubo, tetraedro y octaedro regulares): $I_1 = I_2 =
   I_3$. Un cubo homogéneo gira, para todo efecto, como una esfera.
+
+#duda[¿Por qué un espejo anula un producto de inercia?]
+#dedos[Mirá el plano como una balanza: por cada pedacito de masa a un lado,
+hay otro igual del otro lado, a la misma altura sobre el plano y del lado
+contrario. En el producto que tiene un factor $z$ las dos pesas aportan lo
+mismo con signo opuesto, y al sumar se cancelan de a pares. Una balanza con
+pesas iguales en los dos platillos no se inclina.]
 
 Dos relaciones más que salen sin integrar. La *desigualdad triangular*:
 para los tres momentos principales, $I_1 + I_2 >= I_3$ (y sus
@@ -294,6 +419,23 @@ del módulo #M("euler-giroscopo").
 
 == De $G$ a un punto cualquiera: $bold(H)_O$
 
+#gancho[Un cuerpo que gira y además viaja —una rueda por la calle, un satélite
+en órbita— tiene dos maneras de tener momento angular, y conviene separarlas.
+Esta sección te dice cómo pasar del momento angular respecto de su propio
+centro al momento angular respecto de cualquier otro punto: el pivote de un
+giróscopo, el centro de la Tierra, un punto fijo de un laboratorio. Lo simple
+es que se suma. Lo complicado es que hay que decir siempre *respecto de qué
+punto*, porque el mismo cuerpo, en el mismo instante, tiene un momento angular
+distinto según desde dónde lo mires.]
+
+#duda[$bold(H)_G$ y $bold(H)_O$, ¿no son el mismo vector? ¿Para qué hay dos?]
+#dedos[No, porque el momento angular siempre se mide respecto de un punto.
+Pensá en la Tierra: gira sobre sí misma y además da vueltas alrededor del Sol.
+Respecto de su propio centro sólo ves el giro sobre sí misma. Respecto del Sol
+ves ese giro *más* el que le da recorrer la órbita. Lo primero es la parte de
+«espín», lo segundo la «orbital», y la suma es lo que escribe la ecuación de
+acá abajo.]
+
 La misma descomposición del módulo #M("dos-cuerpos") —movimiento del centro de masa más
 movimiento relativo a él— vale para el momento angular. Para un cuerpo con
 centro de masa $G$ que se mueve con velocidad $bold(macron(v))$, el momento
@@ -301,7 +443,7 @@ angular respecto de un punto fijo $O$ cualquiera es
 
 $ bold(H)_O = bold(macron(r)) times m bold(macron(v)) + bold(H)_G $ <iner-ho>
 
-(Beer ec. 18.11, pág. 1154), con $bold(macron(r))$ el vector de $O$ a $G$: la
+(Beer ec. 18.11, pág. 1154), con $bold(macron(r))$ el vector de $O$ a $G$#burbuja[$bold(macron(r))$ va de $O$, el punto fijo del espacio, a $G$, el centro de masa del cuerpo. $bold(H)_G$ es el momento angular respecto de $G$ —el de las secciones anteriores—; $bold(H)_O$, el que se mide respecto de $O$.]: la
 parte «orbital» —como si toda la masa estuviera en $G$— más la parte «de
 espín» que este módulo acaba de calcular. Cuando $O$ es un punto fijo *del
 cuerpo* (el pivote de un giróscopo, por ejemplo), $bold(macron(v)) =
@@ -311,6 +453,25 @@ en términos del tensor de inercia calculado respecto de $O$ en vez de $G$
 18.11, y el módulo #M("euler-giroscopo") la usa así para el giróscopo con punto fijo.
 
 == Energía cinética
+
+#gancho[La energía te da el mismo movimiento contado de otra manera: sin
+vectores, con un solo número. Sirve cuando la fuerza no se conoce pero sí se
+sabe que se conserva algo, y para decir cuánta energía lleva un satélite
+girando, que es lo que después decide hacia qué eje termina girando uno que
+pierde energía por dentro (el Explorer 1 del módulo #M("euler-giroscopo")). Lo
+simple es la fórmula: media vez el producto punto de $bold(omega)$ con
+$bold(H)_G$. Lo complicado es que el $I$ de $1\/2 I omega^2$ deja de ser uno
+fijo: es el momento de inercia respecto del eje alrededor del cual el cuerpo
+gira en ese instante, y si ese eje se mueve, ese $I$ cambia.]
+
+#duda[En el plano era $1\/2 I omega^2$. ¿Por qué acá es media vez
+$bold(omega)$ punto $bold(H)_G$? ¿Cuál uso?]
+#dedos[Son la misma fórmula. El producto punto $bold(omega) dot bold(H)_G$ es
+«$bold(omega)$ por la parte de $bold(H)_G$ que va a lo largo de
+$bold(omega)$». Si van paralelos —un eje principal, o el caso plano— esa parte es
+todo $bold(H)_G$ y sale $I omega^2$: la de siempre. Si no van paralelos, sólo
+cuenta la proyección, y para calcularla sin pensar se usa la versión con los
+tres momentos, la que está abajo.]
 
 #deduccion("por qué la energía cinética de rotación es media vez omega por H_G")[
   Para un cuerpo que gira puro alrededor de $G$ (sin traslación), cada

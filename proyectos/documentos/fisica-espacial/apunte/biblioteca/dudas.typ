@@ -35,10 +35,12 @@
 // =====================================================================
 #import "paleta.typ": *
 
-// gancho y duda son «sticky»: nunca quedan al pie de una página separados
-// de lo que los contesta (medido en la guía de CMG: la duda al pie de la 10 y
-// su respuesta arriba de la 11).
-#let gancho(cuerpo) = block(width: 100%, breakable: true, sticky: true, above: 10pt, below: 8pt)[
+// La duda es «sticky» y no se parte: nunca queda al pie de una página
+// separada de lo que la contesta (medido en la guía de CMG: la duda al pie de
+// la 10 y su respuesta arriba de la 11). El gancho NO: es un párrafo que se
+// sostiene solo, y pegado a la duda arrastraba los dos a la página siguiente
+// y dejaba cuartos de página en blanco (m19, 2026-11-12).
+#let gancho(cuerpo) = block(width: 100%, breakable: true, above: 10pt, below: 8pt)[
   #text(fill: c-rosa, weight: "bold")[Para qué sirve:] #cuerpo
 ]
 

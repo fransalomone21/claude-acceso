@@ -57,6 +57,19 @@ que escrito, cada paso tiene su figura.
 
 == Masa que se aleja con la velocidad angular fija: el Adicional 1
 
+#gancho[Imaginate una nave que tiene que sacar dos brazos con instrumentos en
+la punta —una antena, un sensor que tiene que estar lejos del ruido de la
+electrónica— sin que se le altere el giro. Parece gratis: los brazos se
+alargan y la nave sigue girando igual que antes. No es gratis. Cada kilo que se
+aleja del eje arrastra más momento angular, y ese momento angular tiene que
+salir de algún lado; si nadie lo pone, la nave se frena sola, como la
+patinadora que abre los brazos. Lo que te da el problema es lo que le interesa
+al ingeniero: cuánta cupla exige el alejamiento y cómo crece mientras los
+brazos salen, o sea cuánto empuje, cuánto combustible y qué soportes. Lo simple
+es la cuenta, la derivada de un cuadrado. Lo traicionero es que la cupla pedida
+*sube* aunque los brazos salgan a velocidad constante, y que hay dos maneras de
+contarla que tienen que dar lo mismo.]
+
 #block(breakable: false)[#guia("Adicional 1 de cuerpo rígido — los brazos telescópicos")[
   Una nave gira alrededor de su eje $z$ a $omega_0 = 1,25$ rad/s, y la quieren
   mantener así mientras estira dos brazos telescópicos desde $r_1 = 1,2$ m
@@ -67,6 +80,16 @@ que escrito, cada paso tiene su figura.
   tiempo?
   // simbolos: omega_0, r_1, r_2, T
 ]]
+
+#duda[Si la nave tiene que seguir girando igual, ¿por qué hace falta una cupla? ¿No había cupla sólo cuando algo cambia de velocidad angular?]
+#dedos[Apoyá un dedo en el centro de un disco de vinilo que gira y deslizalo
+hacia el borde. Cuanto más afuera, más rápido pasa el disco por debajo del
+dedo, aunque el disco dé las vueltas al mismo ritmo. Si querés que el dedo
+siga pegado a la misma línea del disco, alguien tiene que ir subiéndole la
+velocidad de costado todo el tiempo. Ese alguien es el brazo, y como empuja al
+módulo hacia adelante, el módulo empuja al brazo hacia atrás: la nave se
+frena. La cupla no se cobra por cambiar la velocidad angular sino por cambiar
+el *momento angular*, y éste depende de qué tan lejos está la masa.]
 
 Antes de tocar una ecuación, las letras y lo que significan. $omega_0$ es la
 velocidad angular de la nave alrededor de $z$, la que no tiene que cambiar.
@@ -112,7 +135,8 @@ Con $H_z$ el momento angular del sistema sobre $z$:
 $ H_z = (I_0 + 2 m r^2) omega_0 $ <act-hz>
 
 *Ojo con lo que dice esta ecuación:* $omega_0$ es fija, pero $r$ crece, así
-que $H_z$ crece. El momento angular de la nave *no* se conserva, y no tiene
+que $H_z$#burbuja[$H_z$: el momento angular de *todo* el sistema, nave y los
+dos módulos, alrededor del eje $z$. Lo mira el espacio, no los brazos.] crece. El momento angular de la nave *no* se conserva, y no tiene
 por qué: hay propulsores encendidos. La patinadora del módulo #M("rotacion")
 conservaba $H_z$ y por eso cambiaba su velocidad angular $omega$; acá es al
 revés.
@@ -129,7 +153,8 @@ $ (d H_z)/(d t) = 2 m dot.op 2 r dot(r) dot.op omega_0 = 4 m r dot(r) omega_0 $
 Y lo que hace crecer un momento angular es una cupla externa (el módulo
 #M("rotacion"), $tau = d L \/ d t$, con $L$ el momento angular como lo escribe
 el Sears; acá $H$ en vez de $L$, porque es la letra del Beer en cuerpo rígido).
-Con $tau$ la cupla neta sobre $z$:
+Con $tau$#burbuja[$tau$: la cupla *externa* neta sobre la nave, alrededor de
+$z$. Las internas, brazo contra módulo, se anulan de a pares.] la cupla neta sobre $z$:
 // simbolos: L, H
 
 $ tau = 4 m r dot(r) omega_0 = 4 dot.op 10 dot.op 0,0275 dot.op 1,25 dot.op r = 1,375 thin r " N·m" $ <act-tau-brazos>
@@ -174,6 +199,16 @@ lo que no cambia no pide cupla. Si la guía lo hubiera dado, habría sido un
 dato para distraer. Punto para quien escribió el problema, que no lo dio.
 
 === Segundo camino: Coriolis, módulo por módulo
+
+#duda[En el primer camino no apareció ninguna fuerza rara. ¿De dónde sale ahora una de Coriolis?]
+#dedos[Es la misma cupla en otra libreta. En el primer camino sumaste todo el
+momento angular y viste que crecía: ese crecimiento ya traía adentro el
+empujón. En el segundo no mirás el total sino a un módulo, y el empujón de
+costado es lo que le hace falta a *ese* módulo para seguir sobre su brazo
+mientras se aleja. Coriolis no es una fuerza caída del cielo: es el nombre del
+empujón de costado que necesita todo lo que se mueve hacia afuera sobre algo
+que gira. Sumado sobre los dos módulos y multiplicado por el brazo de palanca,
+tiene que dar el mismo número del primer camino, y da.]
 
 Ahora desde adentro. Mirá *un* módulo. Se mueve en un círculo que se agranda:
 gira con la nave a $omega_0$ y al mismo tiempo se aleja del eje a $dot(r)$.
@@ -249,6 +284,16 @@ cancelar exactamente este freno, y sale el mismo $T = 0,625 thin r$.
 
 == El mismo mecanismo sin propulsores: el yo-yo
 
+#gancho[Muchas sondas salen del lanzador girando a lo bestia, porque el giro
+estabiliza la última etapa, y después hay que pararlas para poder apuntar los
+instrumentos. Para eso no hace falta ni un motor ni una gota de combustible:
+alcanzan dos pesitas atadas a un hilo. La lección es la que más cuesta creer:
+a una nave le podés sacar todo el momento angular regalándoselo a algo que
+después soltás. Y el resultado más raro de todo el módulo es que el largo de
+hilo que necesitás *no depende de qué tan rápido giraba*. Lo complicado es
+cómo se va desenrollando el hilo mientras la nave se frena; lo simple, que el
+final es una raíz cuadrada.]
+
 ¿Y si nadie pone la cupla? Entonces el momento angular se conserva, la masa se
 aleja, y la nave se frena. Lo que en el Adicional 1 había que evitar
 quemando combustible, en la práctica se *busca*: muchas sondas llegan del
@@ -257,6 +302,14 @@ módulo #M("euler-giroscopo")— y después hay que pararlas. Para eso no se usa
 motor sino dos pesitas con hilo. Es el *yo-yo despin*, y el Curtis le dedica
 su §12.8 (pág. 666): lo llevaron el Transit 1-A en 1959, la Mars Pathfinder,
 los dos rovers de 2003 y la Dawn.
+
+#duda[Si los hilos son internos, el momento angular total se conserva. Entonces, ¿cómo puede un hilo frenar un satélite sin gastar combustible?]
+#dedos[Se conserva, y por eso funciona: lo que cambia es *quién lo tiene*.
+Mientras el hilo se desenrolla, las pesitas se van alejando y se llevan cada
+vez más momento angular, que le sacan a la nave. Cuando las soltás en el
+momento justo, se van con todo y la nave queda en cero. No hay combustible
+porque nadie creó ni destruyó nada: es un reparto con regalo, y el que recibe
+el regalo se va del barrio.]
 
 #fig([El yo-yo, desde arriba ($z$ sale de la hoja). Dos hilos enrollados
 alrededor de la nave, con una masa en cada punta; se dibuja uno solo, como
@@ -272,7 +325,9 @@ fig-act-yoyo)
 // simbolos: C, K
 Las letras, las del Curtis: $C$ es el momento de inercia de la nave sin las
 pesitas alrededor de su eje de giro, $m$ la masa *total* de las dos pesitas,
-$R$ el radio de la nave (donde están enrolladas) y $omega$ su velocidad
+$R$ el radio de la nave (donde están enrolladas) y $omega$#burbuja[$omega$: la velocidad angular de la nave respecto del
+espacio, alrededor de su eje. En el Adicional 1 la fijaban los propulsores;
+acá es la que baja.] su velocidad
 angular, que arranca en $omega_0$. Antes de soltar, todo gira junto, y el
 Curtis junta todo en un número sin unidades, $K$, que compara la inercia de la
 nave con la de las pesitas (ecs. 12.103 y 12.104, pág. 667):
@@ -320,6 +375,16 @@ una nave que gira a 1 rad/s o a 10. El Curtis también lo dice con sorpresa
 
 == La rueda de reacción: el Adicional 2
 
+#gancho[Apuntar un telescopio sin gastar una gota de combustible: una nave, un
+motor eléctrico y una rueda adentro. El problema te da tres informaciones que
+el ingeniero necesita: cuánto gira la nave por cada empujón del motor, cuánto
+tiene que girar la rueda, y por qué esas dos velocidades son tan distintas. La
+consecuencia es práctica: la rueda gira a miles de vueltas por minuto para que
+la nave se mueva unos grados por segundo, y siempre al revés. Y lo único que
+hay que creerse es que el motor no crea momento angular, lo reparte. Lo simple
+es una suma que da cero. Lo complicado, que el enunciado recicla las letras y
+hay que fijarse cuál es cuál.]
+
 #block(breakable: false)[#guia("Adicional 2 de cuerpo rígido — la rueda de reacción")[
   Una nave con simetría alrededor de $z$ lleva adentro una rueda con su eje
   sobre $z$, movida por un motor clavado a la nave. Cuando el motor le hace un
@@ -330,6 +395,16 @@ una nave que gira a 1 rad/s o a 10. El Curtis también lo dice con sorpresa
   $I$; el de la rueda sola, $I_R$.
   // simbolos: M, I, I_R
 ]]
+
+#duda[Si el motor acelera la rueda para un lado, ¿por qué la nave gira para el otro? ¿Y por qué no a la misma velocidad?]
+#dedos[Es lo que le pasa a dos patinadores sobre hielo, uno liviano y otro
+pesado, que se empujan: salen en sentidos opuestos, y el liviano sale mucho más
+rápido. Acá es la versión giratoria. Nadie de afuera empuja, así que el total
+empezó en cero y tiene que seguir en cero: lo que el motor le da a la rueda
+para un lado se lo saca a la nave para el otro. Y lo que se reparte en partes
+iguales y opuestas no es la velocidad sino el momento angular, que es inercia
+por velocidad angular. La rueda, liviana, tiene que girar muchísimo para
+llevarse lo mismo que la nave, pesada, se lleva girando poquito.]
 
 *Ojo con las letras, que este problema las recicla.* $M$ no es una masa: es el
 *par* (la cupla, el torque) del motor, en N·m. $T$ no es un empuje como en el
@@ -383,7 +458,9 @@ $ -M T = (I - I_R) omega_"nave" quad ==> quad omega_"nave" = - (M T)/(I - I_R) $
 
 Ésa es la respuesta del inciso (a): la nave gira *al revés* que el par del
 motor, más despacio cuanto más pesada sea. Para el (b), se despeja
-$omega_"rel"$ de la @act-rueda y se reemplaza:
+$omega_"rel"$#burbuja[$omega_"rel"$: la velocidad de la rueda *respecto de la
+nave*, la que vería alguien sentado en la nave. La del espacio es $omega_R =
+omega_"nave" + omega_"rel"$.] de la @act-rueda y se reemplaza:
 
 $ omega_"rel" = (M T)/I_R - omega_"nave" = (M T)/I_R + (M T)/(I - I_R)
   = (M T (I - I_R + I_R))/(I_R (I - I_R)) = (I M T)/(I_R (I - I_R)) $ <act-rel>
@@ -460,12 +537,30 @@ que es la @act-rel. Dos caminos, el mismo número.
 
 == Rueda, CMG y propulsor: quién cambia $bold(H)$ y quién lo reparte
 
+#gancho[Un satélite no vive en un vacío ideal: la presión del Sol, la gravedad
+y el campo magnético de la Tierra le hacen cuplas chiquitas que no paran
+nunca. Elegir un actuador es elegir quién paga esa cuenta: el combustible, en
+el propulsor, o la electricidad, en la rueda y el CMG. Esta sección te da el
+criterio para ubicar cualquier actuador con una sola pregunta, y te dice por
+qué ninguna rueda ni ningún CMG te saca el problema de encima: lo guardan, no
+lo eliminan. Lo simple es la pregunta, de afuera o de adentro. Lo complicado es
+que el día de la saturación llega, y que vaciar el balde siempre cuesta algo
+de afuera.]
+
 La rueda resolvió un problema y abrió otro. Un satélite real no está aislado:
 la presión solar, el gradiente de gravedad y el campo magnético de la Tierra
 le hacen cuplas *externas* chiquitas, del orden de una milésima de N·m (Curtis
 §12.9, pág. 682). Para que la nave no se mueva, la rueda tiene que absorber
 esas cuplas, y cada segundo que las absorbe gira un poco más rápido. Un día
 llega al tope de su motor: está *saturada*, y ya no puede absorber nada más.
+
+#duda[Si la rueda está saturada, ¿por qué no la frena el motor y listo? ¿Qué es exactamente saturar?]
+#dedos[La rueda es un balde donde se va juntando el momento angular que las
+cuplas externas le echan a la nave. Frenarla con su propio motor es volcar el
+balde sobre la nave: el momento angular vuelve a ella, la nave se empieza a
+mover de nuevo y estamos donde empezamos. Saturar es que el balde se llenó
+hasta el borde: el motor ya no puede hacerla girar más rápido. Para vaciarlo de
+verdad hace falta un desagüe que dé al exterior.]
 
 #fig([La rueda hasta saturar, y la desaturación. Una cupla externa chica y
 constante que la rueda absorbe la hace girar cada vez más rápido, parejo,
@@ -474,6 +569,14 @@ momento angular total— mientras el motor frena la rueda, y empieza otra vez.
 Cualitativa: el diente de sierra es la forma, no la escala (Curtis §12.9,
 pág. 682).], fig-act-saturacion)
 <fig-act-saturacion>
+
+#duda[La rueda y el propulsor le hacen una cupla a la nave. ¿Por qué uno cambia el momento angular total y el otro sólo lo reparte?]
+#dedos[Depende de qué metas en el sistema. La rueda está adentro de la nave:
+lo que se pasan entre las dos queda en casa. Del propulsor, en cambio, el gas
+sale y no vuelve, y se lleva su parte del momento angular. Para la nave sola,
+eso es una cupla que viene de afuera. Rueda y CMG mueven agua entre baldes de
+la misma casa; el propulsor, la presión del Sol y la gravedad abren o cierran
+la canilla de la calle.]
 
 Ahí aparece la diferencia de fondo entre los actuadores, que es la de las dos
 mitades de este módulo. Una rueda o un CMG hacen cuplas *internas*: reparten el
@@ -536,6 +639,30 @@ las velocidades angulares, proyectar vectores, dibujar— y los dos papers de
 la cátedra que lo muestran funcionando: la estación Skylab y un microsatélite
 de Surrey.
 
+#gancho[Para apuntar un telescopio al Sol, una cámara a una ciudad o una antena
+a la Tierra, el satélite tiene que girar sobre sí mismo, y en el espacio no
+hay contra qué apoyarse. Tiene tres maneras: tirar gas, que se acaba y ensucia
+lo que tenga cerca; acelerar una rueda, que da poca cupla; o *torcer* un rotor
+que ya gira, que es el CMG, y que da mucha cupla con poco motor. Por eso lo
+eligió el Skylab, para tener su telescopio clavado en el Sol, y el
+microsatélite de Surrey, para girar treinta grados en diez segundos.
+Entenderlo por dentro te dice cuatro cosas: cuánta cupla sale, para qué lado,
+cuánto aguanta antes de llenarse y dónde se traba. Y te dice qué cargan los
+cojinetes del cardán: no la cupla del motor, sino la de salida entera, mucho
+mayor, y eso es lo que dimensiona la estructura. Lo simple es la cuenta, una
+sola multiplicación. Lo complicado es que la cupla cambia de dirección mientras
+la usás, y que con varios CMG hay posiciones en las que, aunque te quede
+capacidad, no podés empujar para el lado que querés.]
+
+#duda[Si el rotor gira siempre a la misma velocidad, ¿de dónde sale la cupla? ¿No hay que frenarlo o acelerarlo para que cambie su momento angular?]
+#dedos[El momento angular es una *flecha*, y una flecha cambia de dos maneras:
+estirándose o girando. La rueda de reacción la estira, acelerando el rotor; el
+CMG la gira, torciéndole el eje. Las dos cosas son un cambio, y todo cambio de
+momento angular cuesta una cupla. Agarrá un lápiz por atrás y giralo en el
+aire sin cambiarle el largo: la goma de la punta recorrió un arquito. Ese
+arquito es el cambio de momento angular de un CMG, y la cupla que hizo falta
+para provocarlo es la que el satélite recibe al revés.]
+
 *La idea, antes de la primera cuenta.* Un CMG (_control moment gyroscope_) es
 un rotor que gira *siempre igual*, rapidísimo, montado en un cardán que un
 motor hace girar. El rotor no se frena ni se acelera nunca: lo único que
@@ -548,10 +675,26 @@ $bold(H)$, lo mismo. El CMG vive de esa segunda mitad.
 
 === Las tres velocidades angulares
 
+#gancho[Todo lo que viene —el momento angular del rotor, la cupla, la
+proyección— se arma con tres flechas: cómo gira el satélite, cómo gira el
+cardán y cómo gira el rotor. Si una sale mal, por ejemplo la del rotor sin
+contar la del satélite, la cupla sale mal y ninguna cuenta te lo avisa.
+Lo simple: se suman. Lo sutil: cada una se mide respecto de una pieza
+distinta, y eso es lo que se corrige en un examen.]
+
 Hay tres cuerpos, y cada uno gira distinto. Conviene armar las velocidades
 como el Beer arma las del giróscopo en cardanes (§18.9, la sección de los
 ángulos de Euler del módulo #M("euler-giroscopo")): *cada articulación suma
 su giro relativo al de la pieza que la sostiene*.
+
+#duda[¿Por qué las velocidades angulares se suman, si los giros no se pueden sumar como vectores?]
+#dedos[Por lo mismo que en la cinta del aeropuerto: si la cinta te lleva a
+1 m/s y vos caminás a 1 m/s sobre ella, vas a 2 m/s respecto del piso. Cada
+pieza «camina» sobre la que la sostiene: el cardán gira sobre el satélite, el
+rotor sobre el cardán. Lo que no se suma son los giros *grandes*: girá un
+libro 90° de costado y después 90° de frente, repetilo en el orden inverso, y
+queda distinto. Una velocidad angular es un giro chiquito, de un instante, y
+los giros chiquitos sí se pueden sumar.]
 
 // simbolos: ghat, shat, that
 Para eso hace falta una terna pegada al cardán. *$hat(g)$* va sobre el eje del
@@ -576,7 +719,9 @@ $hat(g) = hat(k)$, fijo en el satélite.
 
 $ bold(omega)_r = bold(omega)_b + dot(delta) hat(g) + Omega_s hat(s) $ <act-cmg-omega>
 
-La terna $(hat(s), hat(t), hat(g))$ gira con $bold(Omega)_g$, *no* con
+La terna $(hat(s), hat(t), hat(g))$ gira con $bold(Omega)_g$#burbuja[$bold(Omega)_g$: la velocidad angular del
+cardán respecto del espacio, $bold(omega)_b + dot(delta) hat(g)$. Es también la
+de la terna, porque va pegada al cardán.], *no* con
 $bold(omega)_r$: sigue al cardán y no al _spin_. Es el «no siempre
 $bold(Omega) = bold(omega)$» que Aníbal subrayó en su hoja del capítulo 18, y
 es el mismo truco del balancín interior del Beer: ejes que son principales del
@@ -592,6 +737,17 @@ pieza es la suma de las flechas que tiene debajo.], fig-act-cmg-giros)
 <fig-act-cmg-giros>
 
 === El momento angular del rotor, y por qué alcanza con un término
+
+#duda[¿No era $bold(H) = I bold(omega)$? Entonces el momento angular del rotor tendría que apuntar como su velocidad angular, y no sólo sobre su eje.]
+#dedos[Esa fórmula es la versión de un solo eje. En tres dimensiones el rotor
+tiene *dos* momentos de inercia distintos, uno grande sobre su eje y otro de
+costado, y cada uno multiplica sólo su componente de la velocidad angular: el
+de spin agranda la componente sobre el eje del rotor, el de costado agranda
+las otras dos. Si fueran iguales, el momento angular quedaría paralelo a la
+velocidad angular; como no lo son, se tuerce hacia el eje que más pesa. En el
+CMG, encima, la componente de spin le gana a las otras por varios órdenes de
+magnitud, así que el resultado es una flecha prácticamente sobre el eje del
+rotor (módulo #M("inercia")).]
 
 // simbolos: H_r, I_s, I_t
 El rotor es simétrico alrededor de $hat(s)$: *$I_s$* es su momento de inercia
@@ -622,7 +778,45 @@ que es la $h = I omega$ del paper de Lappas, Steyn y Underwood (2002, pág.
 
 === La derivada: de dónde sale la cupla de salida
 
-Quiero la cupla, así que derivo $bold(H)_r = h hat(s)$. Elijo desde dónde
+#gancho[Ésta es la sección que te dice qué pasa *adentro* del aparato. El rotor
+no se puede torcer solo: lo tuercen los cojinetes del cardán, y lo que ellos
+empujan es la cupla de salida entera, mucho mayor que la que hace el motor.
+Eso dimensiona la estructura: los cojinetes y el soporte se diseñan para esa
+cupla, no para la del motor. Y la cuenta muestra un segundo término que sólo
+existe si el satélite ya está girando: cae sobre el eje del cardán, el motor lo
+tiene que vencer, y es la manera en que el satélite y el CMG se empujan entre
+sí. Lo simple: con el satélite quieto, todo es una multiplicación. Lo
+complicado: con el satélite girando, ya no.]
+
+#duda[Esa derivada, ¿es la que veo sentado en el cardán o la que ve alguien desde el espacio? ¿Y de dónde sale el producto vectorial?]
+#dedos[Sentado en el cardán, ves el rotor girando siempre igual y su eje
+quieto frente a vos: para vos, $bold(H)_r$ *no cambia*. Pero el cardán gira y
+te lleva. Desde el espacio, esa flecha que vos ves quieta se mueve: su punta
+recorre un arquito, y el arquito de una flecha que gira es siempre «velocidad
+de giro por la flecha», un producto vectorial. La punta de un segundero se
+mueve perpendicular al segundero. La segunda ley de Newton, cupla igual a
+cambio del momento angular, vale para el que mira *desde el espacio*: la
+derivada que importa es ésa, y se arma con lo que ves vos (nada) más lo que te
+lleva el cardán.]
+
+#duda[¿Por qué en el transporte va $bold(Omega)_g$, la velocidad del cardán, y no la del rotor?]
+#dedos[Porque la $bold(Omega)$ del transporte no es «la velocidad del cuerpo»:
+es la velocidad *de los ejes en los que te sentaste*. Nos sentamos en el
+cardán, que no da vueltas con el spin, así que va la del cardán. Si te
+sentaras en el rotor también daría bien, pero verías las componentes de
+$bold(H)_r$ dar vueltas a miles de rpm: la misma respuesta con mucha más
+cuenta.]
+
+#duda[¿Quién le hace la cupla a quién? ¿Y por qué el satélite la recibe con un signo menos?]
+#dedos[El rotor, solo, no puede girar su propia flecha: alguien lo tiene que
+empujar, y ese alguien es el cardán, apoyado en el satélite. Acción y
+reacción: lo que el satélite, a través de los cojinetes, le hace al rotor, el
+rotor se lo devuelve al satélite al revés. Como nadie de afuera tocó nada, el
+momento angular que gana uno lo pierde el otro.]
+
+Quiero la cupla, así que derivo $bold(H)_r = h hat(s)$#burbuja[$bold(H)_r$: el momento angular del
+rotor, respecto de su centro de masa. Se deriva *desde el espacio*, aunque se
+lo anote en los ejes del cardán.]. Elijo desde dónde
 mirar: desde el cardán, porque ahí $hat(s)$ está quieto. Entonces, con el
 teorema del transporte (la @cin-derivada), la derivada relativa es lo que
 cambia $h hat(s)$ visto desde el cardán: nada, porque $h$ es fijo y $hat(s)$
@@ -690,17 +884,33 @@ mismo que el satélite en órbita circular no acelera.], align(center, fig-cmg-a
 
 === Proyectar: la misma cupla vista desde el satélite
 
+#gancho[El control de actitud piensa en los ejes del satélite: cuánto lo hace
+girar cada cupla alrededor de su eje largo, de su eje corto, de su eje de
+apuntado. Proyectar es lo que traduce el CMG a ese idioma, y de paso muestra
+la consecuencia más incómoda del aparato: la cupla *gira con el cardán*. Si
+querés empujar siempre para el mismo lado, el cardán no puede girar mucho; si
+gira mucho, empuja para otro lado. Es la primera pista de por qué hace falta
+más de un CMG.]
+
+#duda[Si el vector es el mismo, ¿para qué lo proyecto en los ejes del satélite?]
+#dedos[Porque el que pregunta es el satélite. Proyectar no cambia la flecha:
+es leer su sombra sobre cada una de las tres reglas del satélite. La flecha
+es una sola; las sombras dependen de dónde pongas las reglas.]
+
 Ahora con el satélite quieto ($bold(omega)_b = bold(0)$), para ver la cupla de
 salida sola, y en los ejes del satélite, que es donde la necesita el que
 controla la actitud. Pienso: la cupla me dio sobre $hat(t)$, que es un versor
-del cardán, y el cardán está girado $delta$ respecto del satélite alrededor de
+del cardán, y el cardán está girado $delta$#burbuja[$delta$: el ángulo del cardán, medido desde el
+versor $hat(i)$ del satélite, alrededor del eje $hat(g) = hat(k)$.] respecto del satélite alrededor de
 $hat(k)$. Entonces escribo los versores del cardán con los del satélite:
 $hat(s)$ está a $delta$ de $hat(i)$ en el plano de $hat(i)$ y $hat(j)$, y $hat(t)$ es $hat(s)$
 girado $90 degree$ más. Con $hat(g) = hat(k)$ y el ángulo de cardán $delta$
 medido desde $hat(i)$:
 $ hat(s) = cos delta thin hat(i) + sin delta thin hat(j), quad quad
   hat(t) = hat(k) times hat(s) = - sin delta thin hat(i) + cos delta thin hat(j) $
-Las componentes de $bold(H)_r$ en la terna del satélite son $h (cos delta;
+Las componentes de $bold(H)_r$#burbuja[Ahora $bold(H)_r$ está escrito en los
+ejes del *satélite*, no en los del cardán. El vector es el mismo; cambian los
+números.] en la terna del satélite son $h (cos delta;
 sin delta; 0)$. Derivándolas *componente por componente* —el satélite está
 quieto, así que acá no hay transporte—, $d bold(H)_r \/ d t = h dot(delta)
 (- sin delta; cos delta; 0) = h dot(delta) hat(t)$: lo mismo que dio el
@@ -721,7 +931,25 @@ $+hat(i)$. Un CMG de un cardán da, en cada instante, cupla en *una sola*
 dirección —la de $hat(t)$— y siempre en el plano perpendicular a su cardán.
 Para controlar tres ejes hacen falta varios, y ahí empiezan los problemas.
 
+#duda[La cupla de salida es muchísimo mayor que la que pone el motor del cardán. ¿No estoy sacando energía de la nada?]
+#dedos[No: se amplifica la *cupla*, no la energía. Es una palanca: con la
+mano hacés poca fuerza y levantás una piedra pesada, pero tu mano recorre mucho
+y la piedra poco. Acá la cupla grande la hacen los cojinetes empujando de
+costado sobre el versor transversal, y con el satélite quieto nada gira todavía
+en esa dirección: una cupla que no hace girar nada no trabaja. Cuando el
+satélite ya gira y gana energía aparece el segundo término de la derivada, el
+que cae sobre el eje del cardán: el motor lo tiene que vencer, y la potencia
+que pone es justo la que gana el satélite.]
+
 === Varios CMG: el reparto, la saturación y las posiciones singulares
+
+#gancho[Un CMG solo empuja en un plano: el perpendicular a su cardán. Para los
+tres ejes hacen falta varios, y ahí aparece lo complicado de verdad, que no es
+la física sino el *reparto*: decidir cuánto gira cada cardán para que la suma
+dé la cupla pedida sin que el conjunto quede mal parado. Los ingenieros del
+Skylab escribieron para eso una ley entera de distribución. Y es acá donde el
+CMG tiene sus dos límites: uno que también tiene la rueda, llenarse, y uno que
+es sólo suyo, trabarse.]
 
 // simbolos: h_i, deltadot_i, that_i, shat_i, H_c
 Con varios CMG la cupla es la suma: cada uno, con su $h_i$, su velocidad de
@@ -741,6 +969,20 @@ tabla:
   pirámide, para controlar los tres ejes esquivando singularidades (Lappas,
   pág. 102), y por eso cada sistema real tiene una *ley de guiado* que elige
   los $dot(delta)_i$ lejos de esas posiciones.
+
+#duda[Si con dos CMG antiparalelos el momento angular del conjunto es cero, ¿por qué eso también es un problema?]
+#dedos[Porque lo que importa no es cuánto momento angular hay guardado sino
+*hacia dónde puede empujar* cada CMG, que es siempre sobre su versor
+transversal. Con los dos rotores sobre la misma recta, para el mismo lado o
+para lados opuestos, los dos transversales también quedan sobre una misma
+recta, y los dos sólo saben empujar para ahí. Es un auto con el volante
+trabado: el motor anda, pero no dobla.]
+
+#duda[Un CMG saturado, ¿no puede girar los cardanes para otro lado y descargarse solo?]
+#dedos[Girar los cardanes sólo mueve el momento angular de un rotor a otro, o
+de los rotores a la nave: lo reparte, pero no lo saca. Pasarte la plata de un
+bolsillo al otro no te hace más pobre. Para sacarlo hace falta una cupla de
+*afuera*: un propulsor, el campo magnético de la Tierra o la gravedad.]
 
 #fig([Dos CMG con el cardán sobre el mismo eje, vistos desde arriba. Abiertos,
 sus dos $hat(t)$ apuntan distinto y combinándolos sale cualquier cupla del
@@ -816,6 +1058,20 @@ diera esos $52,5$ mN·m pesaría más de $4$ kg, unos $16$ kg las cuatro, contra
 $940$ g de los cuatro CMG con su electrónica.
 
 === Y leído al revés: el giróscopo que mide
+
+#gancho[Un satélite tiene que saber cuánto está girando para saber cuánto
+corregir, y el mismo aparato que lo mueve sirve para medirlo. Con un resorte,
+el giróscopo te dice la *velocidad* de giro; con un amortiguador, cuánto giró
+en total, que es la pieza del guiado inercial. Lo simple es que no hace falta
+una ecuación nueva: es la del CMG leída al revés. Lo sutil es entender quién
+pone la cupla y quién la sufre en cada uso.]
+
+#duda[Si el giróscopo es lo que mueve al satélite, ¿cómo puede ser también un sensor?]
+#dedos[Es la misma conversación pero al revés. En el CMG, vos torcés el eje y
+recibís una cupla. En el sensor, es el satélite el que, al girar, te tuerce el
+eje, y lo que te resiste —un resorte o un amortiguador— te dice cuánto. Cuando
+el que gira es el eje, el aparato empuja; cuando el que gira es la nave y el
+eje se queda resistiendo, el aparato mide.]
 
 // simbolos: H_s
 La misma ecuación hace de sensor, y es la otra mitad de la hoja «Giróscopos

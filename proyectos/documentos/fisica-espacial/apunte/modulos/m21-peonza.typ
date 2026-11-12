@@ -38,6 +38,32 @@ poder decirlo, también.
 
 == Un cuerpo simétrico sin cuplas: $bold(H)_G$ queda fijo
 
+#gancho[Un satélite en el espacio, sin motores encendidos y sin que nada lo
+toque, ya no tiene a quién pedirle nada. Y sin embargo no se queda quieto: se
+bambolea, siempre igual, con un período que se puede calcular de antemano. Este
+tema te da exactamente eso —con qué velocidad da la vuelta su eje, cuánto se
+abre el bamboleo y para qué lado va— y sale de una sola idea: el momento
+angular no cambia. La consecuencia es de ingeniería pura: una sonda que gira
+para estabilizarse, y que arranca un poquito torcida o recibe un golpe, se
+bambolea por esta física y no por ninguna falla; y la Tierra misma, que no es
+una esfera, hace lo propio, y más abajo la vas a ver haciéndolo. Lo simple es
+que no hay ni una ecuación diferencial: alcanza con saber que una flecha quedó
+clavada. Lo complicado es seguirle la pista a tres flechas y un par de ángulos
+sin confundirlas, que es donde se resbala casi todo el mundo.]
+
+#duda[Si nadie le hace ninguna cupla, ¿por qué se mueve el eje del cuerpo? ¿No
+debería quedarse todo quieto?]
+#dedos[Lo que queda quieto es una flecha, $bold(H)_G$, no el cuerpo. Tirá una
+moneda al aire con un giro mal dado: mientras cae, lo único que la toca es el
+peso, que no le hace cupla respecto de su centro de masa, y sin embargo no gira
+prolija: se bambolea. Su momento angular tiene que seguir apuntando siempre al
+mismo lugar del espacio, y ese lugar no coincide con el eje de la moneda (salvo
+que la hayas lanzado girando justo sobre uno de sus ejes principales, y
+entonces no hay bamboleo). Como la flecha no se puede mover, el que se acomoda
+es el cuerpo: su eje da vueltas alrededor de $bold(H)_G$, como la punta de un
+lápiz que dibujás alrededor de un clavo. Por qué $bold(H)_G$ y el eje no
+coinciden lo contesta la sección siguiente.]
+
 #deduccion("de dónde sale que la precesión es automática")[
   $sum bold(M)_G = dot(bold(H))_G$, y si $sum bold(M)_G = 0$ entonces
   $bold(H)_G$ es un vector *constante*: mismo módulo, misma dirección, para
@@ -56,10 +82,21 @@ poder decirlo, también.
   «vertical» la puso él mismo al arrancar.
 ]
 
-Ahora el número. Si $bold(H)_G$ es fijo, lo uso de eje $Z$: entonces $theta$
+#duda[Si el bamboleo se abre más, ¿no tarda más en dar la vuelta?]
+#dedos[No: la vuelta tarda lo mismo. Una cosa es qué tan grande es el círculo
+que dibuja la punta del eje y otra cuántas vueltas por segundo da, y esa cuenta
+sólo mira cuánto vale $bold(H)_G$ y cuánto cuesta girar el cuerpo de costado.
+Pensá en un minutero largo o corto: los dos tardan la misma hora, y lo único
+que cambia es el tamaño del círculo que pinta la punta.]
+
+Ahora el número. Si $bold(H)_G$ es fijo, lo uso de eje $Z$: entonces $theta$#burbuja[$theta$: el
+ángulo entre el eje de simetría $z$ del cuerpo y $bold(H)_G$ (que acá hace de
+eje fijo). Se mide en el plano que forman esos dos.]
 es el ángulo entre $bold(H)_G$ y el eje $z$ del cuerpo, la misma nutación del
 módulo #M("euler-giroscopo") pero medida contra $bold(H)_G$. Quiero
-$dot(phi)$, que es cuánto gira el eje alrededor de $bold(H)_G$. ¿Dónde aparece
+$dot(phi)$#burbuja[$dot(phi)$: la precesión, cuánto gira por segundo el plano
+del eje $z$ alrededor de $bold(H)_G$. Se la ve desde el espacio, con
+$bold(H)_G$ de eje.], que es cuánto gira el eje alrededor de $bold(H)_G$. ¿Dónde aparece
 $dot(phi)$ en $bold(H)_G$? En la componente transversal, sobre $hat(e)$: ahí
 la omega es $-dot(phi) sin theta$ (la proyección de $dot(phi) bold(K)$ que
 saqué en el módulo #M("euler-giroscopo")) y el momento es el transversal,
@@ -90,6 +127,37 @@ fig-omega-peonza-libre-completa)
 
 == El ángulo del eje instantáneo: $tan gamma = (I\/I') tan theta$
 
+#gancho[Te dice dónde está el eje alrededor del cual el cuerpo gira *de verdad*
+en este instante, comparado con dónde apunta su momento angular y dónde está su
+eje de figura. Son tres direcciones distintas, y lo que las separa depende de
+un solo número: el cociente entre los dos momentos de inercia. Para un
+ingeniero es la diferencia entre lo que se mide y lo que se apunta: un
+giróscopo pegado al satélite mide $bold(omega)$, una antena clavada al cuerpo
+apunta donde apunta $z$, y lo único que no se mueve es $bold(H)_G$. Lo simple es
+que la fórmula no necesita saber cuánto valen $bold(H)_G$ ni $bold(omega)$,
+sólo los ángulos y los momentos de inercia. Lo complicado es no mezclar cuál
+ángulo es cuál, y por eso la sección arranca por ahí.]
+
+#duda[Si $bold(H)_G$ es «$I$ por $bold(omega)$», ¿por qué las dos flechas no
+apuntan para el mismo lado?]
+#dedos[Porque $I$ no es un solo número: al cuerpo le cuesta distinto girar según
+el eje. Agarrá un resorte duro para un lado y blando para el otro, y estiralo
+en diagonal: la fuerza no tira en diagonal, tira más hacia el lado duro. Acá el
+estiramiento es $bold(omega)$ y la fuerza es $bold(H)_G$. Si el cuerpo es
+una esfera, todo cuesta igual y las dos flechas coinciden; si no, $bold(H)_G$
+queda más cerca que $bold(omega)$ del eje donde el momento de inercia es
+mayor.]
+
+#duda[Aparecen $theta$, $gamma$ y después $beta$: ¿cada uno contra qué se
+mide?]
+#dedos[Abrí tres dedos de una mano en abanico, todos en un mismo plano: uno es
+el eje del cuerpo $z$, otro es $bold(H)_G$ y el tercero es $bold(omega)$. Tres
+dedos, tres pares, tres ángulos: $theta$ va del eje del cuerpo a $bold(H)_G$,
+$gamma$ del eje del cuerpo a $bold(omega)$, y $beta$ de $bold(omega)$ a
+$bold(H)_G$. Quién queda en el medio depende de la forma: en un cuerpo
+alargado el dedo de $bold(omega)$ queda entre los otros dos; en uno achatado,
+el del medio es $bold(H)_G$.]
+
 #notacion[
   *Dos ángulos contra el mismo eje $z$, y conviene decir cuál es cuál antes
   de usar la fórmula.* $theta$ es el de arriba: entre $bold(H)_G$ —que acá
@@ -102,10 +170,15 @@ fig-omega-peonza-libre-completa)
   $bold(H)_G$; $gamma$, dónde está $bold(omega)$.
 ]
 
-Lo pienso así: $bold(H)_G$ y $bold(omega)$ son dos flechas distintas, pero
-están atadas por momento por omega, componente a componente, en ejes
+Lo pienso así: $bold(H)_G$#burbuja[$bold(H)_G$: el momento angular del cuerpo
+respecto de su centro de masa $G$, fijo en el espacio. $bold(omega)$: la
+velocidad angular del cuerpo respecto del espacio. Acá las dos se escriben en
+los ejes principales del cuerpo.] y $bold(omega)$ son dos flechas distintas,
+pero están atadas por momento por omega, componente a componente, en ejes
 principales. Los ejes principales que tengo a mano son el eje $z$ (momento
-axial $I$) y la transversal en el plano (momento transversal $I'$). Entonces
+axial $I$#burbuja[$I$: el momento de inercia axial, sobre el eje de simetría
+$z$. $I'$: el transversal, sobre cualquier eje perpendicular a $z$ por $G$.
+Es la convención del Beer y de Aníbal.]) y la transversal en el plano (momento transversal $I'$). Entonces
 proyecto las dos flechas sobre esos dos ejes. Sobre $z$: $bold(H)_G$ da $H cos
 theta$ y $bold(omega)$ da $omega cos gamma$, y la primera es $I$ por la
 segunda. Sobre la transversal: $H sin theta$ y $omega sin gamma$, atadas por
@@ -134,9 +207,33 @@ pasa al revés.], fig-peonza-componentes)
 
 == Precesión directa y precesión retrógrada
 
+#gancho[Es una pregunta de forma con consecuencias de actitud: ¿el bamboleo
+gira para el mismo lado que el cuerpo o al revés? Lo decide, y nada más, si el
+cuerpo es más largo que ancho (un lápiz, una varilla) o más chato (una moneda,
+un disco). En el medio hay una forma exacta donde la pregunta deja de tener
+sentido, y el módulo te la calcula para un cilindro: una lata de atún precesa
+al revés que un caño. Lo simple es que todo se reduce al signo de una resta de
+dos momentos de inercia. Lo complicado es no mezclar quién está mirando: la
+Tierra, achatada, se describe con un bamboleo «progrado» y eso no contradice
+nada, como vas a ver. Y contar mal el signo es contestar un parcial al revés.]
+
+#duda[¿Qué decide si la precesión sale directa o retrógrada?]
+#dedos[La forma del cuerpo, nada más. Si $I' > I$ el cuerpo es alargado y la
+precesión es directa: el spin y la precesión giran para el mismo lado. Si
+$I' < I$ es achatado y es retrógrada: giran para lados opuestos. Se ve con dos
+conos de cartulina. El espacial rodea a $bold(H)_G$ y no se mueve; el corporal
+rodea al eje del cuerpo y rueda sin deslizar sobre el otro, tocándolo a lo
+largo de $bold(omega)$. Si rueda por afuera —una moneda que da la vuelta por el
+borde de otra— el rodar y la vuelta van para el mismo lado: directa. Si el
+corporal envuelve al espacial —un anillo flojo que rueda alrededor de tu
+dedo: el anillo es el cuerpo y el dedo es el espacio— van para lados
+opuestos: retrógrada.]
+
 #deduccion("de dónde sale el criterio del signo")[
   Me pregunto: ¿el spin y la precesión giran para el mismo lado? Eso es el
-  signo de $dot(psi) \/ dot(phi)$. La peonza libre es una precesión estable
+  signo de $dot(psi) \/ dot(phi)$#burbuja[$dot(psi)$: el spin, el giro del
+  cuerpo sobre su eje $z$ visto desde la terna que precesa, no desde el
+  espacio. $dot(phi)$: la precesión, vista desde el espacio.]. La peonza libre es una precesión estable
   —$theta$, $dot(phi)$ y $dot(psi)$ fijos— a la que nadie le hace cupla, así
   que tomo la @euler-precesion-estable y la igualo a cero. El factor $dot(phi)
   sin theta$ de afuera no es cero (hay precesión y hay cono), así que lo que
@@ -189,7 +286,9 @@ y la usó en el parcialito. Tiene *otras letras* que el Beer, y hay que
 traducirlas antes de usarla, que es justo lo que pide su «ojo con las
 denominaciones». $I$ es el momento axial, igual que en el Beer; $I_0$ es el
 *transversal*, el que el Beer y este apunte llaman $I'$. $theta$ es el mismo
-del Beer, entre el eje del cuerpo y $bold(H)_G$. Y $beta$ es el ángulo entre
+del Beer, entre el eje del cuerpo y $bold(H)_G$. Y $beta$#burbuja[$beta$: el ángulo del cono espacial, entre $bold(omega)$ y
+$bold(H)_G$. El del cono corporal es $gamma$, entre $bold(omega)$ y $z$.] es el
+ángulo entre
 $bold(omega)$ y $bold(H)_G$: *no* es el $gamma$ del Beer, que va de
 $bold(omega)$ al eje del cuerpo. Los tres ángulos viven en el mismo plano, así
 que se pasa de uno a otro mirando quién queda en el medio: en un cuerpo
@@ -393,12 +492,31 @@ barata de no confundir el signo en un parcial.
 
 == La receta del Beer: impulso, $bold(H)_G$, ángulos y la ley de los senos
 
+#gancho[Es el procedimiento para el problema que más se repite del capítulo:
+algo golpea a un satélite que gira, y hay que decir cuánto se bambolea, a qué
+velocidad precesa y para qué lado. En el problema resuelto, un meteorito de una
+milésima de la masa del satélite, a 2000 m/s, no lo corre de lugar: lo tuerce,
+y lo deja con un cono de 38,5° alrededor de una dirección nueva. Lo que te da el
+método es ese eje de precesión, y cuánto del giro es precesión y cuánto spin.
+Lo simple son cuatro pasos siempre iguales; Aníbal lo dijo, hacer uno es
+aprender a hacer el resto. Lo complicado es el último, porque los dos giros no
+son perpendiculares y no se pueden leer las componentes como de costumbre.]
+
 Los dos satélites con meteorito —el de arriba y el de la página siguiente—
 son el mismo procedimiento, y Aníbal lo dijo sin vueltas al mandar a hacer
 el segundo: «hacer este problema es aprender a hacer el resto». El Beer lo
 deja escrito en el recuadro de resolución de problemas de §18.11 (pág. 1194,
 caso 2b). Son cuatro pasos, y el primero no es de esta sección sino de la
 §18.3.
+
+#duda[El choque es violento y no conozco la fuerza del impacto: ¿cómo calculo
+algo sin saberla?]
+#dedos[No hace falta saberla. El satélite y el meteorito, juntos, son un solo
+sistema, y la fuerza con que uno golpea al otro es interna: lo que el satélite
+recibe, el meteorito lo pierde, igual y opuesto. Entonces el momento angular del
+conjunto respecto de $G$ no cambia en el choque, mientras no haya otras fuerzas
+grandes durante el golpe. Es como dos patinadores que se abrazan: el total antes
+y después es el mismo, aunque no sepas cuánto se empujaron.]
 
 *Paso 1, el impulso* (Beer §18.3, pág. 1155–1156, fig. 18.6). Para un
 rígido, las cantidades de movimiento de todas sus partículas se reducen a
@@ -421,6 +539,15 @@ simetría.
 instante, y $theta$ (entre $bold(H)_G$ y el eje) sale de $tan theta =
 H_"transv" \/ H_z$ o de la @peon-tan-gamma.
 
+#duda[Ya tengo $bold(omega)$ entero. ¿Por qué no lo parto en precesión y spin
+proyectando, como siempre?]
+#dedos[Proyectar sirve cuando los ejes forman $90 degree$, y acá no: el eje de
+precesión y el del cuerpo forman $theta$. Pensá en dos remeros tirando de una
+canoa con las sogas en ángulo: el tirón total no es la suma de lo que tira cada
+uno, es la diagonal. Acá igual: dibujás los dos giros punta con cola, lo que
+cierra el triángulo es $bold(omega)$, y con los ángulos del triángulo el teorema
+del seno lo parte.]
+
 *Paso 4, la ley de los senos.* Ya tengo $bold(omega)$ entero y quiero
 partirlo en precesión y spin. Me acuerdo de qué es: la velocidad angular del
 cuerpo es la suma de sus giros, cada uno sobre su eje; sin nutación quedan
@@ -430,7 +557,10 @@ no $90 degree$: no puedo proyectar y leer componentes, porque la base no es
 ortonormal. Lo que sí puedo es dibujarlos punta con cola y usar el triángulo:
 dos vectores *oblicuos* y su suma forman
 un triángulo con lados $dot(phi)$, $dot(psi)$ y $omega$, en el que el ángulo
-opuesto a $dot(phi)$ es $gamma$, el opuesto a $dot(psi)$ es $theta - gamma$, y
+opuesto a $dot(phi)$ es $gamma$#burbuja[$gamma$: el ángulo entre $bold(omega)$
+y el eje $z$. $theta$: entre $bold(H)_G$ y $z$. Los tres vectores están en un
+mismo plano, así que $theta - gamma$ es el ángulo entre $bold(omega)$ y
+$bold(H)_G$ (con signo).], el opuesto a $dot(psi)$ es $theta - gamma$, y
 el opuesto a $omega$ es $180degree - theta$. El teorema del seno da todo de
 una:
 
@@ -506,6 +636,28 @@ la sexta parte de $dot(phi)$ y el triángulo casi no se ve).], fig-ley-senos)
 
 == Cuando $theta$ también se mueve: el trompo y las tres conservaciones
 
+#gancho[El trompo es el bamboleo de verdad: acá el peso sí hace cupla, el eje
+cae, sube, gira, y nada queda constante salvo tres cosas. Lo que te da el tema
+es la forma del dibujo que hace la punta del eje —ondas, cúspides o rulos— y
+entre qué dos ángulos se mueve, sin resolver nunca las ecuaciones, que son
+feas y que el Beer, con razón, aconseja no resolver. Es el modelo de cualquier
+cuerpo que gira apoyado en un punto con su peso tirando, y la precesión estable
+del módulo #M("euler-giroscopo") aparece como el caso en que el bamboleo vale
+cero. Lo simple: tres cosas que no cambian. Lo complicado: que con eso solo
+alcance.]
+
+#duda[Si $theta$ cambia y todo se mueve a la vez, ¿cómo puedo decir algo sin
+resolver las ecuaciones?]
+#dedos[Buscando lo que no se mueve. La energía, porque el peso es
+conservativo —lo que el trompo pierde en altura lo gana en giro, y al revés—
+y el apoyo no trabaja. El momento angular alrededor de la vertical, porque la
+reacción del apoyo está aplicada en $O$ mismo, así que respecto de $O$ no
+tuerce nada, y el peso es vertical: una fuerza vertical, por grande que sea,
+nunca te hace girar alrededor de la vertical. Y el momento angular sobre el
+propio eje del trompo, porque la cupla del peso cae de costado, perpendicular a
+ese eje, y no lo acelera ni lo frena. Tres cosas fijas para tres incógnitas:
+alcanza para atrapar a $theta$ entre dos valores.]
+
 La precesión estable del módulo #M("euler-giroscopo") y la peonza libre de este módulo
 son los dos casos en que $theta$ queda fijo. El tercero que el Beer
 nombra en su recuadro (pág. 1194, caso 3) es el *trompo* con un punto fijo
@@ -522,7 +674,10 @@ conserva:
   $I'$; sobre $hat(k)$, $omega_z$, con $I$. La potencial es el peso por la
   altura de $G$, que está a $c cos theta$ arriba de $O$. Con $c$ la distancia de $O$ a $G$:
   $ 1/2 [I' (dot(phi)^2 sin^2 theta + dot(theta)^2) + I omega_z^2] + m g c cos theta = E $
-- *El momento angular sobre el eje vertical fijo $Z$*, porque el peso y la
+- *El momento angular sobre el eje vertical fijo $Z$*#burbuja[$bold(H)_O$: el momento angular respecto del punto
+fijo $O$, no de $G$. $Z$ es la vertical, fija en el espacio; en el trompo la
+precesión $dot(phi)$ gira alrededor de ella, no de $bold(H)_O$, que acá se
+mueve.], porque el peso y la
   reacción en $O$ son verticales y no hacen momento alrededor de $Z$. Para
   escribirlo proyecto $bold(H)_O$ sobre $bold(K)$, y como $bold(K) = -sin theta
   thin hat(e) + cos theta thin hat(k)$, me quedo con la componente sobre
@@ -548,6 +703,13 @@ $z$ no puede cambiar las proyecciones de $bold(H)_O$ sobre esos dos ejes.
 las dos proyecciones punteadas, sobre la vertical y sobre el eje del trompo,
 quedan fijas mientras el eje precesa y nutaciona.], fig-omega-trompo-completa)
 <fig-omega-trompo>
+
+#duda[Si el peso lo quiere tumbar, ¿por qué el trompo no se cae?]
+#dedos[Porque la cupla del peso no empuja el eje hacia abajo: le cambia el
+momento angular de costado, en horizontal y perpendicular al eje del trompo. El
+eje no baja, se corre hacia donde apunta esa cupla, y eso es precesar. Cuánto
+baja y sube mientras tanto es la nutación, y se queda entre dos ángulos porque
+lo atan las tres cosas de arriba.]
 
 Mirado desde arriba, la punta del eje queda encerrada entre dos circunferencias,
 la de $theta_1$ y la de $theta_2$, y el dibujo que hace entre ellas depende de

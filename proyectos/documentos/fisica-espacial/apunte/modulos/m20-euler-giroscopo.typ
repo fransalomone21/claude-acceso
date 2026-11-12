@@ -37,6 +37,36 @@ resulta barata.
 
 == La derivada de $bold(H)_G$: la @cin-derivada, por fin en uso
 
+#gancho[Un rotor que gira rápido —el volante de un giróscopo, la turbina de un
+avión, la rueda de un satélite— es un aparato raro: lo empujás de costado y se
+mueve para otro lado, lo querés torcer y se resiste, lo dejás en paz y sigue
+apuntando al mismo punto del espacio. Esta sección te da la cuenta que decide
+todo eso: *qué cupla hace falta* para sostener un movimiento, o *qué
+movimiento* sale de una cupla dada. Y esa cupla no es teórica: la hacen los
+cojinetes, y es la que siente la estructura cuando una turbina gira en un
+vehículo que dobla, mucho antes de que nadie toque nada. De la misma cuenta
+sale que un giróscopo sea un sensor (queda apuntando a una dirección fija
+mientras todo se mueve a su alrededor, y de ahí el guiado inercial) y un
+actuador (torcerle el eje a un rotor enorme es la manera de maniobrar un
+satélite sin tirar gas: el CMG del módulo #M("actitud")). Lo simple: una sola
+idea, el momento angular es una flecha y la cupla es lo que la mueve. Lo
+complicado: la flecha hay que mirarla desde el espacio y anotarla en ejes que
+giran, y ahí se pierde casi todo el mundo.]
+
+#duda[Cuando escribo la derivada de $bold(H)_G$ «en los ejes del cuerpo», ¿la estoy midiendo desde el cuerpo? Porque la cupla pide el cambio visto desde el espacio.]
+#dedos[No, y es la confusión número uno del capítulo: son dos preguntas
+distintas. *Quién mira* el vector para decir cuánto cambió, y *con qué regla
+lo anota* una vez que tiene el cambio. Un auto que dobla: el cambio de su
+velocidad lo ve alguien parado en la vereda, y ese mismo cambio lo podés
+anotar como «tanto hacia la izquierda del auto y tanto hacia adelante». Mirar
+desde la vereda y anotar con los ejes del auto no se contradicen. Con $bold(H)_G$
+pasa igual: la segunda ley de Newton pide el cambio visto desde el espacio,
+siempre; lo anotamos en los ejes del cuerpo porque ahí los momentos de
+inercia son constantes y la cuenta sale linda. Son las dos últimas de las
+cuatro preguntas del módulo #M("cinematica-cr"), y se prestan a confusión
+porque el término de transporte es justo el precio de mirar desde un lado y
+anotar desde el otro.]
+
 #deduccion("de dónde sale la relación general entre cupla y H")[
   La segunda ley de Newton para rotación, $sum bold(M)_G = dot(bold(H))_G$,
   pide la derivada de $bold(H)_G$ *respecto del espacio fijo*. Pero
@@ -56,7 +86,9 @@ resulta barata.
   sé del módulo #M("cinematica-cr"): un versor que gira con $bold(Omega)$
   cambia a razón $bold(Omega) times hat(i)$, y sumado sobre los tres, cada uno
   pesado por su componente, da $bold(Omega) times bold(H)_G$. Con
-  $bold(Omega)$ la velocidad angular de *esos ejes* —no necesariamente la del
+  $bold(Omega)$#burbuja[$bold(Omega)$: la velocidad angular de los *ejes* que
+  elegí, respecto del espacio. No es la del cuerpo, $bold(omega)$, salvo que
+  clave los ejes a él.] la velocidad angular de *esos ejes* —no necesariamente la del
   cuerpo—, eso es la @cin-derivada aplicada a $bold(H)_G$:
   $ dot(bold(H))_G = (dot(bold(H))_G)_(O x y z) + bold(Omega) times bold(H)_G $
   <euler-derivada-h>
@@ -129,8 +161,35 @@ $ (bold(Omega) times bold(H))_x = Omega_y H_z - Omega_z H_y, quad
 
 == Las ecuaciones de Euler ($bold(Omega) = bold(omega)$, ejes clavados al cuerpo)
 
+#gancho[Si un cuerpo gira libre, sin que nadie lo toque, ¿gira parejo? La
+respuesta depende de la forma, y las ecuaciones de Euler son lo que te la da.
+Con una pelota, sí, para siempre. Con un libro, un ladrillo o un satélite con
+forma de lata, la velocidad angular se mueve sola: sus componentes cambian,
+el eje de giro se bambolea, y a veces el cuerpo se da vuelta de punta a
+punta. Te dicen también qué cupla hace falta para que gire *parejo*, que es lo
+que los cojinetes de una máquina tienen que aguantar. Lo simple: si los tres
+momentos de inercia son iguales, desaparece todo lo interesante. Lo
+complicado: son tres ecuaciones acopladas y no lineales, que a mano sólo se
+resuelven en casos particulares, y los casos particulares (el ladrillo, el
+Explorer 1) son los que pregunta la cátedra.]
+
+#duda[En las ecuaciones de Euler aparecen términos como $(I_y - I_z) omega_y omega_z$ aunque no haya ninguna cupla en $x$. ¿De dónde sale algo que se parece a una cupla si nadie empuja?]
+#dedos[No hay ninguna cupla escondida: hay una flecha, $bold(H)_G$, que no
+apunta donde apunta $bold(omega)$ (cada momento de inercia pesa su
+componente, como en el módulo #M("inercia")). Pensalo sentado en el cuerpo.
+Si nadie lo toca, $bold(H)_G$ queda *quieto en el espacio*, pero vos girás y
+la ves girar al revés; cada componente que anotás en los ejes del cuerpo
+cambia, y ese cambio es el término. Si en cambio querés que las componentes de
+$bold(omega)$ no cambien, que el cuerpo gire parejo, entonces alguien tiene
+que hacer la cupla que lo compensa: es el mismo término, del otro lado del
+igual. Y cuando los momentos son iguales, $bold(H)_G$ y $bold(omega)$ son
+paralelos, no hay nada que compensar y el término se va.]
+
 Lo pienso con los ejes clavados al cuerpo. Entonces los ejes giran con lo
-mismo que el cuerpo: $bold(Omega) = bold(omega)$. Son principales, así que
+mismo que el cuerpo: $bold(Omega) = bold(omega)$#burbuja[$bold(omega)$: la
+velocidad angular del cuerpo respecto del espacio, anotada en los ejes
+principales clavados al cuerpo. En esta sección coincide con la de los ejes,
+$bold(Omega)$; en las siguientes, no.]. Son principales, así que
 $bold(H)_G = I_x omega_x hat(i) + I_y omega_y hat(j) + I_z omega_z hat(k)$.
 Los momentos de inercia no cambian, porque los ejes viajan pegados a la masa
 y la masa no se mueve respecto de ellos; entonces derivar las componentes es
@@ -171,6 +230,15 @@ escondido en la manga.
 
 === La otra mitad de §18.6: la extensión de d'Alembert
 
+#gancho[Una rueda de auto mal balanceada hace temblar el volante a cien por
+hora, y un rotor torcido en su eje rompe los cojinetes de una máquina. En los
+dos casos nada se acelera: el cuerpo gira a velocidad constante sobre un eje
+fijo. Esta herramienta te dice qué fuerzas y qué cuplas tienen que hacer los
+apoyos en cada instante, y es la que dimensiona un cojinete. Lo simple: si el
+eje de giro es un eje principal, los cojinetes no hacen nada raro. Lo
+complicado: apenas está torcido, la fuerza crece con el cuadrado de la
+velocidad y gira con el eje.]
+
 Las ecuaciones de Euler son la mitad de la sección 18.6 del Beer. La otra
 mitad, que la guía del parcialito usa para sacar reacciones y este apunte no
 nombraba, es la *extensión del principio de d'Alembert* (Beer §18.6, figs.
@@ -188,6 +256,17 @@ Sirve, sobre todo, para un caso que parece no tener dinámica: un cuerpo
 que gira a velocidad *constante* alrededor de un eje *fijo*. Ahí
 $overline(bold(a)) = 0$ si $G$ está sobre el eje, y uno esperaría que los
 cojinetes no hicieran nada. Hacen, si el cuerpo está torcido.
+
+#duda[El disco gira a velocidad constante sobre un eje fijo y su centro de masa está quieto. ¿Por qué los cojinetes tendrían que hacer algo?]
+#dedos[Porque lo que no cambia es el *giro*, no la flecha $bold(H)_G$. Pegá una
+moneda, torcida, en un lápiz y hacelo girar entre las dos manos: el lápiz no
+se queda quieto, se bambolea, y vas a sentir en las manos dos empujones que
+giran con él. La moneda, torcida, tiene su momento angular apuntando entre el
+eje del lápiz y el de la moneda; al girar, esa flecha da vueltas alrededor del
+eje, y una flecha que da vueltas cambia: pide una cupla. La cupla la hacen
+tus manos, con dos fuerzas opuestas en los dos extremos. Si la moneda
+estuviera derecha, la flecha quedaría sobre el eje, sin dar vueltas, y las
+manos no sentirían nada.]
 
 #deduccion("el disco torcido en sus cojinetes")[
   Un disco de momento axial $I$ y transversal $I'$ está montado en un eje que
@@ -287,6 +366,32 @@ ejes.], fig-omega-pelota-libro)
   Problemas 4 y 6.
 ]
 
+#gancho[Si te quedás con un solo aparato de este módulo, que sea éste. Un
+giróscopo es un rotor que gira rápido en un soporte que lo deja orientarse, y
+da dos cosas. Primero, una *dirección fija*: el eje del rotor sigue apuntando
+al mismo lugar del espacio aunque el soporte se mueva alrededor, y por eso
+sirve de sensor (mide giros, orienta un girocompás, es la base del guiado
+inercial). Segundo, una *cupla* cuando lo obligás a cambiar de dirección, y
+por eso sirve de actuador: es el CMG del módulo #M("actitud"), que maniobra
+satélites sin tirar gas. En las dos versiones la pregunta práctica es la
+misma: qué cupla hacen los cojinetes y quién la aguanta, cómo cambia el
+momento angular del sistema, dónde se complica y dónde no. Los dos ejemplos que
+siguen son esas preguntas con números, un disco en una horquilla y un volante
+en un gimbal. Lo simple: la cupla sale siempre perpendicular a los dos giros.
+Lo complicado: casi toda la cupla que aplicás se gasta en mantener la
+dirección de $bold(H)$, no en acelerar nada.]
+
+#duda[El disco gira parejo y la horquilla también: nada se acelera. ¿Por qué hace falta una cupla para sostener todo esto?]
+#dedos[Tomá una rueda de bicicleta girando, sostenela por el eje y girá vos
+sobre tus talones. Ni la rueda ni vos aceleran, pero vas a sentir en las
+muñecas que la rueda quiere inclinarse. Es que $bold(H)$ apunta a lo largo del
+eje y, si girás, esa flecha tiene que dar una vuelta entera con vos: una
+flecha que da vueltas es una flecha que cambia, y todo cambio de $bold(H)$ cuesta
+una cupla. Esa cupla es perpendicular a *los dos* giros, el de la rueda y el
+tuyo, y la hacen tus muñecas, que acá son los cojinetes. Es la misma
+razón por la que una turbina empuja de costado a sus apoyos cuando el
+vehículo dobla.]
+
 #ejemplo("El disco en la horquilla: la cupla que sostiene el movimiento")[
   _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 2, punto 2: $d
   bold(H)_G \/ d t$, continuando el ejemplo del módulo #M("inercia"). Resuelto
@@ -365,6 +470,15 @@ ejes.], fig-omega-pelota-libro)
   misma en los tres.], fig-omega-observadores)
   <fig-omega-observadores>
 ]
+
+#duda[Si aplico $600$ N$dot.op$m a algo con inercia $5$ kg$dot.op$m², tendría que acelerar $120$ rad/s². ¿Por qué da apenas $20$?]
+#dedos[Porque el gimbal no está solo: arrastra un volante con un $bold(H)$
+enorme, y la plataforma, al girar, obliga a ese $bold(H)$ a dar la vuelta con
+ella. Es como cargar una mochila pesada en un vehículo que dobla: aunque no
+aceleres nada, el giro obligado ya te cuesta. De los $600$, $500$ son ese
+peaje, y lo que sobra, $100$, es lo único que de verdad acelera el gimbal.
+Dividir cupla por inercia es la respuesta ingenua, la que el problema espera
+para poder corregirla.]
 
 #ejemplo("El volante en el gimbal: por qué 600 N·m dan sólo 20 rad/s²", nivel: "a fondo")[
   _(Guía de la cátedra 2026, sección Cuerpo rígido, Problema 3 completo. Retoma el ejemplo del módulo #M("cinematica-cr"): volante con
@@ -450,6 +564,16 @@ ejes.], fig-omega-pelota-libro)
   lo que se le da. Ninguna de las tres cosas se adivina con la intuición de
   Física 1, que es lo que la cátedra quería mostrar con este problema.
 
+  #duda[Si no le aplico ninguna cupla al gimbal, ¿no debería quedarse quieto?]
+  #dedos[No: la plataforma sigue arrastrando a $bold(H)$, y alguien tiene que
+  hacer esos $500$ N$dot.op$m. Si nadie los pone, el gimbal arranca a girar
+  solo hacia la posición en que ya no harían falta: el eje del volante
+  paralelo al de giro de la plataforma, donde $bold(H)$ no tiene que dar
+  ninguna vuelta. No se queda ahí: se pasa y oscila alrededor de esa posición,
+  como un péndulo —es la animación con que Aníbal cerró este ejercicio—. Con un
+  poco de rozamiento que frene la oscilación, termina quieto ahí, y es la idea
+  del girocompás: un volante libre que se acomoda con el eje de la Tierra.]
+
   *Y sin cupla, que es como lo resolvió Aníbal.* Su resolución escrita del
   Ejercicio 3 (la hoja «Sin torque externo», subida con la clase de los
   ángulos de Euler) pone $M_x = 0$: el gimbal está suelto y nadie lo empuja.
@@ -509,6 +633,25 @@ ejes.], fig-omega-pelota-libro)
 
 == Los ángulos de Euler: cómo describir la orientación de un giróscopo
 
+#gancho[Para decirle a una computadora de a bordo cómo está orientado un
+satélite, un giróscopo, un telescopio, hace falta un puñado de números, y
+conviene que sean pocos y que cada uno cuente algo que se entienda. Los
+ángulos de Euler son la manera clásica: tres giros, uno dentro del otro, que
+describen cualquier orientación y que además *son* los giros de un giróscopo
+en cardanes, así que de ahí se leen las velocidades. Lo simple: tres números,
+cada uno en su plano. Lo complicado: los tres ejes de giro no son
+perpendiculares, y en una orientación el conjunto se rompe: dos de los tres
+giros pasan a ser el mismo.]
+
+#duda[¿Por qué hacen falta exactamente tres ángulos, y por qué esos tres?]
+#dedos[Apuntá con el dedo a una estrella: para decir adónde apuntás alcanza con
+dos datos, hacia qué lado (acimut) y qué tan alto. Pero tu mano, además, puede
+estar girada sobre sí misma, con la palma para arriba o para un costado, y
+eso es un tercer dato que los dos anteriores no cuentan. Dos para el eje
+del cuerpo (precesión $phi$ y nutación $theta$) y uno para el giro del cuerpo
+sobre ese eje (spin $psi$): tres, porque la orientación tiene tres grados
+de libertad.]
+
 Para un cuerpo con un punto fijo $O$ y un eje de simetría —el caso del
 giróscopo—, tres ángulos alcanzan para describir su orientación en cualquier
 instante (Beer §18.9, fig. 18.15, pág. 1187):
@@ -538,6 +681,16 @@ Rojo: $theta$, de $Z$ al eje $z$ del cuerpo, girando sobre la línea de nodos.
 Azul: $psi$, en el plano perpendicular a $z$ (punteado), de la línea de nodos
 al eje $x$ pegado al cuerpo.], fig-euler-angulos)
 <fig-euler-angulos>
+
+#duda[Cada uno de los tres giros mide «uno» alrededor de su propio eje. ¿Por qué no puedo sumarlos y multiplicar por $I$ como siempre?]
+#dedos[Porque dos de los ejes no son perpendiculares. Sentate en un taburete
+que gira con una rueda inclinada en las manos: aunque no toques la rueda, el
+taburete la hace girar *también* alrededor de su propio eje, un poco, un
+$cos theta$ de tu giro, y el resto de tu giro cae de costado, un $sin theta$.
+Una parte de un giro está «metida» en el otro. Para multiplicar cada
+componente por su momento de inercia hace falta que las componentes sean
+independientes, o sea, sobre ejes perpendiculares entre sí. Por eso se
+proyecta el eje fijo sobre los del cuerpo, antes de multiplicar nada.]
 
 Ahora lo armo pensando qué es cada cosa. $bold(omega)$ es la velocidad
 angular del rotor respecto del espacio. El rotor se mueve porque se mueven
@@ -572,7 +725,10 @@ componentes exige proyectar.], fig-omega-suma-euler)
 <fig-omega-suma-euler>
 
 (Beer ecs. 18.33 a 18.38, pág. 1187–1188.) Los ejes son exactamente los del
-Beer (su fig. 18.16): $hat(k)$ sobre el eje de simetría; $hat(f)$ sobre la
+Beer (su fig. 18.16)#burbuja[$hat(e)$, $hat(f)$, $hat(k)$: ejes clavados al
+balancín interior, no al rotor. Giran con $bold(Omega)$, o sea que siguen a
+$dot(phi)$ y $dot(theta)$ pero no a $dot(psi)$, y en ellos se anotan
+$bold(omega)$, $bold(Omega)$ y $bold(H)_O$.]: $hat(k)$ sobre el eje de simetría; $hat(f)$ sobre la
 línea de nodos, que es el eje alrededor del cual gira la nutación; y
 $hat(e) = hat(f) times hat(k)$, en el plano de $Z$ y $z$ pero del lado
 *opuesto* a $Z$ —por eso el eje fijo se descompone $bold(K) = -sin theta
@@ -581,7 +737,9 @@ menos—. Ese menos no es decorativo: con $hat(e)$ apuntando para el otro lado
 el corchete de la @euler-precesion-estable cambia de signo por dentro, y en
 el módulo #M("peonza") eso da vuelta la precesión directa y la retrógrada.
 Este apunte lo sabe por las malas. Con $bold(omega)$ ya en una base de ejes
-principales, $bold(H)_O$ sale multiplicando: lo que cae sobre $hat(e)$ y
+principales, $bold(H)_O$#burbuja[$bold(H)_O$: el momento angular del rotor
+respecto del punto fijo $O$ (el centro de los cardanes), no respecto de $G$.]
+sale multiplicando: lo que cae sobre $hat(e)$ y
 $hat(f)$ por el momento transversal $I'$, lo que cae sobre $hat(k)$ por el
 axial $I$. Ojo con qué omega va en cada lugar: sobre $hat(e)$ y $hat(f)$ las
 componentes de $bold(omega)$ y de $bold(Omega)$ son iguales (el spin no aporta
@@ -632,6 +790,13 @@ $hat(k)$ del Beer viajan pegados al balancín interior: siguen a $phi$ y a
 $theta$, no a $psi$.], align(center, fig-euler-cardanes))
 <fig-euler-cardanes>
 
+#duda[¿Qué es eso del bloqueo de cardán? ¿Cómo puede perderse un ángulo si el cuerpo sigue teniendo tres grados de libertad?]
+#dedos[Pensá en el Polo Norte: la longitud no tiene sentido ahí, porque todas
+las direcciones son «hacia el sur». Con el eje del cuerpo mirando justo al
+cenit, $theta = 0$, pasa lo mismo: la línea de nodos queda sin definir y
+girar $phi$ o girar $psi$ es el mismo giro. El cuerpo no perdió nada; lo que
+se perdió es la descripción, que ya no distingue entre los dos.]
+
 #notacion[
   *Tres ángulos alcanzan, pero tienen un agujero; por eso a bordo se usan
   cuaterniones.* La primera clase escrita de cuerpo rígido de la cátedra deja
@@ -671,6 +836,27 @@ fig-euler-bloqueo)
 
 == Precesión estable: el caso que sí se resuelve a mano
 
+#gancho[Un trompo y un giróscopo apoyado en un pivote tienen un comportamiento
+que parece contra la intuición: el peso no los voltea, los hace dar vueltas
+de costado con el eje inclinado siempre igual. Esta sección te da la cuenta
+del caso que sí sale entero: cuánta cupla hace falta para sostener una
+precesión dada, y de ahí cuánto tarda una vuelta, qué pasa si el spin baja y
+cuándo el trompo ya no puede sostener nada. Lo simple: la cupla sale en una
+sola dirección, perpendicular al plano que forman el eje vertical y el del
+trompo. Lo complicado: la misma cupla admite dos precesiones, y por debajo de
+un spin mínimo, ninguna.]
+
+#duda[El peso tira del trompo hacia abajo. ¿Por qué no se cae, y por qué se va de costado?]
+#dedos[Es la analogía de la órbita, la que pidió Aníbal. Un satélite tiene
+velocidad hacia adelante y la gravedad lo empuja hacia el centro,
+perpendicular a la velocidad: no lo acerca, le *cambia la dirección* sin
+cambiarle el tamaño, y por eso da vueltas. Con el trompo, $bold(H)$ apunta a
+lo largo de su eje y el peso hace una cupla horizontal, perpendicular a
+$bold(H)$ y al plano vertical del eje. Una cupla perpendicular a $bold(H)$
+también le cambia la dirección y no el módulo: la punta de $bold(H)$ se corre
+de costado y el eje barre un cono. Es el mismo mecanismo, con la cupla en
+lugar de la fuerza y $bold(H)$ en lugar de $bold(v)$.]
+
 #deduccion("de dónde sale la cupla que sostiene una precesión constante")[
   *Precesión estable* es el caso en que $theta$, $dot(phi)$ y $dot(psi)$ son
   las tres constantes: el eje $z$ barre un cono perfecto alrededor de $Z$, a
@@ -704,7 +890,9 @@ $(I omega_z - I' dot(phi) cos theta) dot(phi) sin theta thin hat(j)$, con su
 $hat(j)$ igual a nuestro $hat(f)$ y $omega_z = dot(psi) + dot(phi) cos
 theta$; es la misma, y vale la pena comprobarlo abriendo el paréntesis.)
 *La cupla necesaria es perpendicular al plano
-que forman $Z$ y $z$* —sobre $hat(f)$, la línea de nodos—,
+que forman $Z$ y $z$* —sobre $hat(f)$, la línea de nodos#burbuja[$hat(f)$: la
+línea de nodos, horizontal (está en el plano $X Y$ fijo) y perpendicular al
+plano de $Z$ y $z$. Es un eje del balancín interior, no del rotor.]—,
 nunca dentro de ese plano: es la traducción formal de que un giróscopo no
 «cae» en la dirección de la cupla aplicada, sino que precesa perpendicular a
 ella. Con un trompo, el que pone esa cupla es el peso (@fig-precesion-estable).
@@ -732,6 +920,23 @@ sección que sigue.], fig-precesion-estable)
 ]
 
 === Con el eje inclinado y el peso: una cuadrática, dos precesiones
+
+#gancho[En la mesa de la cocina un trompo precesa lento y parece la única
+posibilidad. Resulta que la misma cuenta admite una segunda precesión, mucho
+más rápida, que nadie ve porque hay que largarlo a propósito, y que por debajo
+de cierto spin no admite ninguna: ahí el trompo nuta cada vez más y se cae.
+Es el caso donde se ve qué le pasa a un giróscopo cuando se le acaba el spin.
+Lo simple: la cuenta es una cuadrática. Lo complicado: las dos raíces no
+tienen el mismo significado físico.]
+
+#duda[¿Cómo puede haber dos precesiones para el mismo trompo con el mismo spin?]
+#dedos[La cupla del peso es la que es; lo que hay que lograr es que $bold(H)$
+dé la vuelta justo al ritmo que esa cupla pide. Hay dos maneras: tener un
+$bold(H)$ casi todo sobre el eje, que dé la vuelta *despacio* (la que se ve), o
+dejar que el propio giro alrededor de la vertical aporte un pedazo grande de
+$bold(H)$ fuera del eje y entonces dé la vuelta *rápido*. La cuenta no
+distingue entre las dos: las dos cumplen la misma ecuación. Con muy poco
+spin, ninguna de las dos maneras alcanza.]
 
 El caso de $90degree$ es el del dibujo de siempre. Con el eje *inclinado* —un
 trompo, o el giróscopo apoyado en un pivote $O$ con el eje a $theta$ de la
@@ -769,6 +974,13 @@ Mientras tanto, con el spin bajando, la lenta $W c \/ (I dot(psi))$ se
 de la vertical, que es exactamente lo que cualquiera vio de chico sin saber
 que estaba viendo una cuadrática.
 
+#duda[¿Por qué por debajo de cierto spin el trompo no precesa y se cae, si al bajar el spin la precesión lenta se acelera?]
+#dedos[Cuanto menos spin, menos $bold(H)$ sobre el eje, y la misma cupla del
+peso mueve más a una flecha más chica: la precesión se apura. Hasta que la
+cuenta ya no tiene ninguna vuelta pareja que cumpla lo que la cupla pide (el
+discriminante de la cuadrática se hace negativo): el trompo no tiene dónde
+apoyarse, el eje se va cayendo y la nutación crece.]
+
 #ejemplo("El giróscopo de mesa a 60 grados: las dos raíces")[
   _(Modelo de parcialito 5, Ejercicio 11, con los números validados en
   `practica/validar.py`.)_ Un rotor de $1,5$ kg y $6$ cm de radio, con el
@@ -800,6 +1012,16 @@ se cae. Los puntos son los del ejemplo, a $300$ rad/s.], fig-dos-raices)
 
 == ¿Alrededor de qué eje conviene girar? El ladrillo, la raqueta y el Explorer 1
 
+#gancho[Un satélite que gira para estabilizarse, o una última etapa de un
+cohete que gira antes de encenderse, tiene que elegir *sobre qué eje* gira, y
+la elección no es de gusto: hay ejes en los que un empujoncito se queda chico
+y ejes en los que se agranda hasta que el cuerpo se da vuelta de punta a
+punta. Saberlo te dice qué forma tiene que tener un satélite que gira, por qué
+el primero de Estados Unidos terminó dando tumbos y por qué uno que se
+estabiliza girando conviene que gire sobre su eje de más inercia. Lo simple: se resume en una regla de
+tres ejes. Lo complicado: la regla del rígido no alcanza, y lo que decide al
+final es lo que el rígido no tiene: la disipación de energía.]
+
 Dos de las tres «preguntas orientadoras» de la primera clase escrita de
 cuerpo rígido se contestan acá, con las ecuaciones de Euler y nada más:
 qué pasa con un ladrillo que se tira girando, y por qué el primer satélite
@@ -811,6 +1033,17 @@ $bold(omega)$ sobre un eje principal, $bold(H)_G$ es paralelo a
 $bold(omega)$ (módulo #M("inercia")) y no hay nada que lo saque. La pregunta
 de ingeniería es otra: si se lo desvía *un poquito*, ¿vuelve, o se desarma?
 Un lápiz parado sobre la punta también está en equilibrio.
+
+#duda[Si el cuerpo gira exactamente sobre un eje principal no pasa nada. ¿Por qué un empujoncito lo vuelca sólo si es el eje del medio?]
+#dedos[Tirá al aire un celular, o un libro con una banda elástica, haciéndolo
+girar sobre cada uno de sus tres ejes. Sobre el largo y sobre el corto sale
+prolijo; sobre el del medio, da media vuelta de costado cada tanto, por más
+cuidado que pongas. La razón, en una imagen: con el momento angular y la
+energía fijos, el cuerpo sólo puede moverse sobre cierta frontera. Cerca del
+eje de más inercia, o del de menos, esa frontera es un lazo chiquito alrededor
+del eje, y un apartamiento chico se queda chico. Cerca del eje del medio es un
+puerto de montaña: para un lado sube, para el otro baja, y un empujoncito te
+lleva lejos.]
 
 #deduccion("cuál de los tres ejes principales es inestable")[
   Sin cuplas, las ecuaciones de Euler (@euler-euler-clasicas) quedan
@@ -853,6 +1086,14 @@ módulo #M("inercia")— y lo pusieron a girar alrededor de su eje largo, el de
 momento *mínimo*: según la deducción de arriba, estable. Pero llevaba cuatro
 antenas de alambre flexibles, que se doblaban y vibraban, y eso disipa
 energía. A las pocas horas daba tumbos, girando de punta a punta.
+
+#duda[El Explorer 1 giraba sobre su eje de menor inercia, que el rígido dice estable. ¿Por qué se dio vuelta?]
+#dedos[Porque el rígido no se calienta y el satélite sí. Pensá el momento
+angular como un capital que sin cupla externa no se puede gastar: con él fijo,
+cada eje de giro tiene su energía, y el de más inercia es el de menos. Si algo
+flojo adentro (una antena que flamea) transforma energía en calor, el cuerpo
+va bajando su energía sin poder tocar el capital, y la única salida es pasar
+al eje de más inercia, donde ya no tiene más para perder.]
 
 #deduccion("por qué un cuerpo que pierde energía termina girando sobre su eje mayor")[
   Sin cuplas externas, $bold(H)_G$ se conserva: lo que se pierde por
