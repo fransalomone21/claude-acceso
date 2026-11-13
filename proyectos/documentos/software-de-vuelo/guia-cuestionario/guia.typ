@@ -12,7 +12,7 @@
   institucion: "UNSAM · Ingeniería en Sistemas Espaciales",
   materia: "Ingeniería de Software de Vuelo para Sistemas Espaciales Críticos",
   ciclo: "2.º cuatrimestre 2026",
-  version: "Versión 1.0 · 13/11/2026 · de las clases de las semanas 1 a 9, los prácticos 1 a 5 y nuestras entregas",
+  version: "Versión 1.1 · 13/11/2026 · de las clases de las semanas 1 a 9, los prácticos 1 a 5 y nuestras entregas",
   presentacion: [
     *Para quién es.* Para vos, que mañana —bueno, hoy— tenés el cuestionario
     de Leandro sobre todo lo que vimos con él. La primera sección es la de
@@ -62,6 +62,10 @@ Leandro, y tiene su propia guía en el Drive del grupo), y el detalle de la
 instalación de CubeIDE paso a paso (está en la guía de IDEs). El C, tema por
 tema y con cada programa compilado, está en el *Apunte de C* que ya hicimos:
 acá va el resumen con lo que más se pregunta y el puntero a cada módulo.
+
+*Al final hay dos anexos:* el A con cada definición completa y un ejemplo
+de la vida diaria (@sec-anexo-def), y el B con las palabras que se dan por
+sabidas (@sec-anexo-glosario).
 
 = Lo que seguro preguntan: quince minutos <sec-seguro>
 
@@ -1409,3 +1413,5 @@ latch-up (sensor de corriente y LCL), memoria de salvaguarda FRAM, EDAC con
 scrubbing, y software defensivo (MISRA, FDIR). Rad-hard y TMR completo no
 se justifican para una LEO corta. (No hay una única respuesta: Leandro lo
 plantea como ejercicio de justificar.)]
+
+#include "anexos.typ"

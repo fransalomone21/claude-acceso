@@ -27,6 +27,16 @@
   #text(weight: "bold", fill: c-verde)[R. ] #r
 ]
 
+// Una entrada del anexo de definiciones: el término, la definición formal y
+// un ejemplo de la vida diaria. No se parte entre páginas.
+#let definicion(termino, formal, ejemplo) = block(
+  width: 100%, breakable: false, above: 7pt, below: 7pt,
+  inset: (left: 9pt, y: 3pt), stroke: (left: 2pt + c-azul),
+)[
+  #text(weight: "bold", fill: c-azul)[#termino.] #formal \
+  #text(fill: c-verde, weight: "bold")[Con un ejemplo:] #ejemplo
+]
+
 // Un marcador numerado encima de una figura, en una zona libre:
 // (x, y) en fracciones del ancho y del alto. Lo que dice va en el epígrafe.
 #let nota(x, y, cuerpo) = place(top + left, dx: x * 100%, dy: y * 100%,

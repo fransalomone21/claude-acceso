@@ -167,7 +167,7 @@
       "local": "proyectos/documentos/software-de-vuelo/guia-cuestionario/guia.pdf",
       "nombre-en-drive": "Guia para el cuestionario de Leandro.pdf",
       "regenerable": "desde proyectos/documentos/software-de-vuelo: python guia-cuestionario/recortar.py y typst compile --root . guia-cuestionario/guia.typ guia-cuestionario/guia.pdf (necesita el Material de catedra en Desktop\\01 - UNSAM\\Software de Vuelo)",
-      "estado": "2026-11-13 -- v1.0, 32 pag.: las clases de Leandro de las semanas 1 a 9, los TP 1 a 5 y la comparativa de OBC, con 27 figuras recortadas de sus diapositivas y preguntas con respuesta. Publica por decision de Fran del 13/11 ('Publish it'). NO va al repo: lleva los recortes de la catedra"
+      "estado": "2026-11-13 -- v1.1, 36 pag.: suma el Anexo A (cada definicion completa con un ejemplo de la vida diaria) y el Anexo B (las palabras que se dan por sabidas), a pedido de Fran. v1.0, 32 pag.: las clases de Leandro de las semanas 1 a 9, los TP 1 a 5 y la comparativa de OBC, con 27 figuras recortadas de sus diapositivas y preguntas con respuesta. Publica por decision de Fran del 13/11 ('Publish it'). NO va al repo: lleva los recortes de la catedra"
     },
     {
       "materia": "IISE/Material de Estudio nuestro/Apunte GENERAL",
