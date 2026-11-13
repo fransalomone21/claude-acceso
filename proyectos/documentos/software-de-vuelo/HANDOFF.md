@@ -1,5 +1,16 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-11-13 (noche) — PENDIENTE: el podcast con voz local, «con más onda, bien rioplatense» (Fran)
+
+- Fran: «ponele más onda, bien rioplatense y hacelo después» (se iba con la notebook). Dos partes: (1) el guion
+  reescrito con más onda rioplatense, mismo contenido; (2) generarlo entero con la voz local.
+- Generar (~2 h 20 min de GPU, notebook enchufada; se corta y sigue por la caché `cache-local/`), desde la raíz:
+  `& "$env:LOCALAPPDATA\Temp\claude\tts-venv\Scripts\python.exe" proyectos\documentos\software-de-vuelo\podcast-parcial\sintetizar-local.py "C:\Users\frans\Desktop\01 - UNSAM\Software de Vuelo\Podcast para el parcial de Leandro (voz local).m4a"`
+  con `$env:HF_HUB_DISABLE_XET="1"` (sin eso el cliente de Hugging Face se cuelga: medido, 2 MB en 30 min contra 6 MB/s
+  por curl). El entorno `tts-venv` vive en Temp: si se borró, rehacerlo (torch 2.6.0 cu124 + chatterbox-tts + edge-tts).
+- Antes de mandarlo: transcribir 2 muestras con faster-whisper `base` (`HF_HUB_OFFLINE=1`; el `small` quedó a medio
+  bajar) y mandarle la copia de celular (<30 MB, `-ac 1 -b:a 56k`).
+
 ## 2026-11-13 (tarde) — Podcast del parcial: cómo se rehace, y la herramienta
 
 - Regenerar: `python proyectos/documentos/software-de-vuelo/podcast-parcial/sintetizar.py "<salida>.m4a"` (necesita
