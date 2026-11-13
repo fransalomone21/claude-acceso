@@ -2836,10 +2836,12 @@ def autotest() -> int:
          [("Edit", {"file_path": str(black / "docs" / "x.md"), "old_string": "a", "new_string": "b"})], None, True,
          "-Necesidad"))
 
-    def leer_rama(p, s, script, cat_env=None):
+    def leer_rama(p, s, script, cat_env=None, cat=None):
         """T19, pieza C: la rama del proyecto declarado se exige en toda accion. Los casos que miden OTRA cosa la leen
-        antes, para que lo unico pendiente sea lo suyo (si no, su mutante seguiria negado por la rama y no se veria)."""
-        for x in exigido(cat_base, p, [], [], solo_rama=True)[0]:
+        antes, para que lo unico pendiente sea lo suyo (si no, su mutante seguiria negado por la rama y no se veria).
+        'cat' es el catalogo del CASO cuando no es el base (DA-104, 2026-11-13: el caso 25 corre con su catalogo y
+        este ayudante leia la rama del catalogo vivo; al cambiar el vivo, un mutante dejo de verse)."""
+        for x in exigido(cat or cat_base, p, [], [], solo_rama=True)[0]:
             correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
                    cat_env, script)
 
@@ -2935,7 +2937,7 @@ def autotest() -> int:
             correr(pre_ev(tool, inp, s), ce, script)
             for p in ("telescopio", "coaching"):   # la rama del declarado, leida: este caso mide el tronco
                 if "cascada.ps1 %s " % p in str(inp.get("command", "")):
-                    leer_rama(p, s, script, ce)
+                    leer_rama(p, s, script, ce, c25e if ce is e25e else c25w)
         for x in lee or []:
             correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
                    ce, script)
