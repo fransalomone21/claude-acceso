@@ -1,0 +1,5 @@
+cache-local/
+cache-gemini/
+*.wav
+*.m4a
+*.mp3
