@@ -2,9 +2,19 @@
 # La clave no va al repo ni al chat: la pegas aca, oculta, y queda solo en tu usuario de Windows.
 # Para borrarla:  [Environment]::SetEnvironmentVariable('ELEVENLABS_API_KEY', $null, 'User')
 
-$segura = Read-Host "Pega la clave de ElevenLabs (no se ve al pegar) y Enter" -AsSecureString
-$clave = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
-    [Runtime.InteropServices.Marshal]::SecureStringToBSTR($segura)).Trim()
+# Primero se fija si la clave ya esta copiada (portapapeles): asi no hace falta pegar en la consola,
+# que en algunas ventanas no deja con Ctrl+V. Despues de leerla, vacia el portapapeles.
+$clave = "$(Get-Clipboard -Raw)".Trim()
+if ($clave -match '^sk_\S{20,}$') {
+    Write-Host "Tome la clave del portapapeles (empieza con sk_)."
+    Set-Clipboard -Value " "
+} else {
+    Write-Host "No hay una clave copiada. Copiala de ElevenLabs y volve a correr esto," -ForegroundColor Yellow
+    Write-Host "o pegala aca con CLIC DERECHO (no se ve nada al pegar) y Enter:" -ForegroundColor Yellow
+    $segura = Read-Host "Clave" -AsSecureString
+    $clave = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
+        [Runtime.InteropServices.Marshal]::SecureStringToBSTR($segura)).Trim()
+}
 if ($clave.Length -lt 20) { Write-Host "Eso no parece una clave (muy corta). No se guardo nada." -ForegroundColor Red; exit 1 }
 
 # Se prueba antes de guardarla: consultar tu saldo no gasta nada.
