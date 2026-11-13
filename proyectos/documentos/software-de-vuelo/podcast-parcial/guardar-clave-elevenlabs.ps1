@@ -4,8 +4,14 @@
 
 # Primero se fija si la clave ya esta copiada (portapapeles): asi no hace falta pegar en la consola,
 # que en algunas ventanas no deja con Ctrl+V. Despues de leerla, vacia el portapapeles.
+$archivo = Join-Path ([Environment]::GetFolderPath('Desktop')) 'clave.txt'
 $clave = "$(Get-Clipboard -Raw)".Trim()
-if ($clave -match '^sk_\S{20,}$') {
+if (Test-Path $archivo) {
+    # Tercera via: la clave escrita a mano en el Bloc de notas, guardada como clave.txt en el Escritorio.
+    $clave = (Get-Content $archivo -Raw).Trim()
+    Remove-Item $archivo -Force
+    Write-Host "Tome la clave de clave.txt del Escritorio, y borre el archivo."
+} elseif ($clave -match '^sk_\S{20,}$') {
     Write-Host "Tome la clave del portapapeles (empieza con sk_)."
     Set-Clipboard -Value " "
 } else {
