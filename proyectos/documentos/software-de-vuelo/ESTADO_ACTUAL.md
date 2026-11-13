@@ -1,5 +1,18 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-11-13 — Guía para el cuestionario de Leandro (v1.0, 32 pág.)
+
+- **Fuente** en `guia-cuestionario/` (`guia.typ`, `plantilla.typ`, `recortar.py`); **27 figuras recortadas** de las clases
+  (semanas 1 a 8) en `fig-catedra/` y el **PDF**, los dos **ignorados por git** (material de la cátedra; el repo es público).
+  Copia en `Desktop\01 - UNSAM\Software de Vuelo\Guia para el cuestionario de Leandro.pdf`. **No publicada**: lleva
+  diapositivas de Leandro (regla 3 del contrato); que pase a pública lo decide Fran.
+- **Cobertura** (tabla de la sección 1): las 13 presentaciones de las semanas 1 a 9 y los TP 1 a 5 más la comparativa de OBC
+  del 18/08. Afuera: el TP Cohete (Petrilli) y la instalación paso a paso (guía de IDEs).
+- **Verificado**: compila sin errores, `lint-typst` limpio, las 32 páginas miradas después del último cambio. **Sin
+  verificar**: que el cuestionario de Leandro pregunte lo que la sección 2 supone (`hipótesis`).
+- **Material ordenado**: 12 descargas del 13/11 extraídas en `Material de catedra\` (Semana_7, 8, 9 y FreeRTOS nuevas; 34
+  archivos ya estaban, idénticos por MD5) y los originales movidos a `Material de catedra\_descargas 13-11 (zips originales)`.
+
 ## 2026-11-10 — TP5 para que Tomás siga solo: Drive al día y medido, código comentado
 
 - **Drive del grupo, medido** (`rclone check`): TP5 165 archivos y 0 diferencias (MD5 de la guía igual

@@ -27,10 +27,11 @@
   #text(weight: "bold", fill: c-verde)[R. ] #r
 ]
 
-// Un rótulo encima de una figura: (x, y) en fracciones del ancho y del alto.
+// Un marcador numerado encima de una figura, en una zona libre:
+// (x, y) en fracciones del ancho y del alto. Lo que dice va en el epígrafe.
 #let nota(x, y, cuerpo) = place(top + left, dx: x * 100%, dy: y * 100%,
-  box(fill: white.transparentize(8%), stroke: 0.8pt + c-naranja, radius: 2pt, inset: (x: 3pt, y: 2pt),
-    text(size: 7.6pt, fill: c-naranja, weight: "bold", cuerpo)))
+  circle(radius: 6.5pt, fill: c-naranja, stroke: 1pt + white,
+    align(center + horizon, text(size: 8pt, fill: white, weight: "bold", cuerpo))))
 
 // Una figura de las clases de Leandro, con su origen en el epígrafe.
 // `notas` es un arreglo de (x, y, contenido) que se escriben encima.

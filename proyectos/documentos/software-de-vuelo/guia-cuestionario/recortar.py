@@ -18,7 +18,7 @@ SALIDA = os.path.join(AQUI, "fig-catedra")
 
 # nombre -> (pdf relativo a MAT, pagina 1-based, (x0, y0, x1, y1) en puntos)
 FIGURAS = {
-    "ambiente": (r"Semana_1\Confiabilidad_Avionica_Espacial.pdf", 19, (12, 58, 712, 385)),
+    "ambiente": (r"Semana_1\Confiabilidad_Avionica_Espacial.pdf", 19, (12, 66, 712, 385)),
     "lockstep": (r"Semana_1\Confiabilidad_Avionica_Espacial.pdf", 29, (460, 126, 662, 298)),
     "watchdog": (r"Semana_1\Confiabilidad_Avionica_Espacial.pdf", 33, (442, 138, 704, 268)),
     "harvard": (r"Semana_2\Arquitectura_ARM.pdf", 10, (12, 220, 704, 384)),
@@ -29,15 +29,15 @@ FIGURAS = {
     "serie-paralelo": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 2, (178, 82, 542, 386)),
     "duplex": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 3, (208, 86, 500, 366)),
     "diferencial": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 4, (34, 124, 704, 326)),
-    "i2c": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 13, (16, 58, 698, 376)),
+    "i2c": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 13, (16, 66, 698, 382)),
     "spi": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 19, (160, 30, 580, 250)),
     "can": (r"Semana_6\Perifericos_e_Interfaces_de_Comunicacion.pdf", 29, (52, 63, 668, 331)),
     "pasaje": (r"Semana_7\punteros_funciones.pdf", 5, (10, 80, 710, 360)),
     "struct": (r"Semana_7\punteros_funciones.pdf", 19, (22, 66, 698, 376)),
-    "superloop": (r"Semana_8\RTOS.pdf", 4, (22, 86, 692, 302)),
+    "superloop": (r"Semana_8\RTOS.pdf", 4, (22, 78, 692, 302)),
     "periodo": (r"Semana_8\RTOS.pdf", 6, (22, 70, 698, 314)),
     "contexto": (r"Semana_8\RTOS.pdf", 10, (22, 94, 710, 350)),
-    "estados": (r"Semana_8\RTOS.pdf", 11, (16, 58, 674, 362)),
+    "estados": (r"Semana_8\RTOS.pdf", 11, (16, 66, 674, 362)),
     "preempcion": (r"Semana_8\RTOS.pdf", 14, (34, 72, 698, 284)),
     "cola": (r"Semana_8\RTOS.pdf", 19, (22, 60, 692, 340)),
     "semaforo": (r"Semana_8\RTOS.pdf", 20, (22, 63, 698, 331)),

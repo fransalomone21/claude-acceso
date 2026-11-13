@@ -203,9 +203,7 @@ recuperación de fallas).
 
 == El enemigo: la radiación
 
-#diapo("ambiente", ancho: 88%,
-  notas: ((0.52, 0.86, [LEO: lo que más pega son los cinturones]),),
-)[Ambiente espacial. Clase de la semana 1, _Confiabilidad de la aviónica espacial_, diapositiva 19.]
+#diapo("ambiente", ancho: 88%)[Ambiente espacial. Clase de la semana 1, _Confiabilidad de la aviónica espacial_, diapositiva 19. Para una órbita baja, lo que más pega son los cinturones.]
 
 Tres fuentes: los *cinturones de Van Allen* (el campo magnético atrapa
 protones y electrones; críticos para LEO), las *erupciones solares* (siguen
@@ -257,13 +255,9 @@ cuando falla el principal: ahorra energía y reparte el desgaste acumulativo.
 En cohetes, el FTS (_Flight Termination System_) usa el «hombre vivo» para
 accionar redundancias o terminar el vuelo.
 
-#grid(columns: (1fr, 1fr), column-gutter: 14pt,
-  diapo("lockstep",
-    notas: ((0.02, 0.92, [DMR en el silicio]),),
-  )[Lockstep del Cortex-R (semana 1, diapo. 29).],
-  diapo("watchdog",
-    notas: ((0.02, 0.04, [hay que patearlo antes del timeout]),),
-  )[Watchdog (semana 1, diapo. 33).],
+#grid(columns: (1fr, 1.3fr), column-gutter: 14pt, align: bottom,
+  diapo("lockstep", ancho: 70%)[Lockstep del Cortex-R: DMR en el silicio (semana 1, diapo. 29).],
+  diapo("watchdog")[Watchdog: hay que «patearlo» antes de que venza (semana 1, diapo. 33).],
 )
 
 *Lockstep*: dos núcleos ejecutan las mismas instrucciones en paralelo y una
@@ -464,9 +458,7 @@ periféricos (UART, SPI, I²C, CAN, ADC, timers, GPIO). La F446RE de la
 materia es un Cortex-M4 con FPU; el M4 es un M3 con instrucciones DSP y FPU
 opcional (M4F).
 
-#diapo("harvard", ancho: 92%,
-  notas: ((0.6, 0.02, [en el Cortex: buses separados, mapa único]),),
-)[Von Neumann contra Harvard (semana 2, _Arquitectura ARM_, diapo. 10).]
+#diapo("harvard", ancho: 92%)[Von Neumann contra Harvard (semana 2, _Arquitectura ARM_, diapo. 10). El Cortex tiene los buses de Harvard y un solo mapa de memoria.]
 
 *Harvard*: buses separados para instrucciones y datos, así se busca la
 próxima instrucción mientras se lee un dato; más rendimiento por ciclo y
@@ -514,11 +506,8 @@ Cortex-R el controlador es externo (el *VIM* del TMS570).
 == Dónde vive cada cosa de un programa C
 
 #diapo("memoria-c", ancho: 94%,
-  notas: (
-    (0.66, 0.04, [marco de main(), luego el de add()]),
-    (0.66, 0.36, [lo que pide malloc: no se libera solo]),
-  ),
-)[Ejecución de un programa en C, con `add()` apilada sobre `main()` (semana 3, _Arquitectura ARM Cortex_, diapo. 20 del recorte).]
+  notas: ((0.78, 0.17, [1]), (0.90, 0.43, [2])),
+)[Ejecución de un programa en C (semana 3, _Arquitectura ARM Cortex_, diapo. 20 del recorte). *1*: el marco de `add()`, apilado sobre el de `main()`, con `a` y `b` copiados. *2*: lo que pidió `malloc`, en el heap: no se libera solo.]
 
 La clase lo cuenta cuadro a cuadro: antes de la primera línea de `main()`,
 las globales y `static` ya tienen lugar fijo (`total_global = 100` en
@@ -528,8 +517,8 @@ apunta al heap; `add()` apila su propio marco con `a` y `b` *copiados*; al
 retornar, ese marco se destruye. Si te olvidás el `free`, el bloque queda
 reservado para siempre: *memory leak*.
 
-#pregunta[¿En qué sección queda `static int counter;` y en cuál `int
-total_global = 100;`?][`counter`, sin inicializar, en `.bss`;
+#pregunta[¿En qué sección queda `static int counter;`, y en cuál
+`int total_global = 100;`?][`counter`, sin inicializar, en `.bss`;
 `total_global`, inicializada, en `.data`. Las dos existen antes de que
 corra `main()`.]
 #pregunta[¿Qué hace el Cortex-M al salir del reset?][Carga en el MSP el
@@ -628,7 +617,7 @@ static modo_t paso(modo_t modo, uint8_t bateria_ok)
 }
 ```
 
-#ojo[el error típico de bits es `x & ≈1 << n` sin paréntesis, o borrar con
+#ojo[el error típico de bits es `x & ~1 << n` sin paréntesis, o borrar con
 `x &= (1 << n)`, que deja *sólo* ese bit. Y el de espera es el `while`
 sin cota: «un OBC no se puede quedar colgado esperando algo que no llega».]
 
@@ -639,8 +628,7 @@ registros mapeados y en variables compartidas entre una ISR y el `main`.]
 #pregunta[¿Qué hace `static` en una variable local y en una global?][En una
 local, la variable conserva su valor entre llamadas (vive en `.data` o
 `.bss`, no en la pila); en una global, la deja visible sólo en ese archivo.]
-#pregunta[¿Cómo apagás el bit 3 de un registro sin tocar los demás?][`reg
-&= ~(1U << 3);` — la máscara tiene todos unos menos el bit 3.]
+#pregunta[¿Cómo apagás el bit 3 de un registro sin tocar los demás?][`reg &= ~(1U << 3);` — la máscara tiene todos unos menos el bit 3.]
 #pregunta[¿Por qué tipos de ancho fijo y no `int`?][Porque el tamaño de
 `int` depende del compilador y la plataforma; `uint16_t` mide 16 bits en la
 PC y en el micro. Es la Directiva 4.6 de MISRA.]
@@ -691,10 +679,9 @@ estático).
   [8.7], [A], [`static` si sólo se usa en el archivo: visibilidad mínima],
 )
 
-#grid(columns: (1fr, 1fr), column-gutter: 12pt,
-  diapo("misra-switch")[Regla 16.4: el `switch` sin `default` y con él (MISRA-C, diapo. 8).],
-  diapo("misra-recursion")[Regla 17.2: el factorial recursivo y el iterativo (diapo. 11).],
-)
+#diapo("misra-switch", ancho: 82%)[Regla 16.4: el `switch` sin `default` (incorrecto) y con él (correcto). _MISRA-C_, semana 2, diapo. 8.]
+
+#diapo("misra-recursion", ancho: 82%)[Regla 17.2: el factorial recursivo (incorrecto) y el iterativo (correcto), diapo. 11.]
 
 *El ejercicio `satelite.c`* (diapositiva final de MISRA): encontrar y
 arreglar tres violaciones. Las tres: (1) `medicion_sensor` se lee sin
@@ -799,8 +786,7 @@ definición de la placa en Wokwi (los pines repetidos llevan sufijo, como
 `TP2_Salomone.zip`.
 
 #pregunta[¿Cómo sacás el valor de un contador de 0 a 15 a cuatro LEDs sin
-cuatro `if`?][Con una máscara por bit: el LED _n_ se prende si `(cuenta >>
-n) & 1U` vale 1; un bucle de 0 a 3 recorre los cuatro.]
+cuatro `if`?][Con una máscara por bit: el LED _n_ se prende si `(cuenta >> n) & 1U` vale 1; un bucle de 0 a 3 recorre los cuatro.]
 #pregunta[¿Qué hace un ADC?][Convierte una tensión continua en un número;
 no es una interfaz de comunicación, pero es la puerta de entrada de los
 sensores analógicos.]
@@ -812,20 +798,18 @@ bus. La clase te da con qué criterio: *qué tan lejos* tienen que viajar los
 datos y *cuántos* dispositivos comparten el cable. Y te cuenta, con casos
 reales, cómo falla cada uno.]
 
-#grid(columns: (1fr, 1fr), column-gutter: 12pt,
-  diapo("serie-paralelo", ancho: 86%)[Serie contra paralelo (semana 6, diapo. 2).],
-  diapo("duplex", ancho: 86%)[Simplex, full-duplex y half-duplex (diapo. 3).],
-)
-
-#diapo("diferencial", ancho: 86%,
-  notas: ((0.66, 0.0, [el ruido entra igual en los dos cables]),),
-)[Single-ended contra diferencial (diapo. 4).]
-
 *Conceptos base.* Serie (un bit tras otro, pocos cables) o paralelo (varios
 a la vez); simplex (un sentido), half-duplex (los dos, por turnos),
 full-duplex (los dos a la vez); *single-ended* (la señal contra masa) o
 *diferencial* (un par con la señal y su inversa: el receptor resta, y el
 ruido que entra igual en los dos se cancela).
+
+#grid(columns: (1fr, 1fr), column-gutter: 12pt,
+  diapo("serie-paralelo", ancho: 86%)[Serie contra paralelo (semana 6, diapo. 2).],
+  diapo("duplex", ancho: 86%)[Simplex, full-duplex y half-duplex (diapo. 3).],
+)
+
+#diapo("diferencial", ancho: 86%)[Single-ended contra diferencial (diapo. 4): a la derecha, el ruido entra igual en los dos cables del par y al restar se va.]
 
 #tabla(
   columns: (auto, auto, auto, auto),
@@ -843,8 +827,8 @@ acuerdan de antemano baudrate y formato (bits de datos, paridad, stop); sin
 direccionamiento; punto a punto. Debug y TM/TC de baja velocidad.
 
 #diapo("i2c", ancho: 84%,
-  notas: ((0.02, 0.08, [un pull-up por línea: open-drain]),),
-)[I²C: el bus y una trama de lectura de un sensor de temperatura (diapo. 13).]
+  notas: ((0.72, 0.1, [1]),),
+)[I²C: el bus y una trama de lectura de un sensor de temperatura (diapo. 13). *1*: los pull-up de SDA y SCL: los dispositivos sólo bajan la línea (open-drain).]
 
 *I²C*: dos hilos compartidos, *SDA* y *SCL*; cada esclavo tiene una
 *dirección de 7 bits* y el maestro llama a la que quiere. 100 kbit/s
@@ -856,8 +840,8 @@ estándar, y un solo chip defectuoso tumba todo. El caso real: la misión
 auto-aísla si falla, y eliminó ese modo de falla en I²C y SPI.
 
 #diapo("spi", ancho: 66%,
-  notas: ((0.0, 0.9, [CPOL y CPHA: iguales en los dos lados]),),
-)[SPI: los modos de reloj, de la hoja de datos de una memoria Cypress (diapo. 19).]
+  notas: ((0.0, 0.0, [1]),),
+)[SPI: los modos de reloj, de la hoja de datos de una memoria Cypress (diapo. 19). *1*: CPOL elige el nivel de reposo del reloj; CPHA, en qué flanco se toma el dato. Tienen que ser iguales en los dos lados.]
 
 *SPI*: SCLK, MOSI, MISO y un *CS por dispositivo*; el maestro elige con quién
 habla bajando su CS. Full-duplex, varios a decenas de Mbit/s, sin
@@ -900,8 +884,8 @@ arregló con reposo bajo (CPOL = 0).
   de cómputo de alto rendimiento.
 
 #diapo("can", ancho: 78%,
-  notas: ((0.08, 0.06, [el ID es la prioridad en el arbitraje]),),
-)[La trama de CAN, de datos y remota (diapo. 29).]
+  notas: ((0.01, 0.09, [1]),),
+)[La trama de CAN, de datos y remota (diapo. 29). *1*: el campo de arbitraje: el ID del mensaje es su prioridad.]
 
 #pregunta[¿Por qué un bus diferencial aguanta más distancia que uno
 single-ended?][Porque el ruido electromagnético entra igual en los dos
@@ -972,11 +956,7 @@ struct*. Si esto está claro, el resto de la materia se lee de corrido.]
 pasar de ≈60 líneas (una hoja A4). Se *declara* (prototipo, arriba), se
 *define* (abajo) y se *llama*.
 
-#diapo("pasaje", ancho: 86%,
-  notas: (
-    (0.02, 0.86, [10, 10 y 11]),
-  ),
-)[El ejemplo del intercambio, `pasaje.c` (semana 7, diapo. 5). Respuestas a los tres «¿cuánto vale acá?»: 10, 10 y 11.]
+#diapo("pasaje", ancho: 86%)[El ejemplo del intercambio, `pasaje.c` (semana 7, diapo. 5). Respuestas a los tres «¿cuánto vale acá?»: 10, 10 y 11.]
 
 *Por valor* la función recibe una *copia*: modificarla no toca el
 original. *Por referencia* (con un puntero) recibe la *dirección* y puede
@@ -1035,8 +1015,8 @@ tiene que ser corto, no bloquear y cuidar los datos compartidos (`volatile`,
 secciones críticas).
 
 #diapo("struct", ancho: 80%,
-  notas: ((0.56, 0.2, [variable: punto]), (0.56, 0.62, [puntero: flecha])),
-)[Acceso a miembros con `.` y con `->` (semana 7, diapo. 19).]
+  notas: ((0.62, 0.17, [1]), (0.80, 0.63, [2])),
+)[Acceso a miembros (semana 7, diapo. 19). *1*: con la variable, `.`; *2*: con el puntero, `->`.]
 
 *Structs.* Un array agrupa elementos del mismo tipo; un `struct`, datos de
 tipos distintos relacionados (un paquete de telemetría: marca de tiempo,
@@ -1064,9 +1044,7 @@ que permite que el control de actitud corra cada 100 ms *pase lo que pase*
 con la telemetría. Es también la clase más preguntable: tiene un caso real
 famoso, un vocabulario cerrado y una tabla de «¿cuál uso?».]
 
-#diapo("superloop", ancho: 86%,
-  notas: ((0.02, 0.62, [la respuesta depende del lazo entero]),),
-)[Del super-loop al RTOS (semana 8, diapo. 4).]
+#diapo("superloop", ancho: 86%)[Del super-loop al RTOS (semana 8, diapo. 4).]
 
 *Tiempo real* = la corrección depende del resultado *y del instante*.
 *Hard*: perder un plazo es una falla (control de actitud, encender un
@@ -1098,9 +1076,7 @@ void vTareaTelemetria(void *pv)
 xTaskCreate(vTareaTelemetria, "TLM", 256, NULL, 2, NULL);
 ```
 
-#diapo("estados", ancho: 82%,
-  notas: ((0.62, 0.86, [vTaskDelay(), cola vacía, Take]),),
-)[Estados de una tarea (semana 8, diapo. 11).]
+#diapo("estados", ancho: 82%)[Estados de una tarea (semana 8, diapo. 11). A Blocked se llega con `vTaskDelay()`, una cola vacía o un `Take` que espera.]
 
 #diapo("contexto", ancho: 88%)[Cambio de contexto: los registros de la tarea saliente van a su pila y el SP pasa a la de la entrante (diapo. 10).]
 
@@ -1133,10 +1109,9 @@ menor prioridad no corren.
 El problema: dos tareas leen un contador en 5 y escriben 6; se esperaba 7.
 El error depende del instante del cambio de tarea.
 
-#grid(columns: (1fr, 1fr), column-gutter: 12pt,
-  diapo("cola")[Colas: productor y consumidor (diapo. 19).],
-  diapo("semaforo")[Semáforo binario: la ISR avisa, la tarea trabaja (diapo. 20).],
-)
+#diapo("cola", ancho: 80%)[Colas: productor y consumidor (diapo. 19).]
+
+#diapo("semaforo", ancho: 80%)[Semáforo binario: la ISR avisa, la tarea trabaja (diapo. 20).]
 
 - *Cola*: buffer FIFO de tamaño fijo; los datos *se copian*. Cola vacía →
   quien recibe espera bloqueado sin consumir CPU; llena → quien envía puede
@@ -1150,9 +1125,7 @@ El error depende del instante del cambio de tarea.
   proteger un recurso (el bus I²C); se toma lo menos posible y se libera
   siempre. Tiene *herencia de prioridad*.
 
-#diapo("inversion", ancho: 86%,
-  notas: ((0.36, 0.42, [M corre y H espera: ¡al revés!]),),
-)[Inversión de prioridades (diapo. 23).]
+#diapo("inversion", ancho: 86%)[Inversión de prioridades (diapo. 23): M, que no necesita el mutex, corre mientras H espera.]
 
 *Inversión de prioridades*: L (baja) toma el mutex; H (alta) lo pide y se
 bloquea; M (media), que no necesita el mutex, desaloja a L y corre; H
@@ -1194,12 +1167,9 @@ pregunta segura.]
   entrar; PendSV guarda R4-R11 en la pila de la saliente, carga la pila de
   la entrante, restaura y retorna.
 
-#grid(columns: (1fr, 1fr), column-gutter: 12pt,
-  diapo("msp-psp")[MSP y PSP (diapo. 29).],
-  diapo("nvic-prio",
-    notas: ((0.5, 0.36, [la raya del 5]),),
-  )[Las dos escalas de prioridad (diapo. 30).],
-)
+#diapo("msp-psp", ancho: 80%)[MSP y PSP (diapo. 29).]
+
+#diapo("nvic-prio", ancho: 80%)[Las dos escalas de prioridad (diapo. 30). La raya roja es `configMAX_SYSCALL_INTERRUPT_PRIORITY = 5`.]
 
 *MSP* lo usan el kernel y las interrupciones; *PSP*, las tareas, cada una
 con su pila: una ISR nunca consume pila de las tareas.
@@ -1261,8 +1231,7 @@ y la validación de entrada externa.
 )
 
 #dedos[`TEMP` viaja como `A5 01 00 A4`, porque `A5 ^ 01 = A4`. Si el ruido
-da vuelta *el mismo bit* en el comando y en el checksum (`01 → 03` y `A4 →
-A6`) queda `A5 03 00 A6`: un `ID` perfecto que el payload acepta. Por eso
+da vuelta *el mismo bit* en el comando y en el checksum (`01` a `03` y `A4` a `A6`) queda `A5 03 00 A6`: un `ID` perfecto que el payload acepta. Por eso
 los protocolos de vuelo usan CRC.]
 
 *El patrón de interrupciones, tres veces igual:* se *inicia* con una
@@ -1325,7 +1294,7 @@ es lo que agrega el TP5.]
 *Qué pedía.* Tres placas: un host (OBC) que recibe comandos por consola y
 consulta a *dos payloads por un único SPI*, con un CS para cada uno; cada
 payload mide con un *BMP180 por I²C* y cada 10 s muestra su telemetría.
-Nosotros (Fran y Horacio) éramos *PL1, la placa PL-A* (`tp5_pl_a`).
+El enunciado reparte tres equipos: OBC (el host), PL1 (la placa PL-A, Fran y Horacio) y PL2 (la PL-B). La guía del TP5 que armamos sigue el payload `tp5_pl_b`.
 
 #tabla(
   columns: (auto, 1fr, 1fr),
@@ -1349,8 +1318,8 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	BaseType_t despertar = pdFALSE;
 	if (hspi->Instance == SPI2) {
-		xSemaphoreGiveFromISR(sem_spi, &despertar); /* la ISR sólo avisa */
-		portYIELD_FROM_ISR(despertar);               /* si despertó a una más prioritaria, cambia al salir */
+		xSemaphoreGiveFromISR(sem_spi, &despertar); /* sólo avisa */
+		portYIELD_FROM_ISR(despertar); /* cambia al salir, si hace falta */
 	}
 }
 ```

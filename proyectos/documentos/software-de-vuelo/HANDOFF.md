@@ -1,5 +1,16 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-11-13 — Guía del cuestionario: cómo se regenera
+
+- Desde `proyectos/documentos/software-de-vuelo`: `python guia-cuestionario/recortar.py` (necesita
+  `Desktop\01 - UNSAM\Software de Vuelo\Material de catedra`) y `typst compile --root . guia-cuestionario/guia.typ
+  guia-cuestionario/guia.pdf`. Los marcadores naranjas (`#nota`) van en zonas libres de la diapositiva y lo que dicen va al
+  epígrafe: un rótulo de texto encima pisaba la figura.
+- Pendiente para Fran: si la guía se publica (decide él; lleva recortes de la cátedra). Lo que pregunte Leandro hoy entra a
+  `catedras` como LEA-R6 y se contrasta con la sección 2 de la guía.
+- El `Proyecto de cátedra - 2026.pdf` que está en `Software de Vuelo\De Descargas\` es de **Teoría de Circuitos** (Sanca):
+  no se movió; va a la carpeta de esa materia cuando Fran lo diga.
+
 ## 2026-11-10 — TP5: Tomás trabaja hoy solo con lo del Drive
 
 - El `main.c` del proyecto es la **fuente**; el de `_verificacion` (el que lee la guía) se rearma copiando
