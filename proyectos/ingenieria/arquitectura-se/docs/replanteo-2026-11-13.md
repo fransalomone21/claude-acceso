@@ -163,6 +163,15 @@ mismo commit.
 
 Cada arreglo: requisito L2 antes, prueba en rojo, `defectos.py arreglar`, y el efecto de §4 visto.
 
+### Las decisiones de Fran (2026-11-13, por encuesta en la sesión; la opción elegida, textual)
+
+| Pregunta | Respuesta | Qué fija |
+|---|---|---|
+| Cómo llegan las fuentes completas de requisitos y alcance (hoy al entrar, ~35 K tokens, uso 6-13 %) | **«Al momento de escribir»**: al entrar queda sólo el libro de bolsillo; las fuentes se exigen cuando la sesión va a escribir un requisito, un alcance o un diseño; vuelven solas si su falta produce un error | Reemplaza la fila del 2026-10-19 «qué es el tronco» de `t19-arbol-de-conocimiento.md` §4. El tronco del catálogo queda sin conceptos; los conceptos `requisitos` y `alcance` siguen disparando por rol (L1-19, L1-23) |
+| Qué se hace con las 66 lecturas sin uso en 5 o más sesiones | **«Pasarlas al paso»**: dejan de exigirse al entrar y se exigen al tocar su tema; nunca salen el contrato, el estado, el HANDOFF, los criterios de cátedra ni las lecciones del proyecto | El sí de L1-28, en bloque y con piso. Se aplica en la tanda 1 y se registra con `uso-lecturas.py decidir` en el commit que lo aplica |
+| Qué pueden hacer los subagentes | **«Investigan, yo escribo»**: leen, buscan y devuelven texto; sólo el hilo principal escribe en el repo | F4 se simplifica: la puerta niega la escritura de un agente sobre un proyecto (no hace falta contrato reducido); P14 queda como control de que no hubo escritura delegada |
+| Pesos para optimizar la notebook | **Espacio en disco, velocidad del día a día, batería y temperatura** (juegos y emuladores, no marcado) | El retome de §10 |
+
 ## 9. Propuestas para lo demás que hace Fran
 
 Sólo lo que esta sesión pudo observar o medir; cada una con su grado.
@@ -203,8 +212,8 @@ Optimizar y ordenar esta máquina (la notebook), midiendo antes y después. Cont
 
 2. QUÉ SE BUSCA, y qué cierra la sesión: un informe con números de antes y después (espacio libre por disco, tiempo de
    arranque, programas al inicio, RAM en reposo, temperatura y salud de batería y SSD) y cero programas rotos.
-   Preguntarle a Fran al empezar sus pesos (espacio, velocidad diaria, juegos y emuladores, batería y temperatura) si
-   no los dejó escritos.
+   Los pesos de Fran (2026-11-13): espacio en disco, velocidad del día a día, batería y temperatura. Juegos y
+   emuladores no son objetivo: no se tocan ni se optimizan.
 
 3. MOTOR: Sonnet, esfuerzo medio; es un runbook. Opus sólo si hay que decidir algo de riesgo (drivers, BIOS). Fable no
    (desde el 17/11 vuelve la regla 8). Sin agentes.
