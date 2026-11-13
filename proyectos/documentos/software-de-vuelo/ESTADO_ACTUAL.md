@@ -8,8 +8,10 @@
 - **Audio** con `podcast-parcial/sintetizar.py` (edge-tts, voces es-AR Elena y Tomás, siglas pasadas a cómo se dicen,
   normalizado a -16 LUFS): `Desktop\01 - UNSAM\Software de Vuelo\Podcast para el parcial de Leandro.m4a` (59 min 40 s,
   36 MB) y la copia `(celular)` de 21 MB, mandada a Fran. **No publicado** en Drive (lo nuevo público lo decide Fran).
-- **Medido**: duración decodificada 59:40 y las 31 pausas por `silencedetect`. **Sin medir todavía**: que cada sigla
-  se oiga bien (transcripción de muestra en curso) y la comparación con Chatterbox.
+- **Medido**: duración decodificada 59:40 y las 31 pausas por `silencedetect`; dos muestras de 90-150 s transcriptas
+  con faster-whisper `base`: la primera delató los términos en inglés leídos en castellano («Mán de Tauri» por
+  Mandatory), se agregaron ~70 al mapa `PRONUNCIA` y la segunda ya dice «Mandatori». **Sin medir**: el resto del audio
+  (sólo dos muestras) y la comparación con Chatterbox (el modelo seguía bajando de Hugging Face).
 
 ## 2026-11-13 — Guía para el cuestionario de Leandro (v1.0, 32 pág.)
 
