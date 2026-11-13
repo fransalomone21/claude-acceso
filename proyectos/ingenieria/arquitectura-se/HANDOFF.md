@@ -5,10 +5,24 @@
 > exigido en materias y el 13 % en ingeniería; 0 de 126 defectos validados), nueve principios (§3), seis familias que
 > juntan ~50 de los 86 abiertos (§4), el diseño de cero divergencia entre máquinas (§5) y de la delegación (§6), la caja
 > de herramientas (§7), el orden por tandas (§8), propuestas para lo demás (§9) y el retome para optimizar la notebook
-> (§10). Herramienta nueva: [`medir-entrada.py`](medir-entrada.py). **Nada vivo se tocó**: es la propuesta para la
-> revisión con Fran. **SIGUE:** con sus respuestas (el recorte del tronco, las 66 propuestas del lazo de uso, qué pueden
-> hacer los agentes), la tanda 1 (familia F1). **Para el que siga:** el tema `defectos` cobra 115 K: declarar sólo los
-> temas que se van a tocar; `medir-entrada.py` da el antes y el después del recorte.
+> (§10). Herramienta nueva: [`medir-entrada.py`](medir-entrada.py). **Fran decidió** (§8, tabla): fuentes «al momento de
+> escribir», lo sin uso «al paso» con piso, agentes «investigan, yo escribo». **DA-104 ARREGLADO** (`7456ed2`, `e422de3`;
+> falta validar): el tronco pasó de 141 824 a 18 110 caracteres y una materia entra con 216 781 en vez de 340 495; las
+> fuentes van en `al_escribir` del catálogo y la puerta las exige por título (L2-VER-07/13, L2-PTA-54/55); autotest 246
+> de 246 con el catálogo en sus dos formas. La sesión se cortó con la ventana de 5 h al 90 %. **SIGUE, en este orden:**
+> (1) `defectos.py arreglar DA-126 --nivel regla --repo claude-acceso --commit e422de3` con la misma prueba y saboteador
+> que DA-104 (es el mismo arreglo; no se corrió por plan), `defectos.py vista` y las filas 49l, 49q y 49r del orden;
+> (2) la decisión «al paso» sobre las **46 propuestas** que quedan (`uso-lecturas.py proponer`): aplicarla en el catálogo
+> con el piso (contrato, estado, HANDOFF, cátedra, lecciones) y registrarla con `decidir`; meta: una materia ≤ ~120 K;
+> (3) **el cuadro**: Fran pidió «mejorá el cuadro informativo a tu gusto, que sea útil». Propuesta sin construir: `Hice` y
+> `Lo tuyo` arriba, `Fase` abajo en 2 renglones, un renglón nuevo `Guardado` (todo en GitHub, o qué falta), los rojos del
+> arranque en `Contexto`; tope 14. Se toca `recordatorio-transversal.md`, `apertura-proyecto.md`,
+> `cuadro-de-fase/SKILL.md` y la regla 10, después `install.ps1`; `medir-costo.py` reconoce el cuadro por «PARA VOS»;
+> (4) F3 `sincronizar.py` (§5); F4 con la decisión de los agentes; F2 y F5. **Sin hacer por plan:** la auditoría de esta
+> sesión; espejar la memoria nueva (`estado-nube.py --sincronizar-memoria`); traer malena (13 atrás, con `-Repo`);
+> registrar la recurrencia de «un autotest con el dato vivo adentro» (el ayudante `leer_rama` leía el catálogo vivo y
+> un mutante dejó de verse al cambiarlo; arreglado en `e422de3`). **Para el que siga:** el tema `defectos` cobra 115 K:
+> declarar sólo los temas que se tocan; al cambiar el catálogo, el autotest se corre con las dos formas.
 
 > **2026-11-12 (sesión de fisica-espacial) — RETOME PARA UNA TANDA CON FABLE, hasta el 16/11.** Fran suspendió la regla 8
 > («Fable nunca») hasta el 16/11/2026 inclusive, sólo para arquitectura del método (perfil `f9ee1e0`). Se abre en un
