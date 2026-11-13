@@ -1,5 +1,14 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-11-13 (noche) — Podcast v2 «con más onda rioplatense»
+
+- `guion.md` v2: mismo contenido, más criollo (pedido de Fran). Sintetizado con edge-tts en
+  `Desktop\01 - UNSAM\Software de Vuelo\Podcast para el parcial de Leandro v2.m4a` y la copia `(celular)` de 22 MB,
+  mandada. **Sin transcribir** la v2 (las palabras nuevas son castellano; el mapa de pronunciación es el de la v1).
+- Voz local (Chatterbox): muestra de 2,3 min generada en 237 s con la carga del modelo (≈1,5× el audio), mandada; el
+  entero no se generó. ElevenLabs: Fran hizo la cuenta; falta su clave (`guardar-clave-elevenlabs.ps1`). El plan gratis
+  da 10 000 créditos por mes: unos 10 min de audio, no los 60.
+
 ## 2026-11-13 (tarde) — Podcast para el parcial multiple choice de Leandro (60 min)
 
 - **Guion** propio en `podcast-parcial/guion.md` (8485 palabras, dos voces, CARO y MARTIN), escrito desde la guía del
