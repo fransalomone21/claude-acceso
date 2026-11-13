@@ -4,8 +4,9 @@
 
 - **Fuente** en `guia-cuestionario/` (`guia.typ`, `plantilla.typ`, `recortar.py`); **27 figuras recortadas** de las clases
   (semanas 1 a 8) en `fig-catedra/` y el **PDF**, los dos **ignorados por git** (material de la cátedra; el repo es público).
-  Copia en `Desktop\01 - UNSAM\Software de Vuelo\Guia para el cuestionario de Leandro.pdf`. **No publicada**: lleva
-  diapositivas de Leandro (regla 3 del contrato); que pase a pública lo decide Fran.
+  Copia en `Desktop\01 - UNSAM\Software de Vuelo\Guia para el cuestionario de Leandro.pdf`. **Publicada** en el Drive
+  de apuntes (`Software de Vuelo/Guia para el cuestionario de Leandro.pdf`, verificada por MD5) por decisión de Fran
+  del 13/11, aunque lleva diapositivas de Leandro: es una excepción a la regla 3 del contrato, decidida por él (DA-130).
 - **Cobertura** (tabla de la sección 1): las 13 presentaciones de las semanas 1 a 9 y los TP 1 a 5 más la comparativa de OBC
   del 18/08. Afuera: el TP Cohete (Petrilli) y la instalación paso a paso (guía de IDEs).
 - **Verificado**: compila sin errores, `lint-typst` limpio, las 32 páginas miradas después del último cambio. **Sin
