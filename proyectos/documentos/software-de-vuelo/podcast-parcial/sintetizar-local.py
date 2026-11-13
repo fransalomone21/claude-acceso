@@ -27,11 +27,13 @@ sys.path.insert(0, str(AQUI))
 from sintetizar import PRONUNCIA, VOCES as VOCES_EDGE, leer_guion, pronunciar  # noqa: E402
 
 CACHE = AQUI / "cache-local"   # ignorado por git
-PARAM = {"exaggeration": 0.55, "cfg_weight": 0.45, "temperature": 0.8}
+# v2 «con más onda» (Fran, 13/11): más exageración y menos cfg = más expresivo y más suelto de ritmo
+PARAM = {"exaggeration": 0.68, "cfg_weight": 0.38, "temperature": 0.8}
 REFERENCIA = {
-    "CARO": "Bueno, arrancamos. La idea no es contarte la materia como un documental, sino entrenarte para lo que te van a tomar, que tres opciones suenan bien y una sola es la correcta.",
-    "MARTIN": "Y las que suenan bien son las peligrosas. El multiple choice no te pregunta si sabés qué es un watchdog, te pregunta si lo distinguís del lockstep cuando están uno al lado del otro.",
+    "CARO": "¡Bueno, che, arrancamos! Mirá, la idea no es contarte la materia como un documental, eh. Venimos a entrenar: cuatro opciones, tres suenan re bien, y una sola es la posta.",
+    "MARTIN": "Y las que suenan bien son las que te cagan, ¿viste? Posta te digo: el multiple choice no te pregunta qué es un watchdog, te pregunta si lo distinguís del lockstep.",
 }
+RITMO_REF = {"CARO": "+10%", "MARTIN": "+8%"}
 MAX_FRASE = 220            # caracteres por llamada: mas largo, mas balbuceo
 CPS = 14.5                 # caracteres por segundo esperables (medido en la muestra)
 HUECO_FRASE, HUECO_MISMO, HUECO_CAMBIO = 0.12, 0.2, 0.35
@@ -45,7 +47,8 @@ def referencias():
         wav = CACHE / f"ref_{voz}.wav"
         if not wav.exists():
             mp3 = CACHE / f"ref_{voz}.mp3"
-            asyncio.run(edge_tts.Communicate(pronunciar(texto), VOCES_EDGE[voz]).save(str(mp3)))
+            asyncio.run(edge_tts.Communicate(pronunciar(texto), VOCES_EDGE[voz], rate=RITMO_REF[voz],
+                                             pitch="+4Hz").save(str(mp3)))
             subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp3), "-ar", "24000", "-ac", "1", str(wav)], check=True)
         out[voz] = str(wav)
     return out

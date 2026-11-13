@@ -93,7 +93,7 @@ PRONUNCIA = [
     (r"\brad-hard\b", "rad jard"), (r"\bRad-hard\b", "Rad jard"), (r"\bRad-tolerant\b", "Rad tólerant"),
     (r"\bflight proven\b", "fláit prúven"), (r"\bframework\b", "fréimuork"), (r"\bFrameworks\b", "Fréimuorks"),
     (r"\bmiddleware\b", "mídel uer"), (r"\bpayloads\b", "péi louds"), (r"\bpayload\b", "péi loud"),
-    (r"\bhost\b", "jóst"), (r"\bRate Monotonic\b", "Reit Monotónic"),
+    (r"\bhost\b", "jóst"), (r"\bRate Monotonic\b", "Reit Monotónic"), (r"\bwalkie-talkie\b", "uóki tóki"),
 ]
 
 
