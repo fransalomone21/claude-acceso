@@ -67,7 +67,9 @@ def frases(texto):
 
 
 def generar(modelo, refs, voz, texto):
-    clave = hashlib.sha1(json.dumps([voz, texto, PARAM]).encode()).hexdigest()[:14]
+    # la referencia entra en la clave: si cambia la voz de muestra, la cache vieja no sirve
+    ref_md5 = hashlib.md5(Path(refs[voz]).read_bytes()).hexdigest()
+    clave = hashlib.sha1(json.dumps([voz, texto, PARAM, ref_md5]).encode()).hexdigest()[:14]
     archivo = CACHE / f"f_{clave}.npy"
     if archivo.exists():
         return np.load(archivo)
@@ -89,18 +91,67 @@ def generar(modelo, refs, voz, texto):
     return a
 
 
+def secciones():
+    """El guion partido por sus renglones en blanco (cada tema es una seccion)."""
+    texto = (AQUI / "guion.md").read_text(encoding="utf-8").split("## Guion", 1)[1]
+    res = []
+    for bloque in re.split(r"\n\s*\n", texto.strip()):
+        rs = []
+        for linea in bloque.splitlines():
+            m = re.match(r"\[PAUSA (\d+(?:\.\d+)?)\]", linea.strip())
+            if m:
+                rs.append(("PAUSA", float(m.group(1)))); continue
+            m = re.match(r"(CARO|MARTIN):\s*(.+)", linea.strip())
+            if m:
+                rs.append((m.group(1), m.group(2)))
+        if rs:
+            res.append(rs)
+    return res
+
+
+def escribir(audio, sr, destino):
+    pcm = (np.clip(audio, -1, 1) * 32767).astype("<i2").tobytes()
+    args = ["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", str(sr), "-ac", "1", "-i", "-",
+            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11"]
+    args += ["-ar", "44100", "-ac", "1", "-c:a", "aac", "-b:a", "56k", destino] if destino.endswith(".m4a") else [destino]
+    subprocess.run(args, input=pcm, check=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("salida", nargs="?")
     ap.add_argument("--muestra", metavar="WAV")
+    ap.add_argument("--partes", action="store_true", help="un archivo por tema, avisando cada uno apenas sale")
+    ap.add_argument("--orden", help="con --partes: que temas y en que orden, p. ej. 9,7,10")
     a = ap.parse_args()
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS
     refs = referencias()
     modelo = ChatterboxMultilingualTTS.from_pretrained(device="cuda")
     sr = modelo.sr
+    if a.partes:
+        base = a.salida[:-4] if a.salida.endswith(".m4a") else a.salida
+        todas = secciones()
+        orden = [int(x) for x in a.orden.split(",")] if a.orden else list(range(1, len(todas) + 1))
+        for k in orden:
+            sec = todas[k - 1]
+            destino = f"{base} - parte {k:02d}.m4a"   # el numero es el del tema: ordenan en el orden de la materia
+            audio = render(modelo, refs, sec, sr)
+            escribir(audio, sr, destino)
+            print(f"PARTE {k} LISTA {len(audio) / sr / 60:.1f} min {destino}", flush=True)
+        print("TODAS LAS PARTES LISTAS", flush=True)
+        return
     renglones = leer_guion()
     if a.muestra:
         renglones = renglones[:13]
+    audio = render(modelo, refs, renglones, sr)
+    destino = a.muestra or a.salida
+    if not destino:
+        raise SystemExit("falta la salida")
+    escribir(audio, sr, destino)
+    print(f"{len(audio) / sr / 60:.1f} min -> {destino}")
+
+
+def render(modelo, refs, renglones, sr):
     sil = lambda s: np.zeros(int(sr * s), dtype=np.float32)
     piezas, anterior = [], None
     hablados = [r for r in renglones if r[0] != "PAUSA"]
@@ -119,16 +170,7 @@ def main():
                 piezas.append(sil(HUECO_FRASE))
             piezas.append(generar(modelo, refs, quien, f).astype(np.float32))
         anterior = quien
-    audio = np.concatenate(piezas)
-    pcm = (np.clip(audio, -1, 1) * 32767).astype("<i2").tobytes()
-    destino = a.muestra or a.salida
-    if not destino:
-        raise SystemExit("falta la salida")
-    args = ["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", str(sr), "-ac", "1", "-i", "-",
-            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11"]
-    args += ["-ar", "44100", "-c:a", "aac", "-b:a", "64k", destino] if destino.endswith(".m4a") else [destino]
-    subprocess.run(args, input=pcm, check=True)
-    print(f"{n} renglones, {len(audio) / sr / 60:.1f} min -> {destino}")
+    return np.concatenate(piezas)
 
 
 if __name__ == "__main__":
