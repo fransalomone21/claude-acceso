@@ -1,5 +1,15 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-11-13 (cierre) — Qué queda
+
+- Podcast definitivo: partes 5, 8 y 12 sin generar porque Fran las dejó así. Si las pide:
+  `sintetizar-local.py --partes --orden 5,8,12 "<Escritorio UNSAM>\Podcast definitivo.m4a"` con `HF_HUB_OFFLINE=1`
+  (el entorno `tts-venv` está en Temp; la caché de frases en `podcast-parcial/cache-local/`).
+  Medido: ~1,5× el audio, 5,3 GB de VRAM por proceso (dos en paralelo no entran en 8 GB).
+- El Forms del examen: armar el PDF con las 36 respondidas y justificadas **sólo cuando ya no acepte respuestas**
+  (medir que no aparezca «Enviar») o con las notas publicadas; registrar en `catedras` como LEA-R6.
+- `rclone` del Drive avisa que el client_id compartido de Google se retira en 2026: crear uno propio.
+
 ## 2026-11-13 (noche) — PENDIENTE: el podcast con voz local, «con más onda, bien rioplatense» (Fran)
 
 - Fran: «ponele más onda, bien rioplatense y hacelo después» (se iba con la notebook). Dos partes: (1) el guion

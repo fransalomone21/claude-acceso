@@ -1,5 +1,18 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-11-13 (cierre) — Podcast definitivo por temas, cuestionario y glosario A-Z
+
+- **Podcast definitivo** con voz local (Chatterbox, voces clonadas de 13 s del podcast de Gemini, que habla en español
+  de España) por temas: partes 1, 2, 3, 4, 6, 7, 9, 10 y 11 generadas y en el Drive de apuntes
+  (`Software de Vuelo/4 - Podcast para el parcial de Leandro (13-11)/2 - ...`). **Partes 5 (C y MISRA), 8 (punteros) y
+  12 (repaso) sin generar**: Fran, «dejalas así, ya está». Transcripta sólo la parte 1 (dice el guion).
+- **Cuestionario** de 31 preguntas por tema con respuesta y porqué (`podcast-parcial/cuestionario.py` → PDF), en el
+  Drive (`3 - Cuestionario multiple choice`). Casi todas las respuestas son B (sale así del guion).
+- **Guía v1.2** con el **Anexo C**: unos 140 términos de la A a la Z para Ctrl+F; 45 pág.; publicada y al día por MD5.
+- **No hecho, a propósito**: las respuestas del Forms «Examen — Ingeniería de Software de Vuelo» (36 preguntas, abierto
+  y aceptando respuestas al medirlo dos veces). Se arma cuando el formulario cierre o salgan las notas. Las preguntas
+  pesan sobre RTOS y FreeRTOS (unas 20 de 36), C para leer, MISRA e interrupciones.
+
 ## 2026-11-13 (noche) — Podcast v2 «con más onda rioplatense»
 
 - `guion.md` v2: mismo contenido, más criollo (pedido de Fran). Sintetizado con edge-tts en
