@@ -1,0 +1,5 @@
+# Recortes de las presentaciones de Leandro: material de la catedra, el repo es publico.
+# Se regeneran con: python recortar.py
+fig-catedra/
+# El PDF lleva esos recortes adentro: tampoco va al repo (copia en Desktop\01 - UNSAM\Software de Vuelo).
+*.pdf
