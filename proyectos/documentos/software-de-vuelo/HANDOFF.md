@@ -1,5 +1,16 @@
 # HANDOFF — Software de Vuelo
 
+## 2026-11-13 (tarde) — Podcast del parcial: cómo se rehace, y la herramienta
+
+- Regenerar: `python proyectos/documentos/software-de-vuelo/podcast-parcial/sintetizar.py "<salida>.m4a"` (necesita
+  `pip install edge-tts` y ffmpeg; ~3 min por red). El guion se edita en `guion.md`; una sigla que suena mal se arregla
+  en `PRONUNCIA` del script, no en el guion.
+- **La herramienta, decidido**: lo que hace corto y robótico a NotebookLM (Gemini) es que **escribe su propio guion**;
+  el apalancamiento es escribir el guion acá (Claude, desde el material) y ponerle voz aparte. Voz: edge-tts es gratis
+  y sin cuenta (piso); lo más natural en castellano con dos voces es ElevenLabs v3 o el TTS multi-voz de Gemini por
+  API, los dos con cuenta y clave que crea Fran. Chatterbox multilingüe (local, GPU) quedó instalado en
+  `%LOCALAPPDATA%\Temp\claude\tts-venv` para comparar.
+
 ## 2026-11-13 — Guía del cuestionario: cómo se regenera
 
 - Desde `proyectos/documentos/software-de-vuelo`: `python guia-cuestionario/recortar.py` (necesita

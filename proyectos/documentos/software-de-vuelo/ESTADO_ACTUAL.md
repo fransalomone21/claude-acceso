@@ -1,5 +1,16 @@
 # Estado actual — Software de Vuelo (guías de C y de IDEs)
 
+## 2026-11-13 (tarde) — Podcast para el parcial multiple choice de Leandro (60 min)
+
+- **Guion** propio en `podcast-parcial/guion.md` (8485 palabras, dos voces, CARO y MARTIN), escrito desde la guía del
+  cuestionario: cada tema con los pares que se confunden y **31 preguntas de cuatro opciones con `[PAUSA n]`** para
+  contestar antes de la respuesta, más una ronda rápida de 14 y el repaso de pares al final.
+- **Audio** con `podcast-parcial/sintetizar.py` (edge-tts, voces es-AR Elena y Tomás, siglas pasadas a cómo se dicen,
+  normalizado a -16 LUFS): `Desktop\01 - UNSAM\Software de Vuelo\Podcast para el parcial de Leandro.m4a` (59 min 40 s,
+  36 MB) y la copia `(celular)` de 21 MB, mandada a Fran. **No publicado** en Drive (lo nuevo público lo decide Fran).
+- **Medido**: duración decodificada 59:40 y las 31 pausas por `silencedetect`. **Sin medir todavía**: que cada sigla
+  se oiga bien (transcripción de muestra en curso) y la comparación con Chatterbox.
+
 ## 2026-11-13 — Guía para el cuestionario de Leandro (v1.0, 32 pág.)
 
 - **Fuente** en `guia-cuestionario/` (`guia.typ`, `plantilla.typ`, `recortar.py`); **27 figuras recortadas** de las clases
