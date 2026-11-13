@@ -150,20 +150,20 @@
       "estado": "2026-11-03 -- con A6 y A7 (13 pag.). 2026-10-23 -- la misma guia sin ayudas (12 pag.): consigna, tema y donde leer; los resultados finales e intermedios al final. Mismo fuente que la central (--input version=ejercicios)"
     },
     {
-      "materia": "Software de Vuelo",
+      "materia": "Software de Vuelo/2 - Guia de IDEs",
       "local": "proyectos/documentos/software-de-vuelo/guia-ides/guia-ides.pdf",
       "nombre-en-drive": "Guia de IDEs - STM32CubeIDE y VS Code.pdf",
       "estado": "2026-09-29 -- v0.3, 6 pag. Se llama guia-ides.pdf y no apunte.pdf, asi que el detector de 'sin declarar' NO la ve: esta entrada es la unica que la sube."
     },
     {
-      "materia": "Software de Vuelo",
+      "materia": "Software de Vuelo/1 - Apunte de C",
       "local": "proyectos/documentos/software-de-vuelo/apunte-c/apunte.pdf",
       "nombre-en-drive": "Apunte de C - Software de Vuelo.pdf",
       "regenerable": "cd proyectos/documentos/software-de-vuelo/apunte-c; typst compile --root .. apunte.typ apunte.pdf",
       "estado": "2026-10-02 -- v0.1, modulos 1 y 2 de 12. Publico por el pacto del 2026-09-28 (las dos guias de la materia). Cada programa compila sin warnings: verificar-ejemplos.py"
     },
     {
-      "materia": "Software de Vuelo",
+      "materia": "Software de Vuelo/3 - Cuestionario de Leandro (13-11)",
       "local": "proyectos/documentos/software-de-vuelo/guia-cuestionario/guia.pdf",
       "nombre-en-drive": "Guia para el cuestionario de Leandro.pdf",
       "regenerable": "desde proyectos/documentos/software-de-vuelo: python guia-cuestionario/recortar.py y typst compile --root . guia-cuestionario/guia.typ guia-cuestionario/guia.pdf (necesita el Material de catedra en Desktop\\01 - UNSAM\\Software de Vuelo)",
