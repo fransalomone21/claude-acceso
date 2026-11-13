@@ -62,8 +62,8 @@ proyecto hasta declarar la necesidad y leer con Read lo que pide el catálogo
 ```
 
 **Desde T19 (2026-10-19)** toda sesión **clasifica el pedido** antes de actuar (proyecto, `-Ingenieria` o
-`-Suelta`, interpretándolo y no por una palabra); una de ingeniería o de materia lee el **tronco** (el libro y las
-fuentes de requisitos y del alcance), y la que declara un proyecto lee su **rama**: lo que le compete por naturaleza
+`-Suelta`, interpretándolo y no por una palabra); una de ingeniería o de materia lee el **tronco** (el libro de bolsillo;
+desde el 2026-11-13 las fuentes de requisitos y del alcance llegan al escribir, por su título: DA-104), y la que declara un proyecto lee su **rama**: lo que le compete por naturaleza
 (en una materia, el Drive, la cátedra y las lecciones de PDF; en todo proyecto, sus lecciones) y el documento del tema.
 
 Necesidades: `materia`, `ingenieria-inversa`, `diseno`, `metodo`,

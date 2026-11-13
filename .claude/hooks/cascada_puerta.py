@@ -333,9 +333,39 @@ def clasificada(st: dict) -> bool:
 
 
 def tronco_de(cat: dict):
-    """(naturalezas con tronco, conceptos del tronco). Vacio = sin tronco: lo ve --verificar (L2-VER-07)."""
+    """(naturalezas con tronco, conceptos del tronco que se leen AL ENTRAR). Los que llegan al escribir van aparte
+    (tronco_al_escribir, DA-104). Ninguno en ninguno de los dos lados: lo ve --verificar (L2-VER-07)."""
     t = cat.get("tronco") or {}
     return list(t.get("naturalezas") or []), list(t.get("conceptos") or [])
+
+
+def tronco_al_escribir(cat: dict) -> list:
+    """DA-104 (decision de Fran del 2026-11-13): los conceptos del tronco cuyas fuentes NO se exigen al entrar sino
+    cuando la sesion escribe (su disparador por rol: 'secciones' o 'archivo'). L2-VER-13 exige que cada uno dispare."""
+    return list((cat.get("tronco") or {}).get("al_escribir") or [])
+
+
+def problemas_del_tronco(cat: dict) -> list:
+    """Los rojos del tronco (L2-VER-06, 07, 13): una sola regla, que usan --verificar y --tronco."""
+    rojos = []
+    nats_t, conc_t = tronco_de(cat)
+    al_esc = tronco_al_escribir(cat)
+    if not conc_t and not al_esc:
+        rojos.append("el TRONCO del catalogo no nombra conceptos ni al entrar ni al escribir: una sesion de ingenieria "
+                     "saldria sin las fuentes de requisitos (T19, L2-VER-07)")
+    if not nats_t:
+        rojos.append("el TRONCO del catalogo no nombra naturalezas: ningun proyecto lo cargaria (T19)")
+    for c in conc_t + al_esc:
+        if c not in cat.get("conceptos", {}):
+            rojos.append("el TRONCO nombra el concepto '%s', que no existe en el catalogo (T19, L2-VER-06)" % c)
+    for c in al_esc:
+        cd = cat.get("conceptos", {}).get(c)
+        if cd is not None and not (cd.get("secciones") or cd.get("archivo")):
+            rojos.append("el concepto '%s' del TRONCO va al escribir y no tiene disparador por rol ('secciones' o "
+                         "'archivo'): sus fuentes no llegarian nunca (DA-104, L2-VER-13)" % c)
+    for c in sorted(set(conc_t) & set(al_esc)):
+        rojos.append("el concepto '%s' del TRONCO figura al entrar Y al escribir: es uno u otro (DA-104)" % c)
+    return rojos
 
 
 def con_tronco(cat: dict, st: dict) -> bool:
@@ -1500,8 +1530,14 @@ def cli_tronco() -> int:
         print("    %-62s %5d-%-5d %6d ch  %s" % (rel(x["ver"])[-62:], x["a"], x["b"], ch, x["por"][:60]))
     for n in notas:
         print("  ! " + n)
-    if not tronco_de(cat)[1]:
-        print("  ! el tronco del catalogo no nombra conceptos (L2-VER-07): falta lo de requisitos y alcance")
+    al_esc = tronco_al_escribir(cat)
+    if al_esc:
+        print("  AL ESCRIBIR (DA-104): las fuentes de %s no se leen al entrar; la puerta las exige cuando la sesion "
+              "escribe bajo su titulo o en su archivo." % ", ".join(al_esc))
+    malos = problemas_del_tronco(cat)
+    for m in malos:
+        print("  ! " + m)
+    if malos:
         return 1
     print("  total: %d caracteres (~%d K tokens), una vez por sesion" % (total, total // 3500))
     return 1 if notas else 0
@@ -1530,15 +1566,7 @@ def cli_verificar() -> int:
     if not exige_clasificacion(cat):
         rojos.append("la CLASIFICACION del pedido esta APAGADA ('clasificacion': {'exigida': false}): la puerta deja "
                      "actuar sin que la sesion interprete el pedido (T19, L2-VER-05)")
-    nats_t, conc_t = tronco_de(cat)
-    if not conc_t:
-        rojos.append("el TRONCO del catalogo no nombra conceptos: una sesion de ingenieria saldria sin las fuentes de "
-                     "requisitos (T19, L2-VER-07)")
-    if not nats_t:
-        rojos.append("el TRONCO del catalogo no nombra naturalezas: ningun proyecto lo cargaria (T19)")
-    for c in conc_t:
-        if c not in cat.get("conceptos", {}):
-            rojos.append("el TRONCO nombra el concepto '%s', que no existe en el catalogo (T19, L2-VER-06)" % c)
+    rojos.extend(problemas_del_tronco(cat))   # L2-VER-06, 07 y 13 (DA-104): la misma regla que --tronco
     disco = proyectos_del_disco()
     ent = cat.get("proyectos", {})
     # T19, pieza C (L2-VER-08..12): cada naturaleza con proyectos tiene su rama decidida, la rama resuelve y trae las
@@ -2861,55 +2889,116 @@ def autotest() -> int:
     # 25. T19, pieza B (L1-25, L2-PTA-37..39, L2-VER-06/07, L2-CAS-07): con ingenieria de sistemas, el TRONCO (el libro
     # y las fuentes de requisitos y del alcance) antes de CUALQUIER accion, aunque no toque el proyecto; la suelta y una
     # naturaleza sin tronco (seguimiento) pasan sin el. Edit sobre MAPA.md: fuera de todo proyecto, a proposito.
-    tronco25 = exigido(cat_base, None, [], [], tronco=True)[0]
+    # DA-104 (2026-11-13): el catalogo decide que conceptos del tronco se leen AL ENTRAR y cuales AL ESCRIBIR. El caso
+    # exacto va sobre dos catalogos armados aca, no sobre el dato vivo (un autotest con el dato real adentro se pone
+    # en rojo solo cuando el dato cambia): 'entrar' (los dos conceptos al entrar) y 'escribir' (ninguno al entrar).
+    nats25 = ["ingenieria", "documentos"]
+    c25e = dict(cat_base, tronco={"naturalezas": nats25, "conceptos": ["requisitos", "alcance"]})
+    c25w = dict(cat_base, tronco={"naturalezas": nats25, "conceptos": [], "al_escribir": ["requisitos", "alcance"]})
+    f25e, f25w = tmp / "cat25-entrar.json", tmp / "cat25-escribir.json"
+    f25e.write_text(json.dumps(c25e, ensure_ascii=False), encoding="utf-8")
+    f25w.write_text(json.dumps(c25w, ensure_ascii=False), encoding="utf-8")
+    e25e, e25w = {"CASCADA_CATALOGO": str(f25e)}, {"CASCADA_CATALOGO": str(f25w)}
+    tronco25 = exigido(c25e, None, [], [], tronco=True)[0]   # el libro y las fuentes
+    libro25 = exigido(c25w, None, [], [], tronco=True)[0]    # solo el libro
     declara = lambda p: ("PowerShell", {"command": ".\\cascada.ps1 %s -Necesidad ninguna" % p})  # noqa: E731
+    # un Write fuera de todo proyecto que trae un titulo de requerimientos: el rol que dispara el concepto 'requisitos'
+    escribe_req = ("Write", {"file_path": str(RAIZ / "nota-autotest-da104.md"), "content":
+                             "# Nota\n\n## Requerimientos\n\n| ID | Requisito |\n|---|---|\n| L0-01 | El sistema "
+                             "debera x. |\n"})
+    # (nombre, pasos, lecturas hechas antes, niega, motivo, catalogo, accion final)
     casos25 = (
-        ("T19 SABOTAJE: -Ingenieria sin leer el tronco -> deny (GtWR y libro)", [clasif("Ingenieria")], False, True,
-         "incose-gtwr"),
-        ("T19 CONTROL: -Ingenieria con el tronco leido -> pasa", [clasif("Ingenieria")], True, False, None),
-        ("T19 SABOTAJE: proyecto de ingenieria (telescopio), accion FUERA -> deny", [declara("telescopio")], False, True,
-         "nucleo-ise"),
-        ("T19 CONTROL: proyecto de seguimiento (coaching) -> pasa sin tronco", [declara("coaching")], False, False, None),
-        ("T19 CONTROL: -Suelta -> pasa sin tronco", [clasif("Suelta")], False, False, None))
+        ("T19 SABOTAJE: -Ingenieria sin leer el tronco -> deny (GtWR y libro)", [clasif("Ingenieria")], None, True,
+         "incose-gtwr", e25e, mapa),
+        ("T19 CONTROL: -Ingenieria con el tronco leido -> pasa", [clasif("Ingenieria")], tronco25, False, None, e25e,
+         mapa),
+        ("T19 SABOTAJE: proyecto de ingenieria (telescopio), accion FUERA -> deny", [declara("telescopio")], None, True,
+         "nucleo-ise", e25e, mapa),
+        ("T19 CONTROL: proyecto de seguimiento (coaching) -> pasa sin tronco", [declara("coaching")], None, False, None,
+         e25e, mapa),
+        ("T19 CONTROL: -Suelta -> pasa sin tronco", [clasif("Suelta")], None, False, None, e25e, mapa),
+        ("DA-104 CONTROL: fuentes al escribir, solo el libro leido -> pasa", [clasif("Ingenieria")], libro25, False,
+         None, e25w, mapa),
+        ("DA-104 SABOTAJE: fuentes al entrar, solo el libro leido -> deny (GtWR)", [clasif("Ingenieria")], libro25,
+         True, "incose-gtwr", e25e, mapa),
+        ("DA-104 SABOTAJE: fuentes al escribir, sin leer el libro -> deny", [clasif("Ingenieria")], None, True,
+         "nucleo-ise", e25w, mapa),
+        ("DA-104 SABOTAJE: al escribir, titulo de requerimientos sin las fuentes -> deny", [clasif("Ingenieria")],
+         libro25, True, "incose-gtwr", e25w, escribe_req),
+        ("DA-104 CONTROL: al escribir, titulo de requerimientos con las fuentes leidas -> pasa",
+         [clasif("Ingenieria")], tronco25, False, None, e25w, escribe_req))
 
     def caso25(n, script=__file__):
+        _, pasos, lee, _, _, ce, accion = casos25[n]
         s = "sin-clase-25-%d-%s" % (n, Path(script).stem)
-        for tool, inp in casos25[n][1]:
-            correr(pre_ev(tool, inp, s), None, script)
+        for tool, inp in pasos:
+            correr(pre_ev(tool, inp, s), ce, script)
             for p in ("telescopio", "coaching"):   # la rama del declarado, leida: este caso mide el tronco
                 if "cascada.ps1 %s " % p in str(inp.get("command", "")):
-                    leer_rama(p, s, script)
-        if casos25[n][2]:
-            for x in tronco25:
-                correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
-                       None, script)
-        return correr(pre_ev(*mapa, s=s), None, script)
+                    leer_rama(p, s, script, ce)
+        for x in lee or []:
+            correr(post_ev("Read", {"file_path": x["ruta"], "offset": x["a"], "limit": x["b"] - x["a"] + 1}, s=s),
+                   ce, script)
+        return correr(pre_ev(*accion, s=s), ce, script)
 
     sanos25 = {}
-    for n, (nombre, _, _, niega, motivo) in enumerate(casos25):
+    for n, (nombre, _, _, niega, motivo, _, _) in enumerate(casos25):
         r = caso25(n)
         sanos25[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
         caso(nombre, r, niega, motivo)
-    for nombre, tr, marca in (("T19: el tronco con un concepto inexistente -> --verificar en rojo",
-                               {"naturalezas": ["ingenieria"], "conceptos": ["no-existe-t19"]}, "no existe en el catalogo"),
-                              ("T19: el tronco sin conceptos -> --verificar en rojo",
-                               {"naturalezas": ["ingenieria"], "conceptos": []}, "no nombra conceptos")):
+    c25sd = dict(cat_base, conceptos=dict(cat_base.get("conceptos", {}), **{"sin-disparo-da104": {"leer": []}}),
+                 tronco={"naturalezas": ["ingenieria"], "conceptos": [], "al_escribir": ["sin-disparo-da104"]})
+    for nombre, c25v, marca in (
+            ("T19: el tronco con un concepto inexistente -> --verificar en rojo",
+             dict(cat_base, tronco={"naturalezas": ["ingenieria"], "conceptos": ["no-existe-t19"]}),
+             "no existe en el catalogo"),
+            ("T19: el tronco sin conceptos al entrar ni al escribir -> rojo",
+             dict(cat_base, tronco={"naturalezas": ["ingenieria"], "conceptos": []}), "no nombra conceptos"),
+            ("DA-104: al escribir, un concepto inexistente -> --verificar en rojo",
+             dict(cat_base, tronco={"naturalezas": ["ingenieria"], "conceptos": [], "al_escribir": ["no-existe-da104"]}),
+             "'no-existe-da104', que no existe en el catalogo"),
+            ("DA-104: al escribir, un concepto sin disparador por rol -> rojo", c25sd, "no tiene disparador por rol"),
+            ("DA-104: el mismo concepto al entrar y al escribir -> rojo",
+             dict(cat_base, tronco={"naturalezas": ["ingenieria"], "conceptos": ["requisitos"],
+                                    "al_escribir": ["requisitos"]}), "figura al entrar Y al escribir")):
         f25 = tmp / "cat25.json"
-        f25.write_text(json.dumps(dict(cat_base, tronco=tr), ensure_ascii=False), encoding="utf-8")
+        f25.write_text(json.dumps(c25v, ensure_ascii=False), encoding="utf-8")
         rv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
                             env=dict(env, CASCADA_CATALOGO=str(f25), CASCADA_RAIZ=str(RAIZ)))
         ok = rv.returncode == 1 and marca in rv.stdout.decode("utf-8", "replace")
         mal += not ok
         print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "rojo" if ok else "NO"))
-    rt = subprocess.run([sys.executable, __file__, "--tronco"], capture_output=True, env=dict(env, CASCADA_RAIZ=str(RAIZ)))
-    re_ = subprocess.run([sys.executable, __file__, "--exige", "telescopio", "--necesidad", "ninguna"], capture_output=True,
-                         env=dict(env, CASCADA_RAIZ=str(RAIZ)))
-    st_, se_ = rt.stdout.decode("utf-8", "replace"), re_.stdout.decode("utf-8", "replace")
-    ok = rt.returncode == 0 and "nucleo-ise" in st_ and "reglas.md" in st_ and "tronco, concepto requisitos" in se_
+    # control positivo del verificador: ninguno de los dos catalogos sanos saca un rojo DEL TRONCO
+    for nombre, f25c in (("T19 CONTROL: el tronco con las fuentes al entrar -> sin rojo del tronco", f25e),
+                         ("DA-104 CONTROL: el tronco con las fuentes al escribir -> sin rojo del tronco", f25w)):
+        sv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                            env=dict(env, CASCADA_CATALOGO=str(f25c), CASCADA_RAIZ=str(RAIZ))).stdout.decode("utf-8", "replace")
+        ok = bool(sv.strip()) and "TRONCO" not in sv
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "si" if ok else "NO: %r" % sv[-200:]))
+    sal25 = {}
+    for clave, f25c in (("e", f25e), ("w", f25w)):
+        e25 = dict(env, CASCADA_CATALOGO=str(f25c), CASCADA_RAIZ=str(RAIZ))
+        rt = subprocess.run([sys.executable, __file__, "--tronco"], capture_output=True, env=e25)
+        re_ = subprocess.run([sys.executable, __file__, "--exige", "telescopio", "--necesidad", "ninguna"],
+                             capture_output=True, env=e25)
+        sal25[clave] = (rt.returncode, rt.stdout.decode("utf-8", "replace"), re_.stdout.decode("utf-8", "replace"))
+    rc_e, st_, se_ = sal25["e"]
+    ok = rc_e == 0 and "nucleo-ise" in st_ and "reglas.md" in st_ and "tronco, concepto requisitos" in se_
     mal += not ok
     print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "T19: --tronco y --exige imprimen el tronco con rangos",
-                               "si" if ok else "NO: rc=%s %r" % (rt.returncode, st_[-160:])))
+                               "si" if ok else "NO: rc=%s %r" % (rc_e, st_[-160:])))
+    rc_w, st_w, se_w = sal25["w"]
+    ok = (rc_w == 0 and "nucleo-ise" in st_w and "reglas.md" not in st_w and "AL ESCRIBIR" in st_w
+          and "nucleo-ise" in se_w and "tronco, concepto" not in se_w)
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "DA-104: al escribir, --tronco y --exige traen solo el libro",
+                               "si" if ok else "NO: rc=%s %r" % (rc_w, st_w[-160:])))
     for nombre, cambios, n in (
+            ("MUTANTE DA-104 (lo de al escribir se exige tambien al entrar) -> caso 6",
+             [("        for c in conc_t:", "        for c in conc_t + tronco_al_escribir(cat):")], 5),
+            ("MUTANTE DA-104 (el titulo de requerimientos no dispara) -> caso 9",
+             [('elif arch and cd.get("secciones"):', "elif False:")], 8),
             ("MUTANTE T19 (Ingenieria sin tronco) -> lo ve el caso 1",
              [('return "ingenieria" in st.get("clases", set()) or any(', "return False or any(")], 0),
             ("MUTANTE T19 (tronco para toda naturaleza) -> lo ve el caso 4",

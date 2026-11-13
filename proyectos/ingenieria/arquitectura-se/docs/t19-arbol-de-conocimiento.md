@@ -104,6 +104,7 @@ el costo, y Fran puso el costo al final. Sus palabras, resumidas sin cambiarles 
 | 2026-10-19 | ¿Cómo se le hace lugar al tronco en el arranque? | «Haceme la propuesta y, después de mi comentario, lo decidimos» → v1, descartada por el giro |
 | 2026-10-19 | En la duda sobre si el pedido lleva ingeniería de sistemas | **Se carga el tronco** (que sobre) |
 | 2026-10-19 | Qué es el tronco en una sesión con ingeniería de sistemas | **El libro de bolsillo más las fuentes de requisitos completas** (GtWR, NASA apéndice C, cátedra), aunque esa sesión no escriba requisitos |
+| 2026-11-13 | Cómo llegan las fuentes completas, con el uso medido (6 % en materias, 13 % en ingeniería) | **«Al momento de escribir»**: reemplaza la fila de arriba. Al entrar queda el libro de bolsillo; las fuentes son `al_escribir` del tronco y la puerta las exige bajo su disparador por rol (DA-104; `replanteo-2026-11-13.md` §8) |
 | 2026-10-19 | Quién saca una lectura que el uso muestra que no sirvió | **Fran, con la propuesta de la sesión** (qué no se usó y por qué conviene sacarlo o activarlo distinto) |
 | 2026-10-19 | Un procedimiento heredado mal planteado para la necesidad | **La sesión lo corrige y avisa**; pregunta sólo si cambia lo que Fran ejecuta o lo que se busca |
 
