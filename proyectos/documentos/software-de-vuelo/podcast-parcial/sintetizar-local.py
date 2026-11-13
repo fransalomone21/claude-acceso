@@ -67,6 +67,11 @@ def frases(texto):
 
 
 def generar(modelo, refs, voz, texto):
+    # Chatterbox revienta con un texto de una letra ("B."): IndexError en max() sobre cero tokens.
+    # Medido en la ronda rapida (2026-11-13). Se dice la frase entera, que ademas suena mas natural.
+    pelado = texto.strip(" .,")
+    if len(pelado) <= 2:
+        texto = f"La {pelado}."
     # la referencia entra en la clave: si cambia la voz de muestra, la cache vieja no sirve
     ref_md5 = hashlib.md5(Path(refs[voz]).read_bytes()).hexdigest()
     clave = hashlib.sha1(json.dumps([voz, texto, PARAM, ref_md5]).encode()).hexdigest()[:14]
