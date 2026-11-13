@@ -1,5 +1,15 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-11-13 (tanda con Fable, sesión del replanteo) — HECHO: la revisión de rumbo, medida y escrita.**
+> [`docs/replanteo-2026-11-13.md`](docs/replanteo-2026-11-13.md) es el dueño: los números (§1: se usa el 6 % de lo
+> exigido en materias y el 13 % en ingeniería; 0 de 126 defectos validados), nueve principios (§3), seis familias que
+> juntan ~50 de los 86 abiertos (§4), el diseño de cero divergencia entre máquinas (§5) y de la delegación (§6), la caja
+> de herramientas (§7), el orden por tandas (§8), propuestas para lo demás (§9) y el retome para optimizar la notebook
+> (§10). Herramienta nueva: [`medir-entrada.py`](medir-entrada.py). **Nada vivo se tocó**: es la propuesta para la
+> revisión con Fran. **SIGUE:** con sus respuestas (el recorte del tronco, las 66 propuestas del lazo de uso, qué pueden
+> hacer los agentes), la tanda 1 (familia F1). **Para el que siga:** el tema `defectos` cobra 115 K: declarar sólo los
+> temas que se van a tocar; `medir-entrada.py` da el antes y el después del recorte.
+
 > **2026-11-12 (sesión de fisica-espacial) — RETOME PARA UNA TANDA CON FABLE, hasta el 16/11.** Fran suspendió la regla 8
 > («Fable nunca») hasta el 16/11/2026 inclusive, sólo para arquitectura del método (perfil `f9ee1e0`). Se abre en un
 > **chat nuevo** con Fable 5.2, esfuerzo alto, sin fan-out. **Primero:** `.\cascada.ps1 arquitectura-se -Necesidad

@@ -3,6 +3,14 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-11-13 (tanda con Fable) — REPLANTEO DE ARRIBA HACIA ABAJO: MEDIDO Y PROPUESTO, SIN TOCAR NADA VIVO.** La
+revisión de rumbo que la cascada pedía (16 sesiones desde la última lluvia). Medido ese día: la puerta exige de 204 K a
+411 K caracteres al entrar a un proyecto y las sesiones declaran usar el 6 % (materias, 40 muestras) y el 13 %
+(ingeniería, 16); el lazo de uso tiene 66 propuestas de retiro sin decidir; 126 defectos, 86 abiertos, 0 validados.
+Diagnóstico, principios, familias de defectos, diseño de la sincronía entre máquinas y de la delegación, la caja de
+herramientas y el orden: [`docs/replanteo-2026-11-13.md`](docs/replanteo-2026-11-13.md) (dueño). Instrumento nuevo:
+[`medir-entrada.py`](medir-entrada.py). Espera las decisiones de Fran para construir la tanda 1.
+
 **2026-11-05 (en la PC, regreso de la noche en la nube) — LAS TRES SESIONES INTEGRADAS, PDF PUBLICADOS, DRIVE ORDENADO.**
 `regreso.py --medir` da 0 divergencias y la marca salió. Las ramas `awesome-brahmagupta` (electrónica), `blissful-ramanujan`
 (método) y `laughing-carson` (física) están en `main`; `install.ps1` corrido; primera `--sincronizar-memoria` con manifiesto
