@@ -9,9 +9,10 @@
 - **Cuestionario** de 31 preguntas por tema con respuesta y porqué (`podcast-parcial/cuestionario.py` → PDF), en el
   Drive (`3 - Cuestionario multiple choice`). Casi todas las respuestas son B (sale así del guion).
 - **Guía v1.2** con el **Anexo C**: unos 140 términos de la A a la Z para Ctrl+F; 45 pág.; publicada y al día por MD5.
-- **No hecho, a propósito**: las respuestas del Forms «Examen — Ingeniería de Software de Vuelo» (36 preguntas, abierto
-  y aceptando respuestas al medirlo dos veces). Se arma cuando el formulario cierre o salgan las notas. Las preguntas
-  pesan sobre RTOS y FreeRTOS (unas 20 de 36), C para leer, MISRA e interrupciones.
+- **Examen de Leandro (Forms, 13/11)**: Fran lo entregó; recién después se armaron las respuestas (35 preguntas, cada
+  una con su porqué), en el repo privado `catedras` (`software-de-vuelo/examen-13-11-respuestas.typ`, lleva el
+  enunciado de la cátedra) y en `Desktop\01 - UNSAM\Software de Vuelo\`. **No se publica** (otros pueden estar
+  rindiéndolo). Además, `Teoria de la cursada - texto.txt` en esa carpeta: la guía y el apunte de C en texto crudo.
 
 ## 2026-11-13 (noche) — Podcast v2 «con más onda rioplatense»
 
