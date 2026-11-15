@@ -37,6 +37,19 @@ las lista (la PC es la MAC `F0-2F-74-1C-1E-0D`).
    - PC: `10.147.20.2` (ZeroTier; anda siempre) o `192.168.1.7` (cable)
 3. Listo.
 
+**Lo que hace la sesión sola (Fran pide que quede abierto en las dos):**
+
+- Notebook: cerrar el `javaw` y relanzar entrando directo al server:
+  `prismlauncher.exe --launch "Nuevo 1.21.4" --server localhost:25565`
+  (`%LOCALAPPDATA%\Programs\PrismLauncher\prismlauncher.exe`).
+- PC: por SSH no se ven ventanas, así que se arma un `.bat` con
+  `start "" prismlauncher.exe --launch "Nuevo 1.21.4" --server 192.168.1.7:25565`
+  y se dispara con una tarea de un solo uso que se borra al toque:
+  `schtasks /Create /TN AbrirMC /TR <bat> /SC ONCE /ST 23:59 /IT /F` →
+  `schtasks /Run /TN AbrirMC` → `schtasks /Delete /TN AbrirMC /F`.
+- Verificar: `python herramientas\rcon.py list` tiene que mostrar a los dos
+  (2026-11-15: `2 of a max of 8 players online: APRETIN1, fran`, a ~1 min).
+
 ## El mundo
 
 - El server elige el mundo por `level-name` en
@@ -44,6 +57,8 @@ las lista (la PC es la MAC `F0-2F-74-1C-1E-0D`).
 - **Mundo de los hermanos**: `hermanos-2026-11-15` (creado el 2026-11-15).
 - El mundo viejo de la juntada con amigos (`juntada`, pregenerado con Chunky)
   sigue ahí intacto: para volver, `level-name=juntada`.
+- El mundo LAN que se había creado ese día (`apretundo`, en los saves de la
+  notebook) se mandó a la **papelera** por pedido de Fran: se juega en el server.
 - Copia del properties anterior: `server.properties.bak-2026-11-15`.
 - Mundo nuevo = cambiar `level-name` a un nombre que no exista y arrancar.
 
