@@ -52,6 +52,7 @@ try {
         @('parcialito-4-momento-angular.typ', 'salida\parcialito-4-momento-angular.pdf', $null),
         @('resumen-momento-angular.typ', 'salida\resumen-momento-angular.pdf', $null),
         @('resueltos-cr-1-a-4.typ', 'salida\resueltos-cr-1-a-4.pdf', $null),
+        @('resueltos-cr.typ', 'salida\resueltos-cr.pdf', $null),
         @('resumen-cuerpo-rigido.typ', 'salida\resumen-cuerpo-rigido.pdf', $null),
         @('parcialito-5-cuerpo-rigido.typ', 'salida\parcialito-5-cuerpo-rigido.pdf', $null),
         @('resumen-cmg.typ', 'salida\resumen-cmg.pdf', $null),

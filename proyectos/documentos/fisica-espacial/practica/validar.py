@@ -418,7 +418,7 @@ def c_parciales():
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
                     'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ',
                     'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ',
-                    'resumen-cmg.typ')
+                    'resumen-cmg.typ', 'resueltos-cr.typ')
 
 
 def c_modelos():
@@ -545,6 +545,66 @@ def c_modelos():
         ('3,55$°', deg(m.atan(Ia4 / It4 * m.tan(rad(2))))), ('1,930$ rad/s', fi4b), ('3,256$ s', 2 * m.pi / fi4b),
         ('2,668$ rad/s', fi4c), ('2,355$ s', 2 * m.pi / fi4c),
     ]
+    # La guia de CR entera con el workflow (2026-11-15): Problemas 1 a 9 y los
+    # dos adicionales. Prefijo w_ para no pisar las variables de abajo.
+    def w_libre(Iax, Itr, H, eje):
+        tr = [i for i in range(3) if i != eje]
+        w = tuple(H[i] / (Iax if i == eje else Itr) for i in range(3))
+        th = m.atan2(m.hypot(H[tr[0]], H[tr[1]]), abs(H[eje]))
+        ga = m.atan2(m.hypot(w[tr[0]], w[tr[1]]), abs(w[eje]))
+        fi, ps = norm(w) * m.sin(ga) / m.sin(th), norm(w) * m.sin(th - ga) / m.sin(th)
+        # segundo camino: las formulas del cuerpo simetrico
+        assert abs(fi - norm(H) / Itr) < 1e-9 and abs(ps - (Itr - Iax) / Iax * fi * m.cos(th)) < 1e-9
+        return w, th, ga, fi, ps
+    w_It, w_Ia = 1000.0, 1000 * 1.25 ** 2
+    w_H7 = cruz((0, 2, -1.25), (50, 0, 0))
+    w_w7, w_th7, w_ga7, w_fi7, w_ps7 = w_libre(w_Ia, w_It, w_H7, 2)
+    w_H0 = (0, w_It * 0.02, w_Ia * 0.10)
+    w_H8 = tuple(a + b for a, b in zip(w_H0, cruz((0, 1.25, 2), (50, 0, 0))))
+    w_w8, w_th8, w_ga8, w_fi8, w_ps8 = w_libre(w_Ia, w_It, w_H8, 2)
+    w_ap = 0.6 / m.tan(m.pi / 8); w_w0 = 36 * 2 * m.pi / 3600
+    def w_octo(Ix, Iy):
+        imp = tuple(2 * (a + b) for a, b in zip(cruz((-0.6, 1.2, w_ap), (0, -20, 0)), cruz((0.6, 1.2, w_ap), (0, -20, 0))))
+        return w_libre(Iy, Ix, (imp[0], Iy * w_w0 + imp[1], imp[2]), 1), (imp[0], Iy * w_w0 + imp[1], imp[2])
+    (w_w9, w_th9, w_ga9, w_fi9, w_ps9), w_H9 = w_octo(2000, 2400)
+    (_, w_th9b, _, w_fi9b, w_ps9b), _ = w_octo(2500 * 0.9 ** 2, 2500 * 0.98 ** 2)
+    w_rh = 3600 / (2 * m.pi)
+    w_fi20 = 1.5 / ((It4 - Ia4) / Ia4 * m.cos(rad(20)))
+    w_rd = (4.5 - 1.2) / 120
+    guia_cr_entera = [
+        ('80 " kg·m²"', Ic), ('5,66 " N·m"', norm(tc)), ('0,283 " rad/s"', wc), ('22,2$ s', 2 * m.pi / wc),
+        ('8,16 times 10^(-3)', 4 / (50 * G0)), ('32,6$ g de', 4 / (50 * G0) * 4 * 1000),
+        ('0,027$ %', 4 / (50 * G0) * 4 / 120 * 100), ('0,133$ m/s', 16 / 120), ('0,131$ m/s', dvc),
+        ('10,8$° de', deg(m.atan2(pyc, pxc))), ('32,4$°', deg(thc)),
+        ('2,00$ N·m', 0.5 * 2 * 0.1 ** 2 * 100 * 2), ('40 N, el doble', 0.5 * 2 * 0.1 ** 2 * 100 * 2 / 0.05),
+        ('1000 hat(k) " kg', 10 * 100), ('20 " rad/s²"', (600 - 0.5 * 10 * 100) / 5),
+        ('120$ rad/s², la de', 600 / 5), ('500$ N·m el', 0.5 * 10 * 100), ('-80$ rad/s²', (600 - 0.5 * 10 * 200) / 5),
+        ('-100 " rad/s²"', -10 * 100 * 0.5 / 5),
+        ('3,431 " rad/s"', abs(fi4)), ('1,832 " s"', 2 * m.pi / abs(fi4)), ('3,55$°', deg(m.atan(Ia4 / It4 * m.tan(rad(2))))),
+        ('1,929$ rad/s', abs(fi4) * m.cos(rad(2)) - 1.5), ('2,668$ rad/s', fi4c), ('2,355$ s', 2 * m.pi / fi4c),
+        ('1,930$ rad/s', fi4b), ('3,256$', 2 * m.pi / fi4b), ('1,722$ s', 2 * m.pi / abs(w_fi20)),
+        ('0,628 " rad/s"', 6 * 2 * m.pi / 60), ('10,0$ s', 60 / 6), ('2,449 $', m.sqrt(6)),
+        ('1562,5 " kg·m²"', w_Ia), ('117,9$ kg·m²/s', norm(w_H7)), ('0,625 quad', 62.5 / 100),
+        ('32,0 degree $', deg(w_th7)), ('148$°', 180 - deg(w_th7)), ('-0,0625 " rad/s"', w_w7[1]),
+        ('-0,0640 " rad/s"', w_w7[2]), ('0,977 quad', 0.0625 / 0.064), ('44,3 degree $', deg(w_ga7)),
+        ('0,0895$ rad/s', norm(w_w7)), ('0,118 " rad/s"', w_fi7), ('0,0360 " rad/s"', abs(w_ps7)),
+        ('0,848)', m.cos(w_th7)), ('7,07$ rad/min', w_fi7 * 60), ('2,16$ rad/min', abs(w_ps7) * 60),
+        ('53,3$ s', 2 * m.pi / w_fi7), ('0,05$ m/s', 50 / 1000),
+        ('156,25) " kg', w_H0[2]), ('93,75) " kg', w_H8[2]), ('1,28 ==>', w_H8[1] / w_H8[2]),
+        ('52,0 degree', deg(w_th8)), ('63,4 degree', deg(w_ga8)), ('0,134$ rad/s', norm(w_w8)),
+        ('0,152 " rad/s"', w_fi8), ('0,0338 " rad/s"', abs(w_ps8)), ('152,3 \\/ 1000', norm(w_H8)),
+        ('7,3$°', deg(m.atan(w_H0[1] / w_H0[2]))), ('9,14$', w_fi8 * 60), ('2,03$ rad/min', abs(w_ps8) * 60),
+        ('5,7$°', deg(0.10)),
+        ('0,0628$ rad/s', w_w0), ('2,897$ m', 2 * w_ap), ('1,449$ m', w_ap), ('115,9; 150,8; 0) " kg', w_H9[0]),
+        ('150,8; 0) " kg', w_H9[1]), ('190,2 " kg', norm(w_H9)), ('0,0579; 0,0628', w_w9[0]),
+        ('37,5 degree', deg(w_th9)), ('42,7 degree', deg(w_ga9)), ('0,0951$ rad/s', w_fi9),
+        ('54,5$ rev/h', w_fi9 * w_rh), ('-0,0126$ rad/s', w_ps9), ('-7,2$ rev/h', w_ps9 * w_rh),
+        ('66 s', 2 * m.pi / w_fi9), ('37,5$°, $theta_x', deg(w_th9b)), ('52,5$°', 90 - deg(w_th9b)),
+        ('53,8$ rev/h', w_fi9b * w_rh), ('6,68$ rev/h', abs(w_ps9b) * w_rh),
+        ('0,0275$ m/s', w_rd), ('0,625 thin r', 4 * 10 * w_rd * 1.25 / 2.2), ('0,75 + 0,0172', 4 * 10 * 1.2 * w_rd * 1.25 / 2.2),
+        ('0,0172 thin t " N"', 4 * 10 * w_rd ** 2 * 1.25 / 2.2), ('2,81$ N', 4 * 10 * 4.5 * w_rd * 1.25 / 2.2),
+        ('-0,00500$ rad/s', -0.1 / (20 - 0.002)), ('50,0$ rad/s', 20 * 0.1 / (0.002 * (20 - 0.002))),
+    ]
     # Guia del parcialito de CR (2026-10-28): la hormiga y Coriolis de la hoja
     # de la catedra, el Ejercicio 3 con y sin cupla, y el Beer 18.127.
     g, kx, ky = 32.2, 28.8 / 12, 32.4 / 12
@@ -654,6 +714,7 @@ def c_modelos():
         'parcialito-5-cuerpo-rigido.typ': parcialito5,
         'resumen-cuerpo-rigido.typ': guia_cr,
         'resueltos-cr-1-a-4.typ': resueltos_cr,
+        'resueltos-cr.typ': guia_cr_entera,
         'parcialito-4-momento-angular.typ': parcialito4,
         'modelo-parcial-4.typ': modelo4,
         'modelo-parcial-5.typ': modelo5,
