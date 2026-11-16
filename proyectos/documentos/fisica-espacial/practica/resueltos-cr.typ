@@ -27,6 +27,7 @@
 )
 #let dibujo(cuerpo, epigrafe) = figure(cuerpo, caption: text(size: 9pt, epigrafe))
 #let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
+#let sale(cuerpo) = caja([De dónde sale, demostrado acá mismo], c-azul, cuerpo)
 #let supuestos(..filas) = {
   set par(justify: false)
   table(
@@ -613,6 +614,38 @@ $bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$; que $bold(H)_G$ esté sobre
 $bold(K)$ obliga a (Beer §18.11, págs. 1190-1191)
 $ dot(psi) = (I' - I)/I dot(phi) cos theta, quad quad dot(phi) = H_G/I' > 0 $
 
+#sale[
+  No hace falta creérselo al Beer: sale de escribir *el mismo* $bold(H)_G$ de dos
+  maneras e igualar. Terna del Beer: $hat(k)$ sobre el eje, $hat(i)$ en el plano de
+  $bold(K)$ y $hat(k)$, $hat(j)$ sobre la línea de nodos; así
+  $bold(K) = -sin theta thin hat(i) + cos theta thin hat(k)$.
+
+  *Primera manera: $bold(H)_G$ está quieto y $bold(K)$ lo apunta.*
+  $ bold(H)_G = H_G bold(K) = -H_G sin theta thin hat(i) + H_G cos theta thin hat(k) $
+  *Segunda manera: inercia por $bold(omega)$, componente a componente* (los ejes son principales):
+  $ bold(H)_G = I' omega_x hat(i) + I' omega_y hat(j) + I omega_z hat(k) $
+  // simbolos: omega_x, omega_y
+  Igualando: $omega_y = 0$, $omega_x = -H_G sin theta \/ I'$, $omega_z = H_G cos theta \/ I$.
+
+  *Tercera cara de $bold(omega)$: los giros de Euler.* Con $theta$ fijo,
+  $ bold(omega) = dot(phi) bold(K) + dot(psi) hat(k) = -dot(phi) sin theta thin hat(i) + (dot(phi) cos theta + dot(psi)) hat(k) $
+  Componente $x$ con componente $x$: $dot(phi) sin theta = H_G sin theta \/ I'$, así que
+  $dot(phi) = H_G \/ I'$. Componente $z$ con componente $z$:
+  $dot(phi) cos theta + dot(psi) = H_G cos theta \/ I = (I' \/ I) dot(phi) cos theta$, y
+  despejando $dot(psi) = (I' - I) \/ I thin dot(phi) cos theta$. Ésas son las dos de arriba.
+
+  *¿Y por qué $theta$ no cambia?* Sobre el eje de simetría la ecuación de Euler es
+  $I dot(omega)_z = (I' - I') omega_x omega_y = 0$: $omega_z$ es constante, y como
+  $omega_z = H_G cos theta \/ I$ con $H_G$ fijo, $cos theta$ también.
+  // simbolos: omegadot_z
+
+  *El ángulo de $bold(omega)$ (lo usa W6).* Con esas componentes,
+  $tan gamma = abs(omega_x) \/ omega_z = (I \/ I') tan theta$. Acá $I \/ I' = 16\/9 > 1$:
+  $gamma > theta$, $bold(omega)$ queda más lejos del eje que $bold(H)_G$, y $dot(psi)$
+  sale con el signo contrario a $dot(phi)$. Eso *es* la retrógrada.
+]
+
+
 #W(6)
 Con $(I' - I) \/ I = 9\/16 - 1 = -7\/16$:
 // simbolos: T, pi
@@ -699,6 +732,19 @@ $I = I_(A A) = 2 I'$: un cuerpo *achatado* (plano), $I > I'$.
 #W(5)
 $ dot(psi) = (I' - I)/I dot(phi) cos theta = (I' - 2 I')/(2 I') dot(phi) cos theta = - 1/2 dot(phi) cos theta $
 
+#sale[
+  Es la del Problema 4 y sale igual: $bold(H)_O$ quieto sobre $bold(K)$ da
+  $bold(H)_O = -H_O sin theta thin hat(i) + H_O cos theta thin hat(k)$; inercia por
+  $bold(omega)$ da $bold(H)_O = I' omega_x hat(i) + I omega_z hat(k)$ con $I = 2 I'$; y los giros de
+  Euler, $bold(omega) = -dot(phi) sin theta thin hat(i) + (dot(phi) cos theta + dot(psi)) hat(k)$.
+  // simbolos: H_O
+  Igualando en $hat(i)$: $dot(phi) = H_O \/ I'$. Igualando en $hat(k)$:
+  $dot(phi) cos theta + dot(psi) = H_O cos theta \/ (2 I') = 1/2 dot(phi) cos theta$, o sea
+  $dot(psi) = -1/2 dot(phi) cos theta$: el spin relativo es la mitad de la precesión y al revés.
+  Y $tan gamma = (I \/ I') tan theta = 2 tan theta$: $bold(omega)$ más abierto que el eje, retrógrada.
+]
+
+
 #W(6)
 $ abs(dot(phi)) = 2 abs(dot(psi)) = 2 (3 " rev/min") = 6 " rev/min" = 0,628 " rad/s" $
 Una vuelta de bamboleo cada $10,0$ s. *Retrógrada*: el spin relativo va al
@@ -772,6 +818,18 @@ $ I = m r^2, quad quad I' = 1/2 m r^2 + 1/12 m ell^2 $
 #W(5)
 $dot(psi) = (I' - I) \/ I dot(phi) cos theta$: el signo de $I' - I$ decide.
 Directa si $I' > I$; retrógrada si $I' < I$.
+
+#sale[
+  Igualando el $bold(H)_G$ quieto sobre $bold(K)$ con «inercia por $bold(omega)$» (las dos
+  maneras del Problema 4): en $hat(i)$ sale $dot(phi) = H_G \/ I' > 0$ siempre; en $hat(k)$,
+  $dot(phi) cos theta + dot(psi) = (I' \/ I) dot(phi) cos theta$. El spin relativo es lo que
+  falta para llegar de $dot(phi) cos theta$ a $(I' \/ I) dot(phi) cos theta$: si $I' > I$
+  falta *sumar* ($dot(psi) > 0$, mismo sentido que la precesión: directa); si $I' < I$ sobra
+  y hay que *restar* ($dot(psi) < 0$: retrógrada). Y el ángulo de $bold(omega)$,
+  $tan gamma = (I \/ I') tan theta$, dice lo mismo con dibujo: $I' > I$ deja a $bold(omega)$
+  entre el eje y $bold(H)_G$; $I' < I$, del otro lado.
+]
+
 
 #W(6)
 $ I' > I quad <==> quad 1/12 ell^2 > 1/2 r^2 quad <==> quad ell/r > sqrt(6) = 2,449 $
@@ -882,6 +940,25 @@ tiene lados $dot(phi)$, $dot(psi)$ y $omega = 0,0895$ rad/s, y ángulos que
 salen de $theta$ y $gamma$; por la ley de los senos:
 $ (dot(phi))/(sin gamma) = omega/(sin theta) = (abs(dot(psi)))/(sin(gamma - theta)) $
 $ dot(phi) = 0,0895 (sin 44,3 degree)/(sin 32,0 degree) = 0,118 " rad/s", quad quad abs(dot(psi)) = 0,0895 (sin 12,3 degree)/(sin 32,0 degree) = 0,0360 " rad/s" $
+
+#sale[
+  *La ley de los senos, aplicada a este triángulo.* $bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$
+  se dibuja como tres flechas: $dot(phi) bold(K)$, a continuación $dot(psi) hat(k)$, y
+  $bold(omega)$ cerrando. En un triángulo cada lado tiene enfrente el ángulo que forman los
+  *otros dos*: frente a $dot(phi)$, el ángulo entre $hat(k)$ y $bold(omega)$, que es
+  $gamma = 44,3$°; frente a $abs(dot(psi))$, el ángulo entre $bold(K)$ (o sea $bold(H)_G$)
+  y $bold(omega)$, que es $gamma - theta = 12,3$°; frente a $omega$, el ángulo entre
+  $bold(K)$ y $hat(k)$, que es $theta = 32$°. Lado sobre seno del opuesto es lo mismo
+  para los tres: eso es la ecuación de arriba.
+
+  *Y $theta$ y $gamma$ salen de componentes porque los ejes son principales*:
+  $bold(H)_G$ tiene sus componentes (W5) y $bold(omega)$ tiene las mismas divididas cada una
+  por su momento ($omega_y = H_y \/ I'$, $omega_z = H_z \/ I$). Como $I > I'$, la
+  componente sobre el eje se achica más que la de costado y $bold(omega)$ se abre más que
+  $bold(H)_G$: por eso $gamma > theta$.
+  // simbolos: H_y, H_z
+]
+
 // simbolos: E
 
 #triangulo(32.0, 3.3, -1.0, retro: true)[El triángulo de la hoja de Aníbal con los números del Problema 7, dibujado en el plano de $bold(H)_G$ y el eje de simetría: $bold(omega)$ (azul) es la suma de la precesión sobre $bold(H)_G$ (verde) y el spin sobre el eje (rojo), que en la retrógrada va para atrás.]
@@ -892,6 +969,20 @@ $ dot(phi) = 0,0895 (sin 44,3 degree)/(sin 32,0 degree) = 0,118 " rad/s", quad q
 (-562,5 \/ 1562,5)(0,118)(0,848) = -0,0360$ rad/s. Coinciden. En las unidades de
 Aníbal: $dot(phi) = 7,07$ rad/min y $abs(dot(psi)) = 2,16$ rad/min, que son
 los números de su hoja.
+
+#sale[
+  *Las dos fórmulas de W7, para esta cápsula.* $bold(H)_G$ quieto: $bold(H)_G = H_G bold(K)$,
+  con $bold(K) = -sin theta thin hat(i)' + cos theta thin hat(k)$ en la terna del Beer
+  ($hat(i)'$ en el plano de $bold(H)_G$ y el eje: acá apunta hacia $+y$, porque el eje
+  apunta hacia $-z$). Inercia por $bold(omega)$: $I' omega_perp$ de costado e $I omega_z$
+  sobre el eje. Giros de Euler: $bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$.
+  // simbolos: omega_perp, ihat'
+  De costado: $I' dot(phi) sin theta = H_G sin theta$, o sea $dot(phi) = H_G \/ I' =
+  117,9\/1000$. Sobre el eje: $I (dot(phi) cos theta + dot(psi)) = H_G cos theta$, o sea
+  $dot(psi) = (I' - I) \/ I thin dot(phi) cos theta$. Con $I = 1562,5 > I' = 1000$ el
+  paréntesis es negativo: el spin relativo sale al revés, que es la retrógrada que ya
+  daba $gamma > theta$. Tres caminos (triángulo, fórmulas, ángulos), un resultado.
+]
 
 #W(8)
 Después del disparo, $bold(H)_G$ queda fijo en el espacio, a $32$° del eje de
@@ -979,6 +1070,17 @@ con $omega_(0 y)$ y $omega_(0 z)$ las componentes de $bold(omega)_0$.
 #W(5)
 $ Delta bold(H) = bold(r)_B times bold(J) = (0; 1,25; 2) times (50; 0; 0) = (0; 100; -62,5), quad quad bold(H)_G = bold(H)_0 + Delta bold(H) = (0; 120; 93,75) " kg·m²/s" $
 
+#sale[
+  *¿Por qué se suman?* Durante el encendido $dif bold(H)_G \/ dif t = bold(r)_B times bold(F)$;
+  integrando en el segundo que dura, $bold(H)_G (1 " s") - bold(H)_0 = integral bold(r)_B times bold(F) dif t
+  = bold(r)_B times bold(J)$ si $bold(r)_B$ casi no se movió (W3). El impulso angular es un
+  *cambio*, no un valor nuevo: se le suma a lo que había. Y después, $bold(omega)$ sale
+  componente a componente dividiendo por su momento, como en el 7, y $theta$, $gamma$,
+  $dot(phi)$, $dot(psi)$ con las mismas dos fórmulas (demostradas en el Problema 7, W8).
+  // simbolos: F
+]
+
+
 #dibujo(fg.fig-p8)[El Problema 8 como suma de flechas: $bold(H)_0 = (0; 20; 156,25)$ (gris, lo que ya tenía) más $Delta bold(H) = bold(r)_B times bold(J) = (0; 100; -62,5)$ (rojo punteado) da $bold(H)_G = (0; 120; 93,75)$ kg·m²/s (verde), a $theta = 52$° del eje; $bold(omega) = (0; 0,12; 0,06)$ rad/s, a $gamma = 63,4$°.]
 
 #W(6)
@@ -1065,6 +1167,18 @@ $ bold(H) = (J T (z_A + z_B); I_y omega_0; -J T (x_A + x_B)) $
 #W(6)
 *(Incisos 4 y 5)*, medidos desde el eje $y$:
 $ cos theta = (I_y omega_0)/abs(bold(H)), quad quad cos gamma = omega_0/abs(bold(omega)) $
+
+#sale[
+  $theta$ es el ángulo entre $bold(H)$ y el eje $y$: el coseno es la componente sobre $y$
+  dividida por el módulo, y la componente de $bold(H)$ sobre $y$ es $I_y omega_0$ porque el
+  impulso no le tocó esa componente ($bold(r) times bold(F)$ no tiene parte $y$, W4). Lo mismo
+  para $gamma$ con $bold(omega)$, cuya componente sobre $y$ sigue siendo $omega_0$. Y la
+  precesión y el spin de W6 salen de igualar $bold(H)$ quieto con «inercia por $bold(omega)$»
+  como en el Problema 4: $dot(phi) = abs(bold(H)) \/ I_x$ y
+  $dot(psi) = (I_x - I_y) \/ I_y thin dot(phi) cos theta$, con $I_x$ en el papel de $I'$ e
+  $I_y$ en el de $I$ (acá el eje de simetría es $y$).
+]
+
 *Con números (inciso 8).* El dato que falta, del Beer: $omega_0 = 36$ rev/h $=
 0,0628$ rad/s. De la figura del Beer, la cara entre $A$ y $B$ mira hacia $+z$:
 $x_A = -0,6$, $x_B = 0,6$ y $z_A = z_B = 1,449$ m (la apotema del octógono de
