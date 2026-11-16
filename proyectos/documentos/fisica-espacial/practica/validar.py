@@ -418,7 +418,7 @@ def c_parciales():
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
                     'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ',
                     'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ',
-                    'resumen-cmg.typ', 'resueltos-cr.typ')
+                    'resumen-cmg.typ', 'resueltos-cr.typ', 'resueltos-cr-extras.typ')
 
 
 def c_modelos():
@@ -605,6 +605,22 @@ def c_modelos():
         ('0,0172 thin t " N"', 4 * 10 * w_rd ** 2 * 1.25 / 2.2), ('2,81$ N', 4 * 10 * 4.5 * w_rd * 1.25 / 2.2),
         ('-0,00500$ rad/s', -0.1 / (20 - 0.002)), ('50,0$ rad/s', 20 * 0.1 / (0.002 * (20 - 0.002))),
     ]
+    # La tarjeta repite un numero de cada extra: se mide aca tambien (una copia
+    # sin control es la que pasa mal; leccion del 2026-09-29).
+    w_rpm = 60 / (2 * m.pi)
+    (_, _, _, w_fe1, w_pe1), _ = (w_libre(0.5, 1.25, (-1e-3 * 2000 / 0.8, 0, 0.5 * 2 * m.pi), 2), 0)   # H en unidades de m a^2
+    w_g = 32.2; w_ms, w_mm = 800 / w_g, 6 / 16 / w_g
+    w_He2 = tuple(a + b for a, b in zip((0, w_ms * 2.7 ** 2 * 1.5, 0),
+                                       tuple(w_mm * c for c in cruz((3.5, -20 / 12, 0), (-1600, 1300, 4000)))))
+    (_, _, _, w_fe2, w_pe2) = w_libre(w_ms * 2.7 ** 2, w_ms * 2.4 ** 2, w_He2, 1)
+    w_mT = 5510 * 4 / 3 * m.pi * 6.37e6 ** 3
+    w_Me3 = 0.4 * w_mT * 6.37e6 ** 2 * 2 * m.pi / 86164 * 2 * m.pi / (25800 * 365.25 * 86400) * m.sin(rad(23.45))
+    guia_cr_entera += [
+        ('30,7$ y', w_fe1 * w_rpm), ('36,0$ rpm]', w_pe1 * w_rpm), ('0,946$ y', w_fe2), ('-0,159$ rad/s]', w_pe2),
+        ('2,17 times 10^22$ N·m;', w_Me3), ('302$ días]', 0.99671 / (1 - 0.99671) * 86164 / 86400),
+        ('4,19 times 10^(-3)$ N·m]', 550 * 2 * m.pi / 60 * 2 * m.pi / 86400),
+        ('23,3$° de semi', deg(m.asin(m.sin(0.1309 / 2) / m.sin(0.3327 / 2)))), ('0,054$ rad/s]', 258 / 4760),
+    ]
     # Guia del parcialito de CR (2026-10-28): la hormiga y Coriolis de la hoja
     # de la catedra, el Ejercicio 3 con y sin cupla, y el Beer 18.127.
     g, kx, ky = 32.2, 28.8 / 12, 32.4 / 12
@@ -715,6 +731,8 @@ def c_modelos():
         'resumen-cuerpo-rigido.typ': guia_cr,
         'resueltos-cr-1-a-4.typ': resueltos_cr,
         'resueltos-cr.typ': guia_cr_entera,
+        # los extras: sus cuentas por dos caminos viven en cuentas_extras.py (2026-11-15)
+        'resueltos-cr-extras.typ': list(__import__('cuentas_extras').CONTROLES),
         'parcialito-4-momento-angular.typ': parcialito4,
         'modelo-parcial-4.typ': modelo4,
         'modelo-parcial-5.typ': modelo5,

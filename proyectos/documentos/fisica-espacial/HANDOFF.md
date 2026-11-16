@@ -1,5 +1,17 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-15/16 — la guía de CR resuelta con el workflow** (estado, en ESTADO). **Queda, en el orden de
+> `docs/PLAN-RECTA-FINAL.md`:** (1) el **modelo del 2.º parcial** para el vie 20/11 (formato ANI-41, CR y actitud,
+> resuelto con `workflow.typ`) y un segundo para el lun 23; (2) la hoja de fórmulas con lo de actitud (coning, GEO);
+> (3) lo nuevo del 15/11 al apunte: coning y reorientación a m22, la Tierra forzada contra libre a m21, el GEO a m20,
+> contrastar m15 con los ocho pasos de elementos desde r y v; (4) Fran le pregunta a Aníbal cuál es «la última guía»
+> (ANI-73). **Trampas pagadas:** (a) un `// simbolos:` insertado por Edit a mitad de renglón se comió «los cuerpos
+> tipo» (otra vez: la atrapó `verificar-simbolos.py` como declaración muerta); (b) Edit con `replace_all` pierde el
+> espacio final del texto nuevo (`dot.op100`): reemplazos así van por regex (lección nueva); (c) en matemática, un número
+> con coma pegado a `/` rompe la fracción (`62,5/100`): van entre paréntesis; (d) la caja de presentación de los extras
+> ya la trae su archivo: no repetirla en el principal (dejaba una página en blanco); (e) un título «La meta» en un plan
+> disparó el concepto alcance de la puerta (DA-132).
+
 > **2026-11-12 (tarde) — el Skylab entero en la guía de CMG** (estado, en ESTADO). **Queda:** (1) en el CMG Z, «X es el
 > de $dot(delta)_(1(3))$» sale de leer la Figura 2 (probable, no lo dice el texto del paper); si Aníbal da otra cosa en
 > la clase, se corrige en la guía y en el Word del parcialito; (2) los números nuevos de la sección (2,9e-3 rad, 0,5753e7

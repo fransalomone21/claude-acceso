@@ -1237,16 +1237,6 @@ cupla externa: propulsores o magnetotorquers.
   ([¿Por qué la rueda gira tan rápido?], [Porque $I_R$ es chico: para llevarse el mismo $H$ que la nave, necesita una $omega$ mucho mayor.]),
 )
 
-#pagebreak()
-#caja([Extras: lo que vimos y no está en la guía], c-viole)[
-  Los ejercicios que siguen no están en la sección de cuerpo rígido de la guía,
-  pero Aníbal los mostró, los pidió o subió material para ellos: el Problema
-  Resuelto 18.6 del Beer (su «problema modelo»), el 18.127 con su cuaderno de
-  Python, la Tierra en el 18.117 y el 18.123 («analizar las diferencias»), el
-  satélite geoestacionario que apunta a la Tierra, la reorientación por
-  _coning_ y el CMG con números. Se resuelven con el mismo workflow.
-]
-
 #include "resueltos-cr-extras.typ"
 
 = La tarjeta del workflow
@@ -1289,6 +1279,12 @@ el orden en que se usa:
       ([9], [A], [Todo en letras, después con números], [$54,5$ rev/h]),
       ([Ad. 1], [B, E], [$I$ crece: hay que empujar para mantener $omega$], [$0,75 + 0,0172 thin t$ N]),
       ([Ad. 2], [E], [El par interno no cambia el total], [$-M T \/ (I - I_R)$]),
+      ([E1], [A], [Alargado (dos discos): directa], [$30,7$ y $36,0$ rpm]),
+      ([E2], [A], [Achatado: retrógrada, el spin para atrás], [$0,946$ y $-0,159$ rad/s]),
+      ([E3], [B y C], [Forzada: la cupla gira a $bold(H)$; libre: $bold(H)$ quieto], [$2,17 times 10^22$ N·m; $302$ días]),
+      ([E4], [B], [Hacer girar un $bold(H)$ grande cuesta una cupla siempre], [$4,19 times 10^(-3)$ N·m]),
+      ([E5], [A], [Dos golpes y la precesión libre viaja gratis], [cono de $23,3$° de semiángulo]),
+      ([E6], [E], [La cupla sale de doblar $bold(H)$; desaturar pide cupla externa], [ISS: $0,054$ rad/s]),
     ).flatten().map(c => text(size: 8.5pt, c)),
   )
 }

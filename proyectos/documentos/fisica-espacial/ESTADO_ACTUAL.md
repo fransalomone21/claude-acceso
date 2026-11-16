@@ -1,5 +1,18 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-15/16, en la PC: la guía de cuerpo rígido entera, resuelta con el workflow de Aníbal (43 págs.,
+> publicada).** Pedido de Fran para el 16/11 y la recta final al 2.º parcial (26/11). `practica/resueltos-cr.typ`:
+> capítulo del workflow (las cuatro ideas con su utilidad, los ocho pasos W1-W8 de `practica/workflow.typ` sacados de
+> la hoja manuscrita del Problema 7 de Aníbal, las clases A-E), los Problemas 1 a 9 y los dos adicionales, y al final
+> los extras de `practica/resueltos-cr-extras.typ` (PR 18.6, 18.127 con el cuaderno de Aníbal, la Tierra 18.117 contra
+> 18.123, el GEO con el spin a la Tierra, coning de Martz y CMG con números; los escribió una sesión paralela, revisados
+> acá contra la física) y la tarjeta del workflow. `validar.py` 912 controles (los extras desde `cuentas_extras.py`),
+> `verificar-simbolos.py` (102 + 114), `verificar-consignas.py` (81), `probar-validar.py` 17 de 17: en verde. Drive en
+> `3 - Guia de problemas/2 - Cuerpo rigido resuelto`, al día. Ese día también: la carpeta pública de Drive, la de la
+> facultad y Descargas quedaron ordenadas por carpetas (sesión paralela; planilla y deshacer en
+> `01 - UNSAM\Fisica Espacial\_orden-2026-11-15\`); ANI-R17 en `catedras`; el plan día por día y lo pendiente para el
+> apunte, en `docs/PLAN-RECTA-FINAL.md`.
+
 > **2026-11-12 (tarde), en la PC: el Skylab entero en la guía de CMG (16 págs.).** Pedido de Fran para seguir la clase de
 > hoy y defender el parcialito 6: sección 7 suma «El sistema entero del Skylab» (requerimientos, por qué CMG, el cúmulo y
 > qué eje es X en el CMG Z, la ley de control en tres partes, la desaturación de noche con el gradiente, sensores y
