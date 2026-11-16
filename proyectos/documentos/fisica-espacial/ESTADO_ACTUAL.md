@@ -8,6 +8,10 @@
 > $bold(omega)$; P8 $bold(H)_0 + Delta bold(H) = bold(H)_G$; P9 el octógono con el gas, $-J hat(j)$, $bold(H)$ y
 > $bold(omega)$; Ad1 los brazos con Coriolis y el par; Ad2 la rueda contra la nave. Sentidos sacados de las cuentas de
 > cada problema. Guía: 46 págs., publicada y al día por MD5; `validar.py` 912, símbolos, consignas (81) en verde.
+> Después, el mismo día: **anexo de demostraciones** al final de la guía (48 págs., publicada): A.1 spin y precesión
+> libres desde $bold(H)_G$ quieto contra $bold(H)_G = I' omega_x hat(i) + dots.h$; A.2 $tan gamma = (I\/I') tan theta$ y
+> directa/retrógrada; A.3 la ley de los senos del triángulo; A.4 las ecuaciones de Euler desde el transporte; A.5 la
+> precesión estable con cupla (Beer 18.44), con $theta = 90$° y el caso libre como control.
 
 > **2026-11-15/16, en la PC: la guía de cuerpo rígido entera, resuelta con el workflow de Aníbal (43 págs.,
 > publicada).** Pedido de Fran para el 16/11 y la recta final al 2.º parcial (26/11). `practica/resueltos-cr.typ`:

@@ -1257,6 +1257,107 @@ cupla externa: propulsores o magnetotorquers.
 
 #include "resueltos-cr-extras.typ"
 
+= Anexo — las demostraciones que la guía usa sin demostrar
+
+En los problemas se usaron cuatro relaciones «del Beer» como si cayeran del
+cielo. Acá van deducidas, cortas y en el orden en que se apoyan una en la otra.
+Todas en un cuerpo con simetría de revolución: $I$ axial, $I'$ transversal, y
+la terna del Beer (§18.9-18.11): $hat(k)$ sobre el eje de simetría, $hat(i)$ en
+el plano de $bold(K)$ y $hat(k)$, $hat(j)$ sobre la línea de nodos. Con $theta$
+entre $bold(K)$ y $hat(k)$:
+$ bold(K) = -sin theta thin hat(i) + cos theta thin hat(k) $
+
+== A.1 — Spin y precesión libres: $dot(psi) = (I' - I)\/I thin dot(phi) cos theta$ y $dot(phi) = H_G \/ I'$
+
+#duda[¿De dónde sale que el spin y la precesión estén atados, si son dos giros distintos?]
+
+Pienso en voz alta: tengo dos formas de escribir lo mismo y las igualo. Sin
+cuplas, $bold(H)_G$ está quieto y apunto $bold(K)$ sobre él, así que en la terna
+del Beer
+$ bold(H)_G = H_G bold(K) = -H_G sin theta thin hat(i) + H_G cos theta thin hat(k) $
+Pero $bold(H)_G$ también es «momento de inercia por $bold(omega)$» componente a
+componente, porque los ejes son principales:
+$ bold(H)_G = I' omega_x hat(i) + I' omega_y hat(j) + I omega_z hat(k) $
+Igualando: $omega_y = 0$, $omega_x = -H_G sin theta \/ I'$ y
+$omega_z = H_G cos theta \/ I$. Ahora la otra cara de $bold(omega)$: los ángulos
+de Euler con $dot(theta) = 0$ (ya lo justifico abajo) dan
+$ bold(omega) = dot(phi) bold(K) + dot(psi) hat(k) = -dot(phi) sin theta thin hat(i) + (dot(phi) cos theta + dot(psi)) hat(k) $
+Componente $x$ contra componente $x$: $dot(phi) sin theta = H_G sin theta \/ I'$, o sea
+$ dot(phi) = H_G / I' $
+Componente $z$ contra componente $z$: $dot(phi) cos theta + dot(psi) = H_G cos theta \/ I = (I'\/I) dot(phi) cos theta$, y despejando
+$ dot(psi) = (I'/I - 1) dot(phi) cos theta = (I' - I)/I dot(phi) cos theta $
+Listo: la precesión la fija el $bold(H)$ que le diste y la inercia *transversal*;
+el spin relativo es lo que sobra para que la componente axial de $bold(omega)$
+cierre con la de $bold(H)$.
+
+*¿Por qué $theta$ no cambia?* La ecuación de Euler sobre el eje de simetría
+(A.4) da $I dot(omega)_z = (I' - I') omega_x omega_y = 0$: $omega_z$ es
+constante, y como $omega_z = H_G cos theta \/ I$ con $H_G$ fijo, $cos theta$
+también.
+// simbolos: omegadot_z
+
+== A.2 — El ángulo de $bold(omega)$: $tan gamma = (I \/ I') tan theta$
+
+Con las componentes de A.1, $gamma$ es el ángulo entre $bold(omega)$ y el eje:
+$ tan gamma = abs(omega_x)/omega_z = (H_G sin theta \/ I')/(H_G cos theta \/ I) = I/I' tan theta $
+*De acá sale directa o retrógrada sin hacer otra cuenta.* Si $I > I'$ (achatado),
+$gamma > theta$: $bold(omega)$ queda más lejos del eje que $bold(H)$, y por A.1
+$dot(psi)$ tiene el signo contrario a $dot(phi)$: *retrógrada*. Si $I < I'$
+(alargado), $gamma < theta$, $bold(omega)$ entre el eje y $bold(H)$, y $dot(psi)$
+con el mismo signo: *directa*. Con $I = I'$ (el cubo), $gamma = theta$ y no hay
+precesión que ver. Es exactamente el «$I_3$ tira de $bold(omega)$ hacia $bold(L)$» de
+la hoja de Aníbal.
+
+== A.3 — La ley de los senos del triángulo de velocidades
+
+$bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$ es un triángulo: la flecha
+$dot(phi) bold(K)$, a continuación la flecha $dot(psi) hat(k)$, y $bold(omega)$
+cerrando. Cada lado tiene enfrente el ángulo entre las direcciones de los
+*otros dos*: frente a $dot(phi)$, el ángulo entre $hat(k)$ y $bold(omega)$, que es
+$gamma$; frente a $abs(dot(psi))$, el que hay entre $bold(K)$ y $bold(omega)$, que
+es $abs(gamma - theta)$; frente a $omega$, el que hay entre $bold(K)$ y $hat(k)$,
+que es $theta$ (o $180 degree - theta$, mismo seno). Entonces
+$ (dot(phi))/(sin gamma) = (abs(dot(psi)))/(sin abs(gamma - theta)) = omega/(sin theta) $
+que es lo que se usó en los Problemas 7 a 9. Y da lo mismo que A.1: dos caminos,
+una respuesta.
+
+== A.4 — Las ecuaciones de Euler, desde el teorema del transporte
+
+Tomo ejes principales pegados al cuerpo, así que la terna gira con
+$bold(Omega) = bold(omega)$ y los momentos de inercia no cambian. El transporte
+dice
+$ sum bold(M)_G = (dif bold(H)_G)/(dif t) = (I_x dot(omega)_x hat(i) + I_y dot(omega)_y hat(j) + I_z dot(omega)_z hat(k)) + bold(omega) times bold(H)_G $
+// simbolos: I_z, omegadot_x, omegadot_y, M_x, M_y
+Haciendo el producto vectorial con $bold(H)_G = (I_x omega_x; I_y omega_y; I_z omega_z)$ y separando
+componentes:
+$ M_x = I_x dot(omega)_x - (I_y - I_z) omega_y omega_z, quad M_y = I_y dot(omega)_y - (I_z - I_x) omega_z omega_x, quad M_z = I_z dot(omega)_z - (I_x - I_y) omega_x omega_y $
+(Beer ecs. 18.40). Con $I_x = I_y = I'$ e $I_z = I$, la tercera queda $M_z = I dot(omega)_z$:
+sin cupla axial, $omega_z$ no cambia nunca, que es lo que usó A.1.
+
+== A.5 — Precesión estable con cupla: $sum M = dot(phi) sin theta (I omega_z - I' dot(phi) cos theta)$
+
+Ahora sí hay cupla, pero $theta$, $dot(phi)$ y $dot(psi)$ son constantes (el
+trompo que precesa parejo, el giróscopo, el CMG). Tomo la terna del Beer, que
+*no* gira con el spin: gira con $bold(Omega) = dot(phi) bold(K)$. En esa terna
+$ bold(H)_G = -I' dot(phi) sin theta thin hat(i) + I omega_z hat(k), quad omega_z = dot(phi) cos theta + dot(psi) $
+tiene componentes constantes, así que sólo queda el transporte:
+$ sum bold(M)_G = bold(Omega) times bold(H)_G = dot(phi) (-sin theta thin hat(i) + cos theta thin hat(k)) times (-I' dot(phi) sin theta thin hat(i) + I omega_z hat(k)) $
+Con $hat(i) times hat(k) = -hat(j)$ y $hat(k) times hat(i) = hat(j)$:
+$ sum bold(M)_G = dot(phi) sin theta (I omega_z - I' dot(phi) cos theta) hat(j) $
+(Beer ec. 18.44). La cupla va sobre la línea de nodos: perpendicular a la vez al
+eje y a la precesión. Dos casos que salen gratis:
+
+- *$theta = 90 degree$ (el giróscopo de la feria, el CMG):* $M = I omega_z dot(phi) = I dot(psi) dot(phi)$. Giro, cupla y precesión forman una terna derecha.
+- *Sin cupla:* $I omega_z = I' dot(phi) cos theta$; metiendo $omega_z = dot(phi) cos theta + dot(psi)$ sale otra vez $dot(psi) = (I' - I)\/I thin dot(phi) cos theta$. La precesión libre es la estable con cupla cero: A.1 por un tercer camino.
+
+#posta[
+  Toda la precesión libre es una igualdad: $bold(H)$ escrito «quieto, sobre
+  $bold(K)$» contra $bold(H)$ escrito «inercia por $bold(omega)$». Componente
+  transversal: la precesión. Componente axial: el spin. Cociente de las dos: el
+  ángulo de $bold(omega)$ y si es directa o retrógrada. Y si hay cupla, lo único
+  que cambia es que $bold(H)$ ya no está quieto y su derivada es $bold(Omega) times bold(H)$.
+]
+
 = La tarjeta del workflow
 
 Lo que hay que tener en la cabeza al abrir un problema de cuerpo rígido, en
