@@ -13,6 +13,7 @@
 #import "../apunte/biblioteca/figuras.typ" as figs
 #import "../apunte/biblioteca/estilo.typ": esquema, paneles
 #import "../apunte/biblioteca/figuras-euler.typ": _triangulo, _leyenda-senos
+#import "figuras-cr-guia.typ" as fg
 
 #show: documento.with(
   titulo: [Cuerpo rígido — la guía entera, resuelta con un workflow],
@@ -24,6 +25,7 @@
   image("figuras-cr/" + archivo, width: ancho),
   caption: text(size: 9pt, epigrafe),
 )
+#let dibujo(cuerpo, epigrafe) = figure(cuerpo, caption: text(size: 9pt, epigrafe))
 #let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
 #let supuestos(..filas) = {
   set par(justify: false)
@@ -595,6 +597,8 @@ Terna inercial con $bold(K)$ sobre $bold(H)_G$ (que está fijo) y terna del
 cuerpo con $hat(k)$ sobre el eje de simetría. Ángulos de Euler: $dot(phi)$
 alrededor de $bold(K)$, $dot(psi)$ alrededor de $hat(k)$, $theta$ entre los dos.
 
+#dibujo(fg.fig-p4)[El satélite del Problema 4 con todo en su lugar (ángulo exagerado: son 2°). $bold(H)_G$ quieto sobre $bold(K)$; el eje barre el cono punteado con $dot(phi)$; $bold(omega)$ cae del otro lado de $bold(H)_G$ porque el cuerpo es achatado, y el spin relativo va al revés.]
+
 #W(3)
 Sin cuplas externas (gradiente de gravedad, arrastre y radiación, despreciados
 en una vuelta de 2 s): $bold(H)_G$ se conserva. Cuerpo rígido sin disipación.
@@ -683,6 +687,8 @@ $I_(A A) = 2 I'$ (axial el doble que la transversal); spin $3$ rev/min;
 #W(2)
 $bold(K)$ sobre $Z$, que es la dirección de $bold(H)_O$ (fijo); $hat(k)$ sobre
 $A$-$A$, el eje de simetría. Origen en el centro de masa $O$.
+
+#dibujo(fg.fig-p5)[La estación de cinco esferas, con el eje $A$-$A$ torcido (exagerado). Plana, así que achatada: $bold(omega)$ del otro lado de $bold(H)_O$, el spin relativo al revés que la precesión.]
 
 #W(3)
 Sin cuplas externas: $bold(H)_O$ se conserva. Ángulo chico: $cos theta approx 1$.
@@ -774,6 +780,8 @@ $ell \/ r < sqrt(6)$ (corto, tipo anillo). En $ell \/ r = sqrt(6)$ los tres
 momentos son iguales: el tubo se porta como el cubo del Problema 1 y no
 precesa.
 
+#dibujo(fg.fig-p6)[Los dos lados de la frontera $ell \/ r = sqrt(6)$, con los mismos vectores. *(a)* Tubo corto: $bold(omega)$ del otro lado de $bold(H)_G$, spin relativo negativo, retrógrada. *(b)* Tubo largo: $bold(omega)$ entre el eje y $bold(H)_G$, spin positivo, directa.]
+
 #W(7)
 Casos límite: $ell -> 0$ es un anillo, $I' = I \/ 2$, achatado: retrógrado, como
 una moneda (el Beer 18.129, la moneda que se lanza, da retrógrada). $ell ->
@@ -855,6 +863,8 @@ puede tener componente $x$; la parte $y$ sale de la altura de $A$ ($-1,25$ por
 sola: $bold(r)$ y $bold(r) + c hat(i)$ (corrido un largo $c$ cualquiera sobre $x$) dan el mismo producto con un $bold(J)$
 // simbolos: c
 sobre $hat(i)$. $abs(bold(H)_G) = 117,9$ kg·m²/s.
+
+#dibujo(fg.fig-p7)[La cápsula del Problema 7. El impulso $bold(J)$ sobre $+x$ en $A$, con brazo $bold(r)_A$, deja $bold(H)_G = (0; -62,5; -100)$ kg·m²/s (verde), a $theta = 32$° de $-z$; $bold(omega)$ (rojo) queda más abierto, a $gamma = 44,3$°. Arriba, el spin relativo negativo; alrededor de $bold(H)_G$, la precesión.]
 
 #W(6)
 *$theta$, entre el eje de simetría y $bold(H)_G$*:
@@ -969,6 +979,8 @@ con $omega_(0 y)$ y $omega_(0 z)$ las componentes de $bold(omega)_0$.
 #W(5)
 $ Delta bold(H) = bold(r)_B times bold(J) = (0; 1,25; 2) times (50; 0; 0) = (0; 100; -62,5), quad quad bold(H)_G = bold(H)_0 + Delta bold(H) = (0; 120; 93,75) " kg·m²/s" $
 
+#dibujo(fg.fig-p8)[El Problema 8 como suma de flechas: $bold(H)_0 = (0; 20; 156,25)$ (gris, lo que ya tenía) más $Delta bold(H) = bold(r)_B times bold(J) = (0; 100; -62,5)$ (rojo punteado) da $bold(H)_G = (0; 120; 93,75)$ kg·m²/s (verde), a $theta = 52$° del eje; $bold(omega) = (0; 0,12; 0,06)$ rad/s, a $gamma = 63,4$°.]
+
 #W(6)
 $ bold(omega) = (0; 120\/1000; 93,75\/1562,5) = (0; 0,12; 0,06) " rad/s" $
 $ tan theta = 120/(93,75) = 1,28 ==> theta = 52,0 degree, quad quad tan gamma = (0,12)/(0,06) = 2 ==> gamma = 63,4 degree $
@@ -1064,6 +1076,8 @@ $gamma > theta$: retrógrada, como se anunció. $dot(phi) = abs(bold(H)) \/ I_x 
 0,0951$ rad/s ($54,5$ rev/h) y $dot(psi) = (I_x - I_y)\/I_y dot(phi) cos theta =
 -0,0126$ rad/s ($-7,2$ rev/h).
 
+#dibujo(fg.fig-p9)[El octógono con su eje $y$ para arriba. El gas de $A$ y $B$ sale hacia $+y$ y al satélite lo empuja $-J hat(j)$ en los dos vértices de la cara que mira a $+z$; eso tumba a $bold(H)$ hacia $+x$: $bold(H) = (115,9; 150,8; 0)$ kg·m²/s a $theta = 37,5$° del eje, y $bold(omega)$ más abierto, a $gamma = 42,7$°.]
+
 #triangulo(37.5, 3.33, -0.44, retro: true)[*(Inciso 6)* $bold(H)$, $bold(omega)$, la precesión y el spin del octógono, en el plano $x y$: $bold(H)$ queda entre el eje y $bold(omega)$.]
 
 #W(7)
@@ -1137,6 +1151,8 @@ con $I_0$ la nave sin los módulos; $dot(r) = (4,5 - 1,2) \/ 120 = 0,0275$ m/s.
 
 #W(5)
 $ M_z = (dif H_z)/(dif t) = 4 m r dot(r) omega_0 quad ==> quad 2 (1,1) T = 4 (10) r (0,0275)(1,25) quad ==> quad T = 0,625 thin r " N" $
+
+#dibujo(fg.fig-ad1)[Los brazos desde arriba ($z$ sale de la hoja). Cada módulo se aleja a $dot(r)$ y, para no quedarse atrás, necesita la fuerza de costado $2 m dot(r) omega_0$ (ámbar), hacia donde gira la nave; el par de los dos $T$ es el que la pone.]
 
 #W(6)
 Con $r(t) = 1,2 + 0,0275 thin t$:
@@ -1218,6 +1234,8 @@ $ omega_"nave" = - (M T)/(I - I_R), quad quad omega_"rel" = (M T)/I_R + (M T)/(I
 La nave gira al revés que la rueda. Con números nuestros (no del enunciado):
 un microsatélite con $I = 20$ kg·m², una rueda de $I_R = 0,002$ kg·m² y $M T =
 0,1$ N·m·s da $omega_"nave" = -0,00500$ rad/s y $omega_"rel" = 50,0$ rad/s.
+
+#dibujo(fg.fig-ad2)[La rueda de reacción desde arriba. El motor le da $+M$ a la rueda y $-M$ a la nave: la rueda gira para un lado ($omega_"rel"$, rápido porque $I_R$ es chico) y la nave para el otro ($omega_"nave" < 0$, lento). El total no se mueve de cero.]
 
 #W(7)
 El total: $(I - I_R) omega_"nave" + I_R (omega_"nave" + omega_"rel") = I

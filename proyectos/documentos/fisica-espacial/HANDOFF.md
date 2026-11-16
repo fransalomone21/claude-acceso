@@ -1,5 +1,13 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-16 — dibujos con vectores en la guía de CR, P4 a Ad2** (estado, en ESTADO). **Queda:** (1) los Problemas 1
+> a 3 ya tenían sus SVG; los extras (`resueltos-cr-extras.typ`) no tienen dibujos nuevos: si Fran los pide, van a
+> `figuras-cr-guia.typ` con el mismo molde; (2) lo de la recta final sigue en el orden del bloque de abajo.
+> **Trampas pagadas:** (a) la galería necesita el `show` de la coma decimal o el guardia de Typst la frena por T1;
+> (b) en 3D, rótulos con números largos ($bold(H)_G = (0; -62,5; -100)$) pisan todo: el rótulo lleva la letra y los
+> números van al epígrafe; (c) la cápsula vista desde $+x$ pone $bold(H)$ y $bold(J)$ del mismo lado: se mira desde
+> $+x, -y$ (`az: -25`).
+
 > **2026-11-15/16 — la guía de CR resuelta con el workflow** (estado, en ESTADO). **Queda, en el orden de
 > `docs/PLAN-RECTA-FINAL.md`:** (1) el **modelo del 2.º parcial** para el vie 20/11 (formato ANI-41, CR y actitud,
 > resuelto con `workflow.typ`) y un segundo para el lun 23; (2) la hoja de fórmulas con lo de actitud (coning, GEO);

@@ -34,6 +34,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en las figuras de Euler, trompo y peonza (lista arriba)' }
     python verificar-figuras.py galeria-omega.typ
     if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en las figuras de omega, H y sus derivadas (lista arriba)' }
+    python verificar-figuras.py galeria-cr-guia.typ
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en los dibujos de la guia de CR, P4 a Ad2 (lista arriba)' }
     # Regla propia 13: ningun simbolo en el aire; cada uno, presentado donde
     # aparece primero (pedido de Fran, 2026-10-29; sabotaje: --sabotaje)
     python verificar-simbolos.py

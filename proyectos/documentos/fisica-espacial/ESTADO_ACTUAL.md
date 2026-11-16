@@ -1,5 +1,14 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-16, en la PC: dibujos con todos los vectores en la guía de CR resuelta, del Problema 4 al Adicional 2.**
+> Pedido de Fran: «dibujos originales y representaciones tuyas con todos los vectores». 8 figuras nuevas en
+> `practica/figuras-cr-guia.typ` (galería `galeria-cr-guia.typ`, medida por `verificar-figuras.py` en `compilar.ps1`):
+> P4 el achatado con $bold(H)_G$, $bold(omega)$, eje, $theta$, $gamma$, precesión y spin; P5 las cinco esferas; P6 el
+> tubo corto contra el largo (retrógrada / directa); P7 la cápsula con $bold(J)$, $bold(r)_A$, $bold(H)_G$ y
+> $bold(omega)$; P8 $bold(H)_0 + Delta bold(H) = bold(H)_G$; P9 el octógono con el gas, $-J hat(j)$, $bold(H)$ y
+> $bold(omega)$; Ad1 los brazos con Coriolis y el par; Ad2 la rueda contra la nave. Sentidos sacados de las cuentas de
+> cada problema. Guía: 46 págs., publicada y al día por MD5; `validar.py` 912, símbolos, consignas (81) en verde.
+
 > **2026-11-15/16, en la PC: la guía de cuerpo rígido entera, resuelta con el workflow de Aníbal (43 págs.,
 > publicada).** Pedido de Fran para el 16/11 y la recta final al 2.º parcial (26/11). `practica/resueltos-cr.typ`:
 > capítulo del workflow (las cuatro ideas con su utilidad, los ocho pasos W1-W8 de `practica/workflow.typ` sacados de
