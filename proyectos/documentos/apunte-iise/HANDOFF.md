@@ -6,7 +6,7 @@ Nada a medias. **Cómo se hace el próximo podcast, rápido** (pedido de Fran):
 - El entorno de voz quedó instalado en la PC (`PCFRAN`, RTX 3090, 192.168.1.10 por cable al router):
   `C:\tts-iise` (venv con torch 2.6 cu124 + chatterbox 0.1.7, `modelo\`, `ffmpeg.exe`, `correr-pc.ps1`).
   Se entra con `ssh -i ~/.ssh/pc-cable Fran@192.168.1.10` (shell remota: PowerShell; `&` no anda, usar `;`).
-  Para desinstalar: `Remove-Item -Recurse -Force C:\tts-iise` (ocupa ~7 GB de 12 libres).
+  **Queda instalado por decisión de Fran (2026-11-17).** Para desinstalar: `Remove-Item -Recurse -Force C:\tts-iise` (ocupa ~7 GB de 12 libres).
 - Medido: la 3090 hace ~0,5× la duración del audio con un proceso usando 6,8 de 24 GB; la 4060 ~1,5×.
   **Lo próximo rápido: 3 procesos en paralelo en la 3090** (`correr-pc.ps1 1,4,7,10` / `2,5,8,11` / `3,6,9,12`,
   cada uno en su `ssh`): un podcast de 2 h en ~20 min. Falta probarlo en paralelo (la caché de frases es por
