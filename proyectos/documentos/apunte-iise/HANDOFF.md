@@ -31,6 +31,7 @@
   tipos, diferenciar, orden; corrigen palabra exacta y lista completa). En el Drive privado
   (`SOLO FRAN/IISE/Resumen 2do parcial`). La medición: `scratchpad` → pasar a `resumenes/` como
   verificador con su prueba en rojo (se rompe sacando «holgura»: da rojo).
+- **Lecciones sin registrar (2):** (a) un resumen para examen se mide contra el inventario de conceptos (glosario) y se arma con la forma de las preguntas tomadas, ejemplos aparte; (b) antes de N procesos en paralelo se mide la memoria comprometida de uno contra el tope de memoria virtual. `aprender.py` exige escribir antes su viñeta en `perfil-global/chequeo-de-trabajo.md` (triage propia).
 - **SIGUE:** reescribir `podcast-resumen-2do/guion.md` DESDE el PDF v2 (mismas 7 partes, cada concepto
   con su definición, ejemplos dichos como ejemplos al final de cada parte; ~45-60 min), sintetizar
   (PC + notebook), juntar un COMPLETO y subir a `SOLO FRAN/IISE/Podcast resumen 2do parcial`.
