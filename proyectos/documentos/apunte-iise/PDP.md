@@ -49,9 +49,11 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** 12 — el podcast del 2.° parcial (abierta el 2026-11-17). Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
+**Fase en curso:** ninguna — la 12 cerró el 2026-11-17. Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
 
-### Fase 12 — Podcast de estudio del 2.° parcial, clases 7 a 13 (tipo: **Fase E**, mantenimiento) — EN CURSO (2026-11-17)
+### Fase 12 — Podcast de estudio del 2.° parcial, clases 7 a 13 (tipo: **Fase E**, mantenimiento) ✅ CERRADA (2026-11-17)
+
+**Resultado:** guion de 12 partes que nombra los 23 módulos (25 a 47) en orden; 12 partes sintetizadas (1 a 5 en la notebook, 6 a 12 en la PC con la RTX 3090 por SSH) y un `COMPLETO` de 1 h 52 min, en el Drive privado de Fran (`SOLO FRAN/IISE/Podcast 2do parcial`, `rclone check` sin diferencias, único permiso: el dueño). Transcriptas la muestra y la parte 7: dicen el guion; falla sólo la letra sola de una fase («la C» → «la sexo»): en el próximo guion, «la Fase ce». Mismo día, fuera del criterio y a pedido de Fran: tres figuras anotadas del N² en el módulo 28 (229 pág., publicado y verificado por MD5).
 
 Pedido de Fran del 17/11: «un podcast de estudio para abarcar todos los temas del 2do parcial, apoyándote en el apunte», desde la clase 7 inclusive hasta la 13, para escucharlo **con el apunte abierto al lado**; «con las voces de Gemini, como el del cuestionario de Leandro», tono humorístico casual, ejemplos exagerados en criollo y **ejemplos de sus cosas** (juegos, proyectos, temas que charlamos). El apunte no se toca.
 

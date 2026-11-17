@@ -1,6 +1,6 @@
 # ESTADO ACTUAL — Apunte de IISE
 
-**2026-11-17 — Fase 12 EN CURSO: el podcast del 2.° parcial (clases 7 a 13).** Guion en
+**2026-11-17 — Fase 12 CERRADA: el podcast del 2.° parcial (clases 7 a 13), 12 partes + completo de 1 h 52 min en el Drive privado de Fran.** Guion en
 `podcast-2do-parcial/guion.md` (12 partes, módulos 25 a 47, con ejemplos de las cosas de Fran),
 sintetizado con las voces clonadas de Gemini (Chatterbox) en la notebook y en la PC (RTX 3090, por
 SSH, entorno en `C:\tts-iise`); las partes van al Drive **privado** de Fran (`SOLO FRAN/IISE/Podcast
