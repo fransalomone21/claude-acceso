@@ -28,6 +28,32 @@
 #let dibujo(cuerpo, epigrafe) = figure(cuerpo, caption: text(size: 9pt, epigrafe))
 #let posta(cuerpo) = caja([La posta], c-rosa, cuerpo)
 #let sale(cuerpo) = caja([De dónde sale, demostrado acá mismo], c-azul, cuerpo)
+// «¿Por qué?» corto, pegado a la afirmación; los argumentos sueltos son las
+// secciones del Anexo B que lo desarrollan ("B.4" salta a <pq-B4>).
+// En cada sección del Anexo B: los atajos de vuelta a cada «¿Por qué?» que la
+// cita, con el problema donde está y su página.
+#let volver(d) = context {
+  let refs = query(<porque-ref>).filter(m => d in m.value)
+  if refs.len() > 0 {
+    let items = refs.map(m => {
+      let hs = query(selector(heading.where(level: 1)).before(m.location()))
+      let t = if hs.len() > 0 { hs.last().body } else { [] }
+      let nombre = if t.has("children") { t.children.first() } else { t }
+      link(m.location())[#nombre (pág. #m.location().page())]
+    })
+    block(above: 0.3em, below: 0.6em, text(size: 9pt, fill: c-azul)[← Volver a: #items.join(" · ")])
+  }
+}
+#let porque(..args) = {
+  let p = args.pos()
+  let cuerpo = p.last()
+  let ds = p.slice(0, p.len() - 1)
+  block(above: 0.6em, below: 0.8em, inset: (left: 8pt), stroke: (left: 1.5pt + c-azul))[
+    #metadata(ds) <porque-ref>
+    #text(fill: c-azul, weight: "bold")[¿Por qué?] #cuerpo
+    #if ds.len() > 0 [ #text(fill: c-azul)[→ #ds.map(d => link(label("pq-" + d.replace(".", "")))[Anexo #d]).join(", ")] ]
+  ]
+}
 #let supuestos(..filas) = {
   set par(justify: false)
   table(
@@ -270,12 +296,16 @@ Origen en $G$, ejes paralelos a las aristas. Como los tres momentos son
 iguales, *cualquier* terna por $G$ es principal: el tensor es $I$ por la
 identidad. El _thruster_ está en el vértice $bold(r) = (1; 1; 1)$ m y empuja
 sobre la arista paralela a $x$: $bold(F) = (4; 0; 0)$ N.
+#porque("B.3")[Si el tensor es $I$ por la identidad en una terna, lo es en todas: un giro sobre cualquier dirección da $bold(H)_G$ paralelo a esa dirección.]
+
 // simbolos: F
 
 #W(3)
 Una fuerza fuera de $G$ equivale a *la misma fuerza en $G$* (traslada) *más
 un par* $bold(r) times bold(F)$ (hace girar). Después del encendido no actúa
 nada: $bold(H)_G$ se conserva.
+#porque("B.2")[Sumar y restar $bold(F)$ en $G$ no cambia nada, y deja $bold(F)$ en $G$ más un par. Y se conserva porque sin cupla $sum bold(M)_G = dot(bold(H))_G = bold(0)$.]
+
 
 #supuestos(
   ([Masa e inercia constantes], [En 4 s se queman $32,6$ g de 120 kg.], [$0,027$ %]),
@@ -322,6 +352,9 @@ Aníbal): $G$ acelera con $bold(F) \/ m$ esté donde esté aplicada la fuerza,
 $Delta v = F Delta t \/ m = 0,133$ m/s sobre $+x$. Como el cubo gira $32,4$°
 mientras empuja, el empuje real se tuerce y el impulso lineal sale $0,131$ m/s
 a $10,8$° de $x$: un $1,4$ %.
+#porque("B.2")[Para el cuerpo entero $sum bold(F) = m bold(a)_G$: las fuerzas internas se cancelan de a pares y el punto de aplicación no aparece.]
+// simbolos: a_G
+
 
 #figura("cr1-empuje.svg", 70%)[El empuje visto desde la punta de $bold(omega)$, segundo a segundo: gira $32,4$° en el encendido. La suma (verde) es el impulso lineal real, un poco más corto y torcido que el de la cuenta con $bold(F)$ fijo (gris).]
 
@@ -396,6 +429,8 @@ principales del disco (su eje y dos diámetros), con $I_z = 1/2 m r^2$ e $I_y =
 1/4 m r^2$:
 $ bold(H)_G = I_y omega_2 hat(j) + I_z omega_1 hat(k) = 1/4 m r^2 (omega_2 hat(j) + 2 omega_1 hat(k)) $
 No es paralelo a $bold(omega)$: sobre el eje del disco la inercia pesa el doble.
+#porque("B.4", "B.5")[Por la simetría de revolución todo diámetro es eje principal. Y en una figura plana $I_z = I_x + I_y$ con $I_x = I_y$: cada diámetro se lleva la mitad de $1/2 m r^2$.]
+
 
 #W(5)
 // simbolos: underbrace
@@ -488,6 +523,8 @@ y, si el torquer lo mueve, sobre $x$; el volante, además, sobre $z$:
 $ bold(Omega) = Omega_x hat(i) + omega_p hat(j), quad quad bold(omega) = Omega_x hat(i) + omega_p hat(j) + omega_s hat(k) $
 Los ejes del _gimbal_ son principales del volante aunque éste gire, porque es
 de revolución sobre $z$.
+#porque("B.4")[Cualquier diámetro del volante ve la masa repartida igual a los dos lados: los productos de inercia se anulan, gire como gire.]
+
 
 #W(3)
 Actúan la cupla del torquer sobre $x$ y lo que ponga la plataforma sobre $y$
@@ -510,7 +547,9 @@ $ dot(Omega)_x = (600 - 500)/5 = 20 " rad/s²" $
 De los 600 N·m, *500 se van en hacer girar $bold(H)$ con la plataforma* y
 sólo 100 aceleran al _gimbal_. Las otras dos componentes, en $t = 0$, dan $M_y =
 M_z = 0$; apenas el _gimbal_ gira, la plataforma tiene que poner $M_y = -Omega_x H_z$.
-// simbolos: M_y, M_z
+#porque[Es la componente $y$ de $bold(Omega) times bold(H)$, $Omega_z H_x - Omega_x H_z$, con $Omega_z = 0$: la plataforma tiene que pagar el giro de $bold(H)$ que ahora mete el _gimbal_. Acá $H_x$ es la componente de $bold(H)$ sobre $x$.]
+
+// simbolos: M_y, M_z, H_x
 
 #figura("cr3-gimbal.svg", 92%)[*(a)* $bold(H)$ enorme sobre $z$, $bold(Omega)$ sobre $y$ y $bold(Omega) times bold(H)$ sobre $x$, donde actúa el torquer. *(b)* Los 600 N·m: 500 en girar $bold(H)$, 100 en acelerar.]
 
@@ -597,6 +636,8 @@ pide el período de precesión y el sentido del spin.
 Terna inercial con $bold(K)$ sobre $bold(H)_G$ (que está fijo) y terna del
 cuerpo con $hat(k)$ sobre el eje de simetría. Ángulos de Euler: $dot(phi)$
 alrededor de $bold(K)$, $dot(psi)$ alrededor de $hat(k)$, $theta$ entre los dos.
+#porque("B.1")[Sin cuplas $bold(H)_G$ es la única dirección que no se mueve, y los ángulos de Euler piden un eje fijo: apuntando $bold(K)$ sobre él, $theta$ y $dot(phi)$ quedan constantes y el movimiento se lee como «el eje da vueltas alrededor de $bold(H)_G$».]
+
 
 #dibujo(fg.fig-p4)[El satélite del Problema 4 con todo en su lugar (ángulo exagerado: son 2°). $bold(H)_G$ quieto sobre $bold(K)$; el eje barre el cono punteado con $dot(phi)$; $bold(omega)$ cae del otro lado de $bold(H)_G$ porque el cuerpo es achatado, y el spin relativo va al revés.]
 
@@ -608,6 +649,8 @@ en una vuelta de 2 s): $bold(H)_G$ se conserva. Cuerpo rígido sin disipación.
 $I = m k_z^2$ (axial) e $I' = m k^2$ (transversal); la masa no hace falta:
 $ I/I' = (720/540)^2 = 16/9 > 1 $
 El cuerpo es *achatado* respecto de su eje: gira sobre su eje mayor.
+#porque[El radio de giro se define así: la distancia a la que habría que juntar toda la masa para tener el mismo momento, $I = m k^2$. Por eso el cociente de momentos es el de radios al cuadrado y la masa se va.]
+
 
 #W(5)
 $bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$; que $bold(H)_G$ esté sobre
@@ -654,6 +697,8 @@ con $T$ el período de una vuelta de precesión.
 $dot(phi) > 0$ y $(I' - I)\/I < 0$: $dot(psi) < 0$, *el spin apunta hacia $-z$*.
 Precesión *retrógrada*: $tan gamma = (16\/9) tan 2 degree$ da $gamma = 3,55$°,
 mayor que $theta$; el cono espacial queda adentro del corporal (Beer fig. 18.24, pág. 1191).
+#porque("B.8")[El cono del cuerpo (alrededor del eje, abertura $gamma$) rueda sobre el del espacio (alrededor de $bold(H)_G$, abertura $gamma - theta$); con $gamma > theta$ todo el espacial queda a menos de $gamma$ del eje, adentro del corporal.]
+
 
 #figura("cr4-conos.svg", 88%)[Los conos (ángulos exagerados). *(a)* Este satélite: $bold(H)_G$ entre $z$ y $bold(omega)$, cono espacial adentro del corporal: retrógrada. *(b)* Con los radios de giro al revés: alargado, conos por afuera, directa.]
 
@@ -671,6 +716,8 @@ el lado contrario al spin relativo. Gira sobre su eje mayor, así que con
 disipación el cono de 2° se *cierra*: es estable. Si fuera alargado
 (radios al revés), precesaría directo con $dot(phi) = 1,930$ rad/s ($T = 3,256$
 s) y, con disipación, terminaría dando tumbos como el Explorer 1.
+#porque("B.7")[Con $bold(H)$ fijo, la energía de giro es mínima girando sobre el eje mayor, y la disipación sólo puede bajarla: lo empuja hacia ahí. En el alargado, el mínimo es girar de costado.]
+
 
 #final[$abs(dot(phi)) = 3,431$ rad/s, período $1,832$ s; el spin apunta hacia $-z$: achatado ($I\/I' = 16\/9$), precesión retrógrada.]
 
@@ -720,6 +767,8 @@ $I_(A A) = 2 I'$ (axial el doble que la transversal); spin $3$ rev/min;
 #W(2)
 $bold(K)$ sobre $Z$, que es la dirección de $bold(H)_O$ (fijo); $hat(k)$ sobre
 $A$-$A$, el eje de simetría. Origen en el centro de masa $O$.
+#porque("B.1")[Lo mismo que en el Problema 4: sin cuplas, $bold(H)_O$ es lo único fijo, y es el eje que conviene para los ángulos de Euler.]
+
 
 #dibujo(fg.fig-p5)[La estación de cinco esferas, con el eje $A$-$A$ torcido (exagerado). Plana, así que achatada: $bold(omega)$ del otro lado de $bold(H)_O$, el spin relativo al revés que la precesión.]
 
@@ -728,6 +777,8 @@ Sin cuplas externas: $bold(H)_O$ se conserva. Ángulo chico: $cos theta approx 1
 
 #W(4)
 $I = I_(A A) = 2 I'$: un cuerpo *achatado* (plano), $I > I'$.
+#porque("B.5")[En una figura plana $I_z = I_x + I_y$; con simetría, cada transversal es la mitad del axial. Por eso «el doble» no es un dato raro: es la forma.]
+
 
 #W(5)
 $ dot(psi) = (I' - I)/I dot(phi) cos theta = (I' - 2 I')/(2 I') dot(phi) cos theta = - 1/2 dot(phi) cos theta $
@@ -761,6 +812,8 @@ por las dos fórmulas.
 La estación bambolea dos veces por cada vuelta que da sobre su eje. Como gira
 sobre su eje *mayor*, es estable: con disipación (gente caminando, agua que se
 mueve) el bamboleo se amortigua en vez de crecer.
+#porque("B.7")[Es la regla del eje mayor: con $I > I'$ y $bold(H)$ fijo, la energía de giro es mínima en $theta = 0$, y la disipación lleva hacia ahí.]
+
 
 #final[$dot(chi) = 6$ rev/min $= 0,628$ rad/s (período $10,0$ s), retrógrada: la estación es achatada, $I = 2 I'$.]
 
@@ -814,6 +867,8 @@ Sin cuplas: $bold(H)_G$ fijo, precesión libre.
 #W(4)
 Toda la masa está a distancia $r$ del eje (tabla de momentos de inercia):
 $ I = m r^2, quad quad I' = 1/2 m r^2 + 1/12 m ell^2 $
+#porque("B.5", "B.6")[El axial, porque toda la masa está a $r$. El transversal: cada anillito aporta su diámetro, $1/2 r^2$ por su masa, más Steiner por estar corrido a lo largo del eje; integrar eso a lo largo del tubo da el $ell^2 \/ 12$.]
+
 
 #W(5)
 $dot(psi) = (I' - I) \/ I dot(phi) cos theta$: el signo de $I' - I$ decide.
@@ -850,6 +905,8 @@ Un satélite cilíndrico estabilizado por giro tiene que ser *más ancho que
 alto* en este sentido ($ell < 2,45 thin r$ para un tubo), así gira sobre su eje
 mayor y la disipación lo estabiliza. El Explorer 1, un lápiz con antenas, estaba
 del lado equivocado de esta frontera.
+#porque("B.7")[Un alargado con disipación pierde energía abriendo el cono, porque su mínimo de energía con $bold(H)$ fijo es girar de costado.]
+
 
 #final[Directa para $ell \/ r > sqrt(6) approx 2,45$; retrógrada para $ell \/ r < sqrt(6)$; en el límite, isótropo y sin precesión.]
 
@@ -899,6 +956,8 @@ girar. Se pide el eje de precesión y las velocidades de spin y de precesión.
 Origen en el centro de masa $G$, ejes principales $x y z$ de la figura ($z$
 sobre el eje de simetría). La cápsula es de revolución: $I = m k_z^2$ axial e
 $I' = m k_x^2$ transversal.
+#porque("B.4")[Por ser de revolución, $x$ e $y$ son principales y valen lo mismo; y el radio de giro es justo lo que da $I = m k^2$.]
+
 
 #W(3)
 Durante el segundo actúa el empuje en $A$; después, nada: $bold(H)_G$ se
@@ -908,6 +967,8 @@ frente a lo que gira la cápsula mientras dura, así que el impulso es $bold(J)
 De la figura, *$A$ está en el borde de la base*: $bold(r)_A = (0; 2; -1,25)$ m
 (las cotas de 2 m y 1,25 m son radio y altura respecto de $G$; la coordenada
 $x$ no importa, ver W5).
+#porque[Con $bold(r)_A$ casi quieto durante el segundo, el brazo sale de la integral: $integral bold(r)_A times bold(F) dif t = bold(r)_A times integral bold(F) dif t = bold(r)_A times bold(J)$.]
+
 
 #W(4)
 Antes: $bold(H)_G (t = 0) = bold(0)$. Momentos:
@@ -931,7 +992,6 @@ $ tan theta = abs(H_y)/abs(H_z) = (62,5)/100 = 0,625 quad ==> quad theta = 32,0 
 $148$°). *$bold(omega)$ componente a componente*, cada una con su momento:
 $ omega_y = (-62,5)/1000 = -0,0625 " rad/s", quad omega_z = (-100)/(1562,5) = -0,0640 " rad/s", quad omega_x = 0 $
 «$omega_x = 0$, ¿por qué?»: porque la componente $H_x$ de $bold(H)_G$ es cero y el eje $x$ es principal. *$gamma$,
-// simbolos: H_x
 entre el eje y $bold(omega)$*:
 $ tan gamma = (0,0625)/(0,0640) = 0,977 quad ==> quad gamma = 44,3 degree $
 *Como $gamma > theta$, precesión retrógrada*: el cuerpo es achatado, $I = 1562,5
@@ -990,6 +1050,8 @@ la cápsula. El eje de simetría da una vuelta alrededor de $bold(H)_G$ cada
 $53,3$ s (precesión), mientras la cápsula gira sobre sí misma al revés (spin
 negativo, retrógrada). Y el centro de masa sale despedido a $E Delta t \/ m =
 0,05$ m/s sobre $+x$.
+#porque("B.2")[$sum bold(F) = m bold(a)_G$: el impulso lineal $bold(J)$ le da $bold(J) \/ m$ a $G$, esté donde esté el cohete.]
+
 
 #anibal[
   Su segunda hoja dibuja los dos casos y dice *«$I_3$ tira de $bold(omega)$
@@ -1096,12 +1158,16 @@ $ dot(phi) = 0,134 (sin 63,4 degree)/(sin 52,0 degree) = 0,152 " rad/s", quad qu
 $dot(phi) = H_G \/ I' = 152,3 \/ 1000 = 0,152$ rad/s y $dot(psi) = (I' - I)\/I
 dot(phi) cos theta = -0,0338$ rad/s. Coinciden. Antes del encendido la cápsula
 ya precesaba: $bold(H)_0$ estaba a $7,3$° del eje.
+#porque[$bold(H)_0 = (0; 20; 156,25)$ tiene parte de costado: el ángulo con el eje sale de $tan = 20 \/ 156,25$. Con algo de costado ya hay cono.]
+
 
 #W(8)
 El eje de precesión pasó de estar a $7,3$° del eje de la cápsula a estar a
 $52$°: el pulso *agrandó* el bamboleo. El sentido (retrógrado) no cambió,
 porque es una propiedad del cuerpo. En unidades de Aníbal: $dot(phi) = 9,14$
 rad/min, $abs(dot(psi)) = 2,03$ rad/min.
+#porque[El sentido es el signo de $I' - I$ en $dot(psi) = (I' - I)\/I thin dot(phi) cos theta$ (Anexo A.1): ahí no entra el golpe, sólo los momentos del cuerpo.]
+
 
 #final[$bold(H)_G = (0; 120; 93,75)$ kg·m²/s, a $52,0$° del eje; $bold(omega) = (0; 0,12; 0,06)$ rad/s, $gamma = 63,4$°, retrógrada; $dot(phi) = 0,152$ rad/s, $dot(psi) = -0,0338$ rad/s.]
 
@@ -1152,6 +1218,8 @@ $bold(R)_B = (x_B; y_B; z_B)$, en dos vértices de la tapa de arriba.
 El gas sale hacia $+y$: *al satélite lo empuja $bold(F) = -J hat(j)$*. Después,
 libre. *(Inciso 1)* El tipo de precesión ya se sabe: $I_y = 2400 > I_x = 2000$,
 achatado, *retrógrada*.
+#porque("B.4")[El octógono no es de revolución, pero sus ocho espejos que pasan por el eje anulan los productos de inercia y dejan $I_x = I_z$; con eso vale todo lo del cuerpo simétrico, e $I_y > I_x$ da $gamma > theta$ (Anexo A.2).]
+
 
 #W(4)
 Antes: $bold(H)_0 = I_y omega_0 hat(j)$. Cada propulsor, en su posición $bold(R)$, deja $bold(R) times
@@ -1189,6 +1257,8 @@ $ bold(omega) = (0,0579; 0,0628; 0) " rad/s", quad theta = 37,5 degree, quad gam
 $gamma > theta$: retrógrada, como se anunció. $dot(phi) = abs(bold(H)) \/ I_x =
 0,0951$ rad/s ($54,5$ rev/h) y $dot(psi) = (I_x - I_y)\/I_y dot(phi) cos theta =
 -0,0126$ rad/s ($-7,2$ rev/h).
+#porque[$A$ y $B$ están en las dos puntas de una cara, así que $x = minus.plus$ medio lado; y la cara está a una apotema del centro, $1,2 \/ (2 tan 22,5 degree) = 1,449$ m.]
+
 
 #dibujo(fg.fig-p9)[El octógono con su eje $y$ para arriba. El gas de $A$ y $B$ sale hacia $+y$ y al satélite lo empuja $-J hat(j)$ en los dos vértices de la cara que mira a $+z$; eso tumba a $bold(H)$ hacia $+x$: $bold(H) = (115,9; 150,8; 0)$ kg·m²/s a $theta = 37,5$° del eje, y $bold(omega)$ más abierto, a $gamma = 42,7$°.]
 
@@ -1206,6 +1276,8 @@ y D encendidos, las del 18.126.
 $+x$ respecto de donde estaba el eje; el eje de simetría y $bold(omega)$ giran
 alrededor de $bold(H)$ una vez cada 66 s, mientras el satélite gira sobre sí
 mismo para el otro lado; el cono espacial queda adentro del corporal.
+#porque("B.8")[Retrógrada: $bold(H)$ queda entre el eje y $bold(omega)$, y el cono espacial entra adentro del corporal.]
+
 
 #trampa[
   Tomar $bold(F) = +J hat(j)$ porque «los propulsores expelen en $+y$» da vuelta
@@ -1273,12 +1345,16 @@ Con $r(t) = 1,2 + 0,0275 thin t$:
 $ T(t) = 0,75 + 0,0172 thin t " N" $
 de $0,75$ N al empezar a $2,81$ N al terminar. No hay conos: el giro es sobre un
 eje principal fijo.
+#porque[Sobre un eje principal $bold(H) = I bold(omega)$ es paralelo a $bold(omega)$: no hay ángulo entre los dos que barra un cono.]
+
 
 #W(7)
 *Por Coriolis*: en la terna que gira, cada módulo que se aleja a $dot(r)$
 necesita una fuerza de costado $2 m dot(r) omega_0$ para no quedarse atrás; con
 brazo $r$ y dos módulos, la cupla es $4 m r dot(r) omega_0$. Lo mismo. Y el
 $I_0$ de la nave no hace falta: es constante y no aporta a la derivada.
+#porque[En polares la aceleración de costado es $r dot.double(theta) + 2 dot(r) dot(theta)$; con $dot(theta) = omega_0$ constante queda $2 dot(r) omega_0$, y es la que hay que darle a cada módulo para que no se atrase.]
+
 
 #W(8)
 El empuje crece linealmente porque el brazo de la fuerza de Coriolis crece.
@@ -1331,10 +1407,14 @@ $omega_"rel"$, la de la rueda respecto de la nave.
 #W(2)
 Eje $z$ común; terna inercial. La velocidad absoluta de la rueda es
 $omega_"nave" + omega_"rel"$.
+#porque[Las velocidades angulares se componen como las velocidades: la de la rueda respecto del espacio es la de la nave más la de la rueda respecto de la nave, y acá van sobre el mismo eje.]
+
 
 #W(3)
 El par es interno: *el $H_z$ total se conserva y vale cero*. Para cada parte,
 el par del motor sí es externo.
+#porque("B.9")[Lo que el motor le hace a la rueda, la rueda se lo devuelve al motor, atornillado a la nave: en la suma se cancela. Mirando una parte sola, la cupla viene de afuera de esa parte.]
+
 
 #W(4)
 Nave sin la rueda: momento $I - I_R$. Rueda: $I_R$.
@@ -1371,7 +1451,7 @@ cupla externa: propulsores o magnetotorquers.
 
 #include "resueltos-cr-extras.typ"
 
-= Anexo — las demostraciones que la guía usa sin demostrar
+= Anexo A — las demostraciones que la guía usa sin demostrar
 
 En los problemas se usaron cuatro relaciones «del Beer» como si cayeran del
 cielo. Acá van deducidas, cortas y en el orden en que se apoyan una en la otra.
@@ -1470,6 +1550,143 @@ eje y a la precesión. Dos casos que salen gratis:
   transversal: la precesión. Componente axial: el spin. Cociente de las dos: el
   ángulo de $bold(omega)$ y si es directa o retrógrada. Y si hay cupla, lo único
   que cambia es que $bold(H)$ ya no está quieto y su derivada es $bold(Omega) times bold(H)$.
+]
+
+= Anexo B — los porqués
+
+Cada «¿Por qué?» de los problemas que lleva una flecha salta acá. Son cortos y
+van en el orden en que aparecen en la guía; el Anexo A tiene las cuentas largas
+de la precesión libre.
+
+== B.1 — Por qué el eje fijo $bold(K)$ se pone sobre $bold(H)_G$ <pq-B1>
+#volver("B.1")
+
+Los ángulos de Euler dicen cómo está orientado el cuerpo respecto de un eje
+fijo en el espacio, y ese eje lo elige uno. Sin cuplas,
+$sum bold(M)_G = dot(bold(H))_G = bold(0)$: $bold(H)_G$ no cambia ni de largo ni
+de dirección, y es la única dirección fija que el problema regala. Apuntando
+$bold(K)$ sobre él, $bold(H)_G = H_G bold(K)$ tiene una sola componente, y la
+igualdad del Anexo A.1 da $theta$, $dot(phi)$ y $dot(psi)$ constantes: el
+movimiento entero es «el eje da vueltas alrededor de $bold(H)_G$ a ángulo fijo».
+Con otro eje fijo el movimiento sería el mismo, pero $theta$ y $dot(phi)$
+cambiarían todo el tiempo y no habría fórmula que valga la pena. Por eso,
+también, *el eje de precesión es $bold(H)_G$*, que es lo que pide el Problema 7.
+
+== B.2 — Una fuerza fuera de $G$: traslada como si estuviera en $G$, y además hace girar <pq-B2>
+#volver("B.2")
+
+Pongo en $G$ la fuerza $bold(F)$ y la $-bold(F)$, que juntas no hacen nada. Quedan
+tres: $bold(F)$ en $G$, y el par formado por $bold(F)$ en el punto de aplicación y
+$-bold(F)$ en $G$, cuyo momento es $bold(r) times bold(F)$, con $bold(r)$ de $G$ al
+punto. Para la traslación, sumando la segunda ley de todas las partículas, las
+fuerzas internas se cancelan de a pares (acción y reacción) y queda
+$sum bold(F)_"ext" = m bold(a)_G$, donde el punto de aplicación no aparece.
+// simbolos: F_ext
+
+== B.3 — En un cuerpo isótropo toda terna es principal <pq-B3>
+#volver("B.3")
+
+Si los tres momentos principales son iguales, en ejes principales
+$bold(H)_G = I omega_x hat(i) + I omega_y hat(j) + I omega_z hat(k) = I bold(omega)$
+para cualquier $bold(omega)$. Esa igualdad entre vectores no depende de en qué
+terna se escriba. Entonces un giro sobre cualquier dirección da $bold(H)_G$
+sobre esa misma dirección, que es justo lo que define a un eje principal: todos
+lo son.
+
+== B.4 — En un cuerpo de revolución todo diámetro es principal <pq-B4>
+#volver("B.4")
+
+Eje de simetría $z$, y $x$, $y$ dos diámetros cualesquiera por $G$,
+perpendiculares. Los productos de inercia son
+$I_(x y) = integral x y dif m$, $I_(y z) = integral y z dif m$ e
+$I_(x z) = integral x z dif m$.
+// simbolos: I_xy, I_yz, I_xz
+El espejo que da vuelta $y$ (el plano $x z$, que contiene al eje) deja el cuerpo
+igual: cada pedacito en $(x; y; z)$ tiene un gemelo en $(x; -y; z)$, y en
+$I_(x y)$ e $I_(y z)$ los dos se cancelan. El espejo que da vuelta $x$ hace lo
+mismo con $I_(x z)$. Los tres son cero, así que $x y z$ es principal gire el
+cuerpo como gire alrededor de $z$, y por la misma simetría $I_x = I_y = I'$.
+Un prisma octogonal no es de revolución, pero tiene ocho espejos que pasan por
+el eje y la simetría de un octavo de vuelta: también le da los productos nulos
+y los dos transversales iguales (Problema 9).
+
+== B.5 — Figura plana: $I_z = I_x + I_y$ <pq-B5>
+#volver("B.5")
+
+En una placa en el plano $x y$ todos los pedacitos tienen $z = 0$, así que
+$ I_x = integral (y^2 + z^2) dif m = integral y^2 dif m, quad I_y = integral x^2 dif m, quad I_z = integral (x^2 + y^2) dif m = I_x + I_y $
+Si además $I_x = I_y$ (disco, anillo, la estación), cada diámetro tiene la mitad
+del axial: el disco pasa de $1/2 m r^2$ a $1/4 m r^2$ (Problema 2), el anillo de
+$m r^2$ a $1/2 m r^2$ (Problema 6, $ell -> 0$), y la estación de cinco esferas,
+con las esferas chicas frente a las distancias, tiene $I_(A A) = 2 I'$
+(Problema 5).
+
+== B.6 — El momento transversal de un tubo <pq-B6>
+#volver("B.6")
+
+La tabla lo da (y Aníbal pide mirarlo en la tabla, no calcularlo); esto es sólo
+para ver de dónde sale. Corto el tubo en anillitos de alto $dif z$, a la altura
+$z$ de $G$, cada uno de masa $m dif z \/ ell$. Respecto de un diámetro por $G$,
+cada anillito aporta su propio diámetro (B.5: $1/2 r^2$ por su masa) más Steiner
+por estar corrido $z$ ($z^2$ por su masa):
+$ I' = integral_(-ell\/2)^(ell\/2) (1/2 r^2 + z^2) m/ell dif z = 1/2 m r^2 + m/ell [z^3/3]_(-ell\/2)^(ell\/2) = 1/2 m r^2 + 1/12 m ell^2 $
+En el macizo cada rodaja es un disco, que aporta $1/4 r^2$ por su masa, y sale
+$1/4 m r^2 + 1/12 m ell^2$: la frontera del oral del Problema 6.
+
+== B.7 — La regla del eje mayor: el achatado se estabiliza, el alargado termina de costado <pq-B7>
+#volver("B.7")
+
+Sin cuplas, $bold(H)$ se conserva *aunque haya disipación*: el combustible que
+chapotea o una antena que flexa hacen fuerzas internas. La energía de giro, en
+cambio, sólo puede bajar. Escrita con las componentes de $bold(H)$ del Anexo A.1
+($H_perp = H sin theta$ de costado, $H_z = H cos theta$ sobre el eje, y cada
+componente de $bold(omega)$ es la de $bold(H)$ dividida por su momento):
+// simbolos: E_c, H_perp
+$ E_c = 1/2 (I' omega_perp^2 + I omega_z^2) = H_perp^2/(2 I') + H_z^2/(2 I) = H^2/2 ((sin^2 theta)/I' + (cos^2 theta)/I) $
+Con $H$ fijo, $E_c$ depende sólo de $theta$. Si $I > I'$ (achatado), $1 \/ I <
+1 \/ I'$ y la energía es *mínima en $theta = 0$*: perder energía cierra el cono y
+el cuerpo termina girando sobre su eje. Si $I < I'$ (alargado), el mínimo está
+en $theta = 90 degree$: perder energía abre el cono hasta que gira de costado,
+sobre un eje transversal. Es lo que le pasó al Explorer 1, un lápiz con antenas
+flexibles, en pocas horas.
+
+== B.8 — Los dos conos, y cuál queda adentro <pq-B8>
+#volver("B.8")
+
+$bold(omega)$ está siempre en el plano de $bold(K)$ y $hat(k)$ (Anexo A.1:
+$omega_y = 0$). Visto desde el cuerpo, $bold(omega)$ da vueltas alrededor del eje
+de simetría a ángulo $gamma$ fijo: barre el *cono corporal*. Visto desde el
+espacio, da vueltas alrededor de $bold(H)_G$ a ángulo $abs(gamma - theta)$ fijo:
+barre el *cono espacial*. Los puntos del cuerpo que están sobre $bold(omega)$
+tienen velocidad cero en ese instante, así que el cono corporal *rueda sin
+resbalar* sobre el espacial, tocándolo a lo largo de $bold(omega)$.
+
+- *Retrógrada* ($gamma > theta$): $bold(H)_G$ queda entre el eje y $bold(omega)$.
+  El cono espacial abre $gamma - theta$ alrededor de una dirección que está a
+  $theta$ del eje, así que todo su borde queda a no más de $gamma$ del eje:
+  entra *adentro* del corporal, y el corporal rueda envolviéndolo (Beer
+  fig. 18.24).
+- *Directa* ($gamma < theta$): $bold(omega)$ queda entre el eje y $bold(H)_G$. El
+  espacial abre $theta - gamma$ alrededor de $bold(H)_G$ y todo su borde queda a
+  $gamma$ o más del eje: los dos conos se tocan *por afuera* (Beer fig. 18.25).
+
+== B.9 — Un par interno no cambia el momento angular total <pq-B9>
+#volver("B.9")
+
+El motor empuja a la rueda con una cupla $M$, y la rueda empuja al motor —que
+está atornillado a la nave— con $-M$: acción y reacción, y como las dos fuerzas
+de cada par van sobre la misma recta, sus momentos también se cancelan. Sumando
+nave y rueda, $sum bold(M)_"ext" = bold(0)$ y el $bold(H)$ total no cambia. Pero
+mirando una parte sola, la cupla del motor viene de afuera de esa parte: para
+cada una es externa y le cambia su propio $bold(H)$, que es el W5 del Adicional 2.
+En el Adicional 1 pasa lo contrario: los propulsores sí son externos a la nave
+entera, y por eso $H_z$ cambia.
+
+#posta[
+  Cada «porque» de la guía sale de cuatro ideas: $bold(H)$ quieto si no hay
+  cupla, la simetría que anula los productos de inercia, la acción y reacción
+  que cancela lo interno, y la energía que la disipación sólo puede bajar. Si
+  una afirmación no sale de alguna de ésas, desconfiá.
 ]
 
 = La tarjeta del workflow

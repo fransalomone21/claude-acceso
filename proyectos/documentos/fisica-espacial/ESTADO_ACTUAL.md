@@ -1,5 +1,15 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-17, en la PC: los porqués de la guía de CR, con atajos de ida y vuelta (52 págs., publicada).** Pedido de
+> Fran: «justificaciones breves y con anexos abajo» (su ejemplo: por qué $bold(H)_G$ está sobre $bold(K)$ en el P4).
+> 27 «¿Por qué?» de una o dos líneas pegados a cada afirmación justificable, del P1 al Ad2 (`#porque` en
+> `practica/resueltos-cr.typ`), y el **Anexo B — los porqués** (B.1 $bold(K)$ sobre $bold(H)_G$, B.2 fuerza fuera de $G$,
+> B.3 isótropo, B.4 revolución y productos de inercia, B.5 figura plana, B.6 el tubo, B.7 regla del eje mayor por la
+> energía, B.8 los dos conos, B.9 par interno). Atajos: cada «¿Por qué?» salta a su sección y cada sección tiene
+> «← Volver a» con el problema y la página (los arma una consulta, no se escriben a mano). El anexo de
+> demostraciones pasó a llamarse Anexo A. `validar.py` 912, símbolos (114), consignas (81), figuras: en verde; Drive
+> al día por MD5.
+
 > **2026-11-16, en la PC: dibujos con todos los vectores en la guía de CR resuelta, del Problema 4 al Adicional 2.**
 > Pedido de Fran: «dibujos originales y representaciones tuyas con todos los vectores». 8 figuras nuevas en
 > `practica/figuras-cr-guia.typ` (galería `galeria-cr-guia.typ`, medida por `verificar-figuras.py` en `compilar.ps1`):

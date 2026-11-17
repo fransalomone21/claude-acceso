@@ -1,5 +1,11 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-17 — los porqués de la guía de CR** (estado, en ESTADO). **Queda:** (1) los extras
+> (`resueltos-cr-extras.typ`) no tienen «¿Por qué?»: si Fran los pide, mismo `#porque("B.n")[...]`; (2) la recta
+> final sigue en el orden del bloque del 15/16. **Trampas pagadas:** (a) un `// simbolos:` movido de lugar deja la
+> letra «lejos» de su primera aparición: el verificador lo dice con el renglón; (b) los links con `label(...)` salen
+> como `LINK_NAMED` en pymupdf, no como `LINK_GOTO`: contar por los dos antes de creer que no hay links.
+
 > **2026-11-16 — dibujos con vectores en la guía de CR, P4 a Ad2** (estado, en ESTADO). **Queda:** (1) los Problemas 1
 > a 3 ya tenían sus SVG; los extras (`resueltos-cr-extras.typ`) no tienen dibujos nuevos: si Fran los pide, van a
 > `figuras-cr-guia.typ` con el mismo molde; (2) lo de la recta final sigue en el orden del bloque de abajo.
