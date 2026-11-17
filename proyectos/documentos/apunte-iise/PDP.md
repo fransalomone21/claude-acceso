@@ -60,6 +60,7 @@ Pedido de Fran del 17/11: el podcast de la fase 12 tiene «muchos ejemplos y mú
 2. **Motor elegido por el oído de Fran**: una muestra A/B del mismo párrafo (Chatterbox actual contra los candidatos que corran en la 3090), y la elección es suya.
 3. `podcast-resumen-2do/guion.md`: cubre los módulos 24 a 46 en el orden del apunte con **una definición y a lo sumo un ejemplo por concepto**, cruzado con los resúmenes de los amigos (lo que ellos traen y el apunte no, marcado); duración objetivo 20 a 45 min (se cuenta por palabras antes de sintetizar; ajustado de «30 a 45» el mismo día: el guion salió de 3 223 palabras, ~22 min, y lo pedido es un resumen).
 4. Las partes y un completo en el Drive **privado** (`SOLO FRAN/IISE/Podcast resumen 2do parcial`), sin permiso `anyone`; una muestra transcripta que diga el guion.
+5. (Agregado el mismo día, a pedido de Fran: «el resumen PDF sobre el cual trabaja», «que no pierda conceptos», «los ejemplos no son conceptos», «pensá en el método de evaluación».) `resumenes/resumen-2do-parcial.pdf`: **cada término del glosario de las unidades 7 a 13 en el texto del PDF** (medido contra `fuentes/glosario.md`, 0 faltantes, con prueba en rojo), teoría primero y ejemplos en cajas aparte; el guion del podcast sale de este PDF, en el mismo orden. ✅ el PDF (13 pág., 56/56, en el Drive privado).
 
 **Cómo se certifica:** los segundos de los artefactos antes y después; la elección de Fran escrita acá; el conteo de módulos y de palabras del guion; `rclone lsf` y el permiso medido.
 

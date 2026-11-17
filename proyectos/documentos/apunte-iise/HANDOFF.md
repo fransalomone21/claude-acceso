@@ -1,5 +1,42 @@
 # HANDOFF — Apunte de IISE
 
+## 2026-11-17 (noche) — fase 13 EN CURSO: podcast resumen del 2.° parcial y motor de voz
+
+- **Guion:** `podcast-resumen-2do/guion.md`, 7 partes (una por clase, 7 a 13), 3 223 palabras, ~22 min;
+  una definición y a lo sumo un ejemplo por concepto; cruzado con los 8 resúmenes de los amigos (en
+  Descargas), lo que sólo traen ellos va marcado «en los resúmenes de los chicos».
+- **Los ruidos al final de palabra, medidos:** en 40 frases de la fase 12, 9 (22 %) tienen ≥ 0,15 s de
+  energía DESPUÉS de la última palabra que reconoce Whisper: Chatterbox sigue generando (ruido,
+  respiración). `sintetizar-local.py` ahora corta cada frase 0,15 s después de su última palabra, con
+  fundido de 40 ms (`--sin-recorte` vuelve al de antes). Medido: 10/40 → 3/40, la última palabra
+  intacta en 39/40 (la otra es «rey/rei», la misma). Necesita `faster-whisper` en el entorno.
+- **Motor alternativo:** Qwen3-TTS 1.7B Base (Apache 2.0, clona con 3 s), instalado en la PC APARTE del
+  de Chatterbox (pide transformers 4.57 y Chatterbox 5.2): `C:\tts-iise\qwen-libs` (por `PYTHONPATH`) y
+  `C:\tts-iise\qwen-modelo`. `sintetizar-qwen.py` comparte guion, pronunciación y salida. Medido: 1/15
+  frases con cola (7 %). Muestra A/B/C mandada a Fran; **la elección de motor es suya** (criterio 2).
+- **Paralelo en la 3090: NO entra más de un proceso de Chatterbox.** Dos o tres a la vez se caen con
+  0xC0000005 (access violation) en `safetensors.load_file` o generando cuando otro carga. Medido: cada
+  proceso reserva **7,4 GB de memoria virtual**; la PC tiene 15,3 GB de RAM y la paginación no crece
+  porque C: tiene ~1 GB libre (tope 27,6 GB). `probable`: se queda sin memoria virtual, no sin VRAM
+  (Whisper en CPU no lo cambió: hipótesis descartada). Para 3 en paralelo hace falta disco libre en C:
+  (el archivo de paginación crece) — decisión de Fran. Lo que sí rinde: **1 proceso en la 3090 + 1 en
+  la notebook** (la 4060 también sintetiza). Un SSH por proceso, en segundo plano (Win32_Process y
+  Start-Process desde la PC tampoco andan).
+- **Hecho:** el podcast CORTO (guion v1, 7 partes, ~22 min) sintetizado con recorte: partes 1, 2, 5,
+  6, 7 en `C:\tts-iise\salida-resumen\` (PC) y 3, 4 en `podcast-resumen-2do/salida/` (notebook). **No
+  se subió**: Fran pidió después más conceptos y separar ejemplos de teoría.
+- **PDF resumen v2** (`resumenes/resumen-2do-parcial.typ`, 13 pág.): los 56 términos del glosario de las
+  unidades 7 a 13 (medido: 0 faltantes; la v1 de 6 pág. dejaba 26 afuera), teoría primero y ejemplos
+  en cajas verdes aparte, armado sobre el método de evaluación de la cátedra (parcialitos: ¿qué es?,
+  tipos, diferenciar, orden; corrigen palabra exacta y lista completa). En el Drive privado
+  (`SOLO FRAN/IISE/Resumen 2do parcial`). La medición: `scratchpad` → pasar a `resumenes/` como
+  verificador con su prueba en rojo (se rompe sacando «holgura»: da rojo).
+- **SIGUE:** reescribir `podcast-resumen-2do/guion.md` DESDE el PDF v2 (mismas 7 partes, cada concepto
+  con su definición, ejemplos dichos como ejemplos al final de cada parte; ~45-60 min), sintetizar
+  (PC + notebook), juntar un COMPLETO y subir a `SOLO FRAN/IISE/Podcast resumen 2do parcial`.
+- **Disco de la PC:** ~1,1 GB libres en C: (qwen-modelo ~4,3 GB + whisper small). Si hace falta lugar:
+  `Remove-Item -Recurse C:\tts-iise\qwen-modelo, C:\tts-iise\qwen-libs` si Fran se queda con Chatterbox.
+
 ## 2026-11-17 — fase 12 CERRADA: podcast del 2.° parcial; el N² del módulo 28 con figuras
 
 Nada a medias. **Cómo se hace el próximo podcast, rápido** (pedido de Fran):

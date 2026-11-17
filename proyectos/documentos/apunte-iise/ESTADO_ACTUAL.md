@@ -1,5 +1,11 @@
 # ESTADO ACTUAL — Apunte de IISE
 
+**2026-11-17 (noche) — Fase 13 EN CURSO: resumen del 2.° parcial (PDF + podcast) y un motor de voz sin
+ruidos.** Hecho: PDF resumen de 13 pág. con los 56 términos del glosario de las unidades 7 a 13
+(teoría primero, ejemplos aparte), en el Drive privado; los ruidos de cola de Chatterbox medidos (22 %
+de las frases) y recortados (quedan 7 %); Qwen3-TTS instalado en la PC como alternativa. Falta: el guion
+del podcast reescrito desde el PDF, sintetizado y subido; la elección de motor de Fran. Detalle: `HANDOFF.md`.
+
 **2026-11-17 — Fase 12 CERRADA: el podcast del 2.° parcial (clases 7 a 13), 12 partes + completo de 1 h 52 min en el Drive privado de Fran.** Guion en
 `podcast-2do-parcial/guion.md` (12 partes, módulos 25 a 47, con ejemplos de las cosas de Fran),
 sintetizado con las voces clonadas de Gemini (Chatterbox) en la notebook y en la PC (RTX 3090, por

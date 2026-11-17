@@ -165,8 +165,10 @@ def recortar_cola(a, sr):
     global _whisper
     if _whisper is None:
         from faster_whisper import WhisperModel
-        _whisper = WhisperModel("small", device="cuda" if torch.cuda.is_available() else "cpu",
-                                compute_type="float16" if torch.cuda.is_available() else "int8")
+        # En CPU a proposito: con varios procesos en la misma placa, whisper en CUDA (ctranslate2) hizo
+        # caer a los procesos con 0xC0000005 (2026-11-17, 3090); y asi la CPU trabaja mientras la GPU genera.
+        import os
+        _whisper = WhisperModel("small", device="cpu", compute_type="int8", cpu_threads=int(os.environ.get("VOZ_HILOS_WHISPER", "4")))
     import scipy.signal as ss
     a16 = ss.resample_poly(a, 16000, sr).astype(np.float32)
     segs, _ = _whisper.transcribe(a16, language="es", word_timestamps=True, vad_filter=False)

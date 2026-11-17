@@ -1,7 +1,7 @@
 # En la PC (C:\tts-iise). Uso: correr-resumen.ps1 <orden> <motor: chatterbox|qwen>
 # Un proceso por llamada; se lanzan varios en paralelo (cada uno ~6,8 GB de la 3090).
 $orden = $args[0]; $motor = $args[1]
-$env:PATH = "C:\tts-iise;$env:PATH"; $env:HF_HUB_OFFLINE = "1"; $env:HF_HOME = "C:\tts-iise\hf"
+$env:PATH = "C:\tts-iise;$env:PATH"; $env:HF_HUB_OFFLINE = "1"; $env:HF_HOME = "C:\tts-iise\hf"; $env:PYTHONFAULTHANDLER = "1"
 New-Item -ItemType Directory -Force C:\tts-iise\salida-resumen | Out-Null
 $log = "C:\tts-iise\salida-resumen\log-$motor-$($orden -replace ',','_').txt"
 if ($motor -eq "qwen") {
