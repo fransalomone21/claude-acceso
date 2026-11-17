@@ -49,7 +49,18 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** ninguna — la 11 cerró el 2026-10-26. Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
+**Fase en curso:** 12 — el podcast del 2.° parcial (abierta el 2026-11-17). Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
+
+### Fase 12 — Podcast de estudio del 2.° parcial, clases 7 a 13 (tipo: **Fase E**, mantenimiento) — EN CURSO (2026-11-17)
+
+Pedido de Fran del 17/11: «un podcast de estudio para abarcar todos los temas del 2do parcial, apoyándote en el apunte», desde la clase 7 inclusive hasta la 13, para escucharlo **con el apunte abierto al lado**; «con las voces de Gemini, como el del cuestionario de Leandro», tono humorístico casual, ejemplos exagerados en criollo y **ejemplos de sus cosas** (juegos, proyectos, temas que charlamos). El apunte no se toca.
+
+**Criterio de salida (resultado verificable):**
+1. `podcast-2do-parcial/guion.md` cubre los módulos 24 a 46 (unidades 7 a 13) **en el orden del apunte**, y cada parte abre diciendo qué módulo abrir: ninguna sección de esos módulos sin nombrar en el guion (se cuenta).
+2. Las partes generadas con la voz local clonada de Gemini (`sintetizar-local.py`), una muestra transcripta con faster-whisper que diga el guion, y las siglas que suenen mal arregladas en `PRONUNCIA`.
+3. Las partes en el Drive de los compañeros (`IISE/Material de Estudio nuestro/Podcast 2do parcial`), listadas por `rclone lsf`.
+
+**Cómo se certifica:** el conteo de módulos citados contra los 23; la transcripción contra el guion; el `rclone lsf` de la carpeta.
 
 ### Fase 11 — Las clases 11 A, 11 B, 12 y 13: cierre de contenidos (tipo: **Fase E**, mantenimiento) ✅ CERRADA (2026-10-26)
 
