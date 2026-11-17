@@ -1,5 +1,14 @@
 # ESTADO ACTUAL — Apunte de IISE
 
+**2026-11-17 — Fase 12 EN CURSO: el podcast del 2.° parcial (clases 7 a 13).** Guion en
+`podcast-2do-parcial/guion.md` (12 partes, módulos 25 a 47, con ejemplos de las cosas de Fran),
+sintetizado con las voces clonadas de Gemini (Chatterbox) en la notebook y en la PC (RTX 3090, por
+SSH, entorno en `C:\tts-iise`); las partes van al Drive **privado** de Fran (`SOLO FRAN/IISE/Podcast
+2do parcial`), más un audio completo. **Mismo día, a pedido de Fran: el módulo 28 (N²) ganó tres
+figuras anotadas sobre las láminas de la cátedra** (tabla contra diagrama, cómo se lee la casilla con
+flechita, los lazos) y la sección «¿Tabla N² o diagrama N²?»; las genera `anotar-n2.py`. 229 páginas;
+léxico y cobertura en verde.
+
 **2026-10-26 — Fase 11 CERRADA: el apunte tiene los contenidos completos de
 la materia.** **13 unidades, 47 módulos (M00–M46) + anexo A, 227 páginas,
 122 términos de glosario**, publicado y verificado por MD5. Unidad 11

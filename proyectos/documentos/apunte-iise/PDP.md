@@ -58,9 +58,9 @@ Pedido de Fran del 17/11: «un podcast de estudio para abarcar todos los temas d
 **Criterio de salida (resultado verificable):**
 1. `podcast-2do-parcial/guion.md` cubre los módulos 24 a 46 (unidades 7 a 13) **en el orden del apunte**, y cada parte abre diciendo qué módulo abrir: ninguna sección de esos módulos sin nombrar en el guion (se cuenta).
 2. Las partes generadas con la voz local clonada de Gemini (`sintetizar-local.py`), una muestra transcripta con faster-whisper que diga el guion, y las siglas que suenen mal arregladas en `PRONUNCIA`.
-3. Las partes en el Drive de los compañeros (`IISE/Material de Estudio nuestro/Podcast 2do parcial`), listadas por `rclone lsf`.
+3. Las 12 partes **y un solo audio con todo**, en el Drive **privado** de Fran (Fran, 17/11: «subilo al drive solo fran»; el guion lleva cosas suyas): `drive-personal:01 - UNSAM - Ing. en Sistemas Espaciales/SOLO FRAN - no se comparte con nadie/IISE/Podcast 2do parcial`, listadas por `rclone lsf` y **sin permiso `anyone`** (`rclone lsjson --drive-... ` / `verificar-drive.ps1 -Rapido`).
 
-**Cómo se certifica:** el conteo de módulos citados contra los 23; la transcripción contra el guion; el `rclone lsf` de la carpeta.
+**Cómo se certifica:** el conteo de módulos citados contra los 23; la transcripción contra el guion; el `rclone lsf` de la carpeta y su permiso medido.
 
 ### Fase 11 — Las clases 11 A, 11 B, 12 y 13: cierre de contenidos (tipo: **Fase E**, mantenimiento) ✅ CERRADA (2026-10-26)
 

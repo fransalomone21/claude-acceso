@@ -41,7 +41,7 @@ PRONUNCIA = [
     (r"\bROM\b", "rom"), (r"\bAIT\b", "a i te"), (r"\bAIV\b", "a i ve"),
     (r"\bICD\b", "i ce de"), (r"\bIRD\b", "i erre de"), (r"\bIDD\b", "i de de"), (r"\bSEMP\b", "semp"),
     (r"\bFTA\b", "efe te a"), (r"\bRBD\b", "erre be de"), (r"\bFMEA\b", "efe eme e a"), (r"\bPRA\b", "pe erre a"),
-    (r"\bConOps\b", "con ops"), (r"\bTBD\b", "te be de"), (r"\bTBR\b", "te be erre"), (r"\bDSM\b", "de ese eme"),
+    (r"\bConOps\b", "cón óps"), (r"\bTBD\b", "te be de"), (r"\bTBR\b", "te be erre"), (r"\bDSM\b", "de ese eme"),
     (r"\bCPT\b", "ce pe te"), (r"\bFT\b", "efe te"), (r"\bAT\b", "a te"), (r"\bATP\b", "a te pe"),
     (r"\bEDM\b", "e de eme"), (r"\bEM\b", "e eme"), (r"\bQTM\b", "cu te eme"),
     (r"\bEMI\b", "e eme i"), (r"\bEMC\b", "e eme ce"),
@@ -53,7 +53,7 @@ PRONUNCIA = [
     (r"\bDoD\b", "de o de"), (r"\bINCOSE\b", "incose"), (r"\bMIT\b", "eme i te"), (r"\bNTSB\b", "ene te ese be"),
     (r"\bCDIO\b", "ce de i o"), (r"\bNASA\b", "nasa"), (r"\bESA\b", "esa"), (r"\bUNSAM\b", "unsam"),
     (r"\bESPA\b", "espa"), (r"\bSZZS\b", "ese zeta zeta ese"), (r"\bSZS\b", "ese zeta ese"), (r"\bSZ\b", "ese zeta"),
-    (r"\bIISE\b", "i i ese e"), (r"\bLEO\b", "leo"), (r"\bRAD\b", "rad"),
+    (r"\bIISE\b", "i, i, ese, e"), (r"\bLEO\b", "leo"), (r"\bRAD\b", "rad"),
     # subsistemas
     (r"\bAOCS\b", "a o ce ese"), (r"\bADCS\b", "a de ce ese"), (r"\bACS\b", "a ce ese"),
     (r"\bGN&C\b", "ge ene and ce"), (r"\bRCS\b", "erre ce ese"), (r"\bTT&C\b", "te te and ce"),
@@ -188,6 +188,7 @@ def main():
     ap.add_argument("--partes", action="store_true")
     ap.add_argument("--orden", help="con --partes: que partes y en que orden, p. ej. 1,2,3")
     ap.add_argument("--solo-contar", action="store_true", help="no sintetiza: cuenta partes y renglones")
+    ap.add_argument("--modelo", help="carpeta con los archivos del modelo (otra maquina, sin la cache de HF)")
     a = ap.parse_args()
     todas = secciones()
     if a.solo_contar:
@@ -200,7 +201,10 @@ def main():
         if not Path(r).exists():
             raise SystemExit(f"falta la referencia de voz {r} (copiarla de software-de-vuelo/podcast-parcial/cache-local)")
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS
-    modelo = ChatterboxMultilingualTTS.from_pretrained(device="cuda")
+    if a.modelo:
+        modelo = ChatterboxMultilingualTTS.from_local(a.modelo, device="cuda")
+    else:
+        modelo = ChatterboxMultilingualTTS.from_pretrained(device="cuda")
     sr = modelo.sr
     if a.muestra:
         audio = render(modelo, refs, todas[0][:12], sr)
