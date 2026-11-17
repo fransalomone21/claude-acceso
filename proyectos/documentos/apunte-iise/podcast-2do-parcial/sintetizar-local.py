@@ -23,6 +23,7 @@ import torch
 
 AQUI = Path(__file__).parent
 CACHE = AQUI / "cache-local"   # ignorado por git
+GUION = AQUI / "guion.md"
 PARAM = {"exaggeration": 0.68, "cfg_weight": 0.38, "temperature": 0.8}
 MAX_FRASE = 220
 CPS = 14.5
@@ -45,6 +46,7 @@ PRONUNCIA = [
     (r"\bCPT\b", "ce pe te"), (r"\bFT\b", "efe te"), (r"\bAT\b", "a te"), (r"\bATP\b", "a te pe"),
     (r"\bEDM\b", "e de eme"), (r"\bEM\b", "e eme"), (r"\bQTM\b", "cu te eme"),
     (r"\bEMI\b", "e eme i"), (r"\bEMC\b", "e eme ce"),
+    (r"\bSTAMP\b", "stamp"), (r"\bSTPA\b", "ese te pe a"), (r"\bCAST\b", "cast"), (r"\bJWST\b", "jota doble u ese te"),
     # misiones, organismos
     (r"\bLDCM\b", "ele de ce eme"), (r"\bOLI\b", "o ele i"), (r"\bTIRS\b", "tirs"), (r"\bUSGS\b", "u ese ge ese"),
     (r"\bROV\b", "erre o ve"), (r"\bNOAA\b", "noa"), (r"\bTESS\b", "tess"), (r"\bGLAST\b", "glast"),
@@ -95,7 +97,7 @@ def pronunciar(t):
 
 def secciones():
     """El guion partido por sus renglones en blanco (cada parte es una seccion)."""
-    texto = (AQUI / "guion.md").read_text(encoding="utf-8").split("## Guion", 1)[1]
+    texto = GUION.read_text(encoding="utf-8").split("## Guion", 1)[1]
     res = []
     for bloque in re.split(r"\n\s*\n", texto.strip()):
         rs = []
@@ -151,6 +153,50 @@ def generar(modelo, refs, voz, texto):
     return mejor[0]
 
 
+MARGEN_COLA, FUNDIDO = 0.15, 0.04
+_whisper = None
+
+
+def recortar_cola(a, sr):
+    """Corta la cola de una frase: Chatterbox a veces sigue generando despues de la ultima palabra
+    (ruidos, respiraciones). Medido el 2026-11-17: 9 de 40 frases con >= 0,15 s de energia despues
+    de la ultima palabra. Se corta MARGEN_COLA despues del fin de la ultima palabra que reconoce
+    whisper, con fundido de entrada y de salida (sin fundido, el corte hace 'clic')."""
+    global _whisper
+    if _whisper is None:
+        from faster_whisper import WhisperModel
+        _whisper = WhisperModel("small", device="cuda" if torch.cuda.is_available() else "cpu",
+                                compute_type="float16" if torch.cuda.is_available() else "int8")
+    import scipy.signal as ss
+    a16 = ss.resample_poly(a, 16000, sr).astype(np.float32)
+    segs, _ = _whisper.transcribe(a16, language="es", word_timestamps=True, vad_filter=False)
+    pals = [w for s in segs for w in s.words]
+    if pals:
+        fin = int(min(len(a), (pals[-1].end + MARGEN_COLA) * sr))
+        a = a[:fin].copy()
+    n = min(int(FUNDIDO * sr), len(a) // 4)
+    if n:
+        a[:n] *= np.linspace(0, 1, n, dtype=np.float32)
+        a[-n:] *= np.linspace(1, 0, n, dtype=np.float32)
+    return a
+
+
+def generar_limpio(modelo, refs, voz, texto, sr, recorte):
+    a = generar(modelo, refs, voz, texto).astype(np.float32)
+    if not recorte:
+        return a
+    clave = hashlib.sha1(json.dumps([voz, texto, PARAM, MARGEN_COLA, FUNDIDO, "cola"]).encode()).hexdigest()[:14]
+    archivo = CACHE / f"c_{clave}.npy"
+    if archivo.exists():
+        return np.load(archivo)
+    a = recortar_cola(a, sr)
+    np.save(archivo, a)
+    return a
+
+
+RECORTE = True
+
+
 def render(modelo, refs, renglones, sr):
     sil = lambda s: np.zeros(int(sr * s), dtype=np.float32)
     piezas, anterior = [], None
@@ -168,7 +214,7 @@ def render(modelo, refs, renglones, sr):
         for i, f in enumerate(frases(pronunciar(t))):
             if i:
                 piezas.append(sil(HUECO_FRASE))
-            piezas.append(generar(modelo, refs, quien, f).astype(np.float32))
+            piezas.append(generar_limpio(modelo, refs, quien, f, sr, RECORTE))
         anterior = quien
     return np.concatenate(piezas)
 
@@ -189,7 +235,13 @@ def main():
     ap.add_argument("--orden", help="con --partes: que partes y en que orden, p. ej. 1,2,3")
     ap.add_argument("--solo-contar", action="store_true", help="no sintetiza: cuenta partes y renglones")
     ap.add_argument("--modelo", help="carpeta con los archivos del modelo (otra maquina, sin la cache de HF)")
+    ap.add_argument("--sin-recorte", action="store_true", help="no corta la cola de cada frase (el comportamiento de la fase 12)")
+    ap.add_argument("--guion", help="otro guion.md (por defecto, el de esta carpeta)")
     a = ap.parse_args()
+    global RECORTE, GUION
+    RECORTE = not a.sin_recorte
+    if a.guion:
+        GUION = Path(a.guion)
     todas = secciones()
     if a.solo_contar:
         for k, s in enumerate(todas, 1):

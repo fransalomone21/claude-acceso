@@ -49,7 +49,21 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** ninguna — la 12 cerró el 2026-11-17. Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
+**Fase en curso:** 13 (abierta el 2026-11-17).
+
+### Fase 13 — Podcast RESUMEN del 2.° parcial y un motor de voz sin artefactos (tipo: **Fase E**, mantenimiento) — EN CURSO (2026-11-17)
+
+Pedido de Fran del 17/11: el podcast de la fase 12 tiene «muchos ejemplos y múltiples aristas de una misma definición»; quiere **un resumen** de todo lo del 2.° parcial, apoyado además en resúmenes de sus amigos (los pasa él). Y que los audios dejen de «bugearse»: al terminar una palabra se oyen sonidos raros y a veces respiraciones antinaturales; buscar un motor mejor y más moderno, usar la PC (3090) para lo que haga falta, producción rápida.
+
+**Criterio de salida (resultado verificable):**
+1. **El ruido, con causa medida**: en un audio de la fase 12 se ubican los artefactos (segundos exactos) y se nombra el mecanismo (`probable` o `confirmado`); el mismo texto regenerado con el arreglo o el motor nuevo no los tiene (medido igual).
+2. **Motor elegido por el oído de Fran**: una muestra A/B del mismo párrafo (Chatterbox actual contra los candidatos que corran en la 3090), y la elección es suya.
+3. `podcast-resumen-2do/guion.md`: cubre los módulos 24 a 46 en el orden del apunte con **una definición y a lo sumo un ejemplo por concepto**, cruzado con los resúmenes de los amigos (lo que ellos traen y el apunte no, marcado); duración objetivo 20 a 45 min (se cuenta por palabras antes de sintetizar; ajustado de «30 a 45» el mismo día: el guion salió de 3 223 palabras, ~22 min, y lo pedido es un resumen).
+4. Las partes y un completo en el Drive **privado** (`SOLO FRAN/IISE/Podcast resumen 2do parcial`), sin permiso `anyone`; una muestra transcripta que diga el guion.
+
+**Cómo se certifica:** los segundos de los artefactos antes y después; la elección de Fran escrita acá; el conteo de módulos y de palabras del guion; `rclone lsf` y el permiso medido.
+
+Mantenimiento (tipo: **Fase E**): si llega un parcialito u otro pedido, se abre una fase con su criterio escrito antes de empezar (la 9 sigue propuesta, con su número reservado).
 
 ### Fase 12 — Podcast de estudio del 2.° parcial, clases 7 a 13 (tipo: **Fase E**, mantenimiento) ✅ CERRADA (2026-11-17)
 
