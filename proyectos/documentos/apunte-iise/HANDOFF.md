@@ -1,6 +1,9 @@
 # HANDOFF — Apunte de IISE
 
-## 2026-11-17 (noche) — fase 13 EN CURSO: podcast resumen del 2.° parcial y motor de voz
+## 2026-11-17 (noche) — fase 13 CERRADA: podcast resumen del 2.° parcial y motor de voz
+
+- **Receta rápida, motor Qwen (elegido por Fran):** guion en `podcast-resumen-2do/guion.md` → scp a `C:\tts-iise\resumen\` → `correr-resumen.ps1 1,2,3,4,5,6,7 qwen` en UN ssh (lote 8: 42 min de guion en ~15 min) → scp de las partes → `podcast-2do-parcial/publicar-podcast.py --titulos ...` (completo, muestra transcripta, Drive con nombres por tema). La notebook también tiene Qwen (`qwen-libs` y `qwen-modelo` junto al tts-venv), sin probar todavía. Falta actualizar la fila de IISE del tablero de materias (pide declarar ese proyecto en la cascada).
+- **Lo de abajo es la historia de la fase.**
 
 - **Guion:** `podcast-resumen-2do/guion.md`, 7 partes (una por clase, 7 a 13), 3 223 palabras, ~22 min;
   una definición y a lo sumo un ejemplo por concepto; cruzado con los 8 resúmenes de los amigos (en

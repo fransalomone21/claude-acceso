@@ -13,9 +13,24 @@ AQUI = Path(__file__).parent
 RCLONE = ["rclone", "--config", str(Path.home() / ".config/rclone/rclone.conf")]
 
 
+LETRAS = {"be": "b", "ce": "c", "de": "d", "efe": "f", "ge": "g", "hache": "h", "jota": "j", "ka": "k",
+          "ele": "l", "eme": "m", "ene": "n", "pe": "p", "cu": "q", "erre": "r", "ese": "s", "te": "t",
+          "ve": "v", "equis": "x"}
+
+
 def pal(t):
+    """Palabras normalizadas. Las letras deletreadas («ese erre erre») y las siglas que escribe whisper
+    («SRR») se llevan a la misma forma: letras sueltas pegadas (P13: el medidor contaba como error lo
+    que se oia bien)."""
     t = "".join(c for c in unicodedata.normalize("NFD", t.lower()) if unicodedata.category(c) != "Mn")
-    return re.findall(r"[a-zñ]+", t)
+    out = []
+    for w in re.findall(r"[a-zñ]+", t):
+        w = LETRAS.get(w, w)
+        if len(w) == 1 and out and len(out[-1]) <= 4 and out[-1].isalpha() and out[-1] not in ("y", "o", "a", "e", "u"):
+            out[-1] += w
+        else:
+            out.append(w)
+    return out
 
 
 def main():
@@ -25,7 +40,7 @@ def main():
     ap.add_argument("--muestra", type=int, default=1); ap.add_argument("--segundos", type=int, default=120)
     ap.add_argument("--titulos", help="archivo con un titulo por parte, en orden")
     a = ap.parse_args()
-    d = Path(a.partes)
+    d = Path(a.partes).resolve()   # absoluta: el ffmpeg de WinGet no ve rutas relativas (2026-11-17)
     spec = importlib.util.spec_from_file_location("s", AQUI / "sintetizar-local.py")
     s = importlib.util.module_from_spec(spec); spec.loader.exec_module(s)
     s.GUION = Path(a.guion)
@@ -49,9 +64,11 @@ def main():
     segs, _ = m.transcribe(str(partes[a.muestra - 1]), language="es", clip_timestamps=[0, a.segundos])
     oido = pal(" ".join(x.text for x in segs))
     ref = pal(" ".join(s.pronunciar(t) for q, t in secciones[a.muestra - 1] if q != "PAUSA"))
-    ref = ref[: int(len(oido) * 1.15) + 5]
-    ok = sum(b.size for b in difflib.SequenceMatcher(None, ref, oido, autojunk=False).get_matching_blocks())
-    pct = ok / max(len(ref), 1) * 100
+    sm = difflib.SequenceMatcher(None, ref, oido, autojunk=False)
+    # se compara contra el tramo del guion que la muestra alcanza a cubrir (hasta la ultima coincidencia)
+    ult = max((b.a + b.size for b in sm.get_matching_blocks() if b.size), default=1)
+    ok = sum(b.size for b in sm.get_matching_blocks())
+    pct = ok / ult * 100
     print(f"MUESTRA parte {a.muestra}, {a.segundos} s: se oye el {pct:.1f} % del guion")
 
     # nombres por tema (Fran, 2026-11-17): "NN - <titulo>.m4a" y "00 - Completo (N min).m4a"

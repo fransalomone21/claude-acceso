@@ -49,9 +49,11 @@ parcialitos. No es material de consulta para alguien que ya sabe.
 
 **Fase 9 — PROPUESTA, sin abrir (Fran, 2026-10-19, SUMAMENTE IMPORTANTE):** «cómo se escribe el alcance», con evidencia de la práctica (NASA) marcada aparte de lo de la cátedra. Qué entra y las fuentes: `HANDOFF.md`, primera entrada. Criterio de salida a escribir al abrirla.
 
-**Fase en curso:** 13 (abierta el 2026-11-17).
+**Fase en curso:** ninguna — la 13 cerró el 2026-11-17.
 
-### Fase 13 — Podcast RESUMEN del 2.° parcial y un motor de voz sin artefactos (tipo: **Fase E**, mantenimiento) — EN CURSO (2026-11-17)
+### Fase 13 — Podcast RESUMEN del 2.° parcial y un motor de voz sin artefactos (tipo: **Fase E**, mantenimiento) ✅ CERRADA (2026-11-17)
+
+**Resultado:** (1) ruido medido: 22 % de las frases de Chatterbox con cola; recortado a 7 % (P1). (2) Fran eligió **Qwen3-TTS** (muestra A/B/C). (3) Guion v2 desde el PDF, 7 partes, 6 115 palabras: 36,3 min con Qwen. (4) Partes + completo en `SOLO FRAN/IISE/2do parcial/2 - Podcast resumen (con el PDF)`, nombres por tema (8 de 8 listados), muestra de la parte 3 oída al 93,7 %. (5) PDF v3 de 17 pág., 56/56 términos, 46 ganchos en criollo, en `1 - Resumen para estudiar (PDF)`; el podcast largo de la fase 12 renombrado por tema en `3 - Podcast largo`. Permiso: heredado de la carpeta privada `SOLO FRAN` (no medido archivo por archivo). Qwen en lote: 6,6× más rápido (P10). Errores de la herramienta en `PROBLEMAS.md` (P1-P13); de arquitectura, DA-137 a DA-142.
 
 Pedido de Fran del 17/11: el podcast de la fase 12 tiene «muchos ejemplos y múltiples aristas de una misma definición»; quiere **un resumen** de todo lo del 2.° parcial, apoyado además en resúmenes de sus amigos (los pasa él). Y que los audios dejen de «bugearse»: al terminar una palabra se oyen sonidos raros y a veces respiraciones antinaturales; buscar un motor mejor y más moderno, usar la PC (3090) para lo que haga falta, producción rápida.
 
