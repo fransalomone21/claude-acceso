@@ -1,0 +1,7 @@
+Clase 7 - Arquitectura, Fase A, SRR, MDR y N2
+Clase 8 - Plan de trabajo, estimaciones, satelite y lanzador
+Clase 9 - Fase B, TRL-IRL-SRL y Fase C
+Clase 10 - Forma y funcion, PDR y gestion del riesgo
+Clase 11 - Verificacion y validacion, modelos, ensayos y presupuestos
+Clase 12 - Fase D, ORR, FRR y waivers
+Clase 13 - Interfaces canonicas, riesgo contra problema y Fase E

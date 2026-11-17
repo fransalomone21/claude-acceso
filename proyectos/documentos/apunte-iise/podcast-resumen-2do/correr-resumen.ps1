@@ -5,8 +5,8 @@ $env:PATH = "C:\tts-iise;$env:PATH"; $env:HF_HUB_OFFLINE = "1"; $env:HF_HOME = "
 New-Item -ItemType Directory -Force C:\tts-iise\salida-resumen | Out-Null
 $log = "C:\tts-iise\salida-resumen\log-$motor-$($orden -replace ',','_').txt"
 if ($motor -eq "qwen") {
-  $env:PYTHONPATH = "C:\tts-iise\qwen-libs"
-  & C:\tts-iise\venv\Scripts\python.exe C:\tts-iise\podcast\sintetizar-qwen.py --modelo C:\tts-iise\qwen-modelo --guion C:\tts-iise\resumen\guion.md --partes --orden $orden "C:\tts-iise\salida-resumen\Resumen IISE 2do parcial (qwen)" *> $log
+  $env:PYTHONPATH = "C:\tts-iise\qwen-libs"; $env:VOZ_HILOS_WHISPER = "8"
+  & C:\tts-iise\venv\Scripts\python.exe C:\tts-iise\podcast\sintetizar-qwen.py --modelo C:\tts-iise\qwen-modelo --guion C:\tts-iise\resumen\guion.md --lote 8 --partes --orden $orden "C:\tts-iise\salida-resumen\Resumen IISE 2do parcial (qwen)" *> $log
 } else {
   & C:\tts-iise\venv\Scripts\python.exe C:\tts-iise\podcast\sintetizar-local.py --modelo C:\tts-iise\modelo --guion C:\tts-iise\resumen\guion.md --partes --orden $orden "C:\tts-iise\salida-resumen\Resumen IISE 2do parcial" *> $log
 }

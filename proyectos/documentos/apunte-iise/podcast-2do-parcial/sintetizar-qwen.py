@@ -39,11 +39,37 @@ class Motor:
                         for v, t in REF_TEXTO.items()}
         self.sr = None
 
-    def frase(self, voz, texto):
+    @staticmethod
+    def archivo(voz, texto):
         clave = hashlib.sha1(json.dumps([voz, texto, PARAM, "qwen1.7b"]).encode()).hexdigest()[:14]
-        f = CACHE / f"q_{clave}.npz"
+        return CACHE / f"q_{clave}.npz"
+
+    def lote(self, pendientes, tam):
+        """Genera en LOTE lo que no esta en la cache (P10: medido 2026-11-17 en la 3090, 8 frases:
+        de a una 0,37 s de audio por s; en lote 2,46). pendientes = [(voz, texto)]."""
+        import time
+        CACHE.mkdir(exist_ok=True)
+        falta = [(v, t) for v, t in dict.fromkeys(pendientes) if not self.archivo(v, t).exists()]
+        print(f"  {len(falta)} frases nuevas, en lotes de {tam}", flush=True)
+        for voz in REF_TEXTO:
+            mias = [t for v, t in falta if v == voz]
+            for i in range(0, len(mias), tam):
+                grupo = mias[i:i + tam]
+                t0 = time.time()
+                torch.manual_seed(1000)
+                wavs, sr = self.m.generate_voice_clone(text=grupo, language=["Spanish"] * len(grupo),
+                                                       voice_clone_prompt=self.prompts[voz], **PARAM)
+                self.sr = sr
+                for t, w in zip(grupo, wavs):
+                    np.savez(self.archivo(voz, t), a=np.asarray(w, dtype=np.float32), sr=sr)
+                print(f"  lote {voz} {i // tam + 1}: {len(grupo)} frases en {time.time() - t0:.0f} s", flush=True)
+
+    def frase(self, voz, texto):
+        f = self.archivo(voz, texto)
         if f.exists():
-            d = np.load(f); self.sr = int(d["sr"]); return d["a"]
+            d = np.load(f); self.sr = int(d["sr"])
+            a = d["a"]
+            return S.recortar_cola(a.copy(), self.sr) if RECORTE else a
         torch.manual_seed(1000)
         wavs, sr = self.m.generate_voice_clone(text=texto, language="Spanish", voice_clone_prompt=self.prompts[voz],
                                                **PARAM)
@@ -52,7 +78,12 @@ class Motor:
         return a
 
 
+RECORTE = True
+LOTE = 8
+
+
 def render(motor, renglones):
+    motor.lote([(q, f) for q, t in renglones if q != "PAUSA" for f in S.frases(S.pronunciar(t))], LOTE)
     piezas, anterior = [], None
     for quien, t in renglones:
         if quien == "PAUSA":
@@ -76,7 +107,11 @@ def main():
     ap.add_argument("--orden")
     ap.add_argument("--modelo", default="Qwen/Qwen3-TTS-12Hz-1.7B-Base")
     ap.add_argument("--guion")
+    ap.add_argument("--lote", type=int, default=8, help="frases por lote (3090: 8 usa 8 GB de VRAM; 4060: 3)")
+    ap.add_argument("--sin-recorte", action="store_true")
     a = ap.parse_args()
+    global LOTE, RECORTE
+    LOTE, RECORTE = a.lote, not a.sin_recorte
     if a.guion:
         S.GUION = Path(a.guion)
     todas = S.secciones()
