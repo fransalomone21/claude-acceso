@@ -49,7 +49,7 @@
     [D], [ensamble, integración, ensayo y lanzamiento], [ORR · FRR (Go / No Go)], [KDP-E],
     [E / F], [operar y sostener / cerrar], [—], [desorbitado],
   )
-  Pre-A, A y B son la *formulación*; C, D, E y F, la *implementación*.
+  Pre-A, A y B son la *formulación*; C, D, E y F, la *implementación*. Un *KDP* (punto de decisión clave) es la compuerta entre fases: la gerencia decide si el proyecto sigue, con lo que mostraron las revisiones. *V&V* = verificación y validación.
 ]
 
 // =====================================================================
@@ -73,7 +73,7 @@ el otro: la primera descripción concreta de la estructura.
 
 *Cómo se desarrolla, paso a paso* (es el comienzo del diseño; *recursivo*:
 comparando candidatas puede cambiar el enunciado del problema):
-+ requerimientos iniciales (análisis de necesidades, alcance, ConOps);
++ requerimientos iniciales (análisis de necesidades, alcance y *ConOps*, el concepto de operaciones: cómo se va a usar el sistema, por quién, en qué fases y escenarios, contado desde la operación);
 + límites externos, restricciones, contexto, hipótesis y ambiente;
 + arquitecturas *candidatas*, en forma iterativa;
 + comparar cada candidata en beneficios, costos, riesgos y requerimientos,
@@ -137,7 +137,7 @@ construcción.
   viable: refina los requerimientos de alto nivel, identifica tecnologías e
   interfaces críticas, estima costo y plazo, analiza riesgos y prepara los
   planes de ingeniería y de V&V, con el *SEMP* (Plan de Gestión de la
-  Ingeniería de Sistemas, NPR 7123.1). Produce la *línea de base del
+  Ingeniería de Sistemas, NPR 7123.1). Produce la *línea de base* (_baseline_: la versión acordada y congelada de algo, que desde ahí sólo cambia con control de cambios) *del
   concepto*: misión, arquitectura preliminar, requerimientos principales,
   estrategia tecnológica, costo del ciclo de vida y planificación.
 ]
@@ -168,7 +168,13 @@ ahorra estudios, si la herencia es real y medible. Una tecnología inmadura
 *Interfaces en la Fase A.* Al descomponer aparecen las *internas* (entre
 subsistemas) y las *externas* (lanzador, segmento terreno, usuario,
 ambiente). Las críticas se resuelven y documentan en el *ICD*, para que cada
-equipo no tenga que renegociar la frontera. Una interfaz se elige *contra un
+equipo no tenga que renegociar la frontera.
+#definicion[ICD, IRD e IDD — los tres documentos de una interfaz][
+  *IRD* (documento de requerimientos de interfaz): los *requerimientos* en la frontera común entre dos o más elementos. *ICD* (documento de control de interfaz): la *solución* acordada de esa interfaz —conectores, parámetros, planos—, firmada por las organizaciones de los dos lados. *IDD* (documento de descripción de interfaz): la interfaz de algo que *ya existe*, controlada por un solo lado: no se negocia.
+]
+#acordate[
+  IRD: «necesito enchufar algo de 220 V y 2 kW». ICD: «enchufe tipo I, cable de 2,5 mm², lo firman el electricista y vos». IDD: el enchufe que ya está en la pared del departamento alquilado: es ese, y te adaptás.
+] Una interfaz se elige *contra un
 requerimiento*, y un requerimiento de interfaz preciso puede seguir siendo
 *TBR*.
 #trampa[
@@ -762,7 +768,7 @@ actitud, propulsión, comando y manejo de datos, comunicaciones, y la carga
 La *batalla de los subsistemas*: cada uno pide masa, potencia y volumen; el
 dilema del ingeniero es el triángulo de hierro como función (no se toca un
 vértice sin pagar en otro). *Tres agencias, tres ciclos*: ESA (0, A a F),
-NASA (Pre-A a E/F), DoD (hitos 0 a III); las letras se parecen, el contenido
+NASA (Pre-A a E/F), DoD (hitos 0 a 3); las letras se parecen, el contenido
 no siempre.
 #definicion[Presupuestos de recursos técnicos (budgets)][
   Resumen de parámetros por subsistema: masa (seca y húmeda), potencia
@@ -892,6 +898,53 @@ es el síntoma: faltaba el control.
 ]
 
 // =====================================================================
+#pagebreak(weak: true)
+= Siglas y términos, en una línea
+#tabla((0.9fr, 3.1fr),
+  [*Sigla*], [*Qué es*],
+  [AIT / AIV], [ensamble, integración y ensayos (o verificación): armar, integrar y ensayar hasta el sistema],
+  [AT, FT, CPT], [ensayo de vida, ensayo funcional, ensayo de desempeño abarcativo (de un subsistema)],
+  [ATP], [procedimiento de ensayo de aceptación],
+  [BB], [_breadboard_: prototipo funcional de banco, fases B y C],
+  [CAST, STAMP, STPA], [STAMP: modelo de accidentes de la teoría de sistemas (Leveson); STPA: análisis antes del accidente; CAST: análisis después],
+  [CDIO, PjBL], [concebir, diseñar, implementar, operar; aprendizaje basado en proyectos],
+  [CDR], [revisión crítica del diseño (Fase C): fija la línea de base del producto],
+  [CoDR, PRR, SCR, SAR], [revisión de diseño conceptual; de requerimientos preliminar; de concepto del sistema; de aceptación del sistema],
+  [ConOps], [concepto de operaciones: cómo, quién y en qué escenarios se opera el sistema],
+  [COTS], [componente comercial que se compra hecho (_commercial off-the-shelf_)],
+  [DSM], [matriz de estructura de diseño: la conectividad de los componentes («DSM o N²»)],
+  [DoD, ESA, NASA, JAXA], [Departamento de Defensa de EE. UU.; agencias espaciales europea, estadounidense y japonesa],
+  [EDM, EM/ETM], [modelo de desarrollo de ingeniería; modelo de ingeniería (de ensayo)],
+  [EMI / EMC], [interferencia electromagnética / compatibilidad electromagnética],
+  [EQM, STM, PFM, FM], [modelo de calificación de ingeniería; estructural-térmico; protovuelo; de vuelo],
+  [ESPA], [anillo adaptador donde viajan satélites secundarios],
+  [FMEA, FTA, RBD], [análisis de modos de falla y efectos; árbol de fallas; diagrama de bloques de confiabilidad],
+  [FRR], [revisión de alistamiento para el vuelo: el Go / No Go],
+  [ICD, IRD, IDD], [control de interfaz (la solución acordada); requerimientos de interfaz; descripción de una interfaz que ya existe],
+  [ID], [identificador de un requerimiento],
+  [INCOSE], [Consejo Internacional de Ingeniería de Sistemas],
+  [IRL, SRL, TRL], [nivel de preparación para la integración (1-5); del sistema (0-7); de madurez tecnológica (1-9)],
+  [IS], [ingeniería de sistemas],
+  [KDP], [punto de decisión clave: la compuerta entre fases],
+  [MCR, SRR, MDR/SDR], [revisión de concepto de la misión (Pre-A); de requerimientos de sistema; de diseño (definición) de misión (Fase A)],
+  [MIL-HDBK-881 (MIL)], [estándar militar de EE. UU. sobre la WBS],
+  [MTBF], [tiempo medio entre fallas],
+  [NAR], [revisión independiente de confirmación (_Non-Advocate Review_)],
+  [NPR 7123.1], [la norma de NASA de procesos de ingeniería de sistemas],
+  [ORR], [revisión de alistamiento operativo (Fase D)],
+  [PBS, WBS], [desglose del producto (de qué está hecho); desglose del trabajo (qué hay que hacer)],
+  [PDR], [revisión preliminar del diseño (Fase B): fija la línea de base asignada],
+  [QTM], [modelo de ensayo de calificación: el prototipo que se ensaya por encima del vuelo],
+  [RF], [radiofrecuencia],
+  [ROM], [estimación de orden de magnitud (±35 %)],
+  [SEMP], [plan de gestión de la ingeniería de sistemas],
+  [SIR], [revisión de integración del sistema (Fase C)],
+  [TBR], [«a revisar»: valor con la mejor estimación, que todavía se tiene que confirmar],
+  [V&V], [verificación y validación],
+  [GLAST, GPM, JWST, LDCM, NOAA, NOAA-N′, OLI, TIRS, SAC, SZ, TDRS, TESS, ROV], [nombres de misiones, satélites, instrumentos y vehículos de los *ejemplos* (no son conceptos)],
+  [IISE, UNSAM, MIT, TP, TV, VTV], [la materia; la universidad; el instituto de Leveson; trabajo práctico; televisor; verificación técnica vehicular],
+)
+
 #pagebreak(weak: true)
 = Lo que puede caer, en dos líneas
 #tabla((1.7fr, 2.3fr),
