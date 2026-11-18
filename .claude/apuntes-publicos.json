@@ -187,6 +187,12 @@
       "local": "proyectos/documentos/apunte-iise/resumenes/resumen-clases-8-9.pdf",
       "nombre-en-drive": "Resumen - Clases 8 y 9 (plan de trabajo, LDCM y Fase B).pdf",
       "estado": "2026-10-14 -- 12 pag. para el parcialito del 14/10: la clase 8 hasta el LDCM (WBS, red y camino critico con el te, Gantt, estimaciones y costos, baselines, LDCM) y la Fase B de la clase 9 (TESS, TRL 6, PDR, confirmacion); preguntas probables y siglas. Publico por pedido de Fran del 14/10 (fuente: apunte-iise/resumenes/resumen-clases-8-9.typ; compilar con --creation-timestamp=1767225600 --root . desde apunte-iise)"
+    },
+    {
+      "materia": "IISE/Material de Estudio nuestro/Resumenes para parcialitos/2do parcial (clases 7 a 13)",
+      "local": "proyectos/documentos/apunte-iise/resumenes/resumen-2do-parcial.pdf",
+      "nombre-en-drive": "Resumen 2do parcial IISE - clases 7 a 13.pdf",
+      "estado": "2026-11-18 -- publico por pedido de Fran ('hace publico ahora la guia de estudio resumen de 2do parcial de iise y el podcast'): los 56 terminos del glosario de las unidades 7 a 13, teoria primero y ejemplos aparte. Los dos podcasts (resumen y largo) van a mano en IISE/Material de Estudio nuestro/Podcasts/2do parcial (clases 7 a 13): el publicador solo sigue PDFs (fuente: apunte-iise/resumenes/resumen-2do-parcial.typ)"
     }
   ],
   "no-se-publican": {
