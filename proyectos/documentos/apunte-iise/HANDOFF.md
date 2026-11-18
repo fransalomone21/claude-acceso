@@ -3,6 +3,7 @@
 ## 2026-11-17 (noche) — fase 13 CERRADA: podcast resumen del 2.° parcial y motor de voz
 
 - **Receta rápida, motor Qwen (elegido por Fran):** guion en `podcast-resumen-2do/guion.md` → scp a `C:\tts-iise\resumen\` → `correr-resumen.ps1 1,2,3,4,5,6,7 qwen` en UN ssh (lote 8: 42 min de guion en ~15 min) → scp de las partes → `podcast-2do-parcial/publicar-podcast.py --titulos ...` (completo, muestra transcripta, Drive con nombres por tema). La notebook también tiene Qwen (`qwen-libs` y `qwen-modelo` junto al tts-venv), sin probar todavía. Falta actualizar la fila de IISE del tablero de materias (pide declarar ese proyecto en la cascada).
+- **PENDIENTE (corte por límite semanal, 2026-11-17):** (a) el podcast resumen no define ICD/IRD/IDD, ConOps ni KDP como ya lo hace el PDF v4: agregarlo en `podcast-resumen-2do/guion.md` (partes 1 y 3), regenerar sólo esas con Qwen (la caché hace el resto) y republicar con `publicar-podcast.py --titulos`. (b) Guardar en `resumenes/` el medidor de siglas (hoy en el scratchpad: toda sigla del fuente en la tabla final, rojo si se borra ICD); la puerta pide el concepto freno para escribirlo ahí. (c) Fila de IISE en el tablero de materias. (d) Dos lecciones sin registrar (P12).
 - **Lo de abajo es la historia de la fase.**
 
 - **Guion:** `podcast-resumen-2do/guion.md`, 7 partes (una por clase, 7 a 13), 3 223 palabras, ~22 min;
