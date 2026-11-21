@@ -27,18 +27,82 @@ viejo: es donde vive el criterio de salida de la fase en curso.
 
 ## 1. El problema
 
-<!-- Una o dos frases. Qué duele HOY, no qué sería lindo tener. -->
+> Escrito el 2026-11-20 con el concepto `alcance` abierto
+> (`alcance-como-se-escribe.md`, SEH p. 47-49 y 55, cátedra M18 y M20). La
+> forma copia los ejemplares del CEV y de Marte: un elemento por frase, el
+> contexto antes.
 
-**Para quién es:** <!-- si sos vos, decilo: cambia el rigor -->
+**Antecedentes.** Fran tiene dos familias de Dragon Ball a mano: los mods de
+PS2 sobre *Budokai Tenkaichi 3* (*Niveles de Poder 8.1*, *Tenkaichi 4*), que
+sobre la jugabilidad del BT3 agregan personajes y cambian la fuerza, y el
+*Sparking ZERO* de PC, que trae las formas nuevas y admite mods, entre ellos uno
+que escala daño y vida por nivel (DP). En los juegos de fábrica una forma
+superior pesa casi lo mismo que la de abajo: el combate se equilibra para que
+todo personaje sea jugable, y eso es lo contrario de lo que Fran busca. En
+2026-09-05 se probó portar la jugabilidad del BT3 al Sparking ZERO y no es un
+mod (motores distintos).
 
-**Cómo sabremos que sirvió (validación):**
-<!-- La pregunta es "¿construimos lo correcto?", no "¿lo construimos bien?".
-     Se puede verificar perfecto y fallar acá. Es el modo de falla más caro. -->
+**Necesidad.** Fran no tiene un Dragon Ball para jugar de a dos en el que cada
+forma de Goku y Vegeta pese lo que pesa en la historia.
+
+**Meta.** Jugar de a dos un Dragon Ball donde la diferencia de poder entre las
+formas se sienta como en la serie.
+
+**Objetivos** (trazan a la meta):
+
+| ID | Objetivo |
+|---|---|
+| O-1 | Que las formas de Goku y Vegeta, de la base a Ultra Instinto y Ultra Ego, se puedan elegir. |
+| O-2 | Que, entre dos jugadores de igual habilidad, la forma más alta en la escala de poder elegida gane la pelea, con una ventaja que crece con la distancia en la escala (la función exacta es TBR: la fija la tabla de la fase 0 con Fran). |
+| O-3 | Que dos personas jueguen la misma pelea a la vez. |
+
+**Criterios de éxito.** Mínimo: O-1 a O-3 con tres personajes de prueba (Goku
+base, Goku SSJ Blue, Goku Ultra Instinto) en una sola computadora con dos
+mandos. Completo: todas las formas de Goku y Vegeta, y cada jugador en su
+computadora.
+
+**Misión.** Un Dragon Ball modificado (un ISO de PS2 o un Sparking ZERO con
+mods) cuya escala de daño y vida sigue la escala de poder elegida. Cuál de los
+dos es la salida del trade de la fase 0, no de este párrafo.
+
+**Hipótesis.**
+
+- H-1: «realista» se lee como el **orden** de poder de la historia con saltos
+  proporcionales entre formas, no como los números oficiales de las guías,
+  porque las guías no publican números para las formas de *Super* (TBR: se le
+  pregunta a Fran al mostrarle la tabla).
+- H-2: los mods que hoy tiene la notebook alcanzan para O-1; no hace falta
+  fabricar modelos ni animaciones.
+
+**Restricciones** (con quién las impone):
+
+- Las máquinas que hay: la notebook (RTX 4060 Laptop) y la PC de casa (RTX
+  3090, C: con 6,4 GB libres); las impone el hardware de la casa.
+- La versión del Sparking ZERO que hay (build de junio 2025, sin DLC); la
+  impone la copia que Fran tiene.
+- El repo es público: nada de la colección ni de los links va acá; lo impone
+  `claude-acceso`.
+
+**Autoridad y responsabilidad.** Fran decide el camino y la escala; la sesión
+investiga, prepara los juegos y mide.
+
+**Para quién es:** Fran, su hermano y sus amigos (Agustín). Es para uso de la
+casa: el rigor se ajusta a eso (§3).
+
+**Cómo sabremos que sirvió (validación):** Fran juega una pelea Goku base
+contra Goku Ultra Instinto con otra persona y dice que la diferencia se siente
+como en la serie. Se puede verificar perfecto la tabla de multiplicadores y
+fallar acá si la escala elegida no le cierra.
 
 ## 2. Qué NO es
 
-<!-- El alcance negativo. Lo que se decide NO hacer, para que no vuelva a
-     discutirse en tres semanas. Esta seccion evita mas trabajo que la de arriba. -->
+- **No es portar la jugabilidad del BT3 al Sparking ZERO** (probado el
+  2026-09-05: motores distintos).
+- **No es hacer personajes, modelos ni animaciones nuevos**: se usan los mods
+  que existen y se ajustan sus números (H-2; si H-2 cae, se reabre con Fran).
+- **No es un juego competitivo balanceado ni online con desconocidos**: el
+  desbalance entre formas es justamente lo que se pide.
+- **No es tocar los ISOs originales**: se trabaja sobre copias fechadas.
 
 ## 3. Naturaleza, y el rigor POR ASPECTO
 
