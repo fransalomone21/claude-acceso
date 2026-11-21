@@ -328,6 +328,7 @@
     "trabajo-final-iise":    {"necesidades": ["materia"], "catedras": ["iise"]},
     "ps2-casa":              {"necesidades": ["investigar"]},
     "dbz-niveles":           {"necesidades": ["ingenieria-inversa"]},
-    "sparking-musica":       {"necesidades": ["ingenieria-inversa"]}
+    "sparking-musica":       {"necesidades": ["ingenieria-inversa"]},
+    "pc-casa-control":       {"necesidades": ["ingenieria-inversa"]}
   }
 }

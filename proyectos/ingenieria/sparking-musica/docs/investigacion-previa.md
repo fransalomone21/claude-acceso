@@ -35,6 +35,11 @@ motor, no hay herramienta liviana en lo que encontré.
   ElAmigos con `steam_emu.ini` puede no tener "idioma de Steam" (sin medir); el loader de la PC
   (`dsound.dll` + UTocBypass + ZeroSpark/SZModLib) no se probó con el Manager.
 
+## Conclusion
+
+Se elige Kuro's Music Manager 1.3.3 (lo que usa la comunidad): se instala con respaldo y se prueba su BGM Swapper
+con los M1000+; si no alcanza, vía A (audio de las 22 filas visibles) o un BGMMod propio. Detalle en §4.
+
 ## 4. Vía elegida
 
 **Paso 1 (barato y reversible): instalar Kuro's Music Manager 1.3.3 en la PC y probar el BGM Swapper en una

@@ -5,6 +5,11 @@ Ruta: Menú principal → R1 a "Batalla y entrenamiento" → Batalla → Sin con
 pestaña "Música de fondo". Capturas (en la notebook, `C:\Users\frans\herramientas\lp-trabajo\_intermedios\capturas-pc\`):
 `musica-9-1.png`, `musica-10-1.png`, `musica-11-1.png`, `musica-12-1.png`.
 
+> **CORRECCIÓN 2026-11-21 19:30:** la lista NO tiene 25 filas sino ~46: detrás de *Invisible* siguen ~24 filas
+> con ícono de tele (What I've Done, Guilty All the Same, Rebellion, Mark the Graves, Leave Out All The Rest, The
+> Summoning, Bleed It Out, Shadow of the Day, Hands Held High, Final Masquerade, No More Sorrow, IGYEIH…). Todas
+> son del DLC (audio de anime con nombre de LP). La tabla de abajo cubre solo las primeras; ver `v5-filas.md`.
+
 ## Las 25 filas (la lista da la vuelta: de la primera con ARRIBA se cae a la última)
 
 Nombre = el que muestra el juego (pack de nombres ZeroSpark `LinkinParkNombres.json`, `SetBGMNames`). Id = la
