@@ -10,6 +10,7 @@
 #   bash .claude/cascada.sh -Suelta "que es"                T19: pregunta suelta y especifica, sin tronco
 #   bash .claude/cascada.sh <proyecto> -Necesidad a,b -Tema t   T19, pieza C: el tema, si el proyecto tiene mapa
 #   bash .claude/cascada.sh <proyecto> -Repo "motivo"       DA-096: operar el repo sin tronco ni rama (editar, no)
+#   bash .claude/cascada.sh -Sistema <id> -Investigacion <md> -Prediccion "..." -Respaldo "..."   DA-145/146
 #
 # Solo envuelve 'cascada_puerta.py --exige': los niveles, el ESTADO junto al enrutador y el AL DIA de git los sigue
 # dando cascada.ps1 en la PC (declarado: en la nube se lee lo que la puerta exige, que es lo que la puerta mide).
@@ -26,8 +27,14 @@ case "$proy" in
   *) shift ;;
 esac
 nec="" ; exc="" ; men="" ; ing="" ; sue="" ; tem="" ; rep=""
+sis="" ; inv="" ; sinb="" ; pred="" ; resp=""
 while [ $# -gt 0 ]; do
   case "$1" in
+    -Sistema|--sistema) sis="${2:-}"; shift 2 || shift ;;           # DA-145/146 (L2-CAS-14)
+    -Investigacion|--investigacion) inv="${2:-}"; shift 2 || shift ;;
+    -SinBusqueda|--sinbusqueda) sinb="${2:-}"; shift 2 || shift ;;
+    -Prediccion|--prediccion) pred="${2:-}"; shift 2 || shift ;;
+    -Respaldo|--respaldo) resp="${2:-}"; shift 2 || shift ;;
     -Necesidad|--necesidad) nec="${2:-}"; shift 2 || shift ;;
     -Tema|--tema) tem="${2:-}"; shift 2 || shift ;;
     -Excepcion|--excepcion) exc="${2:-}"; shift 2 || shift ;;
@@ -39,6 +46,15 @@ while [ $# -gt 0 ]; do
   esac
 done
 
+if [ -n "$sis" ]; then   # DA-145/146: lo registra el HOOK; aca se dice que le falta a la declaracion
+  set -- --ajeno "$sis"
+  [ -n "$inv" ] && set -- "$@" --investigacion "$inv"
+  [ -n "$sinb" ] && set -- "$@" --sin-busqueda "$sinb"
+  [ -n "$pred" ] && set -- "$@" --prediccion "$pred"
+  [ -n "$resp" ] && set -- "$@" --respaldo "$resp"
+  "$PY" "$RAIZ/.claude/hooks/cascada_puerta.py" "$@"
+  [ -z "$proy$sue$ing" ] && exit 0
+fi
 if [ -n "$sue" ]; then
   echo "  CLASE DEL PEDIDO: suelta -- '$sue'. Sin proyecto y sin tronco (T19)."
   exit 0

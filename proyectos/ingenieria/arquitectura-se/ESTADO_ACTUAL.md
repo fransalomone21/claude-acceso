@@ -3,6 +3,20 @@
 La fase en curso y qué la cierra: `PDP.md` §4 (dueño; la compuerta la inyecta al leer el proyecto). El orden de lo que
 sigue: [`docs/lluvia-de-ideas-2026-10-12.md`](docs/lluvia-de-ideas-2026-10-12.md) §6 (dueño). Acá no se copian (T20).
 
+**2026-11-21 (sesión `5fae7e60`) — DA-145 Y DA-146 ARREGLADOS (falta validarlos con 3 sesiones auditadas): la puerta
+frena el primer cambio sobre un sistema ajeno sin búsqueda externa, predicción y respaldo.** Requisitos antes
+(N-14, N-15, L0-14/15, L1-35/36 y 15 L2 en [`docs/10-requisitos.md`](docs/10-requisitos.md) §17; 0 VIOLA). La pregunta
+de marco se contestó con las cajas negras: 33 sesiones tocaron juegos y emuladores, 9 de las 15 más activas `-Suelta`,
+y la sesión del caso había declarado dbz-niveles con `ninguna` antes de pasarse a suelta: ninguna clase exigía la
+búsqueda, así que el freno va por el ROL de la acción, en cualquier clase (el abuso de `-Suelta` es DA-143). La puerta
+(`cascada_puerta.py`) mira las marcas de `sistemas_ajenos` del catálogo en la ruta de un Write fuera del repo y en cada
+tramo de un comando que no sea un registro del método, también adentro del base64 de un `ssh -EncodedCommand`; exige
+`cascada.ps1 -Sistema <id> -Investigacion <md del repo con 2+ links y '## Conclusión'> -Prediccion -Respaldo` (o
+`-SinBusqueda "motivo"`, registrado). Probado: autotest caso 29 (18 casos, 7 mutantes vistos), autotest entero BIEN, la
+frontera real por el lanzador y un rojo en vivo en esta sesión. Diseño y V: [`docs/da145-sistemas-ajenos.md`](docs/da145-sistemas-ajenos.md).
+**Efecto para BLACK, dbz-niveles, ps2-casa y lo suelto sobre la PC de casa**: la primera acción sobre el emulador o el
+juego pide declarar el sistema una vez por sesión.
+
 **2026-11-13 (tanda con Fable) — REPLANTEO DE ARRIBA HACIA ABAJO: MEDIDO Y PROPUESTO, SIN TOCAR NADA VIVO.** La
 revisión de rumbo que la cascada pedía (16 sesiones desde la última lluvia). Medido ese día: la puerta exige de 204 K a
 411 K caracteres al entrar a un proyecto y las sesiones declaran usar el 6 % (materias, 40 muestras) y el 13 %

@@ -59,7 +59,7 @@ LECTURA = re.compile(
     r"""^\s*(&\s*)?["']?(\.[\\/])?("""
     r"""Get-Content|gc|cat|type|head|tail|less|more|sed\s+-n|Select-String|sls|grep|rg|ls|dir|Get-ChildItem|gci|"""
     r"""Get-Item|Test-Path|wc|git\s+(log|status|diff|show|rev-parse|ls-files|blame|branch)\b|"""
-    r"""python\s+\S*cascada_puerta\.py\s+--(exige|estado|verificar|tronco)|"""
+    r"""python\s+\S*cascada_puerta\.py\s+--(exige|estado|verificar|tronco|ajeno)|"""
     # la compuerta con una ruta solo IMPRIME la fase (sin marca ni estado); sin argumento lee stdin y con --autotest
     # escribe temporales: esos no. La auditoria de de44da9d la conto como accion sobre black (T14).
     r"""python\s+\S*fase_activa\.py\s+(?!-)\S|"""
@@ -314,6 +314,212 @@ CLASE_INVOCADA = re.compile(r"-(Suelta|Ingenieria)\s+[\"']([^\"']+)[\"']", re.I)
 # que el comando corra; la ultima declaracion reemplaza a la anterior (asi se corrige un tema mal escrito).
 TEMA_FALTA = "TEMA SIN DECLARAR"
 TEMA_INVOCADO = re.compile(r"-Tema\s+[\"']?([A-Za-z0-9_-]+(?:\s*,\s*[A-Za-z0-9_-]+)*)", re.I)
+
+# DA-145/146 (N-14, N-15; L1-35/36, L2-PTA-56..65; proyectos/ingenieria/arquitectura-se/docs/da145-sistemas-ajenos.md):
+# el 2026-11-21 una sesion -Suelta cambio un juego de la PC de casa cuatro veces antes de una sola busqueda externa,
+# con el guardado de la familia reescrito dos veces. El freno va por el ROL de la accion (toca un sistema de terceros),
+# no por la clase del pedido: la suelta y un proyecto con necesidad 'ninguna' dejaban pasar igual. Exige la
+# Declaracion_De_Sistema_Ajeno: una investigacion registrada (el ARCHIVO se mide: en el repo, 2+ direcciones web, una
+# seccion Conclusion con texto) o la salida -SinBusqueda con motivo, mas la prediccion escrita y el respaldo.
+SISTEMAS_POR_OMISION = {   # L2-PTA-64: sin la clave en el catalogo, estos (falla cerrado); el catalogo es el dueno
+    "sparking-zero": {"marcas": [r"(?i)sparking ?zero"]},
+    "rpcs3": {"marcas": [r"(?i)rpcs3"]},
+    "pcsx2": {"marcas": [r"(?i)pcsx2"]},
+    "bluestacks": {"marcas": [r"(?i)bluestacks"]},
+    "juegos-pc": {"generico": True, "marcas": [r"(?i)\b[a-z]:[\\/]+games[\\/]", r"(?i)steamapps", r"(?i)pc-teclas",
+                                                r"(?i)probar-juego"]},
+}
+MINIMOS_AJENO = {"enlaces": 2, "conclusion": 80, "prediccion": 20, "respaldo": 3}
+AJENO_INVOCADO = re.compile(r"-Sistema\s+[\"']?([A-Za-z0-9_.-]+)", re.I)
+# L2-PTA-61: el tramo que solo HABLA del sistema (git, un eco, los registros del metodo) no lo toca.
+REGISTRO_METODO = re.compile(r"""^\s*(&\s*)?["']?(git\b|echo\b|Write-(Output|Host)\b|printf\b|"""
+                             r"""python3?\s+\S*(aprender|defectos|auditar-sesion|uso-lecturas|retiro)\.py\b)""", re.I)
+B64 = re.compile(r"[A-Za-z0-9+/]{40,}={0,2}")
+
+
+def opcion_cmd(nombre: str, cmd: str) -> str:
+    """El valor de '-Nombre "valor"' (o sin comillas) en una linea de la cascada; '' si no esta."""
+    m = re.search(r"-%s\s+(\"([^\"]*)\"|'([^']*)'|([^\s\"';]+))" % nombre, cmd, re.I)
+    return "" if not m else next(g for g in (m.group(2), m.group(3), m.group(4), "") if g is not None)
+
+
+def sistemas_ajenos(cat: dict):
+    """(sistemas, exigida). Sin la clave, los de la puerta (L2-PTA-64); 'exigida': false lo apaga a la vista
+    (L2-VER-14)."""
+    sa = cat.get("sistemas_ajenos")
+    if sa is None:
+        return SISTEMAS_POR_OMISION, True
+    if (sa or {}).get("exigida", True) is False:
+        return {}, False
+    return dict(sa.get("sistemas") or {}), True
+
+
+def minimos_ajeno(cat: dict) -> dict:
+    return dict(MINIMOS_AJENO, **((cat.get("sistemas_ajenos") or {}).get("minimos") or {}))
+
+
+def tramos_cmd(cmd: str):
+    """Los tramos de un comando, partidos por ; && || y salto de linea FUERA de comillas (como registrar_comando)."""
+    blanco, cortes = sin_comillas(cmd), [0]
+    for m in re.finditer(r";|&&|\|\||\n", blanco):
+        cortes += [m.start(), m.end()]
+    cortes.append(len(cmd))
+    return [cmd[cortes[i]:cortes[i + 1]] for i in range(0, len(cortes) - 1, 2)]
+
+
+def decodificados(texto: str):
+    """L2-PTA-60: lo que viaja en base64 (ssh ... -EncodedCommand) se lee: UTF-16LE (PowerShell) o UTF-8."""
+    import base64
+    out = []
+    for tok in B64.findall(texto):
+        try:
+            crudo = base64.b64decode(tok + "=" * (-len(tok) % 4), validate=True)
+        except Exception:
+            continue
+        for cod in ("utf-16-le", "utf-8"):
+            try:
+                t = crudo.decode(cod)
+            except Exception:
+                continue
+            if t and sum(ch.isprintable() or ch in "\r\n\t" for ch in t) >= 0.95 * len(t):
+                out.append(t)
+                break
+    return out
+
+
+def dentro_de_raiz(ruta) -> bool:
+    try:
+        return Path(norm(RAIZ)) in Path(norm(ruta)).parents or norm(ruta) == norm(RAIZ)
+    except Exception:
+        return False
+
+
+def sistemas_de(cat: dict, tool: str, inp: dict):
+    """Los Sistema_Ajeno que TOCA la accion (L1-35): los especificos; el generico solo si no hay especifico."""
+    sis, on = sistemas_ajenos(cat)
+    if not on:
+        return []
+    textos = []
+    if tool in ("Edit", "Write", "NotebookEdit"):
+        arch = str(inp.get("file_path", inp.get("notebook_path", "")))
+        if arch and not dentro_de_raiz(arch):   # L2-PTA-62: el repo no es el sistema en uso
+            textos.append(arch)
+    elif tool in ("Bash", "PowerShell"):
+        for seg in tramos_cmd(str(inp.get("command", ""))):
+            if REGISTRO_METODO.match(seg):
+                continue
+            textos.append(seg)
+            textos.extend(decodificados(seg))
+    if not textos:
+        return []
+    especificos, genericos = [], []
+    for nombre, d in sis.items():
+        if any(re.search(m, t) for m in (d or {}).get("marcas", []) for t in textos):
+            (genericos if (d or {}).get("generico") else especificos).append(nombre)
+    return especificos or genericos
+
+
+def investigacion_falta(cat: dict, ruta: str):
+    """Lo que le falta a un archivo para ser Investigacion_Registrada (L2-PTA-57); [] si nada. Se mide el ARCHIVO."""
+    mn = minimos_ajeno(cat)
+    if not ruta:
+        return ["falta -Investigacion <archivo .md del repo> (o -SinBusqueda \"motivo\")"]
+    p = Path(os.path.expanduser(ruta))
+    if not p.is_absolute():
+        p = RAIZ / p
+    if not dentro_de_raiz(p):
+        return ["la investigacion %s esta FUERA de claude-acceso: no viaja ni queda (regla 4)" % ruta]
+    if p.suffix.lower() != ".md" or not p.is_file():
+        return ["la investigacion %s no existe o no es un .md" % ruta]
+    txt = p.read_text(encoding="utf-8", errors="replace")
+    falta = []
+    urls = {u.rstrip(".,;:") for u in re.findall(r"https?://[^\s)>\]\"'`|]+", txt)}
+    if len(urls) < mn["enlaces"]:
+        falta.append("la investigacion trae %d direccion(es) web distinta(s); hacen falta %d: lo que se busco AFUERA"
+                     % (len(urls), mn["enlaces"]))
+    lin = txt.splitlines()
+    cuerpo = None
+    for i, l in enumerate(lin):
+        m = re.match(r"^(#+)\s*(\d+[.)]?\s*)?conclusi", l, re.I)
+        if m:
+            nivel, cuerpo = len(m.group(1)), []
+            for l2 in lin[i + 1:]:
+                m2 = re.match(r"^(#+)\s", l2)
+                if m2 and len(m2.group(1)) <= nivel:
+                    break
+                cuerpo.append(l2)
+            break
+    if cuerpo is None:
+        falta.append("la investigacion no tiene una seccion '## Conclusion' (que se eligio y por que)")
+    elif len(" ".join(" ".join(cuerpo).split())) < mn["conclusion"]:
+        falta.append("la seccion Conclusion tiene menos de %d caracteres" % mn["conclusion"])
+    return falta
+
+
+def declaracion_falta(cat: dict, st: dict, sistema: str):
+    """Lo que le falta a la Declaracion_De_Sistema_Ajeno de la sesion para ese sistema (L2-PTA-56..58)."""
+    d = st.get("ajenos", {}).get(sistema)
+    if not d:
+        return ["la sesion no declaro el sistema '%s'" % sistema]
+    mn = minimos_ajeno(cat)
+    falta = [] if d.get("sin") else investigacion_falta(cat, d.get("inv", ""))
+    if len((d.get("pred") or "").strip()) < mn["prediccion"]:
+        falta.append("falta -Prediccion \"que va a pasar en el sistema con el cambio\" (%d caracteres o mas)"
+                     % mn["prediccion"])
+    if len((d.get("resp") or "").strip()) < mn["respaldo"]:
+        falta.append("falta -Respaldo \"ruta de la copia del estado que el cambio puede danar\" o \"no-cambia: motivo\"")
+    return falta
+
+
+def problemas_ajenos(cat: dict):
+    """L2-VER-14/15: el freno apagado o vacio, y cada marca que no compila, se ven en cada arranque."""
+    sis, on = sistemas_ajenos(cat)
+    if not on:
+        return ["el freno de SISTEMAS AJENOS esta APAGADO ('sistemas_ajenos': {'exigida': false}): una sesion puede "
+                "cambiar un juego o un emulador sin buscar afuera, sin prediccion y sin respaldo (DA-145/146, L2-VER-14)"]
+    if not sis:
+        return ["'sistemas_ajenos' declara 0 sistemas: el freno no ve ninguno (DA-145/146, L2-VER-14)"]
+    out = []
+    for nombre, d in sis.items():
+        if not (d or {}).get("marcas"):
+            out.append("el sistema ajeno '%s' no tiene marcas: nunca se va a ver (L2-VER-14)" % nombre)
+        for m in (d or {}).get("marcas", []):
+            try:
+                re.compile(m)
+            except re.error as e:
+                out.append("la marca '%s' del sistema ajeno '%s' no compila: %s (L2-VER-15)" % (m, nombre, e))
+    return out
+
+
+def cli_ajeno(a) -> int:
+    """L2-CAS-14: lo que la cascada imprime al declarar un sistema ajeno. Informa; el freno es la puerta."""
+    sistema = a[1].lower()
+    val = lambda k: a[a.index(k) + 1] if k in a and a.index(k) + 1 < len(a) else ""  # noqa: E731
+    cat = cargar_catalogo()
+    sis, on = sistemas_ajenos(cat)
+    st = {"ajenos": {sistema: {"inv": val("--investigacion"), "sin": val("--sin-busqueda"),
+                               "pred": val("--prediccion"), "resp": val("--respaldo")}}}
+    print("  SISTEMA AJENO: %s%s" % (sistema, "" if sistema in sis else
+                                       "  (NO esta en 'sistemas_ajenos' del catalogo: esta declaracion no libera nada; "
+                                       "los que hay: %s)" % ", ".join(sorted(sis))))
+    falta = declaracion_falta(cat, st, sistema)
+    if st["ajenos"][sistema]["sin"]:
+        print("  sin busqueda externa, con motivo: '%s' (queda en el registro de excepciones)" % st["ajenos"][sistema]["sin"])
+    if falta:
+        print("  [FALTA] la puerta va a negar el primer cambio sobre %s hasta completar:" % sistema)
+        for x in falta:
+            print("    - " + x)
+        print("  Se completa declarando de nuevo:\n" + forma_ajeno(sistema))
+    else:
+        print("  [ok] declaracion completa: la puerta deja actuar sobre %s en esta sesion." % sistema)
+    return 0
+
+
+def forma_ajeno(sistema: str) -> str:
+    return ("    %s -Sistema %s -Investigacion \"<archivo .md del repo: fuentes web y '## Conclusion'>\" "
+            "-Prediccion \"<que va a pasar>\" -Respaldo \"<ruta de la copia | no-cambia: motivo>\"\n"
+            "  (sin nada que buscar afuera -- copiar un juego, ordenar carpetas --: -SinBusqueda \"motivo\" en lugar de "
+            "-Investigacion; queda registrado)" % (entrada(), sistema))
 
 
 def entrada_cmd() -> str:
@@ -865,7 +1071,8 @@ def anotar(sid: str, ev: dict):
 
 def estado(sid: str) -> dict:
     st = {"lecturas": {}, "huellas": {}, "declaradas": {}, "excepciones": {}, "menciones": {}, "comandos": [],
-          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set(), "temas": {}, "repos": {}}
+          "inferidos": {}, "por_debil": set(), "conectores": [], "clases": set(), "temas": {}, "repos": {},
+          "ajenos": {}}
     f = archivo_estado(sid)
     if not f.exists():
         return st
@@ -897,6 +1104,8 @@ def estado(sid: str) -> dict:
             st["clases"].add(ev["clase"])
         elif t == "tema":   # T19, pieza C: la ultima declaracion de temas de un proyecto reemplaza a la anterior
             st["temas"][ev["proy"]] = set(ev.get("temas", []))
+        elif t == "ajeno":   # DA-145/146: la ultima declaracion de un sistema reemplaza a la anterior (se corrige asi)
+            st["ajenos"][ev.get("sistema", "")] = ev
         elif t == "cmd":
             st["comandos"].append(ev["cmd"])
         elif t == "infiere":
@@ -1088,6 +1297,24 @@ def pre(ev: dict) -> int:
     if exige_clasificacion(cat) and not clasificada(st) and not (
             proyecto and proyecto not in st["declaradas"] and proyecto not in st["excepciones"]):
         return deny(sin_clase_texto())
+    # DA-145/146 (L1-35/36, L2-PTA-56..62): una accion sobre un sistema de terceros, en CUALQUIER clase del pedido, pide
+    # la declaracion completa de ese sistema. Va antes que lo del proyecto: lo que se rompe aca es lo que usa la familia.
+    try:
+        ajenos = sistemas_de(cat, tool, inp)
+    except re.error as e:
+        return deny("PUERTA DE LA CASCADA (DA-145): una marca de 'sistemas_ajenos' del catalogo no compila (%s). "
+                    "Arreglar .claude/cascada.json (editarlo no lo frena la puerta)." % e)
+    pend_aj = [(s, declaracion_falta(cat, st, s)) for s in ajenos]
+    pend_aj = [(s, f) for s, f in pend_aj if f]
+    if pend_aj:
+        lin = ["PUERTA DE LA CASCADA (DA-145/146): esta accion toca un SISTEMA AJENO (%s), algo que Fran usa y que es de "
+               "terceros. Antes del primer cambio: lo que la comunidad ya resolvio (buscado AFUERA y escrito en el repo, "
+               "con su conclusion), que va a pasar y con que respaldo. Falta:" % ", ".join(s for s, _ in pend_aj)]
+        for s, f in pend_aj:
+            lin += ["  - [%s] %s" % (s, x) for x in f]
+        lin.append("Se declara con la cascada (una vez por sesion y sistema; declarar de nuevo corrige):")
+        lin += [forma_ajeno(s) for s, _ in pend_aj]
+        return deny("\n".join(lin))
     tronco_pend = con_tronco(cat, st)   # T19, pieza B: con ingenieria de sistemas, el tronco antes de cualquier accion
     # T19, pieza C (L2-PTA-40..45): la RAMA de cada proyecto declarado (sin excepcion), antes de CUALQUIER accion, como
     # el tronco: el Drive se toca desde la raiz, fuera de la carpeta del proyecto.
@@ -1253,6 +1480,16 @@ def registrar_invocacion(sid: str, cmd: str):
     c = CLASE_INVOCADA.search(cmd)
     if c:   # T19 (L2-PTA-32): la clase del pedido, sin proyecto; llega aca en PreToolUse, antes de que el comando corra
         anotar(sid, {"t": "clase", "clase": c.group(1).lower(), "motivo": c.group(2)})
+    aj = AJENO_INVOCADO.search(cmd)
+    if aj:   # DA-145/146 (L2-PTA-63): la Declaracion_De_Sistema_Ajeno, antes de que el comando corra
+        d = {"t": "ajeno", "sistema": aj.group(1).lower(), "inv": opcion_cmd("Investigacion", cmd),
+             "sin": opcion_cmd("SinBusqueda", cmd), "pred": opcion_cmd("Prediccion", cmd),
+             "resp": opcion_cmd("Respaldo", cmd)}
+        anotar(sid, d)
+        if d["sin"]:   # L2-PTA-65: la salida sin busqueda queda a la vista, como -Excepcion
+            LOG_EXC.parent.mkdir(parents=True, exist_ok=True)
+            with open(LOG_EXC, "a", encoding="utf-8") as fh:
+                fh.write("%s\t%s\tsistema:%s\t%s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), sid, d["sistema"], d["sin"]))
     m = DECL.search(cmd)
     if m and m.group(1).lower() in CLASES_PEDIDO:   # '-Suelta' no es el nombre de un proyecto
         m = None
@@ -1567,6 +1804,7 @@ def cli_verificar() -> int:
         rojos.append("la CLASIFICACION del pedido esta APAGADA ('clasificacion': {'exigida': false}): la puerta deja "
                      "actuar sin que la sesion interprete el pedido (T19, L2-VER-05)")
     rojos.extend(problemas_del_tronco(cat))   # L2-VER-06, 07 y 13 (DA-104): la misma regla que --tronco
+    rojos.extend(problemas_ajenos(cat))       # L2-VER-14/15 (DA-145/146)
     disco = proyectos_del_disco()
     ent = cat.get("proyectos", {})
     # T19, pieza C (L2-VER-08..12): cada naturaleza con proyectos tiene su rama decidida, la rama resuelve y trae las
@@ -3245,6 +3483,160 @@ def autotest() -> int:
             ("MUTANTE DA-096 (sin mirar que el proyecto tenga -Repo) -> lo ve el caso 5",
              [('and tocados and all(p in st["repos"] for p in tocados) \\', "and tocados \\")], 4)):
         mutar(nombre, cambios, sanos28, n, caso28, casos28[n][3], "da096")
+
+    # 29. DA-145/146 (L1-35/36, L2-PTA-56..65, L2-VER-14/15): una accion sobre un SISTEMA AJENO pide, en cualquier clase
+    # del pedido, la investigacion registrada (el ARCHIVO, medido), la prediccion y el respaldo. Las entradas del
+    # mecanismo, cada una con su caso: el payload (ruta, comando, base64, tramo que solo habla), el catalogo (sin la
+    # clave, apagado), el estado (la declaracion, completa o no) y el objeto (la investigacion). Las investigaciones van
+    # adentro de la RAIZ (es la regla) en una carpeta descartable; el catalogo, sintetico (el dato vivo cambia).
+    inv_dir = RAIZ / ("x-autotest-da145-%d" % os.getpid())
+    inv_dir.mkdir(exist_ok=True)
+    inv_ok = inv_dir / "investigacion-ok.md"
+    inv_ok.write_text("# Investigacion previa (autotest)\n\n## Lo buscado\n\n- https://ejemplo.invalid/mod-a\n"
+                      "- https://ejemplo.invalid/foro-b\n\n## Conclusion\n\nSe elige el gestor de la comunidad porque "
+                      "agrega entradas sin tocar el contenido descargable y se desinstala borrando su carpeta.\n",
+                      encoding="utf-8")
+    inv_sin_concl = inv_dir / "investigacion-sin-conclusion.md"
+    inv_sin_concl.write_text("# Notas\n\n- https://ejemplo.invalid/mod-a\n- https://ejemplo.invalid/foro-b\n",
+                             encoding="utf-8")
+    inv_un_link = inv_dir / "investigacion-un-link.md"
+    inv_un_link.write_text("# Notas\n\n- https://ejemplo.invalid/mod-a\n\n## Conclusion\n\n" + "x " * 60 + "\n",
+                           encoding="utf-8")
+    inv_fuera = tmp / "investigacion-fuera.md"
+    inv_fuera.write_text(inv_ok.read_text(encoding="utf-8"), encoding="utf-8")
+    sis29 = {"juego-x": {"marcas": [r"(?i)juego ?x\b"]}, "carpeta-juegos": {"generico": True,
+                                                                           "marcas": [r"(?i)\b[a-z]:[\\/]+games[\\/]"]}}
+    c29 = dict(cat_base, sistemas_ajenos={"sistemas": sis29})
+    f29 = tmp / "cat29.json"
+    f29.write_text(json.dumps(c29, ensure_ascii=False), encoding="utf-8")
+    c29s = dict(cat_base)
+    c29s.pop("sistemas_ajenos", None)
+    f29s = tmp / "cat29-sin-clave.json"
+    f29s.write_text(json.dumps(c29s, ensure_ascii=False), encoding="utf-8")
+    f29a = tmp / "cat29-apagado.json"
+    f29a.write_text(json.dumps(dict(cat_base, sistemas_ajenos={"exigida": False, "sistemas": sis29}),
+                               ensure_ascii=False), encoding="utf-8")
+    f29r = tmp / "cat29-marca-rota.json"
+    f29r.write_text(json.dumps(dict(cat_base, sistemas_ajenos={"sistemas": {"roto": {"marcas": ["(sin cerrar"]}}}),
+                               ensure_ascii=False), encoding="utf-8")
+    sue29 = '.\\cascada.ps1 -Suelta "autotest DA-145"'
+
+    def decl29(sistema="juego-x", inv=None, sin=None, pred="el juego arranca con la pista nueva en la pelea",
+               resp="C:\\respaldo\\save-1724"):
+        partes = [".\\cascada.ps1", "-Sistema", sistema]
+        if inv is not None:
+            partes += ["-Investigacion", '"%s"' % inv]
+        if sin is not None:
+            partes += ["-SinBusqueda", '"%s"' % sin]
+        if pred is not None:
+            partes += ["-Prediccion", '"%s"' % pred]
+        if resp is not None:
+            partes += ["-Respaldo", '"%s"' % resp]
+        return " ".join(partes)
+
+    toca29 = ("PowerShell", {"command": 'Copy-Item a.pak "C:\\Games\\Juego X\\Content\\Paks\\~mods\\a.pak"'})
+    import base64 as _b64
+    oculto = _b64.b64encode('Remove-Item "C:\\Games\\Juego X\\Content\\DLC" -Recurse'.encode("utf-16-le")).decode()
+    ssh29 = ("PowerShell", {"command": 'ssh -i $k Fran@host "powershell -NoProfile -EncodedCommand %s"' % oculto})
+    habla29 = ("PowerShell", {"command": 'python perfil-global\\herramientas\\aprender.py agregar --titulo "el Juego X '
+                                         'se cambio sin buscar"'})
+    edit_fuera29 = ("Write", {"file_path": "C:\\Games\\Juego X\\config.ini", "content": "a=1\n"})
+    edit_repo29 = ("Write", {"file_path": str(inv_dir / "notas-juego-x.md"), "content": "# Juego X\n"})
+    generico29 = ("PowerShell", {"command": 'Copy-Item b.iso "D:\\Games\\Otro\\b.iso"'})
+    casos29 = (   # (nombre, comandos previos, accion, niega, motivo, catalogo)
+        ("DA-145 SABOTAJE: -Suelta y un cambio sobre el juego sin declarar -> deny", [sue29], toca29, True,
+         "SISTEMA AJENO", f29),
+        ("DA-145 CONTROL: declaracion completa (investigacion medida) -> pasa", [sue29, decl29(inv=inv_ok)], toca29,
+         False, None, f29),
+        ("DA-145 SABOTAJE: investigacion sin '## Conclusion' -> deny", [sue29, decl29(inv=inv_sin_concl)], toca29, True,
+         "Conclusion", f29),
+        ("DA-145 SABOTAJE: investigacion con una sola fuente web -> deny", [sue29, decl29(inv=inv_un_link)], toca29,
+         True, "direccion(es) web", f29),
+        ("DA-145 SABOTAJE: investigacion FUERA del repo -> deny", [sue29, decl29(inv=inv_fuera)], toca29, True, "FUERA",
+         f29),
+        ("DA-146 SABOTAJE: sin -Prediccion -> deny", [sue29, decl29(inv=inv_ok, pred=None)], toca29, True,
+         "-Prediccion", f29),
+        ("DA-146 SABOTAJE: sin -Respaldo -> deny", [sue29, decl29(inv=inv_ok, resp=None)], toca29, True, "-Respaldo",
+         f29),
+        ("DA-145 CONTROL: -SinBusqueda con motivo, prediccion y respaldo -> pasa",
+         [sue29, decl29(sin="solo copiar el juego a otra carpeta", resp="no-cambia: copia nueva")], toca29, False, None,
+         f29),
+        ("DA-145 SABOTAJE: el cambio viaja en base64 por ssh -> deny", [sue29], ssh29, True, "juego-x", f29),
+        ("DA-145 CONTROL: un registro del metodo que NOMBRA el juego -> pasa", [sue29], habla29, False, None, f29),
+        ("DA-145 SABOTAJE: Write fuera del repo, en la carpeta del juego -> deny", [sue29], edit_fuera29, True,
+         "juego-x", f29),
+        ("DA-145 CONTROL: Write adentro del repo que nombra el juego en la ruta -> pasa", [sue29], edit_repo29, False,
+         None, f29),
+        ("DA-145 SABOTAJE: declarado OTRO sistema -> deny por el que toca", [sue29, decl29("otro", inv=inv_ok)], toca29,
+         True, "juego-x", f29),
+        ("DA-145 SABOTAJE: una carpeta de juegos sin sistema especifico -> deny por el generico", [sue29], generico29,
+         True, "carpeta-juegos", f29),
+        ("DA-145 SABOTAJE: catalogo SIN la clave -> deny con los de la puerta", [sue29],   # rpcs3: sin concepto propio
+         ("PowerShell", {"command": "Copy-Item x.yml \"C:\\emus\\rpcs3\\config.yml\""}), True, "SISTEMA AJENO (rpcs3)",
+         f29s),
+        ("DA-145 CONTROL: catalogo con 'exigida': false -> pasa (se apaga a la vista)", [sue29], toca29, False, None,
+         f29a),
+        ("DA-145 SABOTAJE: proyecto declarado (coaching, ninguna) y el cambio -> deny",
+         ['.\\cascada.ps1 coaching -Necesidad ninguna'], toca29, True, "SISTEMA AJENO", f29),
+        ("DA-145 CONTROL: lectura pura sobre la carpeta del juego -> pasa", [sue29],
+         ("PowerShell", {"command": 'Get-ChildItem "C:\\Games\\Juego X"'}), False, None, f29))
+
+    def caso29(n, script=__file__):
+        s = "sin-clase-29-%d-%s" % (n, Path(script).stem)
+        _, coms, accion, _, _, fc = casos29[n]
+        ce = {"CASCADA_CATALOGO": str(fc)}
+        for c in coms:
+            correr(pre_ev("PowerShell", {"command": c}, s), ce, script)
+            if "cascada.ps1 coaching" in c:
+                leer_rama("coaching", s, script, ce)
+        return correr(pre_ev(*accion, s=s), ce, script)
+
+    sanos29 = {}
+    for n, (nombre, _, _, niega, motivo, _) in enumerate(casos29):
+        r = caso29(n)
+        sanos29[n] = ('"deny"' in r) == niega and (motivo is None or motivo in r)
+        caso(nombre, r, niega, motivo)
+    # L2-PTA-65: la salida sin busqueda queda en el registro de excepciones (el del autotest)
+    exc = Path(env["CASCADA_LOG_EXC"])
+    ok = exc.exists() and "sistema:juego-x\tsolo copiar el juego" in exc.read_text(encoding="utf-8")
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "DA-145: -SinBusqueda queda en el registro de excepciones",
+                               "si" if ok else "NO"))
+    for nombre, fcat, marca in (("DA-145 --verificar: freno apagado -> rojo (L2-VER-14)", f29a, "APAGADO"),
+                                ("DA-145 --verificar: una marca que no compila -> rojo (L2-VER-15)", f29r, "no compila")):
+        rv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                            env=dict(env, CASCADA_CATALOGO=str(fcat), CASCADA_RAIZ=str(RAIZ)))
+        sal = rv.stdout.decode("utf-8", "replace")
+        ok = rv.returncode == 1 and marca in sal
+        mal += not ok
+        print("%s  %-62s -> %s" % ("ok " if ok else "MAL", nombre, "rojo" if ok else "NO: %s" % sal[-200:]))
+    rv = subprocess.run([sys.executable, __file__, "--verificar"], capture_output=True,
+                        env=dict(env, CASCADA_CATALOGO=str(f29), CASCADA_RAIZ=str(RAIZ)))
+    ok = "SISTEMAS AJENOS" not in rv.stdout.decode("utf-8", "replace") and "L2-VER-15" not in rv.stdout.decode(
+        "utf-8", "replace")
+    mal += not ok
+    print("%s  %-62s -> %s" % ("ok " if ok else "MAL", "DA-145 --verificar: catalogo sano -> sin rojos de ajenos",
+                               "limpio" if ok else "NO"))
+    for nombre, cambios, n in (
+            ("MUTANTE DA-145 (sin el freno) -> lo ve el caso 1",
+             [("    if pend_aj:\n        lin = [", "    if False:\n        lin = [")], 0),
+            ("MUTANTE DA-145 (cualquier archivo vale de investigacion) -> lo ve el caso 3",
+             [('    falta = [] if d.get("sin") else investigacion_falta(cat, d.get("inv", ""))',
+               '    falta = []')], 2),
+            ("MUTANTE DA-146 (sin prediccion pasa) -> lo ve el caso 6",
+             [('    if len((d.get("pred") or "").strip()) < mn["prediccion"]:', '    if False:')], 5),
+            ("MUTANTE DA-145 (sin decodificar base64) -> lo ve el caso 9",
+             [("            textos.extend(decodificados(seg))", "            pass")], 8),
+            ("MUTANTE DA-145 (la clave ausente apaga) -> lo ve el caso 15",
+             [("    if sa is None:\n        return SISTEMAS_POR_OMISION, True",
+               "    if sa is None:\n        return {}, False")], 14),
+            ("MUTANTE DA-145 (la declaracion no se registra) -> lo ve el caso 2",
+             [("        anotar(sid, d)\n        if d[\"sin\"]:", "        if d[\"sin\"]:")], 1),
+            ("MUTANTE DA-145 (el freno solo mira la clase suelta) -> lo ve el caso 17",
+             [("        ajenos = sistemas_de(cat, tool, inp)",
+               "        ajenos = sistemas_de(cat, tool, inp) if \"suelta\" in st[\"clases\"] else []")], 16)):
+        mutar(nombre, cambios, sanos29, n, caso29, casos29[n][3], "da145")
+    shutil.rmtree(inv_dir, ignore_errors=True)
     shutil.rmtree(tmp, ignore_errors=True)
     print("autotest: %s" % ("BIEN" if not mal else "%d MAL" % mal))
     return 1 if mal else 0
@@ -3258,6 +3650,8 @@ if __name__ == "__main__":
         sys.exit(cli_verificar())
     if a[:1] == ["--tronco"]:
         sys.exit(cli_tronco())
+    if a[:1] == ["--ajeno"] and len(a) >= 2:   # DA-145/146 (L2-CAS-14)
+        sys.exit(cli_ajeno(a))
     if a[:1] == ["--exige"] and len(a) >= 2:
         necs = []
         if "--necesidad" in a:

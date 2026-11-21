@@ -1,5 +1,16 @@
 # HANDOFF — reforma de la arquitectura con ingeniería de sistemas
 
+> **2026-11-21 (sesión `5fae7e60`) — HECHO: DA-145 y DA-146 arreglados** (ESTADO, arriba; diseño y V en
+> [`docs/da145-sistemas-ajenos.md`](docs/da145-sistemas-ajenos.md)). **SIGUE:** (1) validarlos con 3 sesiones auditadas:
+> la primera natural es **sparking-musica fase 0** (su HANDOFF dice por dónde empezar): tiene que escribir
+> `docs/investigacion-previa.md` con sus links y su `## Conclusión`, y la primera acción sobre la PC tiene que pedir
+> `-Sistema sparking-zero`; la auditoría lo ve en la caja negra; (2) DA-143 (la suelta sin techo) queda abierto: este
+> freno lo neutraliza sólo para sistemas ajenos. **Para el que siga:** (a) una sesión de BLACK ahora declara `-Sistema
+> pcsx2` con su documento de investigación antes de su primera acción sobre el emulador; (b) un comando que sólo NOMBRA
+> un juego (un `python -c` con "PCSX2" adentro) se niega: escribirlo en un archivo o usar un registro del método; (c)
+> `cascada.ps1` corrido con `powershell -File` desde un subproceso falla con «Path vacío» (también con `-Suelta`: es
+> previo); se prueba con `& 'ruta\cascada.ps1'`.
+
 > **2026-11-13 (tanda con Fable, sesión del replanteo) — HECHO: la revisión de rumbo, medida y escrita.**
 > [`docs/replanteo-2026-11-13.md`](docs/replanteo-2026-11-13.md) es el dueño: los números (§1: se usa el 6 % de lo
 > exigido en materias y el 13 % en ingeniería; 0 de 126 defectos validados), nueve principios (§3), seis familias que

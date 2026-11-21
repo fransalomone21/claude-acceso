@@ -31,6 +31,8 @@
 #   .\cascada.ps1 black -Mencion "motivo"     el pedido NOMBRA el proyecto sin pedirlo (T14b): libera lo de afuera
 #   .\cascada.ps1 -Ingenieria "que es"        T19: ingenieria de sistemas sin proyecto; imprime el TRONCO que se exige
 #   .\cascada.ps1 -Suelta "que es"            T19: pregunta suelta y especifica, sin ingenieria de sistemas ni tronco
+#   .\cascada.ps1 -Sistema <id> -Investigacion <md> -Prediccion "..." -Respaldo "..."   DA-145/146: antes de cambiar
+#                                             un juego, un emulador o un mod (o -SinBusqueda "motivo")
 #   .\cascada.ps1 malena -Repo "motivo"       DA-096: operar el repo (git, mudar archivos) sin tronco ni rama; editar no
 #   .\cascada.ps1 arquitectura-se -Necesidad metodo -Tema t19
 #                                 T19, pieza C: el TEMA del pedido en un proyecto con mapa de temas (en la duda, todos)
@@ -53,6 +55,11 @@ param(
     [string]$Suelta,            # T19: la clase del pedido, pregunta suelta y especifica (sin tronco)
     [string[]]$Tema,            # T19, pieza C: el tema del pedido en un proyecto con mapa de temas (la puerta lo exige)
     [string]$Repo,              # DA-096: operar el repo git del proyecto (sincronia, estado, mudar archivos), sin tronco ni rama
+    [string]$Sistema,           # DA-145/146: el sistema ajeno (juego, emulador, mod) que la sesion va a cambiar
+    [string]$Investigacion,     #   el .md del repo con lo buscado AFUERA (2+ direcciones web y '## Conclusion')
+    [string]$SinBusqueda,       #   o el motivo de no buscar afuera (queda registrado)
+    [string]$Prediccion,        #   que va a pasar en el sistema con el cambio
+    [string]$Respaldo,          #   la ruta de la copia del estado que el cambio puede danar, o "no-cambia: motivo"
     [int]$PlazoRed = 20,        # DA-093: segundos por fetch (L2-CAS-12); la prueba lo baja
     [string]$Raiz = $PSScriptRoot
 )
@@ -229,6 +236,23 @@ if (Test-Path $dirProyectos) {
             }
         }
     }
+}
+
+# DA-145/146 (L2-CAS-14): la declaracion de un sistema ajeno. La registra el HOOK leyendo esta linea antes de que
+# corra; aca se dice que le falta (la puerta mide el archivo de la investigacion). Sola, termina aca.
+if ($Sistema) {
+    Write-Host ""
+    $pyA = Join-Path $Raiz '.claude\hooks\cascada_puerta.py'
+    $argsA = @('--ajeno', $Sistema)
+    foreach ($par in @(@('--investigacion', $Investigacion), @('--sin-busqueda', $SinBusqueda),
+                       @('--prediccion', $Prediccion), @('--respaldo', $Respaldo))) {
+        if ($par[1]) { $argsA += @($par[0], $par[1]) }
+    }
+    $ErrorActionPreference = 'Continue'
+    & python $pyA @argsA 2>&1 | ForEach-Object { Write-Host $_ }
+    $ErrorActionPreference = 'Stop'
+    Write-Host ""
+    if (-not $Proyecto -and -not $Suelta -and -not $Ingenieria) { exit 0 }
 }
 
 # T19, pieza A (L2-CAS-06, L2-CAS-07): la clase del pedido sin proyecto. La registra el HOOK leyendo esta linea de
