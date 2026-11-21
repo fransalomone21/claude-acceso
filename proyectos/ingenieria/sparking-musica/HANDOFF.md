@@ -9,6 +9,19 @@
    `proyectos/ingenieria/pc-casa-control/docs/camino.md` (una captura por paso, nunca teclas a ciegas).
 3. Preguntarle a Fran: ¿oyó la v5 en una pelea J1 vs J2? ¿sigue con Ryo Framework para las filas de tele?
 
+## Estado de la PC al cierre (2026-11-21 ~20:00)
+
+- **El juego quedó ABIERTO, lanzado por Reloaded-II** (`reloaded-juego`), en la portada. Fran puede estar por probarlo.
+- Música base = v5 (21 filas) + Ryo (23 filas de tele, `docs/ryo-tele.md`). Si se abre por `probar-juego`, la tele vuelve a anime.
+- Guardado: el vivo cambió respecto del bueno `0C0BB9E0…` (se eligió música desde el menú); copias en
+  `C:\Users\Fran\lp-todo\respaldo-save-v5b-1942` y `respaldo-save-v5-20261121-1918` (la buena). No se comparó después de la última sesión.
+
+## La prueba que falta (la primera de la próxima sesión)
+
+Fran oye en la PC: abrir por `reloaded-juego`, ir a Música de fondo (J1 contra J2, camino en `pc-casa-control/docs/camino.md`),
+dejar la fila elegida por defecto «Given Up» (tele) y apretar □ (R): ¿suena **Given Up de Linkin Park** o el anime? Si es anime →
+`docs/ryo-tele.md`, sección «Si no suena». Después: pelear J1 vs J2 y oír una fila mía y una de tele; y la prueba del L2.
+
 ## Lo que quedó a medias
 
 - La PC quedó con el juego abierto en la pestaña «Música de fondo» (J1 contra J2), elegida *Burn It Down*.

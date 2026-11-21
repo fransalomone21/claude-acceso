@@ -69,6 +69,14 @@ Primero `E`. Una pantalla blanca es una transición: esperar y volver a capturar
 suenan anime aunque el nombre diga Linkin Park). La lista **da la vuelta**; el cursor arranca en la elegida.
 Confirmar = `ENTER` (la fila elegida queda con el borde claro y su nombre aparece a la derecha).
 
+## 3b. Reloaded-II y Ryo (agregado el 2026-11-21)
+
+Para que suenen las filas de tele el juego se abre por **`reloaded-juego`** (`Reloaded-II.exe --launch <exe>`) y no por
+`probar-juego`. Tareas nuevas en la PC (definidas en `tareas/tareas-programadas.xml.txt`): `reloaded-juego`, `reloaded-gui`,
+`captura-pc` (solo captura la pantalla a `cap.png`, sirve sin el juego) y `ps-pc` (corre `ps-args.ps1` en la sesión
+interactiva y deja `ps-out.txt`: sirve para leer el texto de ventanas con UI Automation). `scripts/ps-pc.ps1` y
+`scripts/captura.ps1`. Detalle y cómo se deshace: `sparking-musica/docs/ryo-tele.md`.
+
 ## 4. La prueba de los mandos (L2)
 
 1. Con el juego en el menú (nadie peleando), lanzar el lector en segundo plano en la PC:

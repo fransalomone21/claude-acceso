@@ -25,7 +25,16 @@ explicado (`docs/controles-l2.md`).
 | Música elegida por defecto cambiada de *Given Up* (tele) a *Burn It Down* | captura `v5-sel-1.png` (etiqueta «Burn It Down») | 2026-11-21 |
 | Las 21 ondas nuevas decodifican con la duración de su tema; las cambiadas contra fábrica son exactamente las esperadas | `verificar-banco.py` sobre el pak final (Cnk_00: ROJO solo en la onda 8, un interludio de 22 s esperado; bgm_main: igual que v4) | 2026-11-21 |
 
+| **Ryo Framework entra al juego** (Reloaded-II + Ryo + 3 dependencias, carpeta aparte `C:\Users\Fran\Reloaded-II`) y registró los 46 reemplazos de las filas de tele con un tema famoso cada una; el juego arranca por la tarea `reloaded-juego` (con `WorkingDirectory` fijado) y llega al menú | log de Reloaded: 46 `Cue: M_…`; capturas `ryo-4..6` | 2026-11-21 |
+
+Detalle, qué se instaló y cómo se deshace: [`docs/ryo-tele.md`](docs/ryo-tele.md). **El juego solo suena así si se abre
+por `reloaded-juego`, no por `probar-juego`.**
+
 ## Lo que NO se pudo confirmar
+
+| Qué | Por qué |
+|---|---|
+| **Que las filas de tele SUENEN con los temas nuevos** (el DLC en streaming acepte el reemplazo de Ryo) | el audio no sale en capturas: Fran tiene que oír «Given Up» (tele, la elegida por defecto) con □ |
 
 | Qué | Por qué |
 |---|---|
