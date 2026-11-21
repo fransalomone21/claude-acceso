@@ -13,6 +13,14 @@ ahí) y `docs/spikes-fase0.md` (las mediciones con su predicción).
 
 ## Lo que quedó a medias
 
+- **2026-11-21, pedido de Fran «lo del dragon ball pero budokai tenkaichi»
+  (BT4 + niveles de poder, a un clic en la PC): en pausa por límite del plan.**
+  Hecho sólo el Spike C (`docs/spikes-fase0.md`): la comunidad no documenta
+  dónde vive la vida/daño por personaje. Nada se tocó en la notebook ni en la
+  PC. Sigue: diff de `Goku_0_1p.pak` y `resident_chara_param.pak` entre
+  *Niveles* y BT4 B14 REV2 (sobre copias), y si no alcanza, la vida en memoria.
+  Si no se encuentra: dejar BT4 y *Niveles* a un clic con dos mandos en la PC.
+
 - **Regla de turnos:** ningún juego se abre ni se cierra sin avisar a las otras
   sesiones (Fran, 2026-11-20). El informe final de esta tanda va a la sesión
   principal de juegos (`local_d50174a9…`), que le arma uno solo a Fran.

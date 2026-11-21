@@ -121,6 +121,35 @@ fechado después lo reconstruyó el autor del mod.
   quizá en los parches del ELF. Confirmarla pide sacar un `Goku_N_1p.pak` y
   compararlo entre mods, o mirar la vida en memoria con PCSX2.
 
+## Spike C — qué documenta la comunidad sobre la fuerza en BT3/BT4 (web)
+
+**Fecha:** 2026-11-21 · **Pedido:** Fran, «lo del dragon ball pero budokai
+tenkaichi» (BT4 con niveles de poder, a un clic en la PC). Cortado por Fran a
+mitad («estamos al límite, dejalo para después»): sólo se hizo la búsqueda.
+
+**Predicción (escrita antes):** la comunidad tiene un editor de parámetros por
+personaje y la fuerza vive en el paquete de cada uno (`Goku_N_1p.pak`).
+
+**Medición (lectura de las fuentes, no del juego):**
+
+- **No hay editor de vida/daño por personaje documentado.** Lo que hay (GitHub
+  de ViveTheModder, el investigador más activo de BT3): `dbzbt3-research`,
+  `bt3-progress-chara-param-editor`, `bt3-dp-editor`, `bt3-com-param-editor`,
+  `bt4-research`; y el explorador de AFS/PAK `PSRET-turbowarp-tenkaichi-3-modding-tool`.
+- **`00_progress_chara_param.dat`** (dentro de `resident_chara_param.pak`): 161
+  registros de 60 B, índice = id de personaje; campos: +0 COM, +4 constante
+  40000, +8 corazón, +10 trajes, +12 DP, +14 ranuras, +16 precios, +44
+  restringidos, +48 cámara. **Ni vida, ni ataque, ni defensa** (leído del
+  código del editor, no medido sobre nuestros ISOs).
+- **`damage.md`**: los modificadores de ataque y defensa van en pasos de 2,5 %,
+  de −20 (−50 %) a +20 en Duelo (+40 fusiones, +50 fuera de Duelo); salen de
+  Blast 1 o Z-Items. No dice dónde viven.
+- **BT4**: AFS `pzs4us0..3`, los trajes en `pzs4us2`; nada sobre parámetros.
+- **Predicción: falló a medias.** No hay editor; dónde vive la fuerza sigue
+  sin medir. Siguiente paso concreto: diff de `Goku_0_1p.pak` y de
+  `resident_chara_param.pak` entre *Niveles* y BT4 (predicción y control antes),
+  o la vida en memoria con PCSX2.
+
 ## La tabla: personaje → nivel (fuente) → parámetro
 
 Vive en `../ESTADO_ACTUAL.md` («La tabla de la fase 0»): ahí la pide el
