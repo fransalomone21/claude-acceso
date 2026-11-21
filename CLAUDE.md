@@ -111,6 +111,7 @@ siempre y con cuánto rigor. Qué fase y qué falta: `.\cascada.ps1 <proyecto>`.
 | [`metodo-agustin/`](proyectos/ingenieria/metodo-agustin/CLAUDE.md) | Pasar el método a la notebook de Agustín sin los proyectos de Fran: núcleo generado y filtrado de lo personal, por GitHub | **ACTIVO** |
 | [`minecraft-amigos/`](proyectos/ingenieria/minecraft-amigos/CLAUDE.md) | Server Fabric 1.21.4 con mods vanilla+ en la notebook, por ZeroTier, y el instalador de un clic (gráficos según la PC) para los amigos | **ACTIVO** |
 | [`ps2-casa/`](proyectos/ingenieria/ps2-casa/CLAUDE.md) | Las dos PS2 Slim de la casa listas para que el hermano y la mamá de Fran jueguen sus ISOs, sacándole todo al Ethernet (juegos por red, manejo desde la PC, LAN) | **ACTIVO** |
+| [`dbz-niveles/`](proyectos/ingenieria/dbz-niveles/CLAUDE.md) | Un Dragon Ball con todas las formas de Goku y Vegeta y niveles de poder realistas: mods de Tenkaichi 3/4 en PS2 o Sparking ZERO con mods en PC | **ACTIVO** |
 | [`diagnostico-msi/`](proyectos/ingenieria/diagnostico-msi/) | Secure Boot y batería de la notebook MSI | cerrado con informe |
 | [`telescopio/`](proyectos/ingenieria/telescopio/CLAUDE.md) | Automatizar el newtoniano 200/1200: plataforma ecuatorial, reforma de la montura dobson y soporte de cámara, para llegar a la foto de una nebulosa | **ACTIVO** |
 | [`telefono-samsung/`](proyectos/ingenieria/telefono-samsung/) | Kit de diagnóstico y limpieza vía ADB | suspendido (2026-08-15) |

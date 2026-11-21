@@ -49,6 +49,8 @@ ROM de la 8C medido (2.30); falta el de la 1C (sin video) y la elección escrita
 
 ## Proyecto nuevo pedido por Fran (2026-11-06): DBZ con los personajes del BT4 y niveles de poder realistas
 
+**Creado el 2026-11-20 como `proyectos/ingenieria/dbz-niveles/`: el retome vigente es su `HANDOFF.md`.** Lo de abajo queda como historia.
+
 No es parte de ps2-casa: nace como proyecto propio (`nuevo-proyecto.ps1`). Retome listo para pegar:
 
 ```
