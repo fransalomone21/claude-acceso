@@ -48,3 +48,42 @@ otros personajes ni ataques». Afuera primero (DA-145), y lo medido en la PC en 
   primera opción de la lista (silencio). Se distingue **oyendo**: la misma pelea con una fila de pelea `M_10xx` o de tele, y con la
   música Sparking desactivada en las opciones. La sesión todavía no puede oír la PC: armar la grabación de lo que
   sale por los parlantes (loopback) es lo primero de la próxima tanda, con el juego cerrado.
+
+## 3. Segunda tanda (2026-11-21 ~20:40-21:30, «investigá y resolvé»)
+
+**La sesión ya oye la PC (confirmado).** `oir.py` corrido **en la sesión de Fran** (tarea `ps-pc`, script
+`pc-casa-control/scripts/oir-en-sesion.ps1`) graba la portada entre −45 y −59 dBFS; por SSH daba −180 exacto (el SSH no
+oye la sesión interactiva). Y `scripts/que-suena.py` reconoce el tema: la portada es **Iridescent**, puntaje 0,86–0,91,
+con el segundo del tema avanzando 4 s por ventana de 4 s (control positivo; el ruido da < 0,25).
+
+**Voces: arreglo completo construido e instalado (falta oírlo).**
+- Medido: la tabla de voz japonesa y la inglesa de un personaje tienen **las mismas 278 cues en el mismo orden**
+  (Whis, `scripts/comparar-tablas-voz.py`), y los mods latinos que ya andan en inglés son **solo audio con nombre
+  `_US`** (VegetaFinLAT trae `_JP.awb` y `_US.awb`; BillsE y JirenLatE solo `_US.awb`).
+- `scripts/armar-latino-us.py` arma **`zzLatinoUS_P.pak`**: el audio latino de los 48 bancos que tenían latino solo en
+  japonés, copiado como `BTLCV_<id>_US.awb` (si dos mods pisan el mismo banco, gana el que dice LAT). 48 de 48, 475 MB,
+  md5 `2528af1a58c0452a5478da77e5d0cb9c`; los 26 mods de origen tienen el **mismo md5 en la notebook y en la PC**.
+  Lista banco → mod: `lp-trabajo\_intermedios\latino-us\salida\latino-us.txt`.
+- **Instalado en la PC** (`~mods\zzLatinoUS_P.pak`, md5 igual) con el juego abierto: entra en el próximo arranque. No
+  pisa nada; se deshace borrando ese archivo. Sirve con voces en inglés **y** en japonés (en japonés no cambia nada).
+- El **Vegeta Ultra Ego** agregado es hijo de `BPCHR_0020_61_00` (Vegeta Super) y su script nombra
+  `S_0020_63_0VEGETA_UE`: usa los bancos `0020_61`/`0020_63`, que el paquete cubre (probable).
+- Trampa de herramienta: `retoc` se cae (`left: 9, right: 16`) con los `.utoc` viejos cifrados de los mods;
+  `scripts/descifrar-ucas.py` hace una copia descifrada que sí lee. Los mods de voz latinos no usan el contenedor
+  nuevo: todo va en el `.pak` clásico.
+
+**Música: la pista más fuerte (probable), sin oír todavía.**
+- Las pistas Sparking instaladas (`M_0200…M_0209`) tienen volumen de tema de pelea (RMS −10 a −13 dBFS); solo `M_0200`
+  (*Fallout*) está ~5 dB más baja, no muda (`scripts/volumen-pistas.py` y los `.hca` de `_intermedios\todo`). La
+  hipótesis «una pista Sparking quedó muda» **no alcanza**.
+- Dentro del mod `Mods\VegetaUltraEgo` (desarmado con `retoc unpack`), las secuencias de **transformación**
+  `FRMC\FRMCA3_NEW` y `FRMC\MS_3000_01_actFRMC2` (copiadas de Goku Black `0021_20` y de Gohan Bestia `3000_01`) traen
+  la orden **`BGM_BattleInCharaTheme`**: «cambiá la música al tema del personaje». Las secuencias de ataque final del
+  mod no traen ninguna orden de música. Un personaje agregado no tiene tema propio en los datos del juego: lo más
+  probable es que ahí el juego corte la música y no ponga nada.
+- Qué falta para confirmarlo: grabar una pelea con el Ultra Ego transformándose y tirando el ataque final
+  (`oir-en-sesion.ps1` + `que-suena.py`), y la misma pelea con otro Vegeta del juego como control. Con el juego
+  ocupado no se pudo: las teclas mandadas no movían el menú (alguien lo manejaba con el mando).
+- Arreglo previsto si se confirma: sacar la orden `BGM_BattleInCharaTheme` de esas dos secuencias del mod (mismo largo:
+  renombrar la pista a un nombre inerte) o, más simple y reversible, que el Ultra Ego use una transformación sin
+  cambio de música. Antes: buscar si el autor del mod lo corrigió en una versión nueva.

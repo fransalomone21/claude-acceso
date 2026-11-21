@@ -7,6 +7,12 @@
 > tienen latino **solo en japonés** → el juego está con voces en inglés (probable); arreglo inmediato: idioma de voces
 > japonés. La música: hipótesis ordenadas en [`docs/investigacion-voces-y-ultimate.md`](docs/investigacion-voces-y-ultimate.md)
 > (la música Sparking por personaje es la primera sospechosa). Problemas P1–P3 en `PROBLEMAS.md`.
+>
+> **Segunda tanda (~21:30):** la sesión **ya oye la PC** (`oir-en-sesion.ps1` + `que-suena.py`, control: la portada es
+> *Iridescent* con puntaje 0,9). **Voces:** `zzLatinoUS_P.pak` (48 bancos latinos copiados al canal inglés) instalado en
+> la PC con md5; entra en el próximo arranque, falta oír a Whis. **Música:** la pista más fuerte es el Ultra Ego
+> agregado, cuyas transformaciones mandan `BGM_BattleInCharaTheme` sin tener tema propio (probable); falta grabar
+> la pelea con el juego libre. Detalle: §3 de la investigación.
 
 ## Dónde estamos
 
@@ -67,7 +73,7 @@ por `reloaded-juego`, no por `probar-juego`.**
 
 ## Lo próximo
 
-1. Fran: idioma de voces → japonés y decir si Whis habla latino (P1). 2. Fran: en Personalización, qué música
-Sparking tiene Vegeta (y el Ultra Ego); con un tema LP elegido, ¿se sigue cortando? (P2). 3. Con el juego cerrado:
-tareas sin ventana (`conhost --headless`) y `oir.py` en la sesión interactiva con tono de control (P3, DA-150/151).
-4. Pendiente de antes: L2 (`docs/controles-l2.md`).
+1. Con el juego libre (CPU del juego baja o cerrado): grabar una pelea con Whis y con el Ultra Ego transformándose y
+tirando el ataque final, y la misma con otro Vegeta del juego como control (P1 y P2). 2. Si se confirma P2: sacar
+`BGM_BattleInCharaTheme` de las dos transformaciones del mod. 3. Averiguar por qué las teclas no movían el menú esta
+vez (¿un mando en uso tapa el teclado?). 4. Pendiente de antes: L2 (`docs/controles-l2.md`).

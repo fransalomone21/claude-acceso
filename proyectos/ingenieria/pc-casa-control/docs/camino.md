@@ -18,8 +18,9 @@ abajo se hizo con captura y se vio el efecto.
    `.\cascada.ps1 -Sistema sparking-zero -Investigacion "<md con ## Conclusion>" -Prediccion "..." -Respaldo "<copia>"`
    y lo mismo con `-Sistema juegos-pc`.
 5. El audio **no sale en capturas**: lo oye Fran. La sesión mide lista, md5 y que el proceso viva. `scripts/oir.py`
-   graba la salida de audio (loopback); **por SSH da silencio exacto** (2026-11-21): sin probar todavía en la sesión
-   interactiva.
+   graba la salida de audio (loopback); **por SSH da silencio exacto**, y **en la sesión de Fran sí graba**
+   (`scripts/oir-en-sesion.ps1` por la tarea `ps-pc`: portada a −45/−59 dBFS, 2026-11-21 20:39). Para saber qué
+   tema suena: `sparking-musica/scripts/que-suena.py <wav>`.
 6. **Las tareas «ocultas» NO son ocultas** (2026-11-21): `captura-pc`, `ps-pc` y `paso-sz` abren una consola visible
    encima del juego. Con alguien jugando, **ninguna** tarea interactiva, ni siquiera una captura. Señal de que juegan:
    el juego gasta ~4 núcleos (22 s de CPU en 5 s medido en plena pelea).

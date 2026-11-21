@@ -1,6 +1,13 @@
 # Handoff — sparking-musica
 
-**Escrito el:** 2026-11-21 ~20:45 · **Fase al cerrar:** 1 (instalar y probar), en curso
+**Escrito el:** 2026-11-21 ~21:30 · **Fase al cerrar:** 1 (instalar y probar), en curso
+
+> **Lo último (21:30), manda sobre lo de abajo:** la sesión ya oye la PC (`pc-casa-control/scripts/oir-en-sesion.ps1`
+> por la tarea `ps-pc`, copiado como `ps-args.ps1`, con `oir-args.txt` = «segundos nombre»; después
+> `scripts/que-suena.py <wav>`). `zzLatinoUS_P.pak` instalado en `~mods` de la PC (md5 `2528af1a…`). Primero de la
+> próxima: con el juego libre, grabar Whis y el Ultra Ego (transformación + ataque final) contra un Vegeta del juego.
+> Las teclas no movieron el menú a las 20:42 mientras alguien lo manejaba con el mando: medir eso antes de manejarlo.
+> Las tareas «sin ventana» no se pueden esconder (el clasificador lo niega): se usan solo con nadie jugando.
 
 ## Arrancá por acá
 
