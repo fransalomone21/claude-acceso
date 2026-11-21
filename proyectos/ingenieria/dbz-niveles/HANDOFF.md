@@ -1,6 +1,6 @@
 # Handoff — dbz-niveles
 
-**Escrito el:** 2026-11-20 · **Fase al cerrar:** 0, Pre-Fase A, abierta
+**Escrito el:** 2026-11-20 (noche) · **Fase al cerrar:** 0, Pre-Fase A, abierta
 
 ## Arrancá por acá
 
@@ -8,40 +8,54 @@
 .\cascada.ps1 dbz-niveles -Necesidad ingenieria-inversa,investigar
 ```
 
-y leer lo que pida (la puerta exige ~34 K tokens: es una vez por sesión, y por
-eso esta parte se pasó a un chat nuevo). Después, el alcance (PDP §1-2) con el
-concepto `alcance` de la puerta abierto.
+y leer lo que pida. Después `ESTADO_ACTUAL.md` (la tabla de la fase 0 está
+ahí) y `docs/spikes-fase0.md` (las mediciones con su predicción).
 
 ## Lo que quedó a medias
 
-- El proyecto se creó el 2026-11-20 y sólo tiene el plan de fases, los riesgos
-  y el inventario medido (`ESTADO_ACTUAL.md`). §1-2 del PDP (alcance) vacías a
-  propósito.
-- El `PROBLEMAS.md` es la plantilla.
+- **El Sparking ZERO de la notebook está abierto y Fran lo está jugando**: no
+  se toca, y ningún juego se abre sin coordinar con las otras sesiones (Fran,
+  2026-11-20). Esa instancia corre como admin: la sesión no la puede cerrar.
+- El banco `DBZ-mods\scripts\banco-arranque.ps1` está arreglado y **sin
+  correr**: primero `-SoloUna -Sabotaje` (tiene que dar SE CIERRA: si da
+  ARRANCA, el banco está ciego), después entero (prueba el grupo `plugins`).
+- Falta la elección de Fran: camino (PS2 o Sparking ZERO), escala (r de la
+  propuesta) y qué quiso decir con «una sola pantalla allá / con las dos»
+  (PDP §6, TBR).
+- `../ps2-casa/RUTAS.md` dice que Anime War, Crossover y Remake AF están en
+  `C:\Games\PS2-ISOs\`; ya no están (medido 2026-11-20). No se corrigió: esta
+  sesión tenía orden de tocar sólo dbz-niveles. Lo corrige una sesión de
+  ps2-casa.
 
 ## Lo que NO hay que volver a intentar
 
-- Buscar los juegos otra vez: el inventario está en `ESTADO_ACTUAL.md` y las
-  rutas de PS2 en `../ps2-casa/RUTAS.md`.
-- Correr `DEJAR-TODO-LISTO.ps1` tal cual: sus rutas apuntan a
-  `C:\Users\frans\Desktop\DBZ-mods`, que se mudó a
-  `C:\Users\frans\Desktop\Juegos\Mods\Dragon Ball\DBZ-mods`, y además pisa el
-  save. Corregir las rutas antes, o probar con `bisectar-mods.ps1`.
+- Buscar los juegos otra vez: el inventario está en `ESTADO_ACTUAL.md`.
+- Lanzar el juego por `SparkingZERO.exe` desde un script: tiene el flag
+  `RUNASADMIN`, pide permiso y queda elevado (incerrable). El banco lanza
+  `SparkingZERO\Binaries\Win64\SparkingZERO-Win64-Shipping.exe` directo.
+- `7z l` sin `-tiso` sobre estos ISOs: da «0 files, Errors: 1».
+- `DEJAR-TODO-LISTO.ps1` sin mirar: pisa el save con el «desbloqueado»
+  (las rutas ya están corregidas a `Desktop\Juegos\Mods\Dragon Ball\DBZ-mods`).
 
 ## Datos que no se pueden aproximar
 
-- ISOs (notebook): `C:\Users\frans\Desktop\Juegos\Juegos de emulador\PS2\DBZ Niveles de Poder (Beta 8.1)\ISO niveles de poder BETA 8.1.ISO` (4 451 MB, ELF SLUS_219.99); `...\DBZ Budokai Tenkaichi 4 (Beta 14)\SLUS_219.78.DBZBT4B14.iso` (5 096 MB); `...\DBZ Budokai Tenkaichi 4 (Beta 14 REV2)\SLUS_219.78.DBZBT4B14REV2.iso` (5 147 MB); referencia BT3: `C:\Games\PS2-ISOs\` (ver RUTAS de ps2-casa).
-- Sparking ZERO (notebook): `C:\Games\Dragon Ball Sparking ZERO`; mods en `SparkingZERO\Content\Paks\~mods` y `SparkingZERO\Mods`; escala de poder en `SparkingZERO\Mods\Extension_Dynamic_DP\Config\DP_values.json` (claves "0".."15": `lifePointScale`, `damageScale`, `changeCharacterCooldown`).
-- Scripts locales: `C:\Users\frans\Desktop\Juegos\Mods\Dragon Ball\DBZ-mods\scripts\` (`mods-sparking.ps1 estado|on|off <grupo>`, `bisectar-mods.ps1`).
-- PC de casa: SSH `Fran@10.147.20.3` con `~\.ssh\pc-cable`; el comando va con `powershell -NoProfile -EncodedCommand`.
+- Respaldo del save antes del banco: `DBZ-mods\respaldos\RESPALDO-save-20261120-221754`.
+- Propuesta de DP (sin aplicar): `DBZ-mods\DP_values.propuesta-r2.json`; el
+  vivo es `C:\Games\Dragon Ball Sparking ZERO\SparkingZERO\Mods\Extension_Dynamic_DP\Config\DP_values.json`
+  (respaldarlo antes de pisarlo; el juego lo lee al arrancar).
+- ISOs (notebook): ver `ESTADO_ACTUAL.md` y la versión anterior de este archivo
+  en git; `dbzpoderes.iso` en `C:\Games\PS2-ISOs\` (ELF `SLUS_215.78`).
+- DP de fábrica (Game8, probable): Goku (Super) 5, SSJ 6, Dios 7, Blue 8, UI
+  Señal 8, UI 9.
 
 ## Si hay que abrir un chat nuevo
 
 ```
 Seguimos con dbz-niveles (claude-acceso). 0) En la notebook el libro llega solo; en otro lado, bash .claude/nube/traer-perfil.sh primero.
-1) .\cascada.ps1 dbz-niveles -Necesidad ingenieria-inversa,investigar y leé lo que pida. Leé también proyectos/ingenieria/ps2-casa/RUTAS.md. NO vuelvas a buscar los juegos: el inventario está en ESTADO_ACTUAL.md.
-2) Fase 0, Pre-Fase A. La cierra: en PDP §6 el camino elegido por Fran con fecha, sobre la tabla «personaje -> nivel (fuente) -> parámetro» de 3 personajes (Goku base, Goku SSJ Blue, Goku Ultra Instinto).
-3) Opus, esfuerzo alto, sin fan-out y sin subagentes (Fran no los quiere).
-4) Primero el alcance (PDP §1-2, con el concepto alcance abierto). Después dos spikes, con predicción escrita antes: (a) 7z l de los ISOs Niveles 8.1, BT4 B14 REV2 y el BT3 de referencia, y diff de qué archivos cambian; (b) el Sparking ZERO de la notebook: arreglar las rutas de DEJAR-TODO-LISTO.ps1 o usar bisectar-mods.ps1, y medir qué grupos de mods arrancan (respaldar el save antes). Abrir el juego le tapa la pantalla a Fran: avisarle antes.
-5) Efecto a ver: el diff en un archivo del proyecto, y la lista de grupos que arrancan.
+1) .\cascada.ps1 dbz-niveles -Necesidad ingenieria-inversa,investigar y leé lo que pida. Después ESTADO_ACTUAL.md (la tabla) y docs/spikes-fase0.md.
+2) Fase 0, Pre-Fase A. La cierra: en PDP §6 el camino elegido por Fran con fecha, sobre la tabla de ESTADO_ACTUAL (ya está).
+3) Opus, esfuerzo alto, sin fan-out ni subagentes.
+4) ANTES de abrir cualquier juego: preguntar si Fran está jugando y coordinar con las otras sesiones. Con el juego cerrado: DBZ-mods\scripts\banco-arranque.ps1 -SoloUna -Sabotaje (tiene que dar SE CIERRA) y después el banco entero.
+5) Llevarle a Fran: camino, r de la escala, y qué es «una sola pantalla allá / con las dos».
+6) Efecto a ver: banco-arranque.log con el sabotaje en SE CIERRA y el resultado de plugins; la fila de Fran en PDP §6.
 ```
