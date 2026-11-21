@@ -215,7 +215,7 @@ fallar acá si la escala elegida no le cierra.
 | Fecha | Decisión | Alternativas descartadas | Por qué perdieron |
 |---|---|---|---|
 | 2026-11-20 | Fran: estudiar los dos caminos («ambos»), PS2 y Sparking ZERO | elegir uno ya | Fran lo pidió así; la elección final cierra la fase 0 |
-| 2026-11-20 (noche) | Fran, textual: «pasá los juegos que sea en pantalla dividida en una sola pantalla allá, así se ve más grande y mejor […] si se puede jugar con las dos mejor, adaptando lo que sea». Entra como preferencia sobre O-3: **evitar la pantalla partida**; qué es «allá» y «las dos» (¿la pantalla grande de la PC? ¿las dos computadoras, una por jugador?) queda **TBR**, preguntado | — | sin interpretar: se le preguntó; cambia el criterio de éxito completo |
+| 2026-11-20 (noche) | Fran, textual: «pasá los juegos que sea en pantalla dividida en una sola pantalla allá, así se ve más grande y mejor […] si se puede jugar con las dos mejor, adaptando lo que sea». Entra como preferencia sobre O-3: **evitar la pantalla partida**; qué es «allá» y «las dos» queda **TBR**, preguntado. Tres lecturas: (a) jugar en la PC, con su monitor 1440p, en vez de la notebook (la propone la sesión del CoD WaW); (b) que ande en las dos máquinas; (c) cada jugador en su computadora con la pantalla entera | — | sin interpretar: se le preguntó; cambia el criterio de éxito completo |
 | 2026-11-20 (noche) | Fran: no abrir ni cerrar juegos sin coordinar entre sesiones; el Sparking ZERO abierto lo están jugando | — | regla operativa: el banco de arranque espera a que Fran cierre el juego |
 
 ## 7. Verificación
