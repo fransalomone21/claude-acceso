@@ -24,6 +24,9 @@ qué requiere, y la vía elegida con su porqué. Recién ahí se toca la PC.
 | DLC vuelto a fábrica (md5 igual al original) y la partida carga | md5 + captura fabrica-1, 17:42 | 2026-11-21 |
 | **Revisión 18:31-18:34 (sin cambiar nada):** el juego abierto (pid 16604, desde 18:28:57, 2 GB, responde) llega a la pantalla de título y, con "Iniciar", carga la partida hasta el Menú principal (Episodio de batalla / Batalla personalizada). Nadie jugando (sesión de Fran activa, juego en el título). Archivos del DLC con fecha original (24/06/2025), sin tocar | capturas `_intermedios\capturas-pc\revision-1-1.png` (título), `revision-3-1.png` (menú principal), `revision-5-1.png` (Batallas adicionales); `Get-ChildItem` del DLC | 2026-11-21 |
 
+| **Investigación de Kuro's Music Manager (fase 0 cerrada en papel):** 1.3.3 en [GameBanana](https://gamebanana.com/mods/595406) (la página de Nexus fue **removida por el staff**); tiene BGM Swapper (cualquier canción del juego) y Save Updater (forzar desbloqueo); no existe pack de LP de Hybrid Theory/Meteora hecho. Vía elegida: instalarlo y probar el Swapper con los M1000+ antes de construir nada | `docs/investigacion-previa.md` (lo dicen los autores; nada probado en la PC) | 2026-11-21 |
+| **El menú de música tiene 25 filas (22 M0102–M0123 con LP de discos nuevos + 3 de tele); los famosos M1000–M1044 no están en él** | `docs/menu-musica.md`, capturas `musica-9..12` | 2026-11-21 |
+
 ## Lo que NO se pudo confirmar en esta revisión
 
 | Qué | Por qué |
