@@ -45,8 +45,21 @@ jugando.
   `SparkingZERO-Win64-Shipping.exe` directo (su manifiesto pide `asInvoker`),
   espera hasta 120 s a que aparezca («NO APARECE» es otro resultado, no «se
   cierra») y mide 60 s desde ahí; `-Sabotaje` lo mata a los 15 s y tiene que
-  dar SE CIERRA. **Sin correr todavía**: el juego elevado sigue abierto.
-- **Predicciones 2 y 3 (el grupo `plugins`): sin medir**, por lo mismo.
+  dar SE CIERRA.
+- **Banco corregido, corrido el 2026-11-20 a las 22:49-22:54** (con acuerdo de
+  turnos entre las sesiones):
+  - sabotaje (`-SoloUna -Sabotaje`): **SE CIERRA** a los 18 s → el banco ve
+    una caída; control: el mismo estado sin sabotaje **ARRANCA** (60 s, 2 094 MB);
+  - **+ `plugins` entero: SE CIERRA** a los 12 s → **predicción 2 confirmada**;
+  - de a uno, sobre el estado de hoy: StageAPI ARRANCA; **BetterCombat SE
+    CIERRA** (9 s); **CustomMissionExpansion SE CIERRA** (9 s, sin
+    BetterCombat); CustomBattleExporter y el ModUpdateManager ARRANCAN →
+    **predicción 3 confirmada**: dos de cinco.
+  - **Queda puesta la combinación más grande que arranca:** todos los grupos,
+    y de `plugins` tres de cinco (BetterCombat y CustomMissionExpansion
+    apagados en `_mods-desactivados\plugins`). Respaldos del save:
+    `RESPALDO-save-20261120-224900` y `-224922`.
+  - Límite: «arranca» = proceso vivo 60 s; una pelea no se probó.
 - **Corrección a `ESTADO_ACTUAL`:** `DP_values.json` es casi plano en DP 1-10
   (los que usa el juego de fábrica: DP 5 = 1,05×, DP 9 = 1,25×, vida 1,00× en
   todos), pero define además DP 11-35, 800 y 900 con escalas fuertes (hasta

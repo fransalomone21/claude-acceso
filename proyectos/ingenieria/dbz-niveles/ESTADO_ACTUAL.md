@@ -57,6 +57,9 @@ camino.
 | En la notebook están los ISOs de PS2: *Niveles de Poder 8.1*, *Tenkaichi 4* Beta 14 y Beta 14 REV2, y `dbzpoderes` | listado del disco | 2026-11-20 |
 | El BT3 sin modificar **no** está en la notebook; Anime War, Crossover y Remake AF tampoco están en `C:\Games\PS2-ISOs\` (sus accesos apuntan a `E:\`, desconectado) | listado del disco y de los `.lnk` | 2026-11-20 |
 | Sparking ZERO de la notebook: ~137 mods en `~mods` y 20 plugins en `Mods`; con todo menos el grupo `plugins` **arranca** (vivo 299 s, 2,2 GB, respondiendo) | banco + medición del proceso | 2026-11-20 |
+| De los 5 mods del grupo `plugins`, **BetterCombat y CustomMissionExpansion cierran el juego**; los otros 3 arrancan. **Queda puesta la combinación más grande que arranca**: todo lo demás prendido y esos dos apagados | `banco-arranque.ps1`, con su sabotaje en rojo y control en verde (`docs/spikes-fase0.md`) | 2026-11-20 |
+| El juego arranca lanzando `SparkingZERO-Win64-Shipping.exe` directo, sin el lanzador y sin pedir admin | el mismo banco: 4 arranques de 60 s | 2026-11-20 |
+| `DBZ-mods\scripts\aplicar-dp.ps1` pone la escala r = 2 y `-Deshacer` la saca (con respaldo); **sin aplicar** al juego | probado sobre una copia: aplicar = la propuesta, deshacer = el original, el archivo vivo sin tocar | 2026-11-20 |
 | El lanzador `SparkingZERO.exe` tiene el flag `RUNASADMIN`: cada arranque pide permiso de admin y el juego elevado no se cierra desde una consola común | registro `AppCompatFlags\Layers` + «Acceso denegado» | 2026-11-20 |
 | `DP_values.json`: DP 1-10 casi plano (DP 5 = 1,05×, DP 9 = 1,25×, vida 1,00×); define también DP 11-35, 800 y 900 con escalas fuertes | lectura del json | 2026-11-20 |
 | Los tres ISOs de PS2 son el mismo ELF de BT3 parchado (mismos segmentos); *Niveles* difiere de `dbzpoderes` en 758 B, BT4 en ~7,5 KB; los AFS están todos reconstruidos y cada mod los reorganizó | `7z l -tiso` + diff byte a byte con control | 2026-11-20 |
@@ -68,8 +71,6 @@ camino.
 
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
-| Prender el grupo `plugins` cierra el Sparking ZERO | `banco-arranque.ps1` | Fran está jugando esa instancia (abierta como admin: la sesión no la puede cerrar) |
-| El Shipping arranca bien lanzado directo, sin el lanzador ni admin | el mismo banco (y su `-Sabotaje` en rojo) | ídem |
 | El juego lee `DP_values.json` y `damageScale` es el daño que se **pega** | una pelea con DP 9 en 50× | pide jugar |
 | En PS2 la fuerza vive en el paquete de cada personaje (`Goku_N_1p.pak`) | sacarlo y compararlo entre mods, o la vida en memoria con PCSX2 | sólo si Fran elige PS2 |
 | PCSX2 no tiene juego en red: dos PCs = Parsec | probarlo con Agustín | no se probó |
@@ -83,11 +84,14 @@ camino.
 
 ## Lo próximo
 
-1. **No tocar el Sparking ZERO mientras Fran juega** (lo pidió el 2026-11-20;
-   coordinar con las otras sesiones antes de abrir cualquier juego). Cuando
-   Fran lo cierre: `banco-arranque.ps1 -SoloUna -Sabotaje` (tiene que dar SE
-   CIERRA) y después el banco entero (`plugins`).
-2. Fran aclara «una sola pantalla / con las dos» (PDP §6, TBR) y elige camino y
-   escala (r) → §6 del PDP → se cierra la fase 0.
-3. Si es «cada jugador en su pantalla»: spike de si el Sparking ZERO juega en
-   red entre la notebook y la PC (el emulador de Steam del repack, por LAN).
+Regla de turnos (Fran, 2026-11-20): un juego abierto a la vez por máquina, y
+antes de abrir o cerrar uno se avisa a las otras sesiones y se espera respuesta.
+
+1. Fran elige camino (Sparking ZERO o PS2) y escala (r) → §6 del PDP → se
+   cierra la fase 0. La pantalla ya la decidió: cada jugador en la suya; si no
+   es viable, los juegos van a la PC.
+2. Spike: ¿el Sparking ZERO juega en red entre la notebook y la PC (el emulador
+   de Steam del repack, por LAN)? Pide turno en la PC; el orden de su disco es
+   limpieza → CoD WaW → dbz-niveles, y hoy tiene 6,4 GB libres.
+3. Una pelea con la escala aplicada (`aplicar-dp.ps1`), para confirmar que el
+   juego lee el archivo y que `damageScale` es el daño que se pega.
