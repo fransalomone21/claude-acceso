@@ -36,6 +36,8 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | N-11 | **Que cada sesión entienda lo que Fran pide y salga con el conocimiento que ese pedido necesita, sin depender de cómo lo dijo.** | Fran, 2026-10-19 (`docs/t19-arbol-de-conocimiento.md` §3): «si no digo publicar, no sabés nada del Drive»; el L0 del TP de IISE; desempeño y riesgo antes que costo |
 | N-12 | **Que ningún procedimiento se corra sin antes preguntarse si produce lo que la necesidad pide.** | Fran, 2026-10-19 (t19 §3): el ensayo del coop de BLACK repetido moviendo a un jugador por vez |
 | N-13 | **Que cualquier proyecto se pueda seguir desde cualquiera de las máquinas de Fran.** | Fran, 2026-11-03: «arreglar los defectos de la segunda máquina» (DA-092..096, medidos en la notebook de Male el 2026-11-02 y en la PC el 2026-11-03) |
+| N-14 | **Que ninguna sesión cambie un sistema ajeno sin saber antes lo que su comunidad ya resolvió.** | Fran, 2026-11-21: «te dije mil veces que investigues primero siempre» (DA-145: el Sparking ZERO, cuatro intentos sobre el juego antes de una búsqueda; Kuro's Music Manager ya lo resolvía) |
+| N-15 | **Que ninguna prueba ponga en riesgo lo que Fran y su familia usan.** | Fran, 2026-11-21: «estás haciendo las cosas mal, me gasté una banda de sesiones» (DA-146: el guardado de la familia reescrito dos veces por arranques con el juego alterado, sin respaldo previo) |
 
 ## 2. Nivel 0 — el método
 
@@ -52,6 +54,8 @@ frena a todo proyecto en fase A–D sin este papel, incluido éste (fase 7, tipo
 | L0-11 | N-11 | El método deberá entregar a cada sesión el conocimiento que exige la clase del pedido de la sesión. | demostración: una sesión real de cada clase (t19 §5, P10) |
 | L0-12 | N-12 | El método deberá exigir el contraste de cada procedimiento con la necesidad del procedimiento. | análisis: la auditoría de las sesiones |
 | L0-13 | N-13 | El método deberá entregar a cada sesión el estado vigente de cada repositorio Y de cada fuente que la sesión usa, en cada máquina de Fran. | demostración: una sesión en la segunda máquina (§16) |
+| L0-14 | N-14 | El método deberá exigir una búsqueda externa registrada antes de cada cambio de la sesión sobre un sistema de terceros. | ensayo: caso 29 del autotest de la puerta (§17) |
+| L0-15 | N-15 | El método deberá exigir una predicción escrita Y un respaldo declarado antes de cada cambio de la sesión sobre un sistema de terceros. | ensayo: caso 29 del autotest de la puerta (§17) |
 
 ## 3. Nivel 1 — el método como sistema
 
@@ -599,3 +603,53 @@ estaban sólo en su disco (DA-095) y un `git fetch` de sólo lectura pagó el tr
 | L2-PTA-52 | L1-34 | Cuando una acción sobre un proyecto con Clase_Repo difiere de una Operación_De_Repositorio, la puerta deberá exigir la necesidad declarada del proyecto. | La Clase_Repo no libera escribir contenido: es lo que la separa de la Excepción. | ensayo: sabotaje del caso 28 |
 | L2-PTA-53 | L1-34 | Cuando la sesión invoca la cascada con la Clase_Repo, la puerta deberá registrar la Clase_Repo antes de que el comando corra. | Lo que una puerta necesita saber de un comando se registra antes de que corra. | ensayo: caso 28 |
 | L2-CAS-13 | L1-34 | Cuando la sesión invoca la cascada con la Clase_Repo, la cascada deberá imprimir el estado git del proyecto sin la lectura exigida. | Lo que la operación necesita es el AL DIA (L1-31), no los niveles. | demostración: `cascada.ps1 malena -Repo` |
+
+## 17. Los sistemas ajenos: afuera primero, y nada sin predicción ni respaldo (N-14, N-15; DA-145, DA-146)
+
+Elementos: **PTA** la puerta, **VER** su verificador y **CAS** la cascada. Diseño y medición:
+`docs/da145-sistemas-ajenos.md`. El caso: el 2026-11-21 una sesión clasificada `-Suelta` («música de batalla del
+Sparking ZERO») cambió el juego de la PC de casa cuatro veces antes de una sola búsqueda externa, con el guardado de la
+familia reescrito dos veces; la comunidad ya lo tenía resuelto. La regla «spike con predicción escrita» vivía en el
+libro y la memoria «evidencia al principio» en la memoria: ninguna capa la exigía en el paso. Medido en las cajas
+negras de la máquina: 33 sesiones tocaron juegos y emuladores, 9 de las 15 que más acciones hicieron eran `-Suelta`.
+Términos (R4):
+
+- **Sistema_Ajeno**: un programa de terceros que Fran usa: un juego, un emulador, un mod o su cargador, con su entrada
+  en `sistemas_ajenos` del Catálogo_De_La_Cascada.
+- **Sistema_Genérico**: un Sistema_Ajeno que su entrada marca como genérico (las carpetas de juegos de la PC); cuenta
+  sólo cuando la acción coincide con 0 Sistema_Ajeno específico.
+- **Marca_De_Sistema_Ajeno**: cada patrón de la entrada de un Sistema_Ajeno en el Catálogo_De_La_Cascada.
+- **Registro_Del_Método**: un tramo de comando que invoca git, un eco de texto o una herramienta de registro del
+  método (`aprender.py`, `defectos.py`, `auditar-sesion.py`, `uso-lecturas.py`, `retiro.py`).
+- **Acción_Sobre_Sistema_Ajeno**: un Write, Edit o NotebookEdit cuya ruta fuera del árbol de claude-acceso coincide
+  con una Marca_De_Sistema_Ajeno; o un Bash o PowerShell distinto de una lectura pura con un tramo distinto de un
+  Registro_Del_Método cuyo texto coincide con una Marca_De_Sistema_Ajeno.
+- **Investigación_Registrada**: un archivo `.md` dentro del árbol de claude-acceso con 2 o más direcciones web
+  distintas Y una sección cuyo título empieza con «Conclusión» con 80 o más caracteres de texto.
+- **Salida_Sin_Búsqueda**: el motivo, registrado con la cascada (`-SinBusqueda`), de que el cambio sobre el
+  Sistema_Ajeno prescinde de búsqueda externa.
+- **Predicción_Escrita**: 20 o más caracteres registrados con la cascada (`-Prediccion`) que dicen qué va a pasar en el
+  Sistema_Ajeno con el cambio.
+- **Respaldo_Declarado**: el texto registrado con la cascada (`-Respaldo`) con la ruta de la copia del estado que el
+  cambio puede dañar, o con un motivo que empieza con `no-cambia`.
+- **Declaración_De_Sistema_Ajeno**: el registro en la Caja_Negra, hecho con la cascada (`-Sistema`), de un
+  Sistema_Ajeno con su Investigación_Registrada o su Salida_Sin_Búsqueda, su Predicción_Escrita Y su
+  Respaldo_Declarado.
+
+| ID | Padre | Requisito | Rationale | Verificación |
+|---|---|---|---|---|
+| L1-35 | L0-14 | Cuando la acción es una Acción_Sobre_Sistema_Ajeno, la puerta deberá exigir la Investigación_Registrada del Sistema_Ajeno de la acción. | DA-145. El freno va por el ROL de la acción (toca un Sistema_Ajeno), no por la Clase_Del_Pedido: la sesión del caso estaba clasificada `-Suelta` y otra, el mismo día, declaró dbz-niveles con la necesidad `ninguna`; las dos clases dejaban pasar el cambio. Medir el objeto (el archivo con sus fuentes y su conclusión), no lo que la sesión dice que buscó. | ensayo: caso 29 del autotest de la puerta, con mutante |
+| L1-36 | L0-15 | Cuando la acción es una Acción_Sobre_Sistema_Ajeno, la puerta deberá exigir la Predicción_Escrita Y el Respaldo_Declarado del Sistema_Ajeno de la acción. | DA-146. Un spike va con la predicción escrita antes (libro §2b); el respaldo, antes del primer cambio, porque el guardado se reescribió con el juego alterado antes de que existiera la copia. Límite declarado: la puerta lee el texto del respaldo; la copia remota de la PC de casa no la puede medir. | ensayo: caso 29, con mutante |
+| L2-PTA-56 | L1-35 | Cuando la sesión carece de Declaración_De_Sistema_Ajeno del Sistema_Ajeno de cada Acción_Sobre_Sistema_Ajeno, la puerta deberá negar la acción con la forma de la Declaración_De_Sistema_Ajeno. | El rojo dice cómo salir (un rojo sin explicación cuesta un viaje entero). Vale para cada Clase_Del_Pedido. | ensayo: caso 29, con mutante «sin el freno» |
+| L2-PTA-57 | L1-35 | Cuando la Declaración_De_Sistema_Ajeno nombra un archivo distinto de una Investigación_Registrada Y carece de Salida_Sin_Búsqueda, la puerta deberá negar la Acción_Sobre_Sistema_Ajeno con cada condición de la Investigación_Registrada ausente del archivo. | Falla cerrado: un archivo ausente, fuera del repo o sin conclusión no prueba la búsqueda. Fuera del repo no viaja a la otra máquina ni queda en la memoria (regla 4 del perfil). | ensayo: caso 29, con mutante «cualquier archivo vale» |
+| L2-PTA-58 | L1-36 | Cuando la Declaración_De_Sistema_Ajeno carece de la Predicción_Escrita O del Respaldo_Declarado, la puerta deberá negar la Acción_Sobre_Sistema_Ajeno. | DA-146. | ensayo: caso 29, con mutante «sin predicción pasa» |
+| L2-PTA-59 | L1-35, L1-36 | Cuando la Declaración_De_Sistema_Ajeno del Sistema_Ajeno de la acción está completa, la puerta deberá permitir la Acción_Sobre_Sistema_Ajeno. | Control positivo: un freno que sólo sabe negar se apaga (Saltzer). | ensayo: caso 29 |
+| L2-PTA-60 | L1-35 | Cuando un comando trae un texto en base64 que decodifica a texto, la puerta deberá buscar cada Marca_De_Sistema_Ajeno en el texto decodificado. | Los comandos a la PC de casa van por `ssh ... -EncodedCommand`: la ruta del juego viaja codificada. | ensayo: caso 29, con mutante «sin decodificar» |
+| L2-PTA-61 | L1-03 | Cuando cada tramo del comando que coincide con una Marca_De_Sistema_Ajeno es un Registro_Del_Método, la puerta deberá permitir la acción sin Declaración_De_Sistema_Ajeno. | Control positivo contra el texto que sólo habla del sistema: la lección, el defecto y el commit nombran el juego sin tocarlo (un guardia por patrón de texto frena el texto que sólo habla de lo protegido). | ensayo: caso 29 |
+| L2-PTA-62 | L1-35 | Cuando la acción es un Write, Edit o NotebookEdit dentro del árbol de claude-acceso, la puerta deberá omitir la Marca_De_Sistema_Ajeno de la ruta. | El repo no es el sistema en uso: los documentos de BLACK nombran PCSX2 en su ruta. | ensayo: caso 29 |
+| L2-PTA-63 | L1-35 | Cuando la sesión invoca la cascada con la Declaración_De_Sistema_Ajeno, la puerta deberá registrar la declaración antes de que el comando corra. | Lo que una puerta necesita saber de un comando se registra antes de que corra. | ensayo: caso 29 |
+| L2-PTA-64 | L1-35 | Cuando el Catálogo_De_La_Cascada carece de la entrada `sistemas_ajenos`, la puerta deberá exigir la Declaración_De_Sistema_Ajeno con los Sistema_Ajeno por omisión de la puerta. | Falla cerrado: una clave ausente no apaga el freno (como L2-PTA-35). El catálogo sí lo apaga a la vista (`"exigida": false`), y eso lo ve L2-VER-14. | ensayo: caso 29, con mutante «la clave ausente apaga» |
+| L2-PTA-65 | L1-35 | Cuando la Declaración_De_Sistema_Ajeno trae una Salida_Sin_Búsqueda, la puerta deberá anotar el motivo en el registro de excepciones de la cascada. | La salida explícita existe (copiar un juego, ordenar carpetas: nada que buscar afuera) y queda a la vista de la auditoría, como `-Excepcion`. | ensayo: caso 29 |
+| L2-VER-14 | L1-35 | Cuando el Catálogo_De_La_Cascada apaga la exigencia de Declaración_De_Sistema_Ajeno O declara 0 Sistema_Ajeno, el verificador del catálogo deberá dar ROJO. | El freno apagado se ve en cada arranque. | ensayo: caso 29 |
+| L2-VER-15 | L1-35 | Cuando cada Marca_De_Sistema_Ajeno falla al compilar, el verificador del catálogo deberá dar ROJO con la marca. | Un patrón roto hace reventar la puerta en cada acción (L2-VER-04). | ensayo: caso 29 |
+| L2-CAS-14 | L1-35 | Cuando la sesión invoca la cascada con la Declaración_De_Sistema_Ajeno, la cascada deberá imprimir cada parte ausente de la Declaración_De_Sistema_Ajeno. | Lo que la puerta va a exigir se dice al declarar (DA-058), no en la primera negación. | demostración: `cascada.ps1 -Sistema` con una investigación sin conclusión y con una completa |
