@@ -1,51 +1,52 @@
 # Handoff — sparking-musica
 
-**Escrito el:** 2026-11-21 19:45 · **Fase al cerrar:** 1 (instalar y probar), en curso
+**Escrito el:** 2026-11-21 ~20:45 · **Fase al cerrar:** 1 (instalar y probar), en curso
 
 ## Arrancá por acá
 
-1. `.\cascada.ps1 sparking-musica -Necesidad investigar,ingenieria-inversa` y leer lo que pida.
-2. Leer `ESTADO_ACTUAL.md` y `docs/v5-filas.md` (cómo se armó la v5) y, para manejar el juego,
-   `proyectos/ingenieria/pc-casa-control/docs/camino.md` (una captura por paso, nunca teclas a ciegas).
-3. Preguntarle a Fran: ¿oyó la v5 en una pelea J1 vs J2? ¿sigue con Ryo Framework para las filas de tele?
+1. `.\cascada.ps1 sparking-musica -Necesidad investigar,ingenieria-inversa` y leer lo que pida. Declarar el sistema
+   ajeno **con la herramienta PowerShell, no por Bash** (DA-154): `.\cascada.ps1 -Sistema sparking-zero -Investigacion
+   proyectos/ingenieria/sparking-musica/docs/investigacion-voces-y-ultimate.md -Prediccion "..." -Respaldo "..."`.
+2. Leer `ESTADO_ACTUAL.md` (bloque «Lo nuevo»), `PROBLEMAS.md` (P1–P3) y `docs/investigacion-voces-y-ultimate.md`.
+3. Preguntarle a Fran lo que sólo él sabe: ¿pasó las voces a japonés y Whis habla latino? ¿qué música Sparking tiene
+   Vegeta en Personalización, y con un tema LP elegido se sigue cortando?
 
-## Estado de la PC al cierre (2026-11-21 ~20:00)
+## Estado de la PC al cierre
 
-- **El juego quedó ABIERTO, lanzado por Reloaded-II** (`reloaded-juego`), en la portada. Fran puede estar por probarlo.
-- Música base = v5 (21 filas) + Ryo (23 filas de tele, `docs/ryo-tele.md`). Si se abre por `probar-juego`, la tele vuelve a anime.
-- Guardado: el vivo cambió respecto del bueno `0C0BB9E0…` (se eligió música desde el menú); copias en
-  `C:\Users\Fran\lp-todo\respaldo-save-v5b-1942` y `respaldo-save-v5-20261121-1918` (la buena). No se comparó después de la última sesión.
-
-## La prueba que falta (la primera de la próxima sesión)
-
-Fran oye en la PC: abrir por `reloaded-juego`, ir a Música de fondo (J1 contra J2, camino en `pc-casa-control/docs/camino.md`),
-dejar la fila elegida por defecto «Given Up» (tele) y apretar □ (R): ¿suena **Given Up de Linkin Park** o el anime? Si es anime →
-`docs/ryo-tele.md`, sección «Si no suena». Después: pelear J1 vs J2 y oír una fila mía y una de tele; y la prueba del L2.
+- **Fran y su hermano estaban jugando** (20:16, Vegeta contra Whis, pantalla dividida, juego abierto por
+  `reloaded-juego` a las 19:54). Antes de tocar nada: mirar si siguen (CPU del juego ~4 núcleos = pelea).
+- **Una captura de la sesión abrió una consola encima del juego** (tarea `captura-pc`). Las tres tareas «ocultas»
+  siguen sin arreglar: el cambio a `conhost --headless` quedó frenado por el clasificador mientras jugaban (P1 de
+  `pc-casa-control`).
+- Instalado en la PC por esta sesión: `pip install soundcard numpy` (Python 3.12 de Fran), `C:\Users\Fran\lp-todo\oir.py`,
+  `oir_todos.py`, `utocs\` y `utocs.zip` (copias de los índices de `~mods`, borrables). Nada del juego cambió.
 
 ## Lo que quedó a medias
 
-- La PC quedó con el juego abierto en la pestaña «Música de fondo» (J1 contra J2), elegida *Burn It Down*.
-- Ryo Framework sin instalar: ver hipótesis en ESTADO_ACTUAL. Plan: Reloaded-II en carpeta aparte, UNA fila de
-  tele de prueba, con respaldo de `Binaries\Win64` y del guardado, y la puerta DA-145/146 declarada.
-- L2: `leer-ejes.ps1` quedó corriendo en la PC hasta ~19:44 (log `C:\Users\Fran\lp-todo\ejes.log`); hay que
-  relanzarlo cuando Fran esté frente a los mandos.
+- P2 (la música en el ataque final) sin diagnosticar: no se pudo oír. El orden de las pruebas está en la Conclusion de
+  `docs/investigacion-voces-y-ultimate.md`.
+- `oir.py` por SSH da silencio exacto: hay que correrlo en la sesión interactiva por una tarea sin ventana, con el
+  juego cerrado y un tono de control, antes de creerle a cualquier silencio.
 
 ## Lo que NO hay que volver a intentar
 
-Las cuatro vías sobre el DLC de ESTADO_ACTUAL (callejones). Mandar teclas sin mirar la pantalla.
+Las cuatro vías sobre el DLC (callejones de ESTADO_ACTUAL). Teclas sin mirar. **Cualquier tarea interactiva (aunque
+sea una captura) mientras juegan.** Buscar los bancos de voz en `pakchunk0-Windows.utoc` (el índice viene cifrado y da
+cero): la lista está en `lp-trabajo\_intermedios\voces.json`.
 
 ## Datos que no se pueden aproximar
 
 - PC: `Fran@10.147.20.3`, llave `~\.ssh\pc-cable`, `-EncodedCommand`. Juego en
-  `C:\Games\Dragon Ball Sparking ZERO\SparkingZERO`. Abrir: tarea `probar-juego`.
-- Guardado vivo: `C:\Games\Dragon Ball Sparking ZERO\SaveGame\76561197960271872\`. Bueno: Main
-  `0C0BB9E095C4DF702968FFBA49F8DB69`, System `13EC118DB7FD136526F54D62723F6D56`. Respaldos en
-  `C:\Users\Fran\lp-todo\respaldo-save-v5-20261121-1918` y `respaldo-save-1724`.
-- v5: notebook `C:\Users\frans\herramientas\lp-trabajo\LISTO\v5-filas\` (md5-v5.txt); la v4 apartada en la PC
-  `Mods-desactivados\paks\v4-conocidas`; la v4 también en `LISTO\v4-conocidas`.
-- Filas → ondas (puerto 1 de `bgm_main.acb` + 84): M_0102→93, 0103→94, …, 0109→100, 0110→103 … 0122→115;
-  M_0123→ bgm_main onda 82 (no tocada). Disco: quedan ~3,4 GB libres en la notebook (C:).
+  `C:\Games\Dragon Ball Sparking ZERO\SparkingZERO`. Abrir con Ryo: tarea `reloaded-juego`.
+- Guardado vivo: `C:\Games\Dragon Ball Sparking ZERO\SaveGame\76561197960271872\`; respaldos en
+  `C:\Users\Fran\lp-todo\respaldo-save-v5-20261121-1918` (bueno) y `respaldo-save-v5b-1942`.
+- Voces: `docs/voces-cobertura.txt`; Whis = `BTLCV_0790_00` (latino solo JP, `WhisMODLATINO_P`); familia Vegeta Super
+  `0020_60/61/63`, `0022_62` (`VegetaSuper_P`, solo JP); el Ultra Ego es `Mods\VegetaUltraEgo` (sin voz propia; reusa
+  ultimates de `0020_30`, `0154_00`, `0680_02`, `0941_00`).
+- Música: Sparking por personaje `M_0200…M_0209` (LP desde v1–v4) y `M_10xx_SPK`; dramáticas `M_1100` (onda 17 del
+  puerto 1, no tocada por la v5) y `M_2000…M_2022` (Ryo). Tabla: `python lp-trabajo\scripts\acb-cues.py
+  _intermedios\fabrica\bgm_main.acb`.
 
 ## Si hay que abrir un chat nuevo
 
-Ver el mensaje del cierre de esta sesión. Motor: Sonnet, esfuerzo alto para Ryo; medio para el resto.
+Motor: Opus, esfuerzo alto para el diagnóstico de la música (primera hipótesis en terreno nuevo); Sonnet para lo demás.

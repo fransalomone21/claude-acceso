@@ -1,6 +1,12 @@
 # Estado actual — sparking-musica
 
-**Última actualización:** 2026-11-21 19:45
+**Última actualización:** 2026-11-21 ~20:45
+
+> **Lo nuevo (2026-11-21 noche, Fran jugando):** Fran oyó la música y reportó dos fallas: **voces en inglés** (Whis,
+> Vegeta Ultra Ego) y **la música se va al tirar el ataque final de Vegeta**. Medido en frío: 48 de 205 bancos de voz
+> tienen latino **solo en japonés** → el juego está con voces en inglés (probable); arreglo inmediato: idioma de voces
+> japonés. La música: hipótesis ordenadas en [`docs/investigacion-voces-y-ultimate.md`](docs/investigacion-voces-y-ultimate.md)
+> (la música Sparking por personaje es la primera sospechosa). Problemas P1–P3 en `PROBLEMAS.md`.
 
 ## Dónde estamos
 
@@ -61,4 +67,7 @@ por `reloaded-juego`, no por `probar-juego`.**
 
 ## Lo próximo
 
-Que Fran oiga la v5 y diga si va Ryo para la tele; probar L2 con Fran (`docs/controles-l2.md`).
+1. Fran: idioma de voces → japonés y decir si Whis habla latino (P1). 2. Fran: en Personalización, qué música
+Sparking tiene Vegeta (y el Ultra Ego); con un tema LP elegido, ¿se sigue cortando? (P2). 3. Con el juego cerrado:
+tareas sin ventana (`conhost --headless`) y `oir.py` en la sesión interactiva con tono de control (P3, DA-150/151).
+4. Pendiente de antes: L2 (`docs/controles-l2.md`).

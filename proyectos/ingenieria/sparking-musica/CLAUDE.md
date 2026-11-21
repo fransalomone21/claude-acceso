@@ -13,6 +13,8 @@
 | qué resolvió ya la comunidad | `docs/investigacion-previa.md` |
 | el trabajo de audio ya hecho (v1..v4) | `C:\Users\frans\herramientas\lp-trabajo\RETOME.md` |
 | problemas abiertos | `PROBLEMAS.md` |
+| voces en inglés, la música en el ataque final / modo Sparking | `docs/investigacion-voces-y-ultimate.md`, `docs/voces-cobertura.txt` |
+| las filas del menú (v5), la tele con Ryo, el menú medido, los mandos | `docs/v5-filas.md`, `docs/ryo-tele.md`, `docs/menu-musica.md`, `docs/controles-l2.md` |
 
 ## Las reglas propias de este proyecto
 

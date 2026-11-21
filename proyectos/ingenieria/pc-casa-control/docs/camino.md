@@ -17,7 +17,12 @@ abajo se hizo con captura y se vio el efecto.
 4. **Puerta de la cascada (DA-145/146):** antes de actuar sobre el juego,
    `.\cascada.ps1 -Sistema sparking-zero -Investigacion "<md con ## Conclusion>" -Prediccion "..." -Respaldo "<copia>"`
    y lo mismo con `-Sistema juegos-pc`.
-5. El audio **no sale en capturas**: lo oye Fran. La sesión mide lista, md5 y que el proceso viva.
+5. El audio **no sale en capturas**: lo oye Fran. La sesión mide lista, md5 y que el proceso viva. `scripts/oir.py`
+   graba la salida de audio (loopback); **por SSH da silencio exacto** (2026-11-21): sin probar todavía en la sesión
+   interactiva.
+6. **Las tareas «ocultas» NO son ocultas** (2026-11-21): `captura-pc`, `ps-pc` y `paso-sz` abren una consola visible
+   encima del juego. Con alguien jugando, **ninguna** tarea interactiva, ni siquiera una captura. Señal de que juegan:
+   el juego gasta ~4 núcleos (22 s de CPU en 5 s medido en plena pelea).
 
 ## 1. Cómo se llega a la PC
 

@@ -33,6 +33,17 @@
 | Mandar la secuencia entera de teclas de un tirón | cayó en Episodio de batalla | un paso, una captura |
 | `ESC`/`BACKSPACE` para volver atrás | no vuelven en las pantallas de menú | usar `HOLD_BACK_1500` |
 
+## Lo nuevo (2026-11-21 ~20:45)
+
+| Qué | Grado | Evidencia |
+|---|---|---|
+| Las tareas `captura-pc`/`ps-pc`/`paso-sz` abren una consola visible sobre el juego | confirmado | captura 20:16 en plena pelea (P1, DA-151) |
+| `oir.py` (loopback) por SSH da silencio exacto en las 6 salidas | confirmado; la causa (SSH no oye la sesión interactiva) es probable | corrida ~20:30 (P2, DA-150) |
+| Un juego en pelea gasta ~4 núcleos (22 s de CPU en 5 s) | una medición | q4, 20:1x |
+
 ## Lo próximo
+
+Con el juego cerrado: pasar las tres tareas a `conhost --headless` (P1) y probar `oir.py` en la sesión interactiva con
+un tono de control (P2). Después lo de antes:
 
 Llenar el PDP (el hook pide leer las fichas de alcance); repetir el camino desde una sesión nueva y cerrar la fase 0.

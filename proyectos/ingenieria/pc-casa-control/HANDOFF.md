@@ -1,6 +1,12 @@
 # Handoff — pc-casa-control
 
-**Escrito el:** 2026-11-21 · **Fase al cerrar:** 0 (registrar el camino), en curso
+**Escrito el:** 2026-11-21 ~20:45 · **Fase al cerrar:** 0 (registrar el camino), en curso
+
+> **Primero (2026-11-21 noche):** las tareas «ocultas» NO son ocultas (P1) y no hay medidor de «están jugando»: no
+> lanzar ninguna tarea interactiva si el juego está en pelea. Arreglo pendiente, con el juego cerrado:
+> `New-ScheduledTaskAction -Execute conhost.exe -Argument "--headless powershell.exe <argumentos actuales>"` en
+> `captura-pc`, `ps-pc` y `paso-sz`, y probarlo con una captura que NO se vea a sí misma. Después, `scripts/oir.py`
+> en la sesión interactiva con tono de control (P2).
 
 ## Arrancá por acá
 

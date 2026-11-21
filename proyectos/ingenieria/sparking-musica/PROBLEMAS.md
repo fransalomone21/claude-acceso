@@ -21,4 +21,6 @@ las cuatro primeras columnas.
 
 | ID | Clase | Estado | Problema | Cómo se vio | Arreglo y a qué nivel, o qué tendría que pasar |
 |---|---|---|---|---|---|
-| P0 | método | descartado | (ejemplo de la plantilla: se borra con el primer problema real) | — | — |
+| P1 | contenido | abierto | Voces en inglés en Whis, Vegeta Super/Ultra Ego y ~46 bancos más: los mods latinos de esos personajes pisan solo la voz japonesa y el juego está (probable) con voces en inglés | Fran, 2026-11-21 ~20:00; `docs/voces-cobertura.txt` (48 de 205 bancos solo en japonés) | inmediato: idioma de voces → japonés (lo hace Fran en Opciones; 136 bancos latinos, 69 en japonés). Completo: paquete que copie cada `_JP` latino como `_US` (pide `retoc`, descarga con su sí) |
+| P2 | contenido | abierto | La música de fondo se va al tirar el ataque final de Vegeta | Fran, 2026-11-21 ~20:00 | hipótesis en `docs/investigacion-voces-y-ultimate.md` (Conclusion); lo primero, mirar qué música Sparking tiene elegida Vegeta en Personalización; si es eso, elegirle un tema LP; si no, el mod que saca la música Sparking |
+| P3 | método | abierto | Ninguna versión de música (v1–v5, Ryo) se oyó antes de entregarse: la sesión no oye la PC | DA-150 | `pc-casa-control/scripts/oir.py` (loopback) escrito; por SSH da silencio exacto: falta correrlo en la sesión interactiva con un tono de control, con el juego cerrado |
