@@ -2,6 +2,10 @@
 
 **Escrito el:** 2026-11-21 ~21:30 · **Fase al cerrar:** 1 (instalar y probar), en curso
 
+> **Decisión de Fran (2026-11-21, cierre): «dejalo así, todo en frío sin verificar».** Queda instalado
+> `zzLatinoUS_P.pak` sin oír; el arreglo del Ultra Ego (sacar `BGM_BattleInCharaTheme`) **no se aplica**; no se graba
+> ninguna pelea. Nada de esto se retoma por iniciativa de la sesión: sólo si Fran reporta que sigue fallando.
+>
 > **Lo último (21:30), manda sobre lo de abajo:** la sesión ya oye la PC (`pc-casa-control/scripts/oir-en-sesion.ps1`
 > por la tarea `ps-pc`, copiado como `ps-args.ps1`, con `oir-args.txt` = «segundos nombre»; después
 > `scripts/que-suena.py <wav>`). `zzLatinoUS_P.pak` instalado en `~mods` de la PC (md5 `2528af1a…`). Primero de la

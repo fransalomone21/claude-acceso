@@ -73,6 +73,9 @@ por `reloaded-juego`, no por `probar-juego`.**
 
 ## Lo próximo
 
+**En pausa por decisión de Fran (2026-11-21): «dejalo así, todo en frío sin verificar».** Lo de abajo sólo se
+retoma si él reporta que las voces o la música siguen fallando.
+
 1. Con el juego libre (CPU del juego baja o cerrado): grabar una pelea con Whis y con el Ultra Ego transformándose y
 tirando el ataque final, y la misma con otro Vegeta del juego como control (P1 y P2). 2. Si se confirma P2: sacar
 `BGM_BattleInCharaTheme` de las dos transformaciones del mod. 3. Averiguar por qué las teclas no movían el menú esta
