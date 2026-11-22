@@ -78,7 +78,8 @@ Confirmar = `ENTER` (la fila elegida queda con el borde claro y su nombre aparec
 ## 3b. Reloaded-II y Ryo (agregado el 2026-11-21)
 
 Para que suenen las filas de tele el juego se abre por **`reloaded-juego`** (`Reloaded-II.exe --launch <exe>`) y no por
-`probar-juego`. Tareas nuevas en la PC (definidas en `tareas/tareas-programadas.xml.txt`): `reloaded-juego`, `reloaded-gui`,
+`probar-juego`. Para Fran: **acceso directo `Sparking ZERO (Linkin Park).lnk` en su escritorio** (mismo comando que la
+tarea; creado y probado el 2026-11-21 23:10, el juego abrió). Tareas nuevas en la PC (definidas en `tareas/tareas-programadas.xml.txt`): `reloaded-juego`, `reloaded-gui`,
 `captura-pc` (solo captura la pantalla a `cap.png`, sirve sin el juego) y `ps-pc` (corre `ps-args.ps1` en la sesión
 interactiva y deja `ps-out.txt`: sirve para leer el texto de ventanas con UI Automation). `scripts/ps-pc.ps1` y
 `scripts/captura.ps1`. Detalle y cómo se deshace: `sparking-musica/docs/ryo-tele.md`.
