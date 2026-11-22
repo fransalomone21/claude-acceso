@@ -1,10 +1,12 @@
 """Copia un contenedor IoStore de un mod (.utoc/.ucas) con los bloques DESCIFRADOS y la marca de cifrado sacada, para
 que retoc lo pueda leer (retoc se cae con los .utoc viejos cifrados: el indice de directorios no esta alineado a 16).
 No toca el original. uso: python descifrar-ucas.py <entrada.utoc> <salida_sin_extension>"""
-import struct, sys
+import re, struct, sys
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-KEY = bytes.fromhex("b2407c45ea7c528738a94c0a25ea8f419de4377628eb30c0ae6a80dd9a9f3ef0")
+# la clave del juego NO va en el repo (es publico): se lee de la configuracion del extractor de la notebook
+_cfg = open(r"C:\Users\frans\herramientas\sz-extractor\config.ini", encoding="utf-8").read()
+KEY = bytes.fromhex(re.search(r'AesKey="(?:0x)?([0-9A-Fa-f]{64})"', _cfg).group(1))
 src, dst = sys.argv[1], sys.argv[2]
 t = bytearray(open(src, "rb").read())
 u = bytearray(open(src[:-5] + ".ucas", "rb").read())
