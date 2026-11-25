@@ -8,6 +8,9 @@
 > `captura-pc`, `ps-pc` y `paso-sz`, y probarlo con una captura que NO se vea a sí misma. Después, `scripts/oir.py`
 > en la sesión interactiva con tono de control (P2).
 
+> **2026-11-25:** todo PowerShell a la PC va por `scripts/en-pc.ps1` (`-Comando` o `-Archivo`): la lección 501
+> se repitió dos veces en una sesión y subió a herramienta. La fase 0 de este proyecto no se tocó.
+
 ## Arrancá por acá
 
 1. Leer `docs/camino.md` entero. 2. Llenar `PDP.md`: el hook de la puerta pide leer 8 fichas de alcance

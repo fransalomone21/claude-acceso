@@ -19,6 +19,7 @@
 | Teclas durante la carga caen en el menú equivocado (arrancó Nuevo juego de Goku) y cambian el guardado | md5 del guardado vivo distinto del respaldo (100716 B) | 2026-11-21 |
 | El guardado se devuelve cerrando el juego y copiando el respaldo | md5 de vuelta igual a `0C0BB9E095C4DF702968FFBA49F8DB69` | 2026-11-21 |
 | `leer-ejes.ps1` lee joy0 y joy2 (los dos DualShock 4) | `ejes.log` en la PC, 19:18:56 | 2026-11-21 |
+| `scripts/en-pc.ps1` corre PowerShell en la PC codificado (comillas y variables llegan bien); el SSH de la PC aplana cualquier código distinto de 0 a 1 | prueba con `$x = "C:\Games\_indice\accesos"` (103 archivos, True) y control `exit 3` → 1 | 2026-11-25 |
 
 ## Lo que es hipótesis
 
