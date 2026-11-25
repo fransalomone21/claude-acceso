@@ -1,20 +1,26 @@
-"""L1-11: copia a la PC cada jar del catalogo que ya esta en el cache, ordenado por familia de contenido.
+"""L1-11: guarda en la PC una copia de CADA jar del catalogo, ordenada por familia de contenido.
 
-  python biblioteca.py            -> C:\\Games\\Minecraft-mods\\<familia>\\ en la PC (por SSH), con el SHA-1 verificado
+  python biblioteca.py                  -> C:\\Games\\Minecraft-mods\\<familia>\\ en la PC (por SSH), con el SHA-1 verificado
+  python biblioteca.py --solo-verificar -> no copia nada: solo compara la PC contra el catalogo (0 completo, 1 faltan)
+
+Lo esperado es el catalogo entero (datos/catalogo.json + datos/locales.json), no lo que haya en el cache: un mod que
+falta en el cache se baja primero (armar.al_cache, con su SHA-1). Antes (2026-11-25) se esperaba solo lo del cache y
+dos mods del catalogo que no estaban ahi (crash-assistant, towns-and-towers) quedaban afuera sin que nada lo dijera.
+Solo se copia lo que la PC no tiene (por SHA-1), asi que correrlo de nuevo es barato.
 
 Los mods que no son de ninguna carta van a 'Base y rendimiento' (el nucleo) o a 'Bibliotecas y de Better MC 5'.
 """
-import hashlib, os, subprocess, sys, tempfile
+import base64, os, subprocess, sys
 
 import armar as A
 
 LLAVE = os.path.expanduser(r"~\.ssh\pc-cable")
 PC = "Fran@10.147.20.3"
 DESTINO = "C:/Games/Minecraft-mods"
+OTRAS = "Bibliotecas y de Better MC 5"
 
 
-def main():
-    cat, cur = A.cargar()
+def plan_por_familia(cat, cur):
     fam = {}
     for c in cur["cartas"]:
         for m in c["mods"]:
@@ -22,31 +28,57 @@ def main():
     for m in cur["nucleo"]:
         fam.setdefault(m, "Base y rendimiento")
     plan = {}
-    for s, v in cat["versiones"].items():
-        f = os.path.join(A.CACHE, v["archivo"])
-        if os.path.exists(f):
-            plan.setdefault(fam.get(s, "Bibliotecas y de Better MC 5"), []).append((f, v["sha1"]))
-    for archivo, l in A.locales().items():
-        f = os.path.join(A.CACHE, archivo)
-        if os.path.exists(f):
-            plan.setdefault("Bibliotecas y de Better MC 5", []).append((f, l["sha1"]))
-    total = 0
-    for familia, fs in sorted(plan.items()):
-        d = f"{DESTINO}/{familia}"
-        subprocess.run(["ssh", "-i", LLAVE, PC, f'if not exist "{d}" mkdir "{d}"'], capture_output=True)
-        r = subprocess.run(["scp", "-i", LLAVE, "-q"] + [f for f, _ in fs] + [f"{PC}:{d}/"], capture_output=True, text=True)
-        print(f"{familia}: {len(fs)} jars {'OK' if r.returncode == 0 else 'FALLO ' + r.stderr.strip()}")
-        total += len(fs)
-    # verificacion: SHA-1 de lo que quedo en la PC contra el catalogo
-    cmd = (f"Get-ChildItem '{DESTINO}' -Recurse -File -Filter *.jar | ForEach-Object {{ (Get-FileHash $_.FullName -Algorithm SHA1).Hash }}")
-    enc = __import__("base64").b64encode(cmd.encode("utf-16-le")).decode()
-    out = subprocess.run(["ssh", "-i", LLAVE, PC, f"powershell -NoProfile -EncodedCommand {enc}"], capture_output=True, text=True).stdout
-    hay = {l.strip().lower() for l in out.splitlines() if len(l.strip()) == 40}
-    esperados = {s.lower() for fs in plan.values() for _, s in fs}
+    for e in A.entradas(cat, list(cat["versiones"]), True):
+        familia = OTRAS if e["slug"].startswith("local:") else fam.get(e["slug"], OTRAS)
+        plan.setdefault(familia, []).append(e)
+    return plan
+
+
+def en_pc(cmd):
+    """Todo comando a la PC va como PowerShell codificado: el SSH de la PC abre PowerShell, no cmd, y las rutas
+    llevan acentos (2026-11-25: un 'if not exist ... mkdir' de cmd fallo en silencio y no se copio nada)."""
+    enc = base64.b64encode(cmd.encode("utf-16-le")).decode()
+    r = subprocess.run(["ssh", "-o", "ConnectTimeout=15", "-i", LLAVE, PC, f"powershell -NoProfile -EncodedCommand {enc}"],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if r.returncode != 0:
+        raise SystemExit(f"la PC no contesta o el comando fallo (exit {r.returncode}): {r.stderr.strip()[:300]}")
+    return r.stdout
+
+
+def hashes_en_pc():
+    out = en_pc(f"if (Test-Path '{DESTINO}') {{ Get-ChildItem '{DESTINO}' -Recurse -File -Filter *.jar | "
+                f"ForEach-Object {{ (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA1).Hash }} }}")
+    return {l.strip().lower() for l in out.splitlines() if len(l.strip()) == 40}
+
+
+def main(argv):
+    solo = "--solo-verificar" in argv
+    cat, cur = A.cargar()
+    plan = plan_por_familia(cat, cur)
+    esperados = {e["sha1"].lower() for es in plan.values() for e in es}
+    if not solo:
+        hay = hashes_en_pc()
+        for familia, es in sorted(plan.items()):
+            nuevos = [e for e in es if e["sha1"].lower() not in hay]
+            if not nuevos:
+                print(f"{familia}: {len(es)} jars, ya estaban")
+                continue
+            rutas = [A.al_cache(e, print) for e in nuevos]
+            d = f"{DESTINO}/{familia}"
+            en_pc(f"New-Item -ItemType Directory -Force -Path '{d}' | Out-Null")
+            r = subprocess.run(["scp", "-i", LLAVE, "-q"] + rutas + [f"{PC}:{d}/"], capture_output=True, text=True,
+                               encoding="utf-8", errors="replace")
+            print(f"{familia}: {len(nuevos)} de {len(es)} jars copiados {'OK' if r.returncode == 0 else 'FALLO ' + r.stderr.strip()}")
+    hay = hashes_en_pc()
     faltan = esperados - hay
-    print(f"biblioteca en la PC: {total} jars copiados; SHA-1 presentes {len(esperados & hay)}/{len(esperados)}" + (f"; FALTAN {len(faltan)}" if faltan else ""))
+    print(f"biblioteca en la PC: catalogo {len(esperados)} jars; SHA-1 presentes {len(esperados & hay)}/{len(esperados)}"
+          + (f"; FALTAN {len(faltan)}" if faltan else ""))
+    for familia, es in sorted(plan.items()):
+        for e in es:
+            if e["sha1"].lower() in faltan:
+                print(f"  falta: {familia} / {e['archivo']}")
     return 1 if faltan else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

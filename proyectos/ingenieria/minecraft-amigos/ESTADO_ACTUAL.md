@@ -1,6 +1,6 @@
 # Estado actual — minecraft-amigos
 
-**Última actualización:** 2026-11-24
+**Última actualización:** 2026-11-25
 
 ## Dónde estamos
 
@@ -44,10 +44,22 @@ archivos mal etiquetados en Modrinth (Structory Towers de 26.2), **Better MC 5 e
 versiones nuevas choca consigo mismo: curios duplicado; sigue como instancia y server 25567 propios).
 Detalle: `docs/fase-2-tienda.md` §3b.
 
-**Falta:** L1-11 (biblioteca en la PC: `tienda/biblioteca.py` falló porque la PC dejó de contestar SSH a las
-~03:50); que Fran pruebe la tienda y entre con Kevin al server de la tienda (25568) — eso cierra la fase; el
+**Lo nuevo del 2026-11-25 al mediodía (revisión del diseño y pendientes):**
+
+| Qué | Evidencia |
+|---|---|
+| **L1-11**: los 297 jars del catálogo (277 de Modrinth + 20 locales) en `C:\Games\Minecraft-mods\<familia>` de la PC | `biblioteca.py`: «SHA-1 presentes 297/297»; sabotaje: un jar renombrado en la PC da «FALTAN 1» nombrándolo, restaurado 297/297 |
+| `biblioteca.py` esperaba sólo lo del cache: 2 mods del catálogo (crash-assistant, towns-and-towers) quedaban afuera sin aviso; y su `mkdir` era de cmd (el SSH de la PC abre PowerShell) | arreglado: espera el catálogo entero y baja lo que falta; todo comando a la PC va codificado |
+| **L1-12 y L1-13**: el server de la tienda acepta a la PC por ZeroTier (10.147.20.2:25568) y por la red de casa (192.168.1.2:25568) | `tienda/probar_red.py`: «CONECTA» en las dos, el puerto de control 25599 «NO, como debe»; arrancó en 102 s y se apagó con `stop` |
+| «Server de la tienda» prende también el pack (8765) si estaba apagado: un solo doble clic | prueba: antes apagado, después escuchando, la PC lo lee (200), una segunda vez no duplica |
+| El server de prueba y el de BMC5 se trababan al apagar (nadie leía su salida después del Done) | `armar.py` y `server_sin_mods_de_cliente.py` siguen leyendo hasta que el server cierra |
+| `probar_tienda.py` dejaba publicada la Liviana encima de lo de Fran | ahora guarda lo publicado y lo devuelve, y prende el pack si falta |
+| Los accesos de Minecraft de las dos máquinas los arma el índice de juegos-casa (`Escritorio\Juegos\Minecraft`, con «Como jugar.txt») | `indice.py verificar` en verde en las dos |
+
+**Falta:** que Fran agregue las cuentas sin conexión en Prism (en la note no hay ninguna: sin eso Prism no abre
+el juego; en la PC, «Kheven»), arme un combo y entre con Kevin al server de la tienda — eso cierra la fase; el
 paquete de Kevin está en `C:\Users\frans\MinecraftServer\tienda\paquete-kevin.zip`; L1-14 (TPS con spark) y
-L1-15 (cliente al menú con 8 GB) sin medir.
+L1-15 (cliente al menú con 8 GB) piden el juego abierto con una cuenta.
 
 **Lo de abajo es de la fase 1 y vale como historia.**
 

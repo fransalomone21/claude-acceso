@@ -176,11 +176,11 @@ def probar(es, log, tope=TOPE_PRUEBA_S):
         for l in p.stdout:
             todas.append(l.rstrip())
             ultimas.append(l.rstrip()); del ultimas[:-40]
-            if "Done (" in l and "For help" in l:
+            if "Done (" in l and "For help" in l and done is None:
                 done = time.time() - t0
-                break
+                # se sigue leyendo: si nadie lee, el cano se llena con el 'stop' y el server se traba al guardar
     hilo = threading.Thread(target=leer, daemon=True); hilo.start()
-    while hilo.is_alive() and p.poll() is None and time.time() - t0 < tope:
+    while done is None and hilo.is_alive() and p.poll() is None and time.time() - t0 < tope:
         time.sleep(1)
     ok = done is not None
     if p.poll() is None:

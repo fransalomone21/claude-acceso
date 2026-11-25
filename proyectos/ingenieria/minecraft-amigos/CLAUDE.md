@@ -1,8 +1,10 @@
 # Proyecto minecraft-amigos — contrato de contexto
 
-Server de Minecraft con mods (Fabric 1.21.4) hosteado en la notebook de Fran,
-para jugar con amigos por ZeroTier, y el paquete que les deja la instancia de
-Prism lista con un doble clic y gráficos según su PC.
+Minecraft con mods para jugar con Kevin y los amigos por ZeroTier. Desde la fase 2 (2026-11-24): **1.21.1 con
+NeoForge y la tienda de mods** (`tienda/`): Fran elige mods y combinaciones en una página de la notebook, se
+prueban en un server de prueba, y las instancias de cada máquina se ponen iguales al pack al abrir el juego. La
+fase 1 (Fabric 1.21.4, server `juntada`, el paquete de los amigos) queda como historia y su server sigue
+andando para jugar con el hermano.
 
 **Naturaleza:** `ingenieria` — ver
 [`plantillas/naturalezas/ingenieria.md`](../../../plantillas/naturalezas/ingenieria.md).
@@ -21,6 +23,8 @@ Prism lista con un doble clic y gráficos según su PC.
 | poner la PC de Fran (instancia + su server, puerto 25566) al día con el pack | `docs/actualizar-instancia-pc.md` (pasos 1-6, mecánico) |
 | **jugar en casa con el hermano** (server `juntada`, mundo de los hermanos) | `JUNTADA-EN-CASA.md` |
 | **la fase 2: el pack nuevo (1.21.1 NeoForge) y la tienda de mods** | `docs/10-requisitos.md` (contra qué se construye) y `docs/fase-2-tienda.md` (la versión medida, Better MC 5, packwiz, las combinaciones, la V&V) |
+| **usar o tocar la tienda** (qué hace cada script, sumar un mod) | `tienda/LEEME.md` |
+| ideas de la tienda que no se hicieron (shaders por combinación, packs de cielo, «Espacio B» con Stellaris) y los candidatos espaciales medidos | `docs/mc-tienda-hallazgos.md` |
 
 ## Las reglas propias de este proyecto
 
@@ -44,7 +48,12 @@ herramientas/  modrinth_check.py, armar_pack.py, empaquetar.py, rcon.py
 
 ## Dónde corre esto
 
-Sólo en la notebook de Fran (MSI, ZeroTier 10.147.20.2):
+**Fase 2 (la tienda):** en la notebook, `C:\Users\frans\MinecraftServer\tienda\` (cache, publicado, prueba,
+server en el puerto 25568, NeoForge 21.1.267) y la página en el puerto 8765; la instancia «Tienda 1.21.1» en
+el Prism de la notebook y de la PC; la biblioteca de jars en `C:\Games\Minecraft-mods\` de la PC. Los accesos
+de cada máquina los arma el índice de `juegos-casa` en `Escritorio\Juegos\Minecraft`.
+
+**Fase 1** — sólo en la notebook de Fran (MSI, ZeroTier 10.147.20.2):
 
 - Instancia de Prism: `%APPDATA%\PrismLauncher\instances\Juntada 1.21.4`
   (la base fue `Nuevo 1.21.4`, que no se toca).

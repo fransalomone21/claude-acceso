@@ -11,8 +11,9 @@
 | `sincronizar.ps1` | comando previo de Prism: iguala `mods/` al pack por SHA-1 | L1-03, L1-04 |
 | `verificar-instancia.ps1` | compara una instancia contra el pack, sin tocar nada (0 igual, 1 distinto, 2 sin pack) | L1-03 |
 | `crear-instancia.ps1` | crea «Tienda 1.21.1» en un Prism (memoria según RAM, entra a `:25568`) | L1-04 |
-| `iniciar-server-tienda.bat` | prende el server de la tienda (25568) con lo último publicado | L1-12, L1-13 |
-| `biblioteca.py` | copia los jars del cache a `C:\Games\Minecraft-mods\<familia>` de la PC | L1-11 |
+| `iniciar-server-tienda.bat` | prende el server de la tienda (25568) con lo último publicado, y el pack (8765) si estaba apagado | L1-12, L1-13 |
+| `probar_red.py` | prende el server, prueba desde la PC el 25568 por ZeroTier y por la red de casa (con un puerto de control) y lo apaga con `stop` | L1-12, L1-13 |
+| `biblioteca.py` | guarda en `C:\Games\Minecraft-mods\<familia>` de la PC **cada** jar del catálogo (baja al cache lo que falte), por SHA-1; `--solo-verificar` sólo mide | L1-11 |
 | `paquete-kevin/` | instalador de doble clic para la compu de Kevin | L1-17 |
 | `probar_tienda.py` | sabotajes y controles (S1 castigo, S2 dependencia faltante, S3 instancia distinta, S4 sin pack) | L1-03, L1-06, L1-10 |
 

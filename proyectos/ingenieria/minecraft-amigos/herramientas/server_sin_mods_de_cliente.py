@@ -38,7 +38,11 @@ def probar(server):
             malos.add(m.group(1))
         if "Done (" in linea:
             p.stdin.write("stop\n"); p.stdin.flush()
-            p.wait(timeout=120)
+            # se sigue leyendo hasta que el server cierre: si nadie lee, el cano se llena mientras guarda el mundo
+            # y el server se traba (2026-11-24: TimeoutExpired despues del Done en bmc5-arreglo.log)
+            for _ in p.stdout:
+                pass
+            p.wait(timeout=300)
             return True, time.time() - t0, malos
         if time.time() - t0 > 400:
             break

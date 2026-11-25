@@ -35,7 +35,40 @@ def ps(script, *args):
     return r.returncode, (r.stdout + r.stderr).strip()
 
 
+def pack_prendido():
+    import socket
+    try:
+        socket.create_connection(("127.0.0.1", 8765), timeout=2).close()
+        return True
+    except OSError:
+        return False
+
+
 def main():
+    """La prueba construye su precondicion (el pack en :8765) y deja todo como estaba: lo publicado se guarda
+    antes y se devuelve al final (2026-11-25: dejaba publicada la Liviana encima de la combinacion de Fran)."""
+    import time
+    copia = tempfile.mkdtemp(prefix="tienda-publicado-")
+    shutil.copytree(A.PUBLICADO, os.path.join(copia, "p"))
+    servidor = None
+    if not pack_prendido():
+        servidor = subprocess.Popen([sys.executable, os.path.join(TIENDA, "tienda.py")], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        for _ in range(30):
+            if pack_prendido():
+                break
+            time.sleep(0.5)
+    try:
+        return casos()
+    finally:
+        shutil.rmtree(A.PUBLICADO, ignore_errors=True)
+        shutil.copytree(os.path.join(copia, "p"), A.PUBLICADO)
+        shutil.rmtree(copia, ignore_errors=True)
+        print(f"lo publicado volvio a como estaba: {huella()}")
+        if servidor:
+            servidor.kill()
+
+
+def casos():
     log = []
     # C1 primero: deja publicado un pack conocido (la liviana) sobre el que miden los demas
     r = A.armar(combo="liviana", log=log.append)

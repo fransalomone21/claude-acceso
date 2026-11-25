@@ -87,15 +87,43 @@ CurseForge en la sesión de la tienda.
   `deeperdarker`.
 - Lo que la sesión construyó y probó está en `tienda/` (ver `tienda/LEEME.md`).
 
-## 4. Las combinaciones (a validar en la sesión de la tienda)
+## 4. Las combinaciones
+
+**Lo que quedó construido y arrancando en el server de prueba (2026-11-25; las cartas y descripciones viven en
+`tienda/datos/curado.json`, que es la fuente: esta tabla es una vista):**
+
+| Combinación | Mods (con dependencias) | Qué es |
+|---|---|---|
+| **Aventura minecraftera** (la recomendada, la publicada hoy) | 106 | YUNG, Dungeons Arise y Taverns, Moog's, Structory, Lootr, Friends & Foes, illagers, Cataclysm, Mowzie's Mobs, Aquamirae, Aether, Undergarden, Deeper and Darker, Bumblezone, Nether renovado, ayudas y comida |
+| **Dimensiones y jefes** | 88 | lo anterior con Deep Aether, Eternal Starlight, Nullscape y biomas (Twilight Forest no está en Modrinth: afuera) |
+| **Con mecanismos** | 93 | la aventura con Create, almacenamiento y decoración |
+| **Espacial** | 74 | Ad Astra con sus agregados (Giselle, More Structures, Dungeons and Villages, Asteroid Belt), Stellar View con su compatibilidad, Celestria y Cosmicore, sobre una aventura corta con Create |
+| **Liviana** | 59 | YUNG, Friends & Foes, Lootr y ayudas, para máquinas flojas |
+
+Cinco combinaciones: L1-08 pide entre 4 y 8. **Better MC 5 entero salió de la tienda** (con versiones nuevas choca
+consigo mismo, §3b) y sigue como instancia y server 25567 propios.
+
+**El combo espacial (pedido de Fran del 2026-11-24): de dónde salió.** Candidatos medidos en la API de Modrinth
+filtrando 1.21.1 + NeoForge (`docs/mc-tienda-hallazgos.md`, con descargas y lado de cada uno). Ad Astra es el
+estándar (6 M de descargas; Luna, Marte, Venus, Mercurio, Glacio, estaciones); Stellaris es la alternativa y no
+se mezcla con Ad Astra sin probar; los de Create (Northstar, Creating Space) son más complejos y quedaron para
+«mecanismos + espacio». Galacticraft 5 no apareció para esta versión.
+
+## Conclusión (combo espacial)
+
+Ad Astra con sus agregados y el cielo de Stellar View: arranca en el server de prueba con 74 mods. Quedan sin
+hacer, pensadas y medidas en `docs/mc-tienda-hallazgos.md`: un «Espacio B» con Stellaris, el shader por
+combinación (Complementary Unbound para el espacio) y los packs de cielo (Dramatic Skys, Nebulous Nights).
+
+### El plan original (2026-11-24, antes de construir), como historia
 
 | Combinación | Qué es | Peso |
 |---|---|---|
-| **Aventura minecraftera** (la recomendada) | dungeons y estructuras de YUNG, Dungeons Arise y Taverns, pueblos y torres, Explorify, Structory; bichos de Friends & Foes; dimensiones Aether, Deeper and Darker, Undergarden, Bumblezone; jefes de Cataclysm, Mowzie's Mobs y Aquamirae; Nether y End renovados; mapas, Waystones, JEI, Jade | medio (~6 GB) |
-| **Better MC 5 sin castigos** | el pack de otros, entero, sin Serene Seasons | pesado (8 GB) |
-| **Dimensiones y jefes** | la aventura + Twilight Forest y Eternal Starlight | medio-pesado |
-| **Con mecanismos** | la aventura + Create y sus agregados, Supplementaries y Quark (más complejo: opcional) | pesado |
-| **Liviana** | YUNG, Friends & Foes, Lootr y rendimiento, para máquinas flojas | liviano (~4 GB) |
+| Aventura minecraftera | dungeons y estructuras, bichos, dimensiones, jefes, Nether y End renovados, mapas | medio (~6 GB) |
+| Better MC 5 sin castigos | el pack de otros, entero, sin Serene Seasons | pesado (8 GB) |
+| Dimensiones y jefes | la aventura + Twilight Forest y Eternal Starlight | medio-pesado |
+| Con mecanismos | la aventura + Create, Supplementaries y Quark | pesado |
+| Liviana | YUNG, Friends & Foes, Lootr y rendimiento | liviano (~4 GB) |
 
 Lista de castigos (L1-10): Tough As Nails, Cold Sweat, Thermoo y sus derivados (Frostiful, Scorchful),
 y los de sed. Las estaciones (Serene Seasons) quedan como un mod más, avisado en su descripción.

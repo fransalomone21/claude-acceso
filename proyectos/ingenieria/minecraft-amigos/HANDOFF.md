@@ -3,15 +3,17 @@
 **Escrito el:** 2026-11-25 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
 y probada; falta la validación con Fran y Kevin.
 
-## Arrancá por acá (2026-11-25)
+## Arrancá por acá (2026-11-25, mediodía)
 
-1. Lo hecho y medido está en `ESTADO_ACTUAL.md` (bloque «La tienda»); el índice de archivos, `tienda/LEEME.md`.
-2. Pendientes en orden: (a) `python tienda/biblioteca.py` con la PC prendida (L1-11; falló porque la PC no
-   contestaba SSH); (b) Fran abre «Tienda de mods» (Escritorio\Juegos\Minecraft), elige y confirma; abre
-   «Tienda 1.21.1» en Prism en la note y en la PC; «Server de la tienda» prendido; entra Kevin con
-   `paquete-kevin.zip` (`C:\Users\frans\MinecraftServer\tienda\`); (c) medir L1-14 (spark) y L1-15.
-3. Ideas de mc-tienda no hechas (shaders por combo, resource packs de cielo, «Espacio B» con Stellaris): en
-   las notas compartidas `mc-tienda-hallazgos.md` de la sesión de juegos-casa; pasarlas al repo si se retoman.
+1. Lo hecho y medido está en `ESTADO_ACTUAL.md` (bloques «La tienda» y «Lo nuevo del 2026-11-25 al mediodía»);
+   el índice de archivos, `tienda/LEEME.md`. L1-11, L1-12 y L1-13 quedaron verificados hoy.
+2. Lo que falta es de Fran (la fase la cierra él): (a) en Prism de cada máquina, Cuentas > Agregar sin
+   conexión (note: la suya; PC: «Kheven»); (b) «Tienda de mods» en la note, elegir y confirmar; (c) «Server de
+   la tienda» (prende server y pack); (d) Prism > «Tienda 1.21.1» > Jugar en la note y en la PC: después,
+   `tienda/verificar-instancia.ps1` en cada una tiene que salir 0; (e) Kevin con `paquete-kevin.zip`.
+   Con el juego abierto, la sesión mide L1-14 (spark, `/spark tps`) y L1-15 (menú con 8 GB).
+3. Ideas pensadas y no hechas (shaders por combinación, packs de cielo, «Espacio B» con Stellaris): en
+   `docs/mc-tienda-hallazgos.md` (ya en el repo y nombrado en el contrato).
 
 ## Lo de antes (2026-11-24, fase 2 sin construir)
 
