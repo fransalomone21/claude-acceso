@@ -1,6 +1,6 @@
 """Cliente minimo de la API de Modrinth para la tienda: siempre con filtros de version y cargador
 (nunca se baja la lista entera de versiones de un proyecto: se traba)."""
-import json, time, urllib.parse, urllib.request
+import json, re, time, urllib.parse, urllib.request
 
 API = "https://api.modrinth.com/v2"
 UA = {"User-Agent": "claude-acceso/minecraft-amigos (tienda de mods)", "Content-Type": "application/json"}
@@ -52,6 +52,14 @@ def mejor_version(proyecto, loaders=(CARGADOR,), mc=MC):
         filtros["loaders"] = json.dumps(list(loaders))
     q = urllib.parse.urlencode(filtros)
     vs = _pedir(f"{API}/project/{proyecto}/version?{q}") or []
+    # Modrinth a veces etiqueta 1.21.1 un archivo de otra version (medido 2026-11-25: Structory Towers
+    # 'Structory_Towers_26.2_v1.0.17.jar' listado para 1.21.1 -> "not a valid mod file"). Si el nombre del
+    # archivo nombra versiones de Minecraft y ninguna es la nuestra, se descarta.
+    def nombra_otra(v):
+        f = next((x for x in v["files"] if x.get("primary")), v["files"][0])["filename"]
+        vers = re.findall(r"(?<![\d.])(1\.2\d(?:\.\d+)?|2[5-9]\.\d+(?:\.\d+)?)(?![\d])", f)
+        return bool(vers) and not any(x in (mc, mc.rsplit(".", 1)[0]) for x in vers)
+    vs = [v for v in vs if not nombra_otra(v)]
     vs.sort(key=lambda v: v["date_published"], reverse=True)
     for tipo in ("release", "beta", "alpha"):
         for v in vs:

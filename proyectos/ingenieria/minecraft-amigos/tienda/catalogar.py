@@ -52,6 +52,7 @@ def registrar(cat, proj, v, tipo, origen):
 def main():
     a = argparse.ArgumentParser()
     a.add_argument("--base")
+    a.add_argument("--ultimas", action="store_true")
     o = a.parse_args()
     os.makedirs(DATOS, exist_ok=True)
     cat = json.load(open(CAT, encoding="utf-8-sig")) if os.path.exists(CAT) else {"proyectos": {}, "versiones": {}, "base": []}
@@ -114,6 +115,38 @@ def main():
                         por_id[dp["id"]] = dp["slug"]
                     else:
                         faltan.append(dp["slug"] + " (dependencia de " + slug + ", sin version)")
+    # --ultimas: cada proyecto a su ultima version 1.21.1 + NeoForge (la de Better MC 5 queda en 'fijadas').
+    # Medido el 2026-11-25: con las versiones de Better MC 5, Aquamirae y Mowzie's pedian una geckolib mas nueva
+    # y el server de prueba no arrancaba.
+    if o.ultimas:
+        cat.setdefault("fijadas", {})
+        mr = {p["slug"]: p for p in M.proyectos([v["id"] for v in cat["proyectos"].values()])}
+        cola = list(cat["proyectos"])
+        hechos = set()
+        while cola:
+            slug = cola.pop(0)
+            if slug in hechos:
+                continue
+            hechos.add(slug)
+            p = mr.get(slug) or (M.proyectos([slug]) or [None])[0]
+            if not p:
+                faltan.append(slug + " (no existe)")
+                continue
+            tipo = cat["proyectos"].get(p["slug"], {}).get("tipo", "mod")
+            v = M.mejor_version(p["id"], LOADERS_TIPO[tipo])
+            if not v:
+                if p["slug"] not in cat["proyectos"]:
+                    faltan.append(slug + " (dependencia sin version)")
+                continue
+            if p["slug"] in cat["versiones"] and p["slug"] not in cat["fijadas"]:
+                cat["fijadas"][p["slug"]] = cat["versiones"][p["slug"]]
+            origen = cat["proyectos"].get(p["slug"], {}).get("origen", "dependencia")
+            registrar(cat, p, v, tipo, origen)
+            por_id[p["id"]] = p["slug"]
+            for d in cat["versiones"][p["slug"]]["deps"]:
+                if d not in por_id and d not in hechos:
+                    cola.append(d)
+        print(f"ultimas: {len(hechos)} proyectos revisados")
     # slugs en deps: pasar ids a slugs
     for s, v in cat["versiones"].items():
         v["deps"] = [por_id.get(d, d) for d in v["deps"]]

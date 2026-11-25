@@ -9,6 +9,12 @@ al concepto y la demora en cuadros (L1-05); la conexión y el MD5 ya pasaron.
   en `Escritorio\Juegos\Juegos de a dos` de las dos (script generalizado + `scripts/juegos-de-a-dos.csv`),
   LEEME para Fran (`docs/LEEME-lo-hecho-y-lo-que-se-puede.md` y `Escritorio\Juegos\LEEME.txt` de las dos),
   planilla del orden (`docs/orden-escritorio-2026-11-25.md`).
+- **Después (misma noche)**: el Double Dragon II en red se ralentizaba y desincronizaba; Fran eligió jugar los
+  Sega de a dos **en la PC, pantalla compartida** (`Escritorio\Juegos\Sega - los dos en la PC`, 18 accesos). El
+  arreglo de red (2 cuadros de demora, chequeo cada 30) está en `instalar-retroarch.ps1` sin aplicar: «para otro
+  momento». `scripts/ra-teclas.ps1` + `ra-paso.ps1` manejan RetroArch de la PC con captura (tarea `juegos-paso`).
+  La tienda de Minecraft se terminó acá (ver `minecraft-amigos/ESTADO_ACTUAL.md`). A las ~03:50 la PC dejó de
+  contestar SSH (ping sí): no se pudo apagarla como pidió Fran ni copiar la biblioteca de mods.
 - **Falta, en orden**: (1) con Fran avisando que terminaron de jugar: prueba en caliente con captura de cada
   juego nuevo (`scripts/abrir-y-capturar.ps1`; en la PC, tarea interactiva de una vez, el script ya está en
   `C:\Games\_scripts\`) y de Minecraft entrando a la juntada y a Better MC 5 (cuentas sin conexión: las pone

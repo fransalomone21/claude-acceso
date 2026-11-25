@@ -170,10 +170,11 @@ def probar(es, log, tope=TOPE_PRUEBA_S):
     t0 = time.time()
     p = subprocess.Popen([JAVA, "@user_jvm_args.txt", ARGS_NEOFORGE, "nogui"], cwd=PRUEBA, stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
-    ultimas, done = [], None
+    ultimas, todas, done = [], [], None
     def leer():
         nonlocal done
         for l in p.stdout:
+            todas.append(l.rstrip())
             ultimas.append(l.rstrip()); del ultimas[:-40]
             if "Done (" in l and "For help" in l:
                 done = time.time() - t0
@@ -193,7 +194,14 @@ def probar(es, log, tope=TOPE_PRUEBA_S):
     if ok:
         log(f"server de prueba: arranco en {done:.0f} s")
         return True, ""
-    motivo = next((l for l in reversed(ultimas) if any(k in l for k in ("Missing or unsupported", "requires", "Exception", "ERROR", "Error"))), ultimas[-1] if ultimas else "sin salida")
+    open(os.path.join(PRUEBA, "ultimo-fallo.log"), "w", encoding="utf-8").write("\n".join(todas))
+    # el detalle de NeoForge viene DESPUES de "Loading errors encountered:", en renglones "\t- ..."
+    detalle = []
+    for i, l in enumerate(todas):
+        if "Loading errors encountered" in l:
+            detalle = [x.strip() for x in todas[i + 1:i + 40] if x.strip().startswith("- ")]
+            break
+    motivo = " | ".join(detalle[:6]) if detalle else next((l for l in reversed(ultimas) if any(k in l for k in ("Missing or unsupported", "requires", "Exception", "ERROR", "Error"))), ultimas[-1] if ultimas else "sin salida")
     log(f"server de prueba: NO arranco en {time.time() - t0:.0f} s -- {motivo}")
     return False, motivo
 

@@ -10,7 +10,10 @@
  "extras": [
   {"slug": "deep-aether"}, {"slug": "the-undergarden"}, {"slug": "deeperdarker"}, {"slug": "the-bumblezone"},
   {"slug": "eternal-starlight"}, {"slug": "mowzies-mobs"}, {"slug": "aquamirae"}, {"slug": "lootr"},
-  {"slug": "create"}, {"slug": "ad-astra"}, {"slug": "towns-and-towers"}, {"slug": "nullscape"}
+  {"slug": "create"}, {"slug": "ad-astra"}, {"slug": "towns-and-towers"}, {"slug": "nullscape"},
+  {"slug": "ad-astra-giselle-addon"}, {"slug": "ad-astra-more-structures"}, {"slug": "dungeon-and-village-ad-astra"},
+  {"slug": "ad-astra-asteroid-belt"}, {"slug": "stellarview"}, {"slug": "adastra-stellarview-compatibility"},
+  {"slug": "celestria"}, {"slug": "cosmicore"}
  ],
  "familias": {
   "dimensiones": "Dimensiones nuevas",
@@ -38,6 +41,8 @@
    "desc": "Una dimensión de noche eterna con cielo estrellado, biomas de cristal y varios jefes."},
   {"id": "ad-astra", "nombre": "Ad Astra (el espacio)", "familia": "dimensiones", "mods": ["ad-astra"],
    "desc": "Cohetes para ir a la Luna, Marte, Venus y Mercurio: se construye la nave, se carga combustible y se aterriza en otro planeta con traje espacial."},
+  {"id": "espacio-extra", "nombre": "Más para el espacio", "familia": "dimensiones", "mods": ["ad-astra-giselle-addon", "ad-astra-more-structures", "dungeon-and-village-ad-astra", "ad-astra-asteroid-belt", "stellarview", "adastra-stellarview-compatibility", "celestria", "cosmicore"],
+   "desc": "Complementos de Ad Astra: trajes y tanques más cómodos, estructuras, mazmorras y pueblos en los planetas, un cinturón de asteroides, un cielo estrellado de verdad (con el cielo propio de cada planeta), estrellas fugaces y meteoritos que caen."},
   {"id": "nullscape", "nombre": "Nullscape", "familia": "dimensiones", "mods": ["nullscape"],
    "desc": "El End deja de ser islas planas: montañas flotantes, cañones y paisajes raros. Sólo cambia el terreno."},
   {"id": "yung", "nombre": "Las mejoras de YUNG", "familia": "estructuras", "mods": ["yungs-better-dungeons", "yungs-better-mineshafts", "yungs-better-strongholds", "yungs-better-nether-fortresses", "yungs-better-ocean-monuments", "yungs-better-jungle-temples", "yungs-better-witch-huts", "yungs-better-end-island", "yungs-bridges"],
@@ -95,9 +100,6 @@
   {"id": "aventura", "nombre": "Aventura minecraftera", "recomendada": true,
    "desc": "La recomendada: estructuras y mazmorras por todos lados, jefes grandes, bichos nuevos y cuatro dimensiones (cielo, subsuelo, colmena y la oscura). Se siente Minecraft, pero con mucho más para explorar de a dos.",
    "cartas": ["yung", "dungeons-arise", "dungeons-taverns", "moogs", "structory", "mas-estructuras", "lootr", "friends-foes", "illagers", "cataclysm", "mowzies", "aquamirae", "aether", "undergarden", "deeper-and-darker", "bumblezone", "nether-renovado", "ayudas", "comida"]},
-  {"id": "bmc5", "nombre": "Better MC 5 sin castigos", "todo_bmc5": true,
-   "desc": "El pack Better MC 5 entero, tal como lo armaron sus autores y probado por miles, menos las estaciones. El más pesado.",
-   "cartas": []},
   {"id": "dimensiones-jefes", "nombre": "Dimensiones y jefes",
    "desc": "La aventura más dos dimensiones nuevas (Eternal Starlight y Deep Aether), biomas nuevos y el End renovado. Para los que quieren viajar.",
    "cartas": ["yung", "dungeons-arise", "lootr", "friends-foes", "cataclysm", "mowzies", "aquamirae", "aether", "deep-aether", "undergarden", "deeper-and-darker", "bumblezone", "eternal-starlight", "nullscape", "biomas", "nether-renovado", "ayudas"]},
@@ -106,7 +108,7 @@
    "cartas": ["yung", "dungeons-arise", "dungeons-taverns", "structory", "lootr", "friends-foes", "cataclysm", "aether", "create", "almacenamiento", "ayudas", "comida", "decoracion"]},
   {"id": "espacial", "nombre": "Espacial",
    "desc": "Construir un cohete e ir a la Luna y a Marte, con Create para las máquinas de la base y las estructuras de YUNG para explorar antes del despegue.",
-   "cartas": ["ad-astra", "create", "yung", "friends-foes", "lootr", "almacenamiento", "ayudas", "netherite-avanzada"]},
+   "cartas": ["ad-astra", "espacio-extra", "create", "yung", "dungeons-arise", "friends-foes", "lootr", "almacenamiento", "ayudas", "netherite-avanzada"]},
   {"id": "liviana", "nombre": "Liviana",
    "desc": "Lo justo para que explorar valga la pena (YUNG, bichos de Friends & Foes, botín propio) en máquinas flojas.",
    "cartas": ["yung", "friends-foes", "lootr", "ayudas"]}

@@ -7,7 +7,7 @@
 | Fase | Estado |
 |---|---|
 | 1 — La juntada del 2026-10-02 (Fabric 1.21.4) | **cancelada** el 2026-11-24: la reemplaza la 2 (el server y los mundos 1.21.4 quedan) |
-| 2 — El pack nuevo (1.21.1 NeoForge) y la tienda de mods | **en curso**: diseñada y con requisitos; nada construido |
+| 2 — El pack nuevo (1.21.1 NeoForge) y la tienda de mods | **en curso**: tienda construida y con sabotajes en verde; falta que Fran la use y juegue con Kevin |
 
 **Qué cierra la fase en curso:** (a) Fran arma una combinación desde la tienda y las instancias de la
 notebook y de la PC quedan iguales al pack (SHA-1) al abrir el juego; (b) los sabotajes de la tienda dan
@@ -26,6 +26,28 @@ Instancia **«Better MC 5 (1.21.1)»** (sin Serene Seasons, 267 jars con SHA-1 v
 y en la PC; su server en `C:\Users\frans\MinecraftServer\bmc5` (puerto 25567), reparándose de mods de
 pantalla con `herramientas/server_sin_mods_de_cliente.py` (resultado en `bmc5-arreglo.log`). La tienda y
 el combo espacial los construye la sesión «mc-tienda».
+
+**La tienda, construida y probada (2026-11-25, sesión de juegos-casa; mc-tienda frenó a pedido de Fran):**
+`tienda/` (índice en `tienda/LEEME.md`). Medido:
+
+| Qué | Evidencia |
+|---|---|
+| 5 combinaciones (Aventura, Dimensiones y jefes, Con mecanismos, Espacial, Liviana) arrancan en el server de prueba y se publican en 32-101 s (L1-02, TBR 300 s: pasa) | `armar.py --combo <c>`: «server de prueba: arranco en 29-50 s», «listo en 32-101 s» |
+| Sabotajes 7/7: Tough As Nails bloqueado sin llegar al server (L1-10); Cataclysm sin lionfish no se publica (L1-06); instancia con 1 de más, 1 de menos y 1 distinto da rojo nombrándolos y queda igual tras sincronizar (L1-03); verificador sin pack no da verde | `python tienda/probar_tienda.py` |
+| Instancia «Tienda 1.21.1» en la notebook y en la PC, igual al pack (47/47 de la Liviana) | `verificar-instancia.ps1` exit 0 en las dos |
+| La PC llega a la tienda por ZeroTier (`/pack/lista.json` 200) y el firewall de la notebook ya deja entrar a python | por SSH y `Get-NetFirewallApplicationFilter` |
+| Publicada ahora: **Aventura minecraftera** (106 mods) | `publicado/lista.json` |
+
+Decisiones: sin packwiz (no borra mods de más: L1-03), NeoForge propio 21.1.267 (los extras piden ≥ 21.1.195),
+cada mod en su última versión 1.21.1 (con las de Better MC 5 Aquamirae y Mowzie's no arrancaban), filtro de
+archivos mal etiquetados en Modrinth (Structory Towers de 26.2), **Better MC 5 entero fuera de la tienda** (con
+versiones nuevas choca consigo mismo: curios duplicado; sigue como instancia y server 25567 propios).
+Detalle: `docs/fase-2-tienda.md` §3b.
+
+**Falta:** L1-11 (biblioteca en la PC: `tienda/biblioteca.py` falló porque la PC dejó de contestar SSH a las
+~03:50); que Fran pruebe la tienda y entre con Kevin al server de la tienda (25568) — eso cierra la fase; el
+paquete de Kevin está en `C:\Users\frans\MinecraftServer\tienda\paquete-kevin.zip`; L1-14 (TPS con spark) y
+L1-15 (cliente al menú con 8 GB) sin medir.
 
 **Lo de abajo es de la fase 1 y vale como historia.**
 

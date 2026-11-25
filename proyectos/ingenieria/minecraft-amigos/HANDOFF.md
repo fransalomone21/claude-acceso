@@ -1,8 +1,19 @@
 # Handoff — minecraft-amigos
 
-**Escrito el:** 2026-11-24 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta y sin construir
+**Escrito el:** 2026-11-25 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
+y probada; falta la validación con Fran y Kevin.
 
-## Arrancá por acá (fase 2)
+## Arrancá por acá (2026-11-25)
+
+1. Lo hecho y medido está en `ESTADO_ACTUAL.md` (bloque «La tienda»); el índice de archivos, `tienda/LEEME.md`.
+2. Pendientes en orden: (a) `python tienda/biblioteca.py` con la PC prendida (L1-11; falló porque la PC no
+   contestaba SSH); (b) Fran abre «Tienda de mods» (Escritorio\Juegos\Minecraft), elige y confirma; abre
+   «Tienda 1.21.1» en Prism en la note y en la PC; «Server de la tienda» prendido; entra Kevin con
+   `paquete-kevin.zip` (`C:\Users\frans\MinecraftServer\tienda\`); (c) medir L1-14 (spark) y L1-15.
+3. Ideas de mc-tienda no hechas (shaders por combo, resource packs de cielo, «Espacio B» con Stellaris): en
+   las notas compartidas `mc-tienda-hallazgos.md` de la sesión de juegos-casa; pasarlas al repo si se retoman.
+
+## Lo de antes (2026-11-24, fase 2 sin construir)
 
 Son las sesiones 4 y 5 del plan de `proyectos/ingenieria/juegos-casa/HANDOFF.md` (Sonnet, esfuerzo
 medio, sin agentes). Leer `docs/10-requisitos.md` y `docs/fase-2-tienda.md` enteros. Antes: que la
