@@ -8,7 +8,7 @@ $rpcs3 = 'C:\Games\RPCS3\rpcs3.exe'
 $pc = '10.147.20.3'
 $log = Join-Path $base 'jugar.log'
 function Write-Paso([string]$t) { $l = "{0:HH:mm:ss} {1}" -f (Get-Date), $t; Add-Content -LiteralPath $log $l; Write-Host $l }
-function Test-Servidor { $c = New-Object Net.Sockets.TcpClient; try { $c.ConnectAsync($pc, 7320).Wait(2000) -and $c.Connected } catch { $false } finally { $c.Close() } }
+function Test-Servidor { $c = New-Object Net.Sockets.TcpClient; try { $c.ConnectAsync($pc, 7312).Wait(2000) -and $c.Connected } catch { $false } finally { $c.Close() } }
 
 Write-Paso "--- jugar Facciones en $env:COMPUTERNAME"
 if (-not (Test-Servidor)) {

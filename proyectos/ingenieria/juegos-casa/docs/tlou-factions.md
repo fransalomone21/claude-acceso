@@ -153,11 +153,19 @@ para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar e
 - RPCS3 lee ISO desde el commit «ISO: Add ISO reader code and ISO device» (2026-01-09), anterior a este build.
 - `jugar-factions.ps1`: servidor OK, juego OK contra la referencia, RPCS3 abierto: ventana
   `FPS: 30.97 | Vulkan | 0.0.43-20568 | The Last of Us™ [BCUS98174]` a los 45 s (**la notebook lo mueve**).
-- **Del lado del servidor** (17:25:42): `http_gateway.log` → `GET /net10.bin.psarc.crypt` → `served 102368
-  bytes` (la IP swap list funciona y el juego pide el de la 01.11), y enseguida **dos conexiones de 10.147.20.2 al
-  `ticket_server` :7320** → el juego aceptó el `net10` armado con la IP de la PC (**P1 confirmado en vivo**).
-  Las dos cerraron sin mandar nada (`peer closed after 0/88 bytes`): a esa altura el juego está en el menú; se
-  mira de nuevo al entrar a Facciones.
+- ~~Del lado del servidor (17:25:42): el juego pidió `net10` y se conectó al `ticket_server` con la IP parcheada
+  (P1 confirmado en vivo).~~ **CORREGIDO a las 17:50: era falso, el actor equivocado.** El `GET
+  /net10.bin.psarc.crypt` del log es de las 16:53 y su `User-Agent` es `curl/8.22.0`: la prueba de la sesión. Y
+  las conexiones a :7320 que cerraron sin mandar nada (17:25:42, dos, y 17:49:06, dos) son el `Test-Servidor`
+  de `jugar-factions.ps1`, que abre y cierra ese puerto para ver si el servidor vive (las de las 17:49 salieron
+  del sabotaje, que no abrió el juego). **Lo que sí pidió el juego** (`User-Agent: DNTG-HTTPC/1.1`, 17:27): `GET
+  /patch.psarc.crypt` de `t1.patch.s3.amazonaws.com` (el S3 original ya no lo tiene; el servidor responde 200
+  vacío) y `GET /campaign3.config.txt.crypt` (bajado del S3 vivo y guardado). O sea: **la IP swap list anda**
+  (el juego llegó a nuestro servidor por nombre); **que acepte el `net10` parcheado sigue sin medir** (lo pide al
+  entrar a Facciones). Arreglo: la prueba de vida del lanzador pasa al puerto 7312 (`location_server`), que no
+  ensucia el log de tickets.
+- RPCN: `Authentified as Fran` desde 10.147.20.2, con `SyncTrophies` y `GetNetworkTime`: el RPCS3 de la notebook
+  entró solo con su cuenta.
 - RPCS3 tiene el `RPCS3.log` abierto en exclusivo mientras corre: lo de adentro (parches aplicados) se lee al
   cerrarlo.
 
