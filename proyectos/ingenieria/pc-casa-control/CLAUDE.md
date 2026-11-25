@@ -15,6 +15,7 @@ reinvente ni toque el guardado a ciegas.
 | retomar, saber en qué anda | `ESTADO_ACTUAL.md` y `HANDOFF.md` |
 | manejar el juego, repetir la captura de «Música de fondo», probar los mandos | `docs/camino.md` (entero) |
 | los scripts | `scripts/` (copias de los de la PC y de la notebook) |
+| **correr cualquier PowerShell en la PC desde la notebook** | `scripts/en-pc.ps1 -Comando '...'` o `-Archivo x.ps1 -Argumentos '...'`: siempre codificado (el SSH de la PC abre PowerShell; un comando sin codificar o en sintaxis de cmd falla en silencio). Sale 0 o 1 |
 | las tareas programadas de la PC | `tareas/tareas-programadas.xml.txt` |
 | la música instalada y su porqué | `proyectos/ingenieria/sparking-musica/` |
 
