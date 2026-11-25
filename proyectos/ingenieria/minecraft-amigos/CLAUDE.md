@@ -19,6 +19,8 @@ Prism lista con un doble clic y gráficos según su PC.
 | tocar el server | `servidor/` (plantillas) y `herramientas/rcon.py` |
 | tocar el instalador de los amigos | `paquete/instalar-juntada.ps1` |
 | poner la PC de Fran (instancia + su server, puerto 25566) al día con el pack | `docs/actualizar-instancia-pc.md` (pasos 1-6, mecánico) |
+| **jugar en casa con el hermano** (server `juntada`, mundo de los hermanos) | `JUNTADA-EN-CASA.md` |
+| **la fase 2: el pack nuevo (1.21.1 NeoForge) y la tienda de mods** | `docs/10-requisitos.md` (contra qué se construye) y `docs/fase-2-tienda.md` (la versión medida, Better MC 5, packwiz, las combinaciones, la V&V) |
 
 ## Las reglas propias de este proyecto
 

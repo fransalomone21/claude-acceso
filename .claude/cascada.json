@@ -323,12 +323,16 @@
     "haberes-docentes":      {"necesidades": [],
                               "senales": ["\\bhaberes\\b", "\\bcouli\\b", "sueldo docente"]},
     "minecraft-amigos":      {"necesidades": [],
+                              "requisitos": "docs/10-requisitos.md",
                               "senales": ["\\bminecraft\\b", "\\bprism\\b", "modpack"]},
     "malena":                {"necesidades": ["materia"], "catedras": []},
     "trabajo-final-iise":    {"necesidades": ["materia"], "catedras": ["iise"]},
     "ps2-casa":              {"necesidades": ["investigar"]},
     "dbz-niveles":           {"necesidades": ["ingenieria-inversa"]},
     "sparking-musica":       {"necesidades": ["ingenieria-inversa"]},
-    "pc-casa-control":       {"necesidades": ["ingenieria-inversa"]}
+    "pc-casa-control":       {"necesidades": ["ingenieria-inversa"]},
+    "juegos-casa":           {"necesidades": ["ingenieria-inversa"],
+                              "requisitos": "docs/10-requisitos.md",
+                              "senales": ["\\bretrobat\\b", "\\bretroarch\\b", "double dragon", "juegos de a dos", "\\bnetplay\\b", "biblioteca de juegos"]}
   }
 }

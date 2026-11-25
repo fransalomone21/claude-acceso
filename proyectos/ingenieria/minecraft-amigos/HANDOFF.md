@@ -1,8 +1,25 @@
 # Handoff — minecraft-amigos
 
-**Escrito el:** 2026-10-03 · **Fase al cerrar:** 1 (la juntada), abierta
+**Escrito el:** 2026-11-24 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta y sin construir
 
-## Arrancá por acá
+## Arrancá por acá (fase 2)
+
+Son las sesiones 4 y 5 del plan de `proyectos/ingenieria/juegos-casa/HANDOFF.md` (Sonnet, esfuerzo
+medio, sin agentes). Leer `docs/10-requisitos.md` y `docs/fase-2-tienda.md` enteros. Antes: que la
+notebook tenga lugar (la sesión 2 de juegos-casa pasa las ISOs de PS2 a la PC).
+
+- **Sesión 4 — la tienda**: packwiz (no tiene releases: se compila con Go, `winget` está autorizado) y
+  `packwiz-installer-bootstrap.jar` (releases de GitHub); el catálogo de mods de 1.21.1 NeoForge desde la
+  API de Modrinth, filtrando por versión y cargador (`?loaders=["neoforge"]&game_versions=["1.21.1"]`),
+  con descripción en criollo y familia; las combinaciones de `fase-2-tienda.md` §4; la página local; el
+  server de prueba y los dos sabotajes (Tough As Nails bloqueado; un mod de otro cargador que no publica).
+- **Sesión 5 — el server y las instancias**: server NeoForge 1.21.1 en la notebook sincronizado por
+  packwiz (lado server); instancia en la notebook y en la PC con el comando previo de packwiz-installer;
+  el paquete de Kevin preparado (su notebook no está a mano).
+
+Lo que no se toca: el server 1.21.4 (`C:\Users\frans\MinecraftServer\juntada`) y sus mundos.
+
+## Lo de la fase 1 (historia: la juntada 1.21.4)
 
 Medir si el server está vivo antes de creerle a este archivo:
 `python proyectos\ingenieria\minecraft-amigos\herramientas\rcon.py list`

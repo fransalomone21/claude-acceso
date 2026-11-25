@@ -1,15 +1,25 @@
 # Estado actual — minecraft-amigos
 
-**Última actualización:** 2026-10-03
+**Última actualización:** 2026-11-24
 
 ## Dónde estamos
 
 | Fase | Estado |
 |---|---|
-| 1 — La juntada del 2026-10-02 | **en curso** |
+| 1 — La juntada del 2026-10-02 (Fabric 1.21.4) | **cancelada** el 2026-11-24: la reemplaza la 2 (el server y los mundos 1.21.4 quedan) |
+| 2 — El pack nuevo (1.21.1 NeoForge) y la tienda de mods | **en curso**: diseñada y con requisitos; nada construido |
 
-**Qué cierra la fase en curso:** al menos un amigo, desde su PC, instaló con
-`instalar-juntada.bat` y entró al server 10.147.20.2 sin tocar nada a mano.
+**Qué cierra la fase en curso:** (a) Fran arma una combinación desde la tienda y las instancias de la
+notebook y de la PC quedan iguales al pack (SHA-1) al abrir el juego; (b) los sabotajes de la tienda dan
+rojo; (c) Fran y Kevin juegan en el server de la notebook (`PDP.md` §4).
+
+**Lo nuevo del 2026-11-24 (medido):** 1.21.1 es la versión más nueva con casi tantos mods como 1.20.1
+(33 826 contra 35 652 en Modrinth); Better MC 5 (NeoForge 1.21.1) trae 271 jars sin temperatura ni sed;
+Tough As Nails estaba en el pack 1.21.4 (`pack/manifiesto.json`) y es el «frío y calor» que a Fran no le
+gustó. Detalle: `docs/fase-2-tienda.md`. Desde el 2026-11-15 hay además `JUNTADA-EN-CASA.md` (jugar con
+el hermano: server `juntada`, mundo `hermanos-2026-11-15`).
+
+**Lo de abajo es de la fase 1 y vale como historia.**
 
 ## Lo confirmado
 
