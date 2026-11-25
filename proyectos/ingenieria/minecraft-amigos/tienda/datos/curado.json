@@ -1,19 +1,321 @@
 {
- "base_excluir": ["sereneseasons", "serene-seasons", "serene_seasons"],
- "castigos": ["tough-as-nails", "toughasnails", "cold-sweat", "thermoo", "frostiful", "scorchful", "thirst", "dehydration", "legendary-survival-overhaul", "homeostatic", "survive"],
- "nucleo": ["sodium", "iris", "entityculling", "ferrite-core", "lithium", "immediatelyfast", "modernfix", "badoptimizations",
-            "noisium", "scalablelux", "structure-layout-optimizer", "alternate-current", "packet-fixer",
-            "xaeros-minimap", "xaeros-world-map", "jei", "jade", "mouse-tweaks", "controlling", "searchables",
-            "reeses-sodium-options", "sodium-options-api", "clumps", "spark", "no-chat-reports", "fast-ip-ping",
-            "continuity", "entitytexturefeatures", "entity-model-features", "3dskinlayers", "not-enough-animations",
-            "sodium-dynamic-lights", "chat-heads", "ping-wheel", "yigd"],
+ "base_excluir": [
+  "sereneseasons",
+  "serene-seasons",
+  "serene_seasons"
+ ],
+ "castigos": [
+  "tough-as-nails",
+  "toughasnails",
+  "cold-sweat",
+  "thermoo",
+  "frostiful",
+  "scorchful",
+  "thirst",
+  "dehydration",
+  "legendary-survival-overhaul",
+  "homeostatic",
+  "survive"
+ ],
+ "nucleo": [
+  "sodium",
+  "iris",
+  "entityculling",
+  "ferrite-core",
+  "lithium",
+  "immediatelyfast",
+  "modernfix",
+  "badoptimizations",
+  "noisium",
+  "scalablelux",
+  "structure-layout-optimizer",
+  "alternate-current",
+  "packet-fixer",
+  "xaeros-minimap",
+  "xaeros-world-map",
+  "jei",
+  "jade",
+  "mouse-tweaks",
+  "controlling",
+  "searchables",
+  "reeses-sodium-options",
+  "sodium-options-api",
+  "clumps",
+  "spark",
+  "no-chat-reports",
+  "fast-ip-ping",
+  "continuity",
+  "entitytexturefeatures",
+  "entity-model-features",
+  "3dskinlayers",
+  "not-enough-animations",
+  "sodium-dynamic-lights",
+  "chat-heads",
+  "ping-wheel",
+  "yigd"
+ ],
  "extras": [
-  {"slug": "deep-aether"}, {"slug": "the-undergarden"}, {"slug": "deeperdarker"}, {"slug": "the-bumblezone"},
-  {"slug": "eternal-starlight"}, {"slug": "mowzies-mobs"}, {"slug": "aquamirae"}, {"slug": "lootr"},
-  {"slug": "create"}, {"slug": "ad-astra"}, {"slug": "towns-and-towers"}, {"slug": "nullscape"},
-  {"slug": "ad-astra-giselle-addon"}, {"slug": "ad-astra-more-structures"}, {"slug": "dungeon-and-village-ad-astra"},
-  {"slug": "ad-astra-asteroid-belt"}, {"slug": "stellarview"}, {"slug": "adastra-stellarview-compatibility"},
-  {"slug": "celestria"}, {"slug": "cosmicore"}
+  {
+   "slug": "deep-aether"
+  },
+  {
+   "slug": "the-undergarden"
+  },
+  {
+   "slug": "deeperdarker"
+  },
+  {
+   "slug": "the-bumblezone"
+  },
+  {
+   "slug": "eternal-starlight"
+  },
+  {
+   "slug": "mowzies-mobs"
+  },
+  {
+   "slug": "aquamirae"
+  },
+  {
+   "slug": "lootr"
+  },
+  {
+   "slug": "create"
+  },
+  {
+   "slug": "ad-astra"
+  },
+  {
+   "slug": "towns-and-towers"
+  },
+  {
+   "slug": "nullscape"
+  },
+  {
+   "slug": "ad-astra-giselle-addon"
+  },
+  {
+   "slug": "ad-astra-more-structures"
+  },
+  {
+   "slug": "dungeon-and-village-ad-astra"
+  },
+  {
+   "slug": "ad-astra-asteroid-belt"
+  },
+  {
+   "slug": "stellarview"
+  },
+  {
+   "slug": "adastra-stellarview-compatibility"
+  },
+  {
+   "slug": "celestria"
+  },
+  {
+   "slug": "cosmicore"
+  },
+  {
+   "slug": "yungs-better-desert-temples"
+  },
+  {
+   "slug": "yungs-extras"
+  },
+  {
+   "slug": "dungeons-and-taverns"
+  },
+  {
+   "slug": "ct-overhaul-village"
+  },
+  {
+   "slug": "ribbits"
+  },
+  {
+   "slug": "guard-villagers"
+  },
+  {
+   "slug": "villagersplus"
+  },
+  {
+   "slug": "trek"
+  },
+  {
+   "slug": "better-archeology"
+  },
+  {
+   "slug": "the-graveyard-fabric"
+  },
+  {
+   "slug": "incendium"
+  },
+  {
+   "slug": "legendary-monsters"
+  },
+  {
+   "slug": "mutant-monsters"
+  },
+  {
+   "slug": "naturalist"
+  },
+  {
+   "slug": "critters-and-companions"
+  },
+  {
+   "slug": "spawn-mod"
+  },
+  {
+   "slug": "hybrid-aquatic"
+  },
+  {
+   "slug": "species"
+  },
+  {
+   "slug": "creeper-overhaul"
+  },
+  {
+   "slug": "enderman-overhaul"
+  },
+  {
+   "slug": "adorable-hamster-pets"
+  },
+  {
+   "slug": "tameable-rabbits"
+  },
+  {
+   "slug": "breedable-killer-rabbit"
+  },
+  {
+   "slug": "maples-rabbits-seasonal-variants"
+  },
+  {
+   "slug": "easter-rabbits"
+  },
+  {
+   "slug": "easters-delight"
+  },
+  {
+   "slug": "better-than-bunnies"
+  },
+  {
+   "slug": "simply-swords"
+  },
+  {
+   "slug": "immersive-armors"
+  },
+  {
+   "slug": "better-combat"
+  },
+  {
+   "slug": "artifacts"
+  },
+  {
+   "slug": "travelersbackpack"
+  },
+  {
+   "slug": "explorers-compass"
+  },
+  {
+   "slug": "elytra-slot"
+  },
+  {
+   "slug": "charm-of-undying"
+  },
+  {
+   "slug": "irons-spells-n-spellbooks"
+  },
+  {
+   "slug": "createaddition"
+  },
+  {
+   "slug": "create-deco"
+  },
+  {
+   "slug": "create-connected"
+  },
+  {
+   "slug": "create-steam-n-rails-1.21.1"
+  },
+  {
+   "slug": "create-jetpack"
+  },
+  {
+   "slug": "immersive-aircraft"
+  },
+  {
+   "slug": "iron-furnaces"
+  },
+  {
+   "slug": "biomes-o-plenty"
+  },
+  {
+   "slug": "terralith"
+  },
+  {
+   "slug": "regions-unexplored"
+  },
+  {
+   "slug": "natures-spirit"
+  },
+  {
+   "slug": "promenade"
+  },
+  {
+   "slug": "ecologics"
+  },
+  {
+   "slug": "tectonic"
+  },
+  {
+   "slug": "yungs-cave-biomes"
+  },
+  {
+   "slug": "galosphere"
+  },
+  {
+   "slug": "chefs-delight"
+  },
+  {
+   "slug": "expanded-delight"
+  },
+  {
+   "slug": "crabbers-delight"
+  },
+  {
+   "slug": "brewin-and-chewin"
+  },
+  {
+   "slug": "miners-delight"
+  },
+  {
+   "slug": "lets-do-farm-charm"
+  },
+  {
+   "slug": "lets-do-vinery"
+  },
+  {
+   "slug": "lets-do-herbalbrews"
+  },
+  {
+   "slug": "lets-do-meadow"
+  },
+  {
+   "slug": "macaws-furniture"
+  },
+  {
+   "slug": "twigs"
+  },
+  {
+   "slug": "supplementaries"
+  },
+  {
+   "slug": "exposure"
+  },
+  {
+   "slug": "immersive-melodies"
+  },
+  {
+   "slug": "lets-do-beachparty"
+  }
  ],
  "familias": {
   "dimensiones": "Dimensiones nuevas",
@@ -27,90 +329,1102 @@
   "vida": "Comida, granja y casa"
  },
  "cartas": [
-  {"id": "aether", "nombre": "The Aether", "familia": "dimensiones", "mods": ["aether", "aether-villages", "aether-protect-your-moa", "aether-enhanced-extinguishing"],
-   "desc": "La dimensión del cielo: islas flotantes, monturas voladoras (los moa), tres jefes con sus mazmorras y armaduras propias. Se entra con un portal de piedra luminosa y agua."},
-  {"id": "deep-aether", "nombre": "Deep Aether", "familia": "dimensiones", "mods": ["deep-aether"],
-   "desc": "Más Aether: biomas nuevos en el cielo, bichos y otro jefe. Necesita The Aether (se agrega solo)."},
-  {"id": "undergarden", "nombre": "The Undergarden", "familia": "dimensiones", "mods": ["the-undergarden"],
-   "desc": "Un mundo subterráneo con cuevas gigantes, plantas raras, minerales propios y criaturas que dan miedo. Portal de piedra de cueva."},
-  {"id": "deeper-and-darker", "nombre": "Deeper and Darker", "familia": "dimensiones", "mods": ["deeperdarker"],
-   "desc": "Detrás del portal de la Ciudad Antigua (la del Warden) hay otra dimensión oscura, con minerales nuevos y un botín que vale el susto."},
-  {"id": "bumblezone", "nombre": "The Bumblezone", "familia": "dimensiones", "mods": ["the-bumblezone"],
-   "desc": "Una dimensión adentro de una colmena: todo miel, abejas y panales. Se entra tirando una perla de Ender a un nido de abejas."},
-  {"id": "eternal-starlight", "nombre": "Eternal Starlight", "familia": "dimensiones", "mods": ["eternal-starlight"],
-   "desc": "Una dimensión de noche eterna con cielo estrellado, biomas de cristal y varios jefes."},
-  {"id": "ad-astra", "nombre": "Ad Astra (el espacio)", "familia": "dimensiones", "mods": ["ad-astra"],
-   "desc": "Cohetes para ir a la Luna, Marte, Venus y Mercurio: se construye la nave, se carga combustible y se aterriza en otro planeta con traje espacial."},
-  {"id": "espacio-extra", "nombre": "Más para el espacio", "familia": "dimensiones", "mods": ["ad-astra-giselle-addon", "ad-astra-more-structures", "dungeon-and-village-ad-astra", "ad-astra-asteroid-belt", "stellarview", "adastra-stellarview-compatibility", "celestria", "cosmicore"],
-   "desc": "Complementos de Ad Astra: trajes y tanques más cómodos, estructuras, mazmorras y pueblos en los planetas, un cinturón de asteroides, un cielo estrellado de verdad (con el cielo propio de cada planeta), estrellas fugaces y meteoritos que caen."},
-  {"id": "nullscape", "nombre": "Nullscape", "familia": "dimensiones", "mods": ["nullscape"],
-   "desc": "El End deja de ser islas planas: montañas flotantes, cañones y paisajes raros. Sólo cambia el terreno."},
-  {"id": "yung", "nombre": "Las mejoras de YUNG", "familia": "estructuras", "mods": ["yungs-better-dungeons", "yungs-better-mineshafts", "yungs-better-strongholds", "yungs-better-nether-fortresses", "yungs-better-ocean-monuments", "yungs-better-jungle-temples", "yungs-better-witch-huts", "yungs-better-end-island", "yungs-bridges"],
-   "desc": "Las estructuras de siempre (minas, fortalezas, monumentos, templos) rehechas más grandes y lindas, sin cambiar las reglas del juego. Lo más minecraftero que hay."},
-  {"id": "towns-and-towers", "nombre": "Towns and Towers", "familia": "estructuras", "mods": ["towns-and-towers"],
-   "desc": "Pueblos nuevos para cada bioma y torres de saqueadores distintas."},
-  {"id": "dungeons-taverns", "nombre": "Dungeons and Taverns", "familia": "estructuras", "mods": ["dungeons-and-taverns-ancient-city-overhaul", "dungeons-and-taverns-woodland-mansion-overhaul", "dungeons-and-taverns-swamp-hut-overhaul"],
-   "desc": "Tabernas para descansar y comerciar, y estructuras vanilla rehechas (mansión, ciudad antigua, cabaña de bruja)."},
-  {"id": "moogs", "nombre": "Estructuras de Moog", "familia": "estructuras", "mods": ["moogs-voyager-structures", "mes-moogs-end-structures", "mns-moogs-nether-structures"],
-   "desc": "Muchas construcciones chicas y medianas por todo el mundo, el Nether y el End: ruinas, casas, faros, puestos."},
-  {"id": "repurposed", "nombre": "Repurposed Structures", "familia": "estructuras", "mods": ["repurposed-structures-forge", "repurposed-structures-farmers-delight-compat"],
-   "desc": "Versiones de las estructuras vanilla para cada bioma: aldeas del Nether, mansiones de desierto, fortalezas del bosque."},
-  {"id": "structory", "nombre": "Structory", "familia": "estructuras", "mods": ["structory", "structory-towers"],
-   "desc": "Ruinas, campamentos y torres sueltas que hacen que explorar tenga premio."},
-  {"id": "mas-estructuras", "nombre": "Más estructuras del mundo", "familia": "estructuras", "mods": ["explorify", "formations", "formations-overworld", "formations-nether", "adorabuild-structures", "hearths", "explorations", "gardens-of-the-dead", "villages-and-pillages"],
-   "desc": "Un paquete de estructuras chicas que encajan con el estilo vanilla: casitas, templos, jardines, cementerios y pueblos nuevos."},
-  {"id": "dungeons-arise", "nombre": "When Dungeons Arise", "familia": "dungeons", "mods": ["when-dungeons-arise"],
-   "desc": "Mazmorras enormes: castillos, barcos voladores, catedrales y fortalezas de varios pisos, llenas de enemigos y cofres. Para ir de a dos."},
-  {"id": "lootr", "nombre": "Lootr", "familia": "dungeons", "mods": ["lootr"],
-   "desc": "Cada jugador tiene su propio botín en los cofres de las estructuras: nadie le roba el cofre al otro."},
-  {"id": "aventura-extra", "nombre": "Mazmorras sorpresa", "familia": "dungeons", "mods": ["adventure-dungeons", "lukis-crazy-chambers"],
-   "desc": "Salas y mazmorras escondidas con trampas y desafíos."},
-  {"id": "nether-renovado", "nombre": "Nether renovado", "familia": "dungeons", "mods": ["eternal-nether", "piglin-proliferation"],
-   "desc": "El Nether con biomas, enemigos y estructuras nuevas, y piglins con más vida."},
-  {"id": "cataclysm", "nombre": "L_Ender's Cataclysm", "familia": "jefes", "mods": ["l_enders-cataclysm"],
-   "desc": "Jefes enormes con peleas de verdad (el Ignis, el Leviatán, el Harbinger), cada uno en su estructura y con armas únicas de premio."},
-  {"id": "mowzies", "nombre": "Mowzie's Mobs", "familia": "jefes", "mods": ["mowzies-mobs"],
-   "desc": "Jefes y criaturas con animaciones muy cuidadas: la Frostmaw, el Ferrous Wroughtnaut, la tribu Barako."},
-  {"id": "aquamirae", "nombre": "Aquamirae", "familia": "jefes", "mods": ["aquamirae"],
-   "desc": "El océano helado se vuelve peligroso: barcos fantasma, piratas y un jefe del mar."},
-  {"id": "illagers", "nombre": "Illagers y saqueos", "familia": "jefes", "mods": ["illager-invasion", "it-takes-a-pillage-continuation", "raided"],
-   "desc": "Más tipos de illagers, campamentos y asaltos más interesantes."},
-  {"id": "friends-foes", "nombre": "Friends & Foes", "familia": "animales", "mods": ["friends-and-foes-forge"],
-   "desc": "Los bichos que perdieron las votaciones de Mojang: el golem de cobre, el crabe, la luciérnaga, el tuff golem. Muy minecrafteros."},
-  {"id": "variantes", "nombre": "Variantes y bichos del pantano", "familia": "animales", "mods": ["variants-and-ventures", "wetland-whimsy", "revampedwolf"],
-   "desc": "Variantes de zombies y esqueletos por bioma, criaturas del pantano y lobos con mejor comportamiento."},
-  {"id": "dragones", "nombre": "Dragones para montar", "familia": "animales", "mods": ["dmr"],
-   "desc": "Huevos de dragón en el mundo: se crían, se domestican y se montan para volar."},
-  {"id": "netherite-avanzada", "nombre": "Netherite avanzada", "familia": "minerales", "mods": ["advanced-netherite"],
-   "desc": "Mejoras de la netherite con hierro, oro, esmeralda y diamante: herramientas y armaduras más fuertes que se ganan jugando."},
-  {"id": "create", "nombre": "Create", "familia": "mecanismos", "mods": ["create"],
-   "desc": "Máquinas que se ven moverse: engranajes, molinos, cintas, trenes y prensas. Es el más complejo de la tienda: opcional."},
-  {"id": "ayudas", "nombre": "Ayudas de viaje y minería", "familia": "mecanismos", "mods": ["waystones", "vein-mining", "fallingtree", "carry-on", "natures-compass"],
-   "desc": "Piedras de teletransporte entre bases, minar una veta entera de un golpe, talar el árbol completo, levantar cofres y animales, y una brújula que encuentra biomas."},
-  {"id": "almacenamiento", "nombre": "Almacenamiento", "familia": "mecanismos", "mods": ["toms-storage"],
-   "desc": "Un terminal para ver todos los cofres juntos y buscar lo que haga falta."},
-  {"id": "biomas", "nombre": "Oh The Biomes We've Gone", "familia": "mundo", "mods": ["oh-the-biomes-weve-gone", "farmers-cutting-oh-the-biomes-weve-gone"],
-   "desc": "Decenas de biomas nuevos con árboles, flores y bloques propios. Cambia mucho el paisaje, sin complicar el juego."},
-  {"id": "comida", "nombre": "Farmer's Delight", "familia": "vida", "mods": ["farmers-delight", "oceans-delight", "enders-delight", "my-nethers-delight", "rightclickharvest"],
-   "desc": "Cocina de verdad: cultivos nuevos, ollas, sartenes y platos que dan buenos efectos. Cosechar con clic derecho."},
-  {"id": "decoracion", "nombre": "Muebles y decoración", "familia": "vida", "mods": ["handcrafted", "another-furniture", "chipped", "stoneworks", "immersive-lanterns", "comforts", "aureljs-paintings"],
-   "desc": "Mesas, sillas, camas, bolsas de dormir, faroles y miles de variantes de bloques para que la base quede linda."}
+  {
+   "id": "aether",
+   "nombre": "The Aether",
+   "familia": "dimensiones",
+   "sub": "arriba-abajo",
+   "mods": [
+    "aether",
+    "aether-villages",
+    "aether-protect-your-moa",
+    "aether-enhanced-extinguishing"
+   ],
+   "desc": "La dimensión del cielo: islas flotantes, monturas voladoras (los moa), tres jefes con sus mazmorras y armaduras propias. Se entra con un portal de piedra luminosa y agua."
+  },
+  {
+   "id": "deep-aether",
+   "nombre": "Deep Aether",
+   "familia": "dimensiones",
+   "sub": "arriba-abajo",
+   "mods": [
+    "deep-aether"
+   ],
+   "desc": "Más Aether: biomas nuevos en el cielo, bichos y otro jefe. Necesita The Aether (se agrega solo)."
+  },
+  {
+   "id": "undergarden",
+   "nombre": "The Undergarden",
+   "familia": "dimensiones",
+   "sub": "arriba-abajo",
+   "mods": [
+    "the-undergarden"
+   ],
+   "desc": "Un mundo subterráneo con cuevas gigantes, plantas raras, minerales propios y criaturas que dan miedo. Portal de piedra de cueva."
+  },
+  {
+   "id": "deeper-and-darker",
+   "nombre": "Deeper and Darker",
+   "familia": "dimensiones",
+   "sub": "arriba-abajo",
+   "mods": [
+    "deeperdarker"
+   ],
+   "desc": "Detrás del portal de la Ciudad Antigua (la del Warden) hay otra dimensión oscura, con minerales nuevos y un botín que vale el susto."
+  },
+  {
+   "id": "bumblezone",
+   "nombre": "The Bumblezone",
+   "familia": "dimensiones",
+   "sub": "mundos",
+   "mods": [
+    "the-bumblezone"
+   ],
+   "desc": "Una dimensión adentro de una colmena: todo miel, abejas y panales. Se entra tirando una perla de Ender a un nido de abejas."
+  },
+  {
+   "id": "eternal-starlight",
+   "nombre": "Eternal Starlight",
+   "familia": "dimensiones",
+   "sub": "mundos",
+   "mods": [
+    "eternal-starlight"
+   ],
+   "desc": "Una dimensión de noche eterna con cielo estrellado, biomas de cristal y varios jefes."
+  },
+  {
+   "id": "nullscape",
+   "nombre": "Nullscape",
+   "familia": "dimensiones",
+   "sub": "mundos",
+   "mods": [
+    "nullscape"
+   ],
+   "desc": "El End deja de ser islas planas: montañas flotantes, cañones y paisajes raros. Sólo cambia el terreno."
+  },
+  {
+   "id": "ad-astra",
+   "nombre": "Ad Astra (el espacio)",
+   "familia": "dimensiones",
+   "sub": "espacio",
+   "mods": [
+    "ad-astra"
+   ],
+   "desc": "Cohetes para ir a la Luna, Marte, Venus y Mercurio: se construye la nave, se carga combustible y se aterriza en otro planeta con traje espacial."
+  },
+  {
+   "id": "espacio-extra",
+   "nombre": "Más para el espacio",
+   "familia": "dimensiones",
+   "sub": "espacio",
+   "mods": [
+    "ad-astra-giselle-addon",
+    "ad-astra-more-structures",
+    "dungeon-and-village-ad-astra",
+    "ad-astra-asteroid-belt",
+    "stellarview",
+    "adastra-stellarview-compatibility",
+    "celestria",
+    "cosmicore"
+   ],
+   "desc": "Complementos de Ad Astra: trajes y tanques más cómodos, estructuras, mazmorras y pueblos en los planetas, un cinturón de asteroides, un cielo estrellado de verdad (con el cielo propio de cada planeta), estrellas fugaces y meteoritos que caen."
+  },
+  {
+   "id": "yung",
+   "nombre": "Las mejoras de YUNG",
+   "familia": "estructuras",
+   "sub": "mejoradas",
+   "mods": [
+    "yungs-better-dungeons",
+    "yungs-better-mineshafts",
+    "yungs-better-strongholds",
+    "yungs-better-nether-fortresses",
+    "yungs-better-ocean-monuments",
+    "yungs-better-jungle-temples",
+    "yungs-better-witch-huts",
+    "yungs-better-end-island",
+    "yungs-bridges"
+   ],
+   "desc": "Las estructuras de siempre (minas, fortalezas, monumentos, templos) rehechas más grandes y lindas, sin cambiar las reglas del juego. Lo más minecraftero que hay."
+  },
+  {
+   "id": "dungeons-taverns",
+   "nombre": "Dungeons and Taverns",
+   "familia": "estructuras",
+   "sub": "mejoradas",
+   "mods": [
+    "dungeons-and-taverns-ancient-city-overhaul",
+    "dungeons-and-taverns-woodland-mansion-overhaul",
+    "dungeons-and-taverns-swamp-hut-overhaul"
+   ],
+   "desc": "Tabernas para descansar y comerciar, y estructuras vanilla rehechas (mansión, ciudad antigua, cabaña de bruja)."
+  },
+  {
+   "id": "repurposed",
+   "nombre": "Repurposed Structures",
+   "familia": "estructuras",
+   "sub": "mejoradas",
+   "mods": [
+    "repurposed-structures-forge",
+    "repurposed-structures-farmers-delight-compat"
+   ],
+   "desc": "Versiones de las estructuras vanilla para cada bioma: aldeas del Nether, mansiones de desierto, fortalezas del bosque."
+  },
+  {
+   "id": "yung-mas",
+   "nombre": "Más de YUNG",
+   "familia": "estructuras",
+   "sub": "mejoradas",
+   "mods": [
+    "yungs-better-desert-temples",
+    "yungs-extras"
+   ],
+   "desc": "Los templos del desierto rehechos con trampas y acertijos, y detalles chicos de YUNG por todo el mundo (pozos, esqueletos, carritos abandonados)."
+  },
+  {
+   "id": "tabernas",
+   "nombre": "Tabernas y mazmorras de Dungeons and Taverns",
+   "familia": "estructuras",
+   "sub": "mejoradas",
+   "mods": [
+    "dungeons-and-taverns"
+   ],
+   "desc": "El paquete completo: tabernas para descansar y comerciar, puestos de cazadores y mazmorras nuevas que encajan con lo vanilla."
+  },
+  {
+   "id": "towns-and-towers",
+   "nombre": "Towns and Towers",
+   "familia": "estructuras",
+   "sub": "pueblos",
+   "mods": [
+    "towns-and-towers"
+   ],
+   "desc": "Pueblos nuevos para cada bioma y torres de saqueadores distintas."
+  },
+  {
+   "id": "aldeas",
+   "nombre": "Aldeas renovadas",
+   "familia": "estructuras",
+   "sub": "pueblos",
+   "mods": [
+    "ct-overhaul-village"
+   ],
+   "desc": "Cada aldea con el estilo de su bioma, más grande y más linda, con puestos de saqueadores nuevos."
+  },
+  {
+   "id": "ribbits",
+   "nombre": "Ribbits",
+   "familia": "estructuras",
+   "sub": "pueblos",
+   "mods": [
+    "ribbits"
+   ],
+   "desc": "Aldeas de ranas en el pantano: comercian, tocan música y se juntan a bailar si les tocás un instrumento."
+  },
+  {
+   "id": "guardias",
+   "nombre": "Guardias y aldeanos nuevos",
+   "familia": "estructuras",
+   "sub": "pueblos",
+   "mods": [
+    "guard-villagers",
+    "villagersplus"
+   ],
+   "desc": "Guardias que defienden las aldeas de zombies y saqueadores, y aldeanos con oficios nuevos para comerciar."
+  },
+  {
+   "id": "moogs",
+   "nombre": "Estructuras de Moog",
+   "familia": "estructuras",
+   "sub": "sueltas",
+   "mods": [
+    "moogs-voyager-structures",
+    "mes-moogs-end-structures",
+    "mns-moogs-nether-structures"
+   ],
+   "desc": "Muchas construcciones chicas y medianas por todo el mundo, el Nether y el End: ruinas, casas, faros, puestos."
+  },
+  {
+   "id": "structory",
+   "nombre": "Structory",
+   "familia": "estructuras",
+   "sub": "sueltas",
+   "mods": [
+    "structory",
+    "structory-towers"
+   ],
+   "desc": "Ruinas, campamentos y torres sueltas que hacen que explorar tenga premio."
+  },
+  {
+   "id": "mas-estructuras",
+   "nombre": "Más estructuras del mundo",
+   "familia": "estructuras",
+   "sub": "sueltas",
+   "mods": [
+    "explorify",
+    "formations",
+    "formations-overworld",
+    "formations-nether",
+    "adorabuild-structures",
+    "hearths",
+    "explorations",
+    "gardens-of-the-dead",
+    "villages-and-pillages"
+   ],
+   "desc": "Un paquete de estructuras chicas que encajan con el estilo vanilla: casitas, templos, jardines, cementerios y pueblos nuevos."
+  },
+  {
+   "id": "trek",
+   "nombre": "Trek",
+   "familia": "estructuras",
+   "sub": "sueltas",
+   "mods": [
+    "trek"
+   ],
+   "desc": "Muchas estructuras nuevas para encontrar caminando: ruinas, campamentos, torres y puestos, todo con estilo vanilla."
+  },
+  {
+   "id": "arqueologia",
+   "nombre": "Arqueología",
+   "familia": "estructuras",
+   "sub": "sueltas",
+   "mods": [
+    "better-archeology"
+   ],
+   "desc": "Excavaciones con fósiles y artefactos para desenterrar con el pincel: la arqueología de Minecraft, pero con premio."
+  },
+  {
+   "id": "dungeons-arise",
+   "nombre": "When Dungeons Arise",
+   "familia": "dungeons",
+   "sub": "mazmorras",
+   "mods": [
+    "when-dungeons-arise"
+   ],
+   "desc": "Mazmorras enormes: castillos, barcos voladores, catedrales y fortalezas de varios pisos, llenas de enemigos y cofres. Para ir de a dos."
+  },
+  {
+   "id": "lootr",
+   "nombre": "Lootr",
+   "familia": "dungeons",
+   "sub": "mazmorras",
+   "mods": [
+    "lootr"
+   ],
+   "desc": "Cada jugador tiene su propio botín en los cofres de las estructuras: nadie le roba el cofre al otro."
+  },
+  {
+   "id": "aventura-extra",
+   "nombre": "Mazmorras sorpresa",
+   "familia": "dungeons",
+   "sub": "mazmorras",
+   "mods": [
+    "adventure-dungeons",
+    "lukis-crazy-chambers"
+   ],
+   "desc": "Salas y mazmorras escondidas con trampas y desafíos."
+  },
+  {
+   "id": "nether-renovado",
+   "nombre": "Nether renovado",
+   "familia": "dungeons",
+   "sub": "nether",
+   "mods": [
+    "eternal-nether",
+    "piglin-proliferation"
+   ],
+   "desc": "El Nether con biomas, enemigos y estructuras nuevas, y piglins con más vida."
+  },
+  {
+   "id": "cementerio",
+   "nombre": "The Graveyard",
+   "familia": "dungeons",
+   "sub": "nether",
+   "mods": [
+    "the-graveyard-fabric"
+   ],
+   "desc": "Cementerios, criptas y catedrales embrujadas con fantasmas, esqueletos nuevos y un jefe que sale de la tumba."
+  },
+  {
+   "id": "incendium",
+   "nombre": "Incendium",
+   "familia": "dungeons",
+   "sub": "nether",
+   "mods": [
+    "incendium"
+   ],
+   "desc": "El Nether se vuelve más peligroso y lindo: biomas nuevos, fortalezas difíciles y armas únicas de premio."
+  },
+  {
+   "id": "cataclysm",
+   "nombre": "L_Ender's Cataclysm",
+   "familia": "jefes",
+   "sub": "jefes",
+   "mods": [
+    "l_enders-cataclysm"
+   ],
+   "desc": "Jefes enormes con peleas de verdad (el Ignis, el Leviatán, el Harbinger), cada uno en su estructura y con armas únicas de premio."
+  },
+  {
+   "id": "mowzies",
+   "nombre": "Mowzie's Mobs",
+   "familia": "jefes",
+   "sub": "jefes",
+   "mods": [
+    "mowzies-mobs"
+   ],
+   "desc": "Jefes y criaturas con animaciones muy cuidadas: la Frostmaw, el Ferrous Wroughtnaut, la tribu Barako."
+  },
+  {
+   "id": "legendarios",
+   "nombre": "Legendary Monsters",
+   "familia": "jefes",
+   "sub": "jefes",
+   "mods": [
+    "legendary-monsters"
+   ],
+   "desc": "Jefes para el principio, el medio y el final del juego, cada uno escondido en su bioma."
+  },
+  {
+   "id": "mutantes",
+   "nombre": "Mutant Monsters",
+   "familia": "jefes",
+   "sub": "jefes",
+   "mods": [
+    "mutant-monsters"
+   ],
+   "desc": "Versiones gigantes y furiosas del zombie, el creeper, el esqueleto y el enderman. Pocas, pero cada pelea se recuerda."
+  },
+  {
+   "id": "aquamirae",
+   "nombre": "Aquamirae",
+   "familia": "jefes",
+   "sub": "enemigos",
+   "mods": [
+    "aquamirae"
+   ],
+   "desc": "El océano helado se vuelve peligroso: barcos fantasma, piratas y un jefe del mar."
+  },
+  {
+   "id": "illagers",
+   "nombre": "Illagers y saqueos",
+   "familia": "jefes",
+   "sub": "enemigos",
+   "mods": [
+    "illager-invasion",
+    "it-takes-a-pillage-continuation",
+    "raided"
+   ],
+   "desc": "Más tipos de illagers, campamentos y asaltos más interesantes."
+  },
+  {
+   "id": "friends-foes",
+   "nombre": "Friends & Foes",
+   "familia": "animales",
+   "sub": "nuevos",
+   "mods": [
+    "friends-and-foes-forge"
+   ],
+   "desc": "Los bichos que perdieron las votaciones de Mojang: el golem de cobre, el crabe, la luciérnaga, el tuff golem. Muy minecrafteros."
+  },
+  {
+   "id": "naturalist",
+   "nombre": "Naturalist",
+   "familia": "animales",
+   "sub": "nuevos",
+   "mods": [
+    "naturalist"
+   ],
+   "desc": "47 animales de verdad: osos, ciervos, leones, elefantes, cocodrilos, mariposas y más, con su comportamiento propio."
+  },
+  {
+   "id": "critters",
+   "nombre": "Critters and Companions",
+   "familia": "animales",
+   "sub": "nuevos",
+   "mods": [
+    "critters-and-companions"
+   ],
+   "desc": "Bichos chiquitos y simpáticos: hurones, nutrias, libélulas, leopardos de las nieves y búhos."
+  },
+  {
+   "id": "spawn",
+   "nombre": "Spawn",
+   "familia": "animales",
+   "sub": "nuevos",
+   "mods": [
+    "spawn-mod"
+   ],
+   "desc": "La naturaleza más viva: peces, caracoles, hormigas, hormigueros y animales nuevos en cada bioma."
+  },
+  {
+   "id": "acuaticos",
+   "nombre": "Hybrid Aquatic",
+   "familia": "animales",
+   "sub": "nuevos",
+   "mods": [
+    "hybrid-aquatic"
+   ],
+   "desc": "El mar con tiburones, pulpos, medusas, cangrejos y peces de todo tipo, algunos peligrosos."
+  },
+  {
+   "id": "species",
+   "nombre": "Species",
+   "familia": "animales",
+   "sub": "nuevos",
+   "mods": [
+    "species"
+   ],
+   "desc": "Criaturas inventadas, raras y simpáticas, cada una con su función: algunas se crían, otras dan materiales."
+  },
+  {
+   "id": "variantes",
+   "nombre": "Variantes y bichos del pantano",
+   "familia": "animales",
+   "sub": "renovados",
+   "mods": [
+    "variants-and-ventures",
+    "wetland-whimsy",
+    "revampedwolf"
+   ],
+   "desc": "Variantes de zombies y esqueletos por bioma, criaturas del pantano y lobos con mejor comportamiento."
+  },
+  {
+   "id": "creepers",
+   "nombre": "Creeper Overhaul",
+   "familia": "animales",
+   "sub": "renovados",
+   "mods": [
+    "creeper-overhaul"
+   ],
+   "desc": "Un creeper distinto para cada bioma: de cactus, de nieve, de hongo, de playa. Siguen explotando."
+  },
+  {
+   "id": "endermen",
+   "nombre": "Enderman Overhaul",
+   "familia": "animales",
+   "sub": "renovados",
+   "mods": [
+    "enderman-overhaul"
+   ],
+   "desc": "Más de 20 endermen distintos según el bioma, cada uno con su forma, su sonido y su truco."
+  },
+  {
+   "id": "dragones",
+   "nombre": "Dragones para montar",
+   "familia": "animales",
+   "sub": "mascotas",
+   "mods": [
+    "dmr"
+   ],
+   "desc": "Huevos de dragón en el mundo: se crían, se domestican y se montan para volar."
+  },
+  {
+   "id": "hamsters",
+   "nombre": "Hámsters",
+   "familia": "animales",
+   "sub": "mascotas",
+   "mods": [
+    "adorable-hamster-pets"
+   ],
+   "desc": "Hámsters de miles de colores para domesticar: se suben al hombro, guardan cosas en los cachetes y olfatean diamantes."
+  },
+  {
+   "id": "conejos-mascota",
+   "nombre": "Conejos domesticables",
+   "familia": "animales",
+   "sub": "conejos",
+   "mods": [
+    "tameable-rabbits",
+    "breedable-killer-rabbit"
+   ],
+   "desc": "Los conejos se domestican como un perro y te siguen; y el conejo asesino (el de los ojos rojos) se puede criar para que pelee de tu lado."
+  },
+  {
+   "id": "conejos-estaciones",
+   "nombre": "Conejos de cada estación",
+   "familia": "animales",
+   "sub": "conejos",
+   "mods": [
+    "maples-rabbits-seasonal-variants"
+   ],
+   "desc": "Conejos con pelajes nuevos que cambian con la época del año, más los clásicos de siempre."
+  },
+  {
+   "id": "conejos-pascua",
+   "nombre": "Conejos de Pascua",
+   "familia": "animales",
+   "sub": "conejos",
+   "mods": [
+    "easter-rabbits",
+    "easters-delight"
+   ],
+   "desc": "Los conejos ponen huevos de vez en cuando, y llega el aldeano conejo con huevos de Pascua para decorar y comer. Trae Farmer's Delight."
+  },
+  {
+   "id": "conejos-elegantes",
+   "nombre": "Conejos elegantes",
+   "familia": "animales",
+   "sub": "conejos",
+   "mods": [
+    "better-than-bunnies"
+   ],
+   "desc": "Los conejos de siempre, pero dibujados más lindos y más elegantes. Sólo cambia cómo se ven."
+  },
+  {
+   "id": "netherite-avanzada",
+   "nombre": "Netherite avanzada",
+   "familia": "minerales",
+   "sub": "armas",
+   "mods": [
+    "advanced-netherite"
+   ],
+   "desc": "Mejoras de la netherite con hierro, oro, esmeralda y diamante: herramientas y armaduras más fuertes que se ganan jugando."
+  },
+  {
+   "id": "espadas",
+   "nombre": "Simply Swords",
+   "familia": "minerales",
+   "sub": "armas",
+   "mods": [
+    "simply-swords"
+   ],
+   "desc": "Lanzas, katanas, martillos, guadañas y espadas únicas con poderes, que se fabrican o se encuentran en cofres."
+  },
+  {
+   "id": "armaduras",
+   "nombre": "Immersive Armors",
+   "familia": "minerales",
+   "sub": "armas",
+   "mods": [
+    "immersive-armors"
+   ],
+   "desc": "Armaduras nuevas con estilo vanilla y un efecto cada una: de hueso, de madera, de guerrero, de prismarina."
+  },
+  {
+   "id": "combate",
+   "nombre": "Better Combat",
+   "familia": "minerales",
+   "sub": "armas",
+   "mods": [
+    "better-combat"
+   ],
+   "desc": "Peleas como en Minecraft Dungeons: golpes en combo, ataques en arco y cada arma con su movimiento."
+  },
+  {
+   "id": "artefactos",
+   "nombre": "Artifacts",
+   "familia": "minerales",
+   "sub": "tesoros",
+   "mods": [
+    "artifacts"
+   ],
+   "desc": "Tesoros escondidos en las mazmorras: botas para correr, un guante de fuerza, una capa de invisibilidad, un collar de vida."
+  },
+  {
+   "id": "mochilas",
+   "nombre": "Traveler's Backpack",
+   "familia": "minerales",
+   "sub": "tesoros",
+   "mods": [
+    "travelersbackpack"
+   ],
+   "desc": "Mochilas con tanques de líquidos y mesa de trabajo, de muchos diseños (hasta de animales), para llevar más cosas."
+  },
+  {
+   "id": "brujula",
+   "nombre": "Brújula de estructuras",
+   "familia": "minerales",
+   "sub": "tesoros",
+   "mods": [
+    "explorers-compass"
+   ],
+   "desc": "Una brújula que encuentra la estructura que le pidas: aldeas, templos, fortalezas o mazmorras de otros mods."
+  },
+  {
+   "id": "ranuras",
+   "nombre": "Élitro y tótem en su lugar",
+   "familia": "minerales",
+   "sub": "tesoros",
+   "mods": [
+    "elytra-slot",
+    "charm-of-undying"
+   ],
+   "desc": "Una ranura para el élitro (volar con la pechera puesta) y otra para el tótem (salva la vida sin ocupar la mano)."
+  },
+  {
+   "id": "hechizos",
+   "nombre": "Iron's Spells 'n Spellbooks",
+   "familia": "minerales",
+   "sub": "magia",
+   "mods": [
+    "irons-spells-n-spellbooks"
+   ],
+   "desc": "Magia de juego de rol: libros de hechizos, bolas de fuego, rayos, curaciones, magos enemigos y jefes mágicos."
+  },
+  {
+   "id": "create",
+   "nombre": "Create",
+   "familia": "mecanismos",
+   "sub": "create",
+   "mods": [
+    "create"
+   ],
+   "desc": "Máquinas que se ven moverse: engranajes, molinos, cintas, trenes y prensas. Es el más complejo de la tienda: opcional."
+  },
+  {
+   "id": "create-mas",
+   "nombre": "Agregados de Create",
+   "familia": "mecanismos",
+   "sub": "create",
+   "mods": [
+    "createaddition",
+    "create-deco",
+    "create-connected",
+    "create-steam-n-rails-1.21.1"
+   ],
+   "desc": "Para los que ya usan Create: electricidad, más trenes y vías, bloques decorativos y piezas que le faltaban. Trae Create."
+  },
+  {
+   "id": "jetpack",
+   "nombre": "Jetpack de Create",
+   "familia": "mecanismos",
+   "sub": "create",
+   "mods": [
+    "create-jetpack"
+   ],
+   "desc": "Un jetpack que funciona con aire a presión de Create para volar por la base. Trae Create."
+  },
+  {
+   "id": "aviones",
+   "nombre": "Immersive Aircraft",
+   "familia": "mecanismos",
+   "sub": "vehiculos",
+   "mods": [
+    "immersive-aircraft"
+   ],
+   "desc": "Aviones, globos y dirigibles de madera para viajar lejos y llevar a otro jugador."
+  },
+  {
+   "id": "ayudas",
+   "nombre": "Ayudas de viaje y minería",
+   "familia": "mecanismos",
+   "sub": "ayudas",
+   "mods": [
+    "waystones",
+    "vein-mining",
+    "fallingtree",
+    "carry-on",
+    "natures-compass"
+   ],
+   "desc": "Piedras de teletransporte entre bases, minar una veta entera de un golpe, talar el árbol completo, levantar cofres y animales, y una brújula que encuentra biomas."
+  },
+  {
+   "id": "almacenamiento",
+   "nombre": "Almacenamiento",
+   "familia": "mecanismos",
+   "sub": "ayudas",
+   "mods": [
+    "toms-storage"
+   ],
+   "desc": "Un terminal para ver todos los cofres juntos y buscar lo que haga falta."
+  },
+  {
+   "id": "hornos",
+   "nombre": "Hornos de hierro",
+   "familia": "mecanismos",
+   "sub": "ayudas",
+   "mods": [
+    "iron-furnaces"
+   ],
+   "desc": "Hornos más rápidos de hierro, oro, diamante y netherite."
+  },
+  {
+   "id": "biomas",
+   "nombre": "Oh The Biomes We've Gone",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "oh-the-biomes-weve-gone",
+    "farmers-cutting-oh-the-biomes-weve-gone"
+   ],
+   "desc": "Decenas de biomas nuevos con árboles, flores y bloques propios. Cambia mucho el paisaje, sin complicar el juego."
+  },
+  {
+   "id": "bop",
+   "nombre": "Biomes O' Plenty",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "biomes-o-plenty"
+   ],
+   "desc": "El clásico de los biomas: más de 50 nuevos, con árboles, flores y colores que no hay en el juego normal."
+  },
+  {
+   "id": "terralith",
+   "nombre": "Terralith",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "terralith"
+   ],
+   "desc": "Casi 100 biomas nuevos hechos sólo con bloques del juego: cañones, islas, desiertos de colores. Se siente vanilla."
+  },
+  {
+   "id": "regiones",
+   "nombre": "Regions Unexplored",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "regions-unexplored"
+   ],
+   "desc": "Biomas nuevos en el mundo y en el Nether, con árboles y plantas propias."
+  },
+  {
+   "id": "natures-spirit",
+   "nombre": "Nature's Spirit",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "natures-spirit"
+   ],
+   "desc": "Biomas inspirados en lugares reales, con maderas, flores y bloques nuevos."
+  },
+  {
+   "id": "promenade",
+   "nombre": "Promenade",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "promenade"
+   ],
+   "desc": "Biomas lindos y sencillos, con carpinchos, ardillas y árboles nuevos."
+  },
+  {
+   "id": "ecologics",
+   "nombre": "Ecologics",
+   "familia": "mundo",
+   "sub": "biomas",
+   "mods": [
+    "ecologics"
+   ],
+   "desc": "Mejoras chicas a los biomas de siempre: cocos en la playa, ardillas, pingüinos y camellos del desierto."
+  },
+  {
+   "id": "tectonic",
+   "nombre": "Tectonic",
+   "familia": "mundo",
+   "sub": "terreno",
+   "mods": [
+    "tectonic"
+   ],
+   "desc": "Montañas más altas, valles, ríos y cuevas más grandes: el terreno cambia mucho sin agregar bloques."
+  },
+  {
+   "id": "cuevas-yung",
+   "nombre": "Cuevas de YUNG",
+   "familia": "mundo",
+   "sub": "terreno",
+   "mods": [
+    "yungs-cave-biomes"
+   ],
+   "desc": "Biomas de cueva nuevos al estilo vanilla: cuevas de hielo, de arena y de lava."
+  },
+  {
+   "id": "galosphere",
+   "nombre": "Galosphere",
+   "familia": "mundo",
+   "sub": "terreno",
+   "mods": [
+    "galosphere"
+   ],
+   "desc": "Cuevas de cristal y de plata, con bichos nuevos y faroles hechos con los cristales."
+  },
+  {
+   "id": "comida",
+   "nombre": "Farmer's Delight",
+   "familia": "vida",
+   "sub": "cocina",
+   "mods": [
+    "farmers-delight",
+    "oceans-delight",
+    "enders-delight",
+    "my-nethers-delight",
+    "rightclickharvest"
+   ],
+   "desc": "Cocina de verdad: cultivos nuevos, ollas, sartenes y platos que dan buenos efectos. Cosechar con clic derecho."
+  },
+  {
+   "id": "mas-delight",
+   "nombre": "Más Farmer's Delight",
+   "familia": "vida",
+   "sub": "cocina",
+   "mods": [
+    "chefs-delight",
+    "expanded-delight",
+    "crabbers-delight",
+    "brewin-and-chewin",
+    "miners-delight"
+   ],
+   "desc": "Más recetas y cultivos para Farmer's Delight: aldeanos cocineros, cangrejos, quesos, comida de minero. Trae Farmer's Delight."
+  },
+  {
+   "id": "granja",
+   "nombre": "Let's Do: la granja",
+   "familia": "vida",
+   "sub": "cocina",
+   "mods": [
+    "lets-do-farm-charm",
+    "lets-do-vinery",
+    "lets-do-herbalbrews",
+    "lets-do-meadow"
+   ],
+   "desc": "Granja de verdad: viñedos, té y café, quesos y ganado en las praderas de montaña."
+  },
+  {
+   "id": "decoracion",
+   "nombre": "Muebles y decoración",
+   "familia": "vida",
+   "sub": "casa",
+   "mods": [
+    "handcrafted",
+    "another-furniture",
+    "chipped",
+    "stoneworks",
+    "immersive-lanterns",
+    "comforts",
+    "aureljs-paintings"
+   ],
+   "desc": "Mesas, sillas, camas, bolsas de dormir, faroles y miles de variantes de bloques para que la base quede linda."
+  },
+  {
+   "id": "macaw",
+   "nombre": "Muebles de Macaw",
+   "familia": "vida",
+   "sub": "casa",
+   "mods": [
+    "macaws-furniture"
+   ],
+   "desc": "Roperos, cajoneras, escritorios, sillones y mesas con estilo vanilla para amueblar la casa."
+  },
+  {
+   "id": "twigs",
+   "nombre": "Twigs",
+   "familia": "vida",
+   "sub": "casa",
+   "mods": [
+    "twigs"
+   ],
+   "desc": "Bloques de construcción nuevos que combinan con los del juego: ramitas, piedritas, faroles de papel."
+  },
+  {
+   "id": "supplementaries",
+   "nombre": "Supplementaries",
+   "familia": "vida",
+   "sub": "casa",
+   "mods": [
+    "supplementaries"
+   ],
+   "desc": "Frascos, carteles de dirección, veletas, lámparas, cajones y otros detalles chicos que dan vida a la base."
+  },
+  {
+   "id": "camara",
+   "nombre": "Cámara de fotos",
+   "familia": "vida",
+   "sub": "diversion",
+   "mods": [
+    "exposure"
+   ],
+   "desc": "Una cámara para sacar fotos de verdad adentro del juego, revelarlas y colgarlas en la pared."
+  },
+  {
+   "id": "instrumentos",
+   "nombre": "Instrumentos musicales",
+   "familia": "vida",
+   "sub": "diversion",
+   "mods": [
+    "immersive-melodies"
+   ],
+   "desc": "Laúd, flauta, piano y más para tocar melodías y hacer una banda de a dos."
+  },
+  {
+   "id": "playa",
+   "nombre": "Let's Do: la playa",
+   "familia": "vida",
+   "sub": "diversion",
+   "mods": [
+    "lets-do-beachparty"
+   ],
+   "desc": "Reposeras, sombrillas, tablas de surf y tragos de playa para la base de verano."
+  }
  ],
  "combos": [
-  {"id": "aventura", "nombre": "Aventura minecraftera", "recomendada": true,
+  {
+   "id": "aventura",
+   "nombre": "Aventura minecraftera",
+   "recomendada": true,
    "desc": "La recomendada: estructuras y mazmorras por todos lados, jefes grandes, bichos nuevos y cuatro dimensiones (cielo, subsuelo, colmena y la oscura). Se siente Minecraft, pero con mucho más para explorar de a dos.",
-   "cartas": ["yung", "dungeons-arise", "dungeons-taverns", "moogs", "structory", "mas-estructuras", "lootr", "friends-foes", "illagers", "cataclysm", "mowzies", "aquamirae", "aether", "undergarden", "deeper-and-darker", "bumblezone", "nether-renovado", "ayudas", "comida"]},
-  {"id": "dimensiones-jefes", "nombre": "Dimensiones y jefes",
+   "cartas": [
+    "yung",
+    "dungeons-arise",
+    "dungeons-taverns",
+    "moogs",
+    "structory",
+    "mas-estructuras",
+    "lootr",
+    "friends-foes",
+    "illagers",
+    "cataclysm",
+    "mowzies",
+    "aquamirae",
+    "aether",
+    "undergarden",
+    "deeper-and-darker",
+    "bumblezone",
+    "nether-renovado",
+    "ayudas",
+    "comida"
+   ]
+  },
+  {
+   "id": "dimensiones-jefes",
+   "nombre": "Dimensiones y jefes",
    "desc": "La aventura más dos dimensiones nuevas (Eternal Starlight y Deep Aether), biomas nuevos y el End renovado. Para los que quieren viajar.",
-   "cartas": ["yung", "dungeons-arise", "lootr", "friends-foes", "cataclysm", "mowzies", "aquamirae", "aether", "deep-aether", "undergarden", "deeper-and-darker", "bumblezone", "eternal-starlight", "nullscape", "biomas", "nether-renovado", "ayudas"]},
-  {"id": "mecanismos", "nombre": "Con mecanismos",
+   "cartas": [
+    "yung",
+    "dungeons-arise",
+    "lootr",
+    "friends-foes",
+    "cataclysm",
+    "mowzies",
+    "aquamirae",
+    "aether",
+    "deep-aether",
+    "undergarden",
+    "deeper-and-darker",
+    "bumblezone",
+    "eternal-starlight",
+    "nullscape",
+    "biomas",
+    "nether-renovado",
+    "ayudas"
+   ]
+  },
+  {
+   "id": "mecanismos",
+   "nombre": "Con mecanismos",
    "desc": "La aventura más Create (máquinas, trenes) y almacenamiento: para armar una base grande entre los dos.",
-   "cartas": ["yung", "dungeons-arise", "dungeons-taverns", "structory", "lootr", "friends-foes", "cataclysm", "aether", "create", "almacenamiento", "ayudas", "comida", "decoracion"]},
-  {"id": "espacial", "nombre": "Espacial",
+   "cartas": [
+    "yung",
+    "dungeons-arise",
+    "dungeons-taverns",
+    "structory",
+    "lootr",
+    "friends-foes",
+    "cataclysm",
+    "aether",
+    "create",
+    "almacenamiento",
+    "ayudas",
+    "comida",
+    "decoracion"
+   ]
+  },
+  {
+   "id": "espacial",
+   "nombre": "Espacial",
    "desc": "Construir un cohete e ir a la Luna y a Marte, con Create para las máquinas de la base y las estructuras de YUNG para explorar antes del despegue.",
-   "cartas": ["ad-astra", "espacio-extra", "create", "yung", "dungeons-arise", "friends-foes", "lootr", "almacenamiento", "ayudas", "netherite-avanzada"]},
-  {"id": "liviana", "nombre": "Liviana",
+   "cartas": [
+    "ad-astra",
+    "espacio-extra",
+    "create",
+    "yung",
+    "dungeons-arise",
+    "friends-foes",
+    "lootr",
+    "almacenamiento",
+    "ayudas",
+    "netherite-avanzada"
+   ]
+  },
+  {
+   "id": "liviana",
+   "nombre": "Liviana",
    "desc": "Lo justo para que explorar valga la pena (YUNG, bichos de Friends & Foes, botín propio) en máquinas flojas.",
-   "cartas": ["yung", "friends-foes", "lootr", "ayudas"]}
- ]
+   "cartas": [
+    "yung",
+    "friends-foes",
+    "lootr",
+    "ayudas"
+   ]
+  },
+  {
+   "id": "granja-bichos",
+   "nombre": "Granja, bichos y conejos",
+   "desc": "Para jugar tranqui: animales de todo tipo (con conejos para domesticar y de cada estación), biomas lindos, cocina y casa para armar una granja grande entre los dos. Con algunas estructuras para salir a explorar.",
+   "cartas": [
+    "yung",
+    "lootr",
+    "friends-foes",
+    "naturalist",
+    "critters",
+    "hamsters",
+    "conejos-mascota",
+    "conejos-estaciones",
+    "conejos-pascua",
+    "conejos-elegantes",
+    "biomas",
+    "comida",
+    "granja",
+    "decoracion",
+    "macaw",
+    "ayudas"
+   ]
+  }
+ ],
+ "subfamilias": {
+  "dimensiones": {
+   "arriba-abajo": "Arriba y abajo: el cielo y el subsuelo",
+   "mundos": "Mundos nuevos",
+   "espacio": "El espacio"
+  },
+  "estructuras": {
+   "mejoradas": "Lo de siempre, pero mejor",
+   "pueblos": "Pueblos y aldeanos",
+   "sueltas": "Construcciones para descubrir"
+  },
+  "dungeons": {
+   "mazmorras": "Mazmorras",
+   "nether": "El Nether y los cementerios"
+  },
+  "jefes": {
+   "jefes": "Jefes",
+   "enemigos": "Enemigos nuevos"
+  },
+  "animales": {
+   "nuevos": "Bichos nuevos",
+   "renovados": "Los de siempre, renovados",
+   "mascotas": "Mascotas y monturas",
+   "conejos": "Conejos"
+  },
+  "minerales": {
+   "armas": "Armas y armaduras",
+   "tesoros": "Tesoros, mochilas y accesorios",
+   "magia": "Magia"
+  },
+  "mecanismos": {
+   "create": "Create y sus agregados",
+   "vehiculos": "Vehículos",
+   "ayudas": "Ayudas y almacenamiento"
+  },
+  "mundo": {
+   "biomas": "Biomas nuevos",
+   "terreno": "Terreno y cuevas"
+  },
+  "vida": {
+   "cocina": "Cocina y granja",
+   "casa": "Casa y decoración",
+   "diversion": "Para divertirse"
+  }
+ }
 }

@@ -3,6 +3,40 @@
 **Escrito el:** 2026-11-25 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
 y probada; falta la validación con Fran y Kevin.
 
+## Lo último (2026-11-25, 18:20, desde la sesión de juegos-casa; Fran: «termina ahora y deja para despues»)
+
+La tienda creció a 86 cartas con subsectores, conejos y fotos desplegables (ver `ESTADO_ACTUAL.md`, bloque «a la
+tarde»); la página nueva ya está sirviendo (tienda reiniciada minimizada). **Primero, al volver:**
+
+1. Arreglar las dos dependencias que frenan el arranque: sumar `{"slug": "irons-lib"}` a `extras` de
+   `tienda/datos/curado.json` (o la versión que pida `irons_spellbooks`: ≥ 1.21.1-2, < 1.21.1-3) y llevar Patchouli
+   a ≥ 1.21.1-93 (está fijada por Better MC 5: `python catalogar.py --ultimas` la sube, o sacar «hamsters»).
+2. Repetir la prueba de los 52 nuevos juntos SIN publicar, desde `tienda/`:
+   `python probar_sin_publicar.py nuevas datos\cartas-antes-2026-11-25.json` (también `combo:<id>` o
+   `cartas:a,b`). Resuelve, baja al cache y corre `armar.probar` sin `publicar`, y mide que `publicado/lista.json`
+   no cambie. Si no arranca, partir en mitades hasta dar con el mod.
+3. `python tienda/verificar_cartas.py --sabotaje` (verde y rojo) y `python tienda/biblioteca.py` (L1-11: los jars
+   nuevos a la PC, por familia).
+4. Deuda: `curado.json` se reescribió con `json.dump` y perdió su formato compacto (una carta por bloque): se
+   lee igual, pero el diff es grande. Si molesta al editar a mano, volver al formato con un volcador propio.
+
+### Si hay que abrir un chat nuevo (2026-11-25, 18:20)
+
+```
+Proyecto minecraft-amigos (claude-acceso), fase 2 (Fase C/D: la tienda de mods). Tarea: que los 52 mods nuevos
+de la tienda arranquen.
+0. En la PC el perfil se carga solo; en otra maquina: bash .claude/nube/traer-perfil.sh y leer lo que lista.
+1. .\cascada.ps1 minecraft-amigos -Necesidad ninguna  y leer lo que pida; despues HANDOFF.md (bloque "Lo ultimo")
+   y tienda/LEEME.md. No leer docs/fase-2-tienda.md entero.
+2. La fase 2 la cierra Fran jugando con Kevin (PDP §4); esta tarea es una pieza: los 52 nuevos arrancan juntos.
+3. Sonnet, esfuerzo medio, sin agentes: es arreglar dependencias y probar.
+4. Maquina: tienda.py corriendo minimizada en :8765 (notebook) con la pagina nueva; cache y server de prueba en
+   C:\Users\frans\MinecraftServer\tienda\; publicado: Aventura minecraftera (no se toco).
+5. Resuelto: 86 cartas, 25 subsectores, fotos (verificar_cartas.py VERDE, sabotaje ROJO), catalogo 353 proyectos.
+6. Primer comando (desde tienda/): python probar_sin_publicar.py nuevas datos\cartas-antes-2026-11-25.json
+7. Efecto esperado hoy: "NO ARRANCO: ... irons_lib ... patchouli ..."; despues del arreglo: "ARRANCO; publicado igual".
+```
+
 ## Arrancá por acá (2026-11-25, mediodía)
 
 1. Lo hecho y medido está en `ESTADO_ACTUAL.md` (bloques «La tienda» y «Lo nuevo del 2026-11-25 al mediodía»);

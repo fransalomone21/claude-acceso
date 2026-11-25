@@ -1,7 +1,8 @@
 # Requisitos — fase 2: el pack nuevo y la tienda de mods
 
-**Versión 0.1, 24 de noviembre de 2026.** Estado: **borrador**; entra en línea base con el sí de Fran
-(en la sesión del 2026-11-24 aprobó la forma: «sí, así, quiero que sea sencillo y que esté probado»).
+**Versión 0.2, 25 de noviembre de 2026** (0.1 del 24; la 0.2 suma L1-18 y L1-19 por el pedido de Fran del 25).
+Estado: **borrador**; entra en línea base con el sí de Fran (en la sesión del 2026-11-24 aprobó la forma: «sí, así,
+quiero que sea sencillo y que esté probado»).
 
 Escrito con los libros abiertos: `perfil-global/pilares/nucleo-ise.md` §4, el INCOSE GtWR, la cátedra de
 IISE (M17 y M21) y NASA (`nasa-seh/requisitos.md` §4-14, App. C). Se mide con
@@ -18,6 +19,7 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
 | **selección** | el conjunto de mods que Fran confirma en la tienda |
 | **combinación** | una selección armada de antemano, con nombre y descripción |
 | **familia de contenido** | dimensiones, estructuras, animales, mecanismos, dungeons, minerales y jefes |
+| **subfamilia** | un grupo de mods dentro de una familia de contenido (por ejemplo, en animales: bichos nuevos, los de siempre renovados, mascotas y monturas, conejos) |
 | **lista de castigos** | los mods de temperatura y de sed (Tough As Nails, Cold Sweat, Thermoo y sus derivados) |
 | **instancia** | la instalación de Minecraft con mods de una máquina, en Prism Launcher |
 | **server de prueba** | un server efímero que arranca la selección antes de publicarla |
@@ -67,6 +69,8 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
 | L1-05 | L0-07 | Antes de publicar una selección, el sistema deberá arrancar el server de prueba con la selección. | funcional | ensayo |
 | L1-06 | L0-07 | El sistema deberá publicar una selección únicamente después de que el server de prueba complete el arranque. | funcional | ensayo (sabotaje: una selección rota no se publica) |
 | L1-07 | L0-03 | La tienda deberá mostrar para cada mod el nombre, una imagen, una descripción en castellano, la familia de contenido y el peso en memoria. | funcional | inspección |
+| L1-18 | L0-03 | La tienda deberá ubicar cada mod en una subfamilia de su familia de contenido. | funcional | inspección (script) |
+| L1-19 | L0-03 | La tienda deberá ofrecer para cada mod un desplegable con entre 2 y 3 fotos del mod. | funcional | inspección (script) |
 | L1-08 | L0-05 | La tienda deberá ofrecer entre 4 y 8 combinaciones de mods. | funcional | inspección |
 | L1-09 | L0-05 | La tienda deberá mostrar para cada combinación una descripción, la cantidad de mods y la memoria recomendada. | funcional | inspección |
 | L1-10 | L0-04 | El sistema deberá bloquear la publicación de una selección que contenga un mod de la lista de castigos. | funcional | ensayo (sabotaje: Tough As Nails) |
@@ -95,3 +99,9 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
 - **L1-15, 8 GB.** La recomendación del pack más pesado (Better MC 5); la PC tiene 15 GB y la notebook
   24 GB con el server adentro.
 - **L1-16** baja L0-08 con el dato medido: notebook 23,8 GB, PC 15,3 GB.
+- **L1-18 y L1-19** son el pedido de Fran del 2026-11-25, textual: «quiero que agregues muchos mods mas, y los
+  organices con desplegables en cada uno con 2 o 3 imagenes iconicas del mismo. Me gusto como sectorizaste, pero al
+  agregar mas debes sub sectorizar inteligente, y simplemente. Agrega mods de conejos tmb.» Las fotos salen de la
+  galería que el autor eligió en Modrinth; si tiene menos de 2, de las imágenes de la página del mod. Un mod sin
+  imágenes publicadas incumple L1-19: `tienda/verificar_cartas.py` lo nombra, y se resuelve con otra fuente o
+  sacando la carta, nunca con una foto inventada.

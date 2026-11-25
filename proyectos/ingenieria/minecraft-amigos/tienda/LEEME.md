@@ -16,10 +16,12 @@
 | `biblioteca.py` | guarda en `C:\Games\Minecraft-mods\<familia>` de la PC **cada** jar del catálogo (baja al cache lo que falte), por SHA-1; `--solo-verificar` sólo mide | L1-11 |
 | `paquete-kevin/` | instalador de doble clic para la compu de Kevin | L1-17 |
 | `probar_tienda.py` | sabotajes y controles (S1 castigo, S2 dependencia faltante, S3 instancia distinta, S4 sin pack) | L1-03, L1-06, L1-10 |
+| `verificar_cartas.py` | cada carta en una subfamilia de su familia y con 2-3 fotos (`--sabotaje` exige el rojo) | L1-18, L1-19 |
 
 Fuera del repo (pesa): `C:\Users\frans\MinecraftServer\tienda\` con `cache\`, `publicado\`, `prueba\`,
 `server\` y `neoforge\` (NeoForge 21.1.267).
 
-Sumar un mod a la tienda: agregarlo a `extras` y a una carta en `datos/curado.json`, correr
-`python catalogar.py` (avisa si no existe o no tiene versión 1.21.1 NeoForge), y armar una combinación que lo
-use: si el server de prueba no arranca, no se publica.
+Sumar un mod a la tienda: agregarlo a `extras` y a una carta en `datos/curado.json` (con su `familia` y su `sub`,
+una de `subfamilias`), correr `python catalogar.py` (avisa si no existe o no tiene versión 1.21.1 NeoForge, y trae
+sus fotos de Modrinth), `python verificar_cartas.py`, y armar una combinación que lo use: si el server de prueba no
+arranca, no se publica. La página: sectores desplegables, subsectores adentro, y en cada carta «Ver fotos».

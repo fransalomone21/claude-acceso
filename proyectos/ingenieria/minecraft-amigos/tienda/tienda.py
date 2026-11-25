@@ -30,7 +30,12 @@ def catalogo():
     for c in cur["cartas"]:
         ps = [cat["proyectos"][m] for m in c["mods"]]
         mb = sum(cat["versiones"][m]["bytes"] for m in c["mods"]) / 1e6
-        cartas.append({"id": c["id"], "nombre": c["nombre"], "familia": c["familia"], "desc": c["desc"],
+        # 2 o 3 fotos del mod (las que el autor eligio en Modrinth): primero las del mod principal de la carta
+        fotos = []
+        for p in ps:
+            fotos += [u for u in p.get("galeria", []) if u not in fotos]
+        cartas.append({"id": c["id"], "nombre": c["nombre"], "familia": c["familia"], "sub": c.get("sub"), "desc": c["desc"],
+                       "fotos": fotos[:3],
                        "icono": next((p["icono"] for p in ps if p.get("icono")), None), "mods": len(c["mods"]),
                        "mb": round(mb, 1), "peso": "liviano" if mb < 10 else ("medio" if mb < 40 else "pesado")})
     combos = []
@@ -45,7 +50,8 @@ def catalogo():
     if os.path.exists(pub):
         d = json.load(open(pub, encoding="utf-8"))
         publicado = {"nombre": d["nombre"], "combo": d.get("combo"), "publicado": d["publicado"], "mods": len(d["mods"])}
-    return {"familias": cur["familias"], "cartas": cartas, "combos": combos, "publicado": publicado,
+    return {"familias": cur["familias"], "subfamilias": cur.get("subfamilias", {}), "cartas": cartas, "combos": combos,
+            "publicado": publicado,
             "nucleo": len(cur["nucleo"])}
 
 

@@ -9,7 +9,7 @@ Fuentes:
   python catalogar.py --base "<carpeta mods de la instancia>"   (lee, no escribe en la instancia)
   python catalogar.py                                           (solo re-resuelve los extras)
 """
-import argparse, glob, hashlib, json, os, sys
+import argparse, glob, hashlib, json, os, re, sys
 
 import modrinth as M
 
@@ -35,11 +35,47 @@ def lado(proj):
     return "both"
 
 
+# Nunca son fotos del mod: insignias, redes, donaciones, separadores. Los banners y logos SI pueden mostrarlo
+# (medido 2026-11-25: los «banners» de Maple's Rabbits son fotos de los conejos): entran solo si no alcanza con lo demas.
+NUNCA = re.compile(r"shields\.io|badge|discord|ko-?fi|patreon|bisecthosting|paypal|kinetic|button|"
+                   r"curseforge\.com/images|/divider|separator", re.I)
+SI_FALTA = re.compile(r"banner|logo|icon|header|title", re.I)
+
+
+def galeria(proj, n=3):
+    """Las fotos que el autor eligio para su pagina de Modrinth: la destacada primero, despues por su orden. Si la
+    galeria tiene menos de 2, se completan con las imagenes de la descripcion de la pagina: primero las que no
+    parecen banner ni logo, despues esas; las insignias y los links de donaciones nunca."""
+    gs = sorted(proj.get("gallery") or [], key=lambda g: (not g.get("featured"), g.get("ordering", 0)))
+    fotos = [g["url"] for g in gs if g.get("url")][:n]
+    if len(fotos) < 2:
+        cuerpo = proj.get("body") or ""
+        urls = re.findall(r"!\[[^\]]*\]\((https?://[^)\s]+)", cuerpo) + re.findall(r"<img[^>]+src=[\"'](https?://[^\"']+)", cuerpo)
+        urls = [u for u in urls if re.search(r"\.(png|jpe?g|webp|gif)(\?|$)", u, re.I) and not NUNCA.search(u)]
+        # orden: lo que no parece banner antes, y las fotos antes que los gif (pesan)
+        urls.sort(key=lambda u: (bool(SI_FALTA.search(u)), u.lower().split("?")[0].endswith(".gif")))
+        fotos += [u for u in urls if u not in fotos][:n - len(fotos)]
+    return fotos
+
+
+def completar_galerias(cat):
+    """Las fotos de cada proyecto del catalogo que todavia no tiene 2 (los de la base, los viejos y los que el filtro
+    dejo cortos): se vuelven a pedir a Modrinth."""
+    faltan = [p["id"] for p in cat["proyectos"].values() if len(p.get("galeria") or []) < 2]
+    por_id = {p["id"]: s for s, p in cat["proyectos"].items()}
+    for p in M.proyectos(faltan):
+        s = por_id.get(p["id"])
+        if s:
+            cat["proyectos"][s]["galeria"] = galeria(p)
+    return len(faltan)
+
+
 def registrar(cat, proj, v, tipo, origen):
     slug = proj["slug"]
     f = archivo_principal(v)
     cat["proyectos"][slug] = {
         "id": proj["id"], "titulo": proj["title"], "desc_en": proj["description"], "icono": proj.get("icon_url"),
+        "galeria": galeria(proj),
         "cliente": proj.get("client_side"), "servidor": proj.get("server_side"), "lado": lado(proj),
         "categorias": proj.get("categories", []) + proj.get("additional_categories", []), "tipo": tipo,
         "descargas": proj.get("downloads", 0), "origen": origen}
@@ -100,6 +136,7 @@ def main():
             continue
         registrar(cat, p, v, tipo, "extra" if slug in {i["slug"] for i in curado["extras"]} else "dependencia")
         por_id[p["id"]] = p["slug"]
+        print(f"  {p['slug']} {v['version_number']}", flush=True)
         for d in cat["versiones"][p["slug"]]["deps"]:
             if d not in por_id:
                 pendientes.append((d, "mod"))
@@ -147,6 +184,7 @@ def main():
                 if d not in por_id and d not in hechos:
                     cola.append(d)
         print(f"ultimas: {len(hechos)} proyectos revisados")
+    print(f"fotos: {completar_galerias(cat)} proyectos completados")
     # slugs en deps: pasar ids a slugs
     for s, v in cat["versiones"].items():
         v["deps"] = [por_id.get(d, d) for d in v["deps"]]

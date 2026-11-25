@@ -56,6 +56,22 @@ Detalle: `docs/fase-2-tienda.md` §3b.
 | `probar_tienda.py` dejaba publicada la Liviana encima de lo de Fran | ahora guarda lo publicado y lo devuelve, y prende el pack si falta |
 | Los accesos de Minecraft de las dos máquinas los arma el índice de juegos-casa (`Escritorio\Juegos\Minecraft`, con «Como jugar.txt») | `indice.py verificar` en verde en las dos |
 
+**Lo nuevo del 2026-11-25 a la tarde (pedido de Fran: «muchos mods mas ... desplegables ... 2 o 3 imagenes ... sub
+sectorizar ... mods de conejos»):**
+
+| Qué | Evidencia |
+|---|---|
+| La tienda pasó de 34 a **86 cartas** (52 nuevas, con un subsector **Conejos** de 4 cartas) y de 5 a **6 combinaciones** («Granja, bichos y conejos», 103 mods, 5 GB) | `catalogar.py`: «catalogo: 353 proyectos; no resueltos: ninguno»; `/api/catalogo` sirve 86 cartas y 6 combos |
+| Cada familia con 2-4 **subfamilias** (25 en total) y cada carta con un desplegable «Ver fotos» de 2-3 fotos (galería de Modrinth; si no alcanza, las imágenes de la página del mod) | `verificar_cartas.py`: «cartas 86: VERDE»; su sabotaje da rojo nombrando la carta; en el navegador: 9 sectores, 25 subsectores, fotos de 270 px |
+| L1-18 y L1-19 nuevos en `docs/10-requisitos.md` (v0.2) | el documento |
+| Twilight Forest quedó afuera: no está en Modrinth | `mc_verificar`: «NO EXISTE the-twilight-forest» |
+
+**Los 52 nuevos juntos NO arrancan todavía** (server de prueba, sin publicar; lo publicado quedó igual): «Mod
+irons_spellbooks requires irons_lib 1.21.1-2 or above, and below 1.21.1-3» y «Mod adorablehamsterpets requires
+patchouli 1.21.1-93-NEOFORGE or above» (en 21 s, 133 mods). Falta sumar `irons-lib` a los extras y subir Patchouli
+(la de Better MC 5 es más vieja), y repetir la prueba. Hasta entonces la tienda NO publica una selección con
+«Iron's Spells» o «Hámsters» (la combinación «Granja, bichos y conejos» los trae): la frena L1-06, como debe.
+
 **Falta:** que Fran agregue las cuentas sin conexión en Prism (en la note no hay ninguna: sin eso Prism no abre
 el juego; en la PC, «Kheven»), arme un combo y entre con Kevin al server de la tienda — eso cierra la fase; el
 paquete de Kevin está en `C:\Users\frans\MinecraftServer\tienda\paquete-kevin.zip`; L1-14 (TPS con spark) y
