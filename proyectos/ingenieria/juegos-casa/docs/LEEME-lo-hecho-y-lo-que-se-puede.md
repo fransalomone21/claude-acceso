@@ -5,26 +5,24 @@ Fran: esto es lo que ves en `Escritorio\Juegos`, igual en la note y en la PC. Lo
 
 ## Cómo está ordenada
 
-| Carpeta | Qué tiene |
+| Dónde | Qué hay |
 |---|---|
-| **1 - Todos los juegos** | todos los juegos de esa máquina, de la A a la Z. Si un juego arranca de varias formas (de a dos, con mods, en red), es una carpeta con todas adentro |
-| **2 - De a dos** | una carpeta por juego de a dos, con sus accesos y un **«Como jugar de a dos.txt»**: cómo se juega, el paso a paso y si ya lo probamos |
-| **3 - Por modo** | Un jugador · Dos jugadores en la misma pantalla · Cooperativo · Pantalla dividida · Cada uno en su pantalla |
-| **4 - Por tipo** | Acción · Construcción · Mundo libre · Historia · Deportes y carreras · Estrategia y puzzle |
-| **5 - Por version** | Originales · Con mods · Innovaciones (remakes y versiones de fans) |
-| **Minecraft** | todo lo de Minecraft junto, con su «Como jugar.txt» |
+| **sueltos en Juegos** | los juegos de PC, uno por acceso, con el ícono del juego (Hades, The Last of Us, Sparking ZERO, Gang Beasts…) |
+| **Sega** | los clásicos de Mega Drive, con su carátula. Cada uno abre «los dos en esta máquina»; las formas en red (ser anfitrión / unirse) están en «Jugar en red (cada uno en su pantalla)» |
+| **PS2** · **PS3** · **Android** | los juegos de cada consola, con su carátula (PS2) o el ícono del juego (PS3). Android sólo en la PC |
+| **Minecraft** | Jugar (Prism Launcher), la Tienda de mods, **Servidores** (el de la tienda, la juntada, Better MC 5, el 1.21.4 de la PC), Otros launchers, la Biblioteca de mods (PC) y «Como jugar.txt» |
+| **Clasificados** | la clasificación de anoche, toda junta: De a dos (con el «Como jugar de a dos.txt» de cada juego), Por modo, Por tipo y Por versión |
 | BLACK, Emuladores, Utilidades, Mods, Juegos de PC / Juegos instalados, Juegos de emulador | quedaron como estaban: adentro hay juegos instalados o cosas de otros proyectos, y moverlas las rompe |
 
-Un mismo juego aparece en varias carpetas (por eso se llama índice): el original está en «1 - Todos los
-juegos» y en las demás hay un acceso a él. **Todo esto se arma solo desde la lista de juegos del repo**: si un
-juego nuevo se instala, la próxima vez que se arma aparece; si algo se borra de estas cinco carpetas, se
-vuelve a poner. Lo de adentro de esas carpetas no se toca a mano.
+**Todo esto se arma solo desde la lista de juegos del repo**: si un juego nuevo se instala, la próxima vez que
+se arma aparece; si algo se borra de estas carpetas, se vuelve a poner. Lo de adentro no se toca a mano.
+En la note las carpetas ya están en íconos grandes; en la PC, si se ven chiquitos: Ver > Íconos grandes.
 
 Los accesos viejos (los sueltos de Juegos, «Juegos de a dos», «Sega - los dos en la PC», «Juegos de PC\Accesos»
 y el Minecraft viejo) no se borraron: están en `C:\Games\_indice\accesos\` de cada máquina, con la misma ruta
 que tenían, y de ahí los copia el índice.
 
-**Hoy:** la note tiene 45 juegos y la PC 54. Lo que está en un disco USB (Battlefront II original, tres BT3)
+**Hoy:** la note tiene 45 juegos y la PC 54, con 39 carátulas e íconos de juego. Lo que está en un disco USB (Battlefront II original, tres BT3)
 aparece con «(disco USB)» en el nombre: hay que enchufarlo antes.
 
 ## De a dos
@@ -35,7 +33,7 @@ aparece con «(disco USB)» en el nombre: hay que enchufarlo antes.
   («ser anfitrion» en una, «unirse a ...» en la otra) anda, pero anoche se ralentizó y se desincronizó; desde
   hoy RetroArch juega en red con 2 cuadros de margen y chequea cada medio segundo que las dos vayan iguales,
   que es el arreglo para eso. Falta probarlo jugando.
-- **CoD World at War**: pantalla dividida en una compu (la receta entera está en su carpeta de «2 - De a dos»).
+- **CoD World at War**: pantalla dividida en una compu (la receta entera está en la carpeta PS3 y en «Clasificados\De a dos»).
 - **Minecraft**: abajo.
 - Cada juego de a dos dice en su txt si está **probado**, **probable** o **sin probar**.
 

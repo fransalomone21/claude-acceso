@@ -3,6 +3,15 @@
 **Escrito el:** 2026-11-25 (mediodía) · **Fase al cerrar:** 0 (Concepto) abierta por el sí de Fran; la 1 (el
 índice) con su criterio cumplido, se cierra junto con la MCR de la 0.
 
+## Lo más nuevo (2026-11-25 a la tarde)
+
+Fran pidió otra forma: **juegos de PC sueltos en `Juegos\`, una carpeta por consola (Sega, PS2, PS3, Android),
+Minecraft ordenado (Servidores, Otros launchers, Tienda, Jugar) y la clasificación toda en `Clasificados\`**, con
+íconos lindos. Hecho y verificado en las dos (verde, sabotaje rojo). Íconos: `scripts/iconos.py` (carátulas de
+libretro-thumbnails en GitHub; thumbnails.libretro.com ya no sirve archivos). En la note las carpetas quedaron
+en íconos grandes (Shell.Application); en la PC falta (es por usuario y pide la sesión interactiva: Fran, Ver >
+Íconos grandes, o una tarea interactiva cuando nadie la use).
+
 ## Lo último (2026-11-25 al mediodía, sesión «ordená la carpeta de juegos»)
 
 - **Hecho y medido**: el índice en las dos máquinas (`scripts/catalogo.json` + `scripts/indice.py`): note 45
@@ -102,7 +111,8 @@ Proyecto juegos-casa (claude-acceso), fase 0 (Pre-Fase A) con la 1 (el indice) y
 2. La 0 la cierra el si de Fran al concepto y a docs/10-requisitos.md v0.2 (su frase textual a docs/bitacora.md);
    la 1 ya cumplio su criterio y se cierra con ese mismo si.
 3. Sonnet, esfuerzo medio, sin agentes: es operar lo construido; RetroBat pide mostrarle 2-3 temas a Fran.
-4. Maquina: indice en Escritorio\Juegos de las dos (1 a 5 + Minecraft, generado), almacen C:\Games\_indice\accesos,
+4. Maquina: indice en Escritorio\Juegos de las dos (PC sueltos, Sega/PS2/PS3/Android, Minecraft, Clasificados; generado),
+   iconos en C:\Games\_indice\iconos (39), lista de los sueltos en C:\Games\_indice\generado-raiz.txt, almacen C:\Games\_indice\accesos,
    inventarios y planillas en proyectos/ingenieria/juegos-casa/inventario/ (ignorado). RetroArch en C:\Games\RetroArch
    de las dos con red a 2 cuadros. Capturas en C:\Games\_pruebas\caliente-2026-11-25\ (note 18/18). PC:
    Fran@10.147.20.3, todo comando con proyectos/ingenieria/pc-casa-control/scripts/en-pc.ps1.

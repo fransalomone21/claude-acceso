@@ -106,6 +106,8 @@ $alm = 'C:\Games\_indice\accesos'
 $roots = @(@{ p = $escr; d = 0; base = $escr; alm = $false }, @{ p = $juegos; d = 5; base = $escr; alm = $false }, @{ p = $alm; d = 7; base = $alm; alm = $true })
 # las carpetas de Juegos que genero el indice (tienen la marca): lo de adentro son copias, no originales
 $gen = @(Get-ChildItem $juegos -Directory | Where-Object { Test-Path (Join-Path $_.FullName '.indice-generado') } | ForEach-Object { $_.Name })
+# y los accesos sueltos de Juegos\ que genero el indice (los juegos de PC): estan en su manifiesto
+$genRaiz = @(); if (Test-Path 'C:\Games\_indice\generado-raiz.txt') { $genRaiz = @(Get-Content 'C:\Games\_indice\generado-raiz.txt' -Encoding UTF8) }
 foreach ($rt in $roots) {
     foreach ($f in Get-ChildItem $rt.p -File -Recurse -Depth $rt.d -Include *.lnk, *.url, *.bat, *.txt) {
         if ($rt.d -eq 0 -and $f.DirectoryName -ne $escr) { continue }
@@ -114,6 +116,7 @@ foreach ($rt in $roots) {
         $e = @{ carpeta = (Split-Path $rel); rel = $rel; almacen = $rt.alm }
         $partes = $rel -split '\\'
         if (-not $rt.alm -and $partes.Count -gt 2 -and $partes[0] -eq 'Juegos' -and ($gen -contains $partes[1])) { $e.generado = $true }
+        if (-not $rt.alm -and $partes.Count -eq 2 -and $partes[0] -eq 'Juegos' -and ($genRaiz -contains $partes[1])) { $e.generado = $true }
         if ($f.Extension -eq '.lnk') { $l = $sh.CreateShortcut($f.FullName); $e.destino = $l.TargetPath; $e.args = $l.Arguments; $e.dir = $l.WorkingDirectory }
         elseif ($f.Extension -eq '.url') { $e.destino = ([regex]::Match((Get-Content $f.FullName -Raw), 'URL=(.+)')).Groups[1].Value.Trim() }
         else { $e.destino = $f.FullName }

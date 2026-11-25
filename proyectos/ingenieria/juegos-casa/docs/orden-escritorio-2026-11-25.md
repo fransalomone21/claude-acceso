@@ -76,7 +76,11 @@ instalados` (tienen juegos instalados adentro), `Juegos de emulador` (las ISOs d
 ```powershell
 $e = "C:\Users\frans\Desktop"; $a = "C:\Games\_indice\accesos"
 Get-ChildItem $a -Recurse -File | ForEach-Object { $d = Join-Path $e $_.FullName.Substring($a.Length + 1); New-Item -ItemType Directory -Force (Split-Path $d) | Out-Null; Move-Item -LiteralPath $_.FullName -Destination $d }
-"1 - Todos los juegos","2 - De a dos","3 - Por modo","4 - Por tipo","5 - Por version" | ForEach-Object { Remove-Item -LiteralPath (Join-Path "$e\Juegos" $_) -Recurse }
+"Sega","PS2","PS3","Android","Clasificados","Minecraft" | ForEach-Object { $p = Join-Path "$e\Juegos" $_; if (Test-Path "$p\.indice-generado") { Remove-Item -LiteralPath $p -Recurse } }
+Get-Content C:\Games\_indice\generado-raiz.txt | ForEach-Object { Remove-Item -LiteralPath (Join-Path "$e\Juegos" $_) }
 ```
+
+(Desde la tarde del 2026-11-25 la forma es: juegos de PC sueltos —anotados en `generado-raiz.txt`—, carpetas
+por consola, Minecraft y `Clasificados`; las cinco numeradas de la mañana se borraron solas al regenerar.)
 
 (En la note, el `Minecraft` generado se borra antes de devolver el viejo.)

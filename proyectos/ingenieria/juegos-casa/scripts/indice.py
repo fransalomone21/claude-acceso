@@ -33,7 +33,16 @@ PC = "Fran@10.147.20.3"
 ALMACEN = r"C:\Games\_indice\accesos"
 PCSX2 = r"C:\Games\PCSX2-2.8.2\pcsx2-qt.exe"
 MARCA = ".indice-generado"
-RAICES = ["1 - Todos los juegos", "2 - De a dos", "3 - Por modo", "4 - Por tipo", "5 - Por version"]
+# La forma del indice (Fran, 2026-11-25 al mediodia): los juegos de PC sueltos en Juegos\, una carpeta por consola,
+# Minecraft con todo lo suyo, y la clasificacion (de a dos, modo, tipo, version) junta en una sola carpeta.
+CARPETA_SISTEMA = {"Mega Drive": "Sega", "PlayStation 2": "PS2", "PlayStation 3": "PS3", "Android": "Android"}
+CLASIF = "Clasificados"
+RAICES = ["Sega", "PS2", "PS3", "Android", CLASIF]
+RAICES_VIEJAS = ["1 - Todos los juegos", "2 - De a dos", "3 - Por modo", "4 - Por tipo", "5 - Por version"]
+ICONOS = r"C:\Games\_indice\iconos"
+MANIFIESTO = r"C:\Games\_indice\generado-raiz.txt"     # los accesos sueltos de Juegos\ que genero el indice
+EMULADORES = re.compile(r"retroarch|pcsx2|rpcs3|HD-Player", re.I)
+EN_RED = re.compile(r"ser anfitrion|unirse a", re.I)
 MIGRAR = ["Juegos", r"Juegos\Juegos de a dos", r"Juegos\Sega - los dos en la PC", r"Juegos\Juegos de PC\Accesos", r"Juegos\Minecraft"]
 MODOS_DE_A_DOS = {"dos jugadores", "cooperativo", "pantalla dividida", "cada uno en su pantalla"}
 INVALIDOS = re.compile(r'[\\/:*?"<>|]')
@@ -191,7 +200,8 @@ def lanzadores_de(j, dets, accesos, usados, inv):
                 usados.add(id(a))
                 nombre = r.get("nombre") if (r.get("nombre") and len(ms) == 1) else a["nombre"]
                 agregar({"tipo": "copiar" if clase == "acceso" else "texto-copiar", "src": a["src"], "ext": a["ext"],
-                         "nombre": nombre}, clave(a))
+                         "nombre": nombre, "destino_orig": a.get("destino") or "", "sub": r.get("sub"),
+                         "icono": r.get("icono")}, clave(a))
                 hay_acceso = hay_acceso or clase == "acceso"
         elif "iso" in r:
             if r.get("si_no_hay") and hay_acceso:
@@ -226,7 +236,7 @@ def lanzadores_de(j, dets, accesos, usados, inv):
             if r.get("si_no_hay_nombre") and any(l["nombre"] == r["si_no_hay_nombre"] for l in out):
                 continue
             agregar({"tipo": "lnk", "destino": r["programa"], "args": "", "dir": "", "nombre": r["nombre"], "ext": ".lnk",
-                     "opcional": True}, (r["programa"].lower(), ""))
+                     "opcional": True, "sub": r.get("sub"), "icono": r.get("icono")}, (r["programa"].lower(), ""))
         elif "carpeta" in r:
             agregar({"tipo": "carpeta", "destino": r["carpeta"], "nombre": r["nombre"], "ext": ".lnk", "opcional": True},
                     (r["carpeta"].lower(), "carpeta"))
@@ -295,30 +305,61 @@ def plan(maquina, cat, inv):
             continue
         presentes.append(j)
         n = nombre_ok(j["nombre"])
-        todos = os.path.join(RAICES[0], n)
-        unico = len(lanz) == 1
-        if unico:
-            item(os.path.join(RAICES[0], n + lanz[0]["ext"]), dict(lanz[0], nombre=n), j["id"])
-            ref = dict(lanz[0], nombre=n)
-        else:
+        # el icono del juego (iconos.py) va en los accesos que arrancan un emulador: el del emulador no dice nada
+        ico = os.path.join(ICONOS, j["id"] + ".ico")
+        for l in ls:
+            objetivo = l.get("destino") or l.get("destino_orig") or ""
+            if l["tipo"] != "texto-copiar" and not l.get("icono") and (EMULADORES.search(objetivo) or not objetivo or l["tipo"] == "carpeta"):
+                l["icono"] = ico
+        sistema = j.get("sistema")
+        carpeta = CARPETA_SISTEMA.get(sistema)
+        en_red = [l for l in lanz if EN_RED.search(l["nombre"])]
+        locales = [l for l in lanz if l not in en_red]
+        # el acceso principal: el que se usa en la clasificacion (los dos en esta maquina, si hay)
+        ref = next((l for l in locales if re.search(r"los dos en esta maquina", l["nombre"], re.I)), (locales or lanz)[0])
+        ref = dict(ref, nombre=n)
+        if j.get("carpeta_propia") or j.get("destacado"):
+            dest_carpeta = j.get("carpeta_propia") or n
+            ref = {"tipo": "carpeta", "destino": os.path.join(inv["escritorio"], J, dest_carpeta), "ext": ".lnk",
+                   "icono": lanz[0].get("icono") if j.get("carpeta_propia") else
+                   "%LOCALAPPDATA%\\Programs\\PrismLauncher\\prismlauncher.exe", "nombre": n}
+        if j.get("destacado"):
+            # Minecraft: su carpeta con todo, ordenado en subcarpetas (Servidores, Otros launchers)
             for l in ls:
-                item(os.path.join(todos, nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
-            ref = {"tipo": "carpeta", "destino": os.path.join(inv["escritorio"], J, todos), "ext": ".lnk"}
+                item(os.path.join(n, l.get("sub") or "", nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
+            if j.get("de_a_dos"):
+                item(os.path.join(n, "Como jugar.txt"), {"tipo": "texto", "texto": texto_de_a_dos(j, cat)[0]}, j["id"])
+        elif j.get("carpeta_propia"):
+            if carpeta:
+                item(os.path.join(carpeta, n + ".lnk"), ref, j["id"])
+        elif carpeta is None:
+            # juego de PC: suelto en Juegos\ (uno por acceso; si es uno solo, con el nombre del juego)
+            for l in lanz:
+                nom = n if len(lanz) == 1 else nombre_ok(l["nombre"])
+                item(nom + l["ext"], dict(l, raiz=True), j["id"])
+        else:
+            # juego de consola: en su carpeta; las formas en red, aparte
+            for l in locales:
+                nom = n if len(locales) == 1 else nombre_ok(l["nombre"])
+                item(os.path.join(carpeta, nom + l["ext"]), l, j["id"])
+            for l in en_red:
+                item(os.path.join(carpeta, "Jugar en red (cada uno en su pantalla)", nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
+            for l in ls:
+                if l["tipo"] == "texto-copiar":
+                    item(os.path.join(carpeta, nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
         de_a_dos = bool(MODOS_DE_A_DOS & set(j["modo"]))
         if de_a_dos and j.get("de_a_dos"):
             txt, _ = texto_de_a_dos(j, cat)
-            base = os.path.join(RAICES[1], n)
-            for l in ls:
-                item(os.path.join(base, nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
+            base = os.path.join(CLASIF, "De a dos", n)
+            if j.get("carpeta_propia") or j.get("destacado"):
+                item(os.path.join(base, n + ".lnk"), ref, j["id"])
+            else:
+                for l in ls:
+                    item(os.path.join(base, nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
             item(os.path.join(base, "Como jugar de a dos.txt"), {"tipo": "texto", "texto": txt}, j["id"])
-        if j.get("destacado"):
-            for l in ls:
-                item(os.path.join(n, nombre_ok(l["nombre"]) + l["ext"]), l, j["id"])
-            if j.get("de_a_dos"):
-                item(os.path.join(n, "Como jugar.txt"), {"tipo": "texto", "texto": texto_de_a_dos(j, cat)[0]}, j["id"])
-        for eje, raiz, valores in (("modo", RAICES[2], j["modo"]), ("tipo", RAICES[3], j["tipo"]), ("version", RAICES[4], [j["version"]])):
+        for eje, raiz, valores in (("modo", "Por modo", j["modo"]), ("tipo", "Por tipo", j["tipo"]), ("version", "Por version", [j["version"]])):
             for v in valores:
-                item(os.path.join(raiz, ejes[eje][v], n + ref["ext"]), dict(ref, nombre=n), j["id"])
+                item(os.path.join(CLASIF, raiz, ejes[eje][v], n + ref["ext"]), ref, j["id"])
     # herramientas (no son juegos): a su carpeta, sin regenerarla
     for h in cat.get("herramientas", []):
         for a in accesos:
@@ -327,8 +368,12 @@ def plan(maquina, cat, inv):
                 item(os.path.join(h["carpeta"], h["nombre"] + a["ext"]), {"tipo": "copiar", "src": a["src"], "ext": a["ext"]}, "herramienta")
     sin_lugar = [a for a in accesos if a["origen"] in ("almacen", "migrar") and id(a) not in usados]
     destacadas = [nombre_ok(j["nombre"]) for j in presentes if j.get("destacado")]
+    # una carpeta de consola existe solo si esa maquina tiene juegos de esa consola (la note no tiene Android)
+    con_algo = {it["dest"].split("\\")[1] for it in items if it["dest"].count("\\") >= 2}
+    raices = [r for r in RAICES + destacadas if r in con_algo]
     return {"maquina": maquina, "escritorio": inv["escritorio"], "items": items, "migrar": migrar,
-            "raices": RAICES + destacadas, "presentes": [j["id"] for j in presentes],
+            "raices": raices, "viejas": RAICES_VIEJAS + [r for r in RAICES if r not in raices],
+            "presentes": [j["id"] for j in presentes],
             "sin_catalogar": [f"{d['clase']}: {d.get('nombre')} ({d.get('id') or d.get('appid') or os.path.basename(d['ruta'])})" for d in sin_catalogar],
             "sin_lanzador": sin_lanzador,
             "sin_lugar": [a.get("rel") or a["ruta"] for a in sin_lugar]}
@@ -381,7 +426,19 @@ foreach ($c in @('Juegos de a dos', 'Sega - los dos en la PC', 'Juegos de PC\Acc
         if (-not (Get-ChildItem $p -Force)) { Remove-Item $p }
     }
 }
-# 2. lo generado antes se regenera (solo carpetas con la marca; solo accesos y textos)
+# 2. lo generado antes se regenera (solo carpetas con la marca; solo accesos y textos). Las carpetas de la forma
+#    vieja del indice (1 - Todos ... 5 - Por version) se vacian y se sacan; los sueltos de Juegos\ que genero el
+#    indice estan en el manifiesto y se rehacen.
+foreach ($r in $plan.viejas) {
+    $p = Join-Path $juegos $r
+    if (-not (Test-Path (Join-Path $p '@@MARCA@@'))) { continue }
+    Get-ChildItem $p -Recurse -File -Force -Include *.lnk, *.url, *.txt, '@@MARCA@@' | Remove-Item -Force
+    Get-ChildItem $p -Recurse -Directory | Sort-Object { $_.FullName.Length } -Descending | Where-Object { -not (Get-ChildItem $_.FullName -Force) } | Remove-Item
+    if (-not (Get-ChildItem $p -Force)) { Remove-Item $p } else { $res.errores += "quedo algo que no genero el indice en '$r': no se borra" }
+}
+$man = '@@MANIFIESTO@@'
+if (Test-Path $man) { foreach ($n in Get-Content $man) { $f = Join-Path $juegos $n; if ($n -and (Test-Path -LiteralPath $f)) { Remove-Item -LiteralPath $f -Force } } }
+$raizNueva = @()
 foreach ($r in $plan.raices) {
     $p = Join-Path $juegos $r
     if (-not (Test-Path $p)) { continue }
@@ -403,6 +460,7 @@ foreach ($it in $plan.items) {
     $raiz = ($it.dest -split '\\')[1]
     if (($plan.raices -contains $raiz) -and -not (Test-Path (Join-Path (Join-Path $juegos $raiz) '@@MARCA@@'))) { continue }
     New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
+    $omitido = $false
     try {
         switch ($it.tipo) {
             'copiar' { if (-not (Test-Path -LiteralPath $it.src)) { throw "falta el original $($it.src)" }; Copy-Item -LiteralPath $it.src -Destination $dst -Force }
@@ -411,18 +469,31 @@ foreach ($it in $plan.items) {
             'texto' { [IO.File]::WriteAllText($dst, $it.texto, (New-Object Text.UTF8Encoding $true)) }
             'lnk' {
                 $t = [Environment]::ExpandEnvironmentVariables($it.destino)
-                if (-not (Test-Path -LiteralPath $t)) { if ($it.opcional) { $res.omitidos += $it.dest; continue }; throw "no existe $t" }
+                if (-not (Test-Path -LiteralPath $t)) { if ($it.opcional) { $res.omitidos += $it.dest; $omitido = $true; break }; throw "no existe $t" }
                 $l = $ws.CreateShortcut($dst); $l.TargetPath = $t; $l.Arguments = $it.args
                 $l.WorkingDirectory = $(if ($it.dir) { $it.dir } else { Split-Path $t }); $l.IconLocation = "$t,0"; $l.Save()
             }
             'carpeta' {
-                if (-not (Test-Path -LiteralPath $it.destino)) { if ($it.opcional) { $res.omitidos += $it.dest; continue }; throw "no existe $($it.destino)" }
+                if (-not (Test-Path -LiteralPath $it.destino)) { if ($it.opcional) { $res.omitidos += $it.dest; $omitido = $true; break }; throw "no existe $($it.destino)" }
                 $l = $ws.CreateShortcut($dst); $l.TargetPath = $it.destino; $l.Save()
             }
         }
+        # (un 'continue' adentro de un switch de PowerShell solo sale del switch: por eso la bandera)
+        if ($omitido) { continue }
+        # el icono del juego (iconos.py), si esta en esta maquina
+        if ($it.icono -and $it.tipo -ne 'texto' -and $it.tipo -ne 'texto-copiar') {
+            $ic = [Environment]::ExpandEnvironmentVariables($it.icono)
+            if (Test-Path -LiteralPath $ic) {
+                if ($dst -like '*.lnk') { $l = $ws.CreateShortcut($dst); $l.IconLocation = "$ic,0"; $l.Save() }
+                elseif ($dst -like '*.url') { $u = @(Get-Content -LiteralPath $dst | Where-Object { $_ -notmatch '^Icon(File|Index)=' }); $u += "IconFile=$ic"; $u += 'IconIndex=0'; Set-Content -LiteralPath $dst -Value $u -Encoding ascii }
+            }
+        }
+        if ($it.raiz) { $raizNueva += (Split-Path $dst -Leaf) }
         $res.creados++
     } catch { $res.errores += "$($it.dest): $($_.Exception.Message)" }
 }
+New-Item -ItemType Directory -Force (Split-Path $man) | Out-Null
+[IO.File]::WriteAllLines($man, [string[]]$raizNueva, (New-Object Text.UTF8Encoding $false))
 $j = $res | ConvertTo-Json -Depth 4 -Compress
 $sb = New-Object Text.StringBuilder
 foreach ($ch in $j.ToCharArray()) { if ([int]$ch -gt 127) { [void]$sb.AppendFormat('\u{0:x4}', [int]$ch) } else { [void]$sb.Append($ch) } }
@@ -433,15 +504,16 @@ LISTAR = r'''
 $escr = [Environment]::GetFolderPath('Desktop'); $juegos = Join-Path $escr 'Juegos'
 $out = @(); $rotos = @()
 $ws = New-Object -ComObject WScript.Shell
-foreach ($r in @(@@RAICES@@)) {
+foreach ($r in @('.', @@RAICES@@)) {
     $p = Join-Path $juegos $r
     if (-not (Test-Path $p)) { continue }
-    foreach ($f in Get-ChildItem $p -Recurse -File -Include *.lnk, *.url, *.txt) {
+    $fs = if ($r -eq '.') { Get-ChildItem "$juegos\*" -File -Include *.lnk, *.url } else { Get-ChildItem $p -Recurse -File -Include *.lnk, *.url, *.txt }
+    foreach ($f in $fs) {
         $rel = $f.FullName.Substring($escr.Length + 1); $out += $rel
         if ($f.Extension -eq '.lnk') {
             $t = $ws.CreateShortcut($f.FullName).TargetPath
-            # L1-03: el acceso apunta a algo que existe (vacio = acceso de RPCS3 por id, no se puede medir asi)
-            if ($t -and -not (Test-Path -LiteralPath $t)) { $rotos += [ordered]@{ rel = $rel; destino = $t; unidad = (Test-Path (Split-Path -Qualifier $t)) } }
+            # L1-03: el acceso apunta a algo que existe (un destino vacio tambien es roto: 2026-11-25 se colaron dos)
+            if (-not $t -or -not (Test-Path -LiteralPath $t)) { $rotos += [ordered]@{ rel = $rel; destino = "$t"; unidad = $(if (-not $t) { $true } else { Test-Path (Split-Path -Qualifier $t) }) } }
         }
     }
 }
@@ -453,9 +525,10 @@ $sb.ToString()
 
 
 def aplicar(maquina, p):
-    datos = {"escritorio": p["escritorio"], "items": p["items"], "migrar": p["migrar"], "raices": p["raices"]}
+    datos = {"escritorio": p["escritorio"], "items": p["items"], "migrar": p["migrar"], "raices": p["raices"],
+             "viejas": p.get("viejas", [])}
     b64 = base64.b64encode(json.dumps(datos, ensure_ascii=False).encode("utf-8")).decode()
-    texto = APLICAR.replace("@@PLAN@@", b64).replace("@@MARCA@@", MARCA)
+    texto = APLICAR.replace("@@PLAN@@", b64).replace("@@MARCA@@", MARCA).replace("@@MANIFIESTO@@", MANIFIESTO)
     res = json_de(correr_ps(maquina, texto, "indice-aplicar.ps1"))
     if res.get("planilla"):
         os.makedirs(DATOS, exist_ok=True)
@@ -497,7 +570,7 @@ def verificar(maquina, cat, p, hay=None):
             print(f"  aviso: {x['rel']} apunta a un disco que no esta enchufado ({x['destino'][:3]})")
     esperados = {}
     for it in p["items"]:
-        if it.get("opcional") or not any(it["dest"].split("\\")[1] == r for r in p["raices"]):
+        if it.get("opcional") or not (it.get("raiz") or any(it["dest"].split("\\")[1] == r for r in p["raices"])):
             continue
         esperados.setdefault(it["dest"].lower(), it["juego"])
     faltan = {}
