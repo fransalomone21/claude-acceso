@@ -25,6 +25,9 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 | Los 7 comprimidos «no sé qué es» de la cuarentena de la notebook son 6 juegos de PS2 (God of War II NTSC y PAL, GTA SA latino, Simpsons Hit & Run latino, PES 6, LEGO Batman) | listados con 7-Zip y la contraseña que dio Fran | 2026-11-24 |
 | La planilla que mandó Fran es la base pública de packs de ROMs de Retro Rusty (links de descarga), con nombres de carpeta de RetroBat | leída como CSV | 2026-11-24 |
 | 1.21.1 es la versión de Minecraft más nueva con casi tantos mods como 1.20.1 | API de Modrinth (va a `minecraft-amigos`) | 2026-11-24 |
+| **Double Dragon II en red anda**: RetroArch 1.22.2 portable en `C:\Games\RetroArch` de las dos, Genesis Plus GX, ROMs con MD5 igual; la PC se unió a la notebook por ZeroTier en ~40 s | `Get-NetTCPConnection`: `10.147.20.2:55435 <- 10.147.20.3 Established`; `docs/spike-double-dragon.md` | 2026-11-24 |
+| Ghost of Sparta (pkg + rap) en `C:\Games\PS3-ISOs\` de la PC y 5 ISOs de PS2 en `C:\Games\PS2-ISOs\` (GoW II PAL, GTA SA latino, Simpsons latino, PES 6, LEGO Batman), MD5 y tamaño verificados | log de la copia y tamaños exactos por SSH | 2026-11-24 |
+| La notebook pasó de 9 a 121 GB libres: cuarentena vaciada, zip de CoD y rar de DBZ duplicados borrados (cada ISO verificado antes), intermedios del Sparking borrados (quedó `LISTO`), todo con el sí de Fran | `Get-PSDrive` antes y después | 2026-11-24 |
 
 ## Lo que es hipótesis
 

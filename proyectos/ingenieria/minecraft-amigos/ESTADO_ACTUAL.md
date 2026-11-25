@@ -19,6 +19,14 @@ Tough As Nails estaba en el pack 1.21.4 (`pack/manifiesto.json`) y es el «frío
 gustó. Detalle: `docs/fase-2-tienda.md`. Desde el 2026-11-15 hay además `JUNTADA-EN-CASA.md` (jugar con
 el hermano: server `juntada`, mundo `hermanos-2026-11-15`).
 
+**Hecho el 2026-11-24 a la noche (para jugar con Kevin):** Tough As Nails y GlitchCore movidos a
+`mods_fuera_de_pack` en el server `juntada`, en las instancias `Juntada 1.21.4` y `Nuevo 1.21.4` de la
+notebook y en `Nuevo 1.21.4` de la PC; el server arrancó sin ellos (Done en 36 s, apagado por RCON).
+Instancia **«Better MC 5 (1.21.1)»** (sin Serene Seasons, 267 jars con SHA-1 verificado) en la notebook
+y en la PC; su server en `C:\Users\frans\MinecraftServer\bmc5` (puerto 25567), reparándose de mods de
+pantalla con `herramientas/server_sin_mods_de_cliente.py` (resultado en `bmc5-arreglo.log`). La tienda y
+el combo espacial los construye la sesión «mc-tienda».
+
 **Lo de abajo es de la fase 1 y vale como historia.**
 
 ## Lo confirmado
