@@ -38,6 +38,11 @@ if (Get-Process retroarch -ErrorAction SilentlyContinue) {
         input_menu_toggle_gamepad_combo = "4"; input_player1_analog_dpad_mode = "1"; input_player2_analog_dpad_mode = "1"
         input_autodetect_enable = "true"; log_to_file = "true"; log_to_file_timestamp = "false"; config_save_on_exit = "true"
         menu_show_load_content_animation = "false"; video_shader_enable = "false"
+        # Red (2026-11-25, Fran: "se ralentiza y lo que ve el otro diverge y lo teletransporta"): con 0 cuadros
+        # de demora cada pico del Wi-Fi fuerza un rollback (el salto); 2 cuadros lo absorben. Y el chequeo de
+        # sincronia cada 600 cuadros (10 s) dejaba divergir hasta 10 s: cada 30 cuadros lo corrige al toque.
+        netplay_input_latency_frames_min = "2"; netplay_input_latency_frames_range = "2"; netplay_check_frames = "30"
+        netplay_ping_show = "true"; netplay_public_announce = "false"
     }
     $lineas = if (Test-Path $cfg) { Get-Content -LiteralPath $cfg } else { @() }
     foreach ($k in $claves.Keys) {

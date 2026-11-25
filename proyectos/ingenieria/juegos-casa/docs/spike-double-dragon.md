@@ -63,3 +63,22 @@ juego en `Escritorio\Juegos\Juegos de a dos` de las dos, 52 accesos en cada una;
 `Kheven` en la PC (el que ya tenía). Con RetroArch abierto el script **no** toca `retroarch.cfg` (al salir lo
 reescribe). **Sin probar en caliente todavía**: Fran y Kevin estaban jugando; la prueba con captura de cada uno
 queda para cuando terminen.
+
+## 2026-11-25 — la partida real: ralentiza y diverge (L1-05 no pasa)
+
+- **Lo que vio Fran** jugando con Kevin: «se ralentiza por momentos, y a veces diverge lo que veo yo y lo
+  que ve él, y lo teletransporta».
+- **Medido**: config igual en las dos (sólo cambia el nick); ZeroTier directo, ping 1-3 ms con picos sueltos
+  de 19 ms (40 muestras); la ruta por la LAN dio media de 86 ms y máximo de 150 ms en otra ventana de 20 s:
+  el Wi-Fi de la note tiene ráfagas. La placa Wi-Fi de la note tiene la **itinerancia en «5. Máximo»**
+  (busca redes periódicamente: causa clásica de picos). RetroArch tenía **0 cuadros de demora**
+  (`netplay_input_latency_frames_min/range = 0`: cada pico obliga a un rollback, que es el salto) y el
+  **chequeo de sincronía cada 600 cuadros** (10 s divergiendo antes de corregir).
+- **Hipótesis** (probable, sin medir el arreglo): con 2 cuadros de demora, chequeo cada 30 cuadros y la
+  itinerancia del Wi-Fi al mínimo (o la note por cable) se va. Las tres claves ya están en
+  `instalar-retroarch.ps1`; se aplican corriéndolo con RetroArch cerrado. La itinerancia es un ajuste del
+  sistema: pide el sí de Fran.
+- **Decisión de Fran (2026-11-25)**: «dejame el splitscreen y listo en la pc, más rápido y confiable, total
+  no es split es shared screen». Estos juegos comparten pantalla, así que la regla de jugar cada uno en su
+  pantalla no gana nada acá (L1-13). Queda `Escritorio\Juegos\Sega - los dos en la PC` en la PC, con los 18
+  accesos «los dos en esta máquina». La red queda como alternativa, sin probar con el arreglo.
