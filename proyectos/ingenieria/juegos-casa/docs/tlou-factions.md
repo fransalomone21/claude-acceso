@@ -84,7 +84,47 @@ de dos en menos de 180 s desde el primer doble clic (L1-04), con latencia entre 
 
 ## 6. Lo medido
 
-*(vacío hasta la primera prueba)*
+### 2026-11-25 ~16:45 — las dos máquinas (sólo lectura)
+
+| Qué | Medido | Cómo |
+|---|---|---|
+| RPCS3 **0.0.43-20568-b94078be** en `C:\Games\RPCS3` de **las dos** (el mismo build) | confirmado | primera línea de `log\RPCS3.log` en cada una |
+| La carpeta `rpcs3-0.0.39-18592-win64` de la PC corre en realidad **0.0.41-19512** | confirmado | su `RPCS3.log` |
+| PC: la **actualización 01.11** de BCUS98174 está en `dev_hdd0\game\BCUS98174` del 0.0.41 (0,26 GB) | confirmado | `PARAM.SFO` (01.11 y 01.00 adentro) |
+| **El disco de EE. UU. (BCUS98174) NO está en ninguna máquina.** PC: `games.yml` apunta a `Downloads\Last of Us, The (USA) (En,Fr,Es,Pt).iso`, que no existe; notebook: apunta a `Downloads\The Last of Us\`, que no existe. Tampoco el europeo de la note (`Downloads\The Last of Us ps3\...`) | confirmado | `Test-Path`, búsqueda por nombre en todo `C:` de las dos (sin seguir uniones), papeleras de las dos |
+| Ningún RPCS3 de las dos tiene `config\rpcn.yml`: nadie usa RPCN hoy | confirmado | listado de `config\` |
+| El índice de las dos muestra «The Last of Us (PS3)» aunque falte el disco: el inventario lo da por presente leyendo `games.yml`, sin medir que la ruta exista | confirmado | `inventario/note.json` (entradas `BCUS98174` / `BCES01584` con rutas de Descargas) |
+
+**Lo que cambia**: sin el disco no hay juego que arrancar, y la sesión no baja juegos (R-01). El encargo partía
+de «la copia está en las dos máquinas»: era una lectura de `games.yml`, no una medición. Hace falta que Fran
+vuelva a poner la copia de EE. UU.
+
+### 2026-11-25 ~16:45 — P1, el armado de `net1` y `net10` (en la notebook, scratchpad)
+
+Predicción (P1, arriba): ida y vuelta byte a byte igual; con la IP cambiada, `HMAC OK`.
+
+- `net1.bin.psarc.crypt` (65 160 bytes, MD5 `b2f315865c1537cd895aaa1bce4dbbcb`) y `net10.bin.psarc.crypt`
+  (102 368 bytes, MD5 `a80c0446f20014a0d4d4287faf365eb8`) **se bajaron del S3 original, que sigue vivo**
+  (`http://t1.final.prod.s3.amazonaws.com/`, HTTP 200). El tamaño de `net1` coincide con el que cita el autor.
+  `net1` es de la 01.00 y `net10` de la 01.11 (`docs/served-content.md` del repo del servidor).
+- `psarc_crypt.py extract` → `repack` sin cambios: **MD5 igual al original en los dos** (P1, primera mitad:
+  confirmado).
+- IP `50.18.104.153` → `10.147.20.3` (una ocurrencia en cada uno, mismo largo rellenando con ceros, 9 bytes
+  distintos): `repack` y releído, **`HMAC OK`**, la IP nueva 1 vez y la vieja 0 (P1, segunda mitad: confirmado
+  el armado; que el juego lo acepte se mide recién con el juego corriendo).
+  MD5 de los parcheados: `net1` `39e0ccd4fc54073ac30c659503a1e9a5`, `net10` `9a91295c0585f1fe124a84aeac1cf712`.
+
+**Estado al frenar (2026-11-25 ~16:50)**: no se instaló ni se cambió nada en ninguna máquina (todo lo de arriba
+fue lectura o archivos en el scratchpad de la sesión). No hay nada que desinstalar.
+
+## 7. Lo que falta, en orden, cuando vuelva el disco
+
+1. Fran pone la copia de EE. UU. (BCUS98174, carpeta o ISO) en la PC, por ejemplo en `C:\Games\PS3-ISOs\`.
+2. La sesión: MD5 del disco, copia a la notebook (MD5 igual, L1-15) y la actualización 01.11 a las dos.
+3. Respaldo con MD5 de `dev_hdd0\home\*\savedata` y `config\` del RPCS3 0.0.43 de las dos.
+4. Backend + RPCN 1.12.1 en la PC (firewall: TCP 80, 7312-7314, 7320, 31313; UDP 3657), `net10` parcheado servido.
+5. Config propia del juego (IP/Hosts switches, RPCN apuntado a 10.147.20.3, «Stub PPU Traps»), los dos parches.
+6. Cuentas de RPCN (con el sí de Fran), P2 y P3, lanzadores en el índice y el LEEME.
 
 ## Conclusión
 
