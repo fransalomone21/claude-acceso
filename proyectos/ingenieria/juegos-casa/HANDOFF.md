@@ -91,7 +91,31 @@ de diseño (2026-11-24, Opus, esfuerzo máximo) usó alrededor de un cuarto de u
 - PC: SSH `ssh -i ~\.ssh\pc-cable Fran@10.147.20.3`; Ethernet 192.168.1.7. Notebook: ZeroTier 10.147.20.2.
 - PCSX2 de BLACK: `C:\Program Files\PCSX2` (2.6.3) en la PC, intocable.
 
-## Si hay que abrir un chat nuevo
+## Si hay que abrir un chat nuevo (2026-11-25, mediodía)
+
+```
+Proyecto juegos-casa (claude-acceso), fase 0 (Pre-Fase A) con la 1 (el indice) ya cumplida; pendientes y sesion 6.
+0. En la PC el perfil se carga solo; en otra maquina: bash .claude/nube/traer-perfil.sh y leer lo que lista.
+1. .\cascada.ps1 juegos-casa -Necesidad diseno  y leer lo que pida. Despues, enteros: ESTADO_ACTUAL.md,
+   HANDOFF.md (bloque "Lo ultimo") y docs/LEEME-lo-hecho-y-lo-que-se-puede.md. La investigacion, solo §1-§3 si se
+   toca RetroBat.
+2. La 0 la cierra el si de Fran al concepto y a docs/10-requisitos.md v0.2 (su frase textual a docs/bitacora.md);
+   la 1 ya cumplio su criterio y se cierra con ese mismo si.
+3. Sonnet, esfuerzo medio, sin agentes: es operar lo construido; RetroBat pide mostrarle 2-3 temas a Fran.
+4. Maquina: indice en Escritorio\Juegos de las dos (1 a 5 + Minecraft, generado), almacen C:\Games\_indice\accesos,
+   inventarios y planillas en proyectos/ingenieria/juegos-casa/inventario/ (ignorado). RetroArch en C:\Games\RetroArch
+   de las dos con red a 2 cuadros. Capturas en C:\Games\_pruebas\caliente-2026-11-25\ (note 18/18). PC:
+   Fran@10.147.20.3, todo comando con proyectos/ingenieria/pc-casa-control/scripts/en-pc.ps1.
+5. Resuelto, no rehacer: catalogo (63 juegos), indice verde y sabotaje en rojo en las dos, la config de RetroArch,
+   el LEEME (MD5 igual en las dos).
+6. Primer comando: python proyectos\ingenieria\juegos-casa\scripts\indice.py verificar --maquina ambas
+7. Efecto: "[note] VERDE: el indice esta completo" y "[pc] VERDE: ..."; un "sin catalogar" es un juego nuevo
+   instalado: va al catalogo y se corre generar.
+Despues: la prueba en caliente en la PC (scripts/caliente-sega.ps1 como tarea interactiva, solo si nadie la usa:
+quser sin actividad y ningun juego abierto) y la sesion 6 (RetroBat).
+```
+
+### El retome anterior (2026-11-24, sesión 2), como historia
 
 ```
 Proyecto juegos-casa (claude-acceso), fase 0 (Concepto, Pre-Fase A), sesión 2 del plan:
