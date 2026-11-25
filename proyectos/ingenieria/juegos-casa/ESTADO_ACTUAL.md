@@ -6,8 +6,8 @@
 
 | Fase | Estado |
 |---|---|
-| 0 — Concepto (Pre-Fase A), con el spike de Double Dragon II | **en curso**: falta el sí de Fran (MCR) |
-| 1 — El índice | **criterio cumplido** el 2026-11-25 (se cierra con la MCR de la 0) |
+| 0 — Concepto (Pre-Fase A), con el spike de Double Dragon II | **en curso**: (a) el sí de Fran, dado el 2026-11-25 (requisitos v0.2 en línea base); falta (b), la demora de Double Dragon II en red |
+| 1 — El índice | **cerrada** el 2026-11-25 (criterio cumplido y el sí de Fran) |
 | 2 — Los espacios retro | sin abrir |
 | 3 — Pantalla dividida a dos pantallas (spike) | sin abrir |
 

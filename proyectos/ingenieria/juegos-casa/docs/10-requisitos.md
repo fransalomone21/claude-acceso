@@ -1,8 +1,8 @@
 # Requisitos — borrador de la fase 0
 
 **Versión 0.2, 25 de noviembre de 2026** (0.1 del 24: nivel 0 y 1; la 0.2 suma el eje tipo completo y el
-nivel 2 del índice). Estado: **borrador** (NASA Pre-Fase A, *draft system-level requirements*). Entra en línea base cuando Fran lo acepta en la revisión de concepto (MCR) que cierra la
-fase 0 (`../PDP.md` §4).
+nivel 2 del índice). Estado: **línea base** desde el 25 de noviembre de 2026: Fran la aceptó en la revisión de
+concepto (MCR) de la fase 0 (`../PDP.md` §4; su frase, en `bitacora.md`). Un cambio desde acá sube la versión.
 
 Escrito con los libros abiertos: `perfil-global/pilares/nucleo-ise.md` §4, el INCOSE GtWR
 (`incose-gtwr/reglas.md`), la cátedra de IISE (M17 y M21) y NASA (`nasa-seh/requisitos.md` §4-14 y el
