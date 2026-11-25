@@ -47,7 +47,7 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
 | RetroArch en red con Genesis Plus GX conecta la notebook y la PC con 0-2 cuadros de demora (L1-05) | el indicador de netplay en una partida | la conexión se midió; la demora no |
-| Las carpetas del índice de la PC abren en íconos grandes con el mismo `desktop.ini` | `indice.py generar --maquina pc` y `medir-vista.ps1` como tarea interactiva en la PC | a las 16:13 y 16:20 del 2026-11-25 alguien la usaba (sesión activa, Steam, Epic y Spotify abiertos): no se le tocó nada |
+| Las carpetas del índice de la PC abren en íconos grandes (el `desktop.ini` ya está: `generar --maquina pc` a las 16:33 del 2026-11-25 escribió 65, índice verde) | `medir-vista.ps1` como tarea interactiva en la PC | a las 16:13, 16:20 y 16:35 alguien la usaba (sesión activa, Steam, Epic y Spotify): lo que abre ventanas no se corrió |
 | Los 18 de Mega Drive arrancan en la PC | `scripts/caliente-sega.ps1` como tarea interactiva en la PC | el 2026-11-25 a las 12 alguien usaba la PC (sesión activa): nada se abre mientras la usan. En la note pasó 18/18 |
 | El arreglo de red de RetroArch (2 cuadros) saca la desincronización | jugar Double Dragon II en red note-PC | escrito en la config, sin jugar todavía |
 | El `.pkg` de God of War: Ghost of Sparta (9,1 GB) de la cuarentena ya está instalado en RPCS3 | encontrar su carpeta de juego en `dev_hdd0\game` del RPCS3 de la notebook | no se miró (la puerta pide declarar el sistema `rpcs3`) |

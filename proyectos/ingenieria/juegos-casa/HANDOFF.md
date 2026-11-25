@@ -10,11 +10,15 @@
   y la deja de solo lectura; la limpieza del generador borra esos archivos y carpetas con `-Force`. Lo mide
   `scripts/medir-vista.ps1` (abre, lee la vista, cierra SÓLO las ventanas que abrió): verde en el índice real, rojo
   con una carpeta sin el archivo.
-- **La PC no se tocó**: a las 16:13 y 16:20 la estaban usando (sesión activa, Steam, Epic, Spotify). Lo que falta
-  ahí es de la sesión, no de Fran: con la PC libre (`quser` sin actividad y ningún juego), en una pasada:
-  `python proyectos\ingenieria\juegos-casa\scripts\indice.py generar --maquina pc`, después `medir-vista.ps1` y
-  `caliente-sega.ps1` como tareas interactivas de una vez (las dos ya están en el repo; copiarlas a `C:\Games\_scripts\`).
-- **Falta de Fran**: el sí al concepto y a los requisitos v0.2 (MCR; su frase a `docs/bitacora.md`).
+- **La PC**: Fran pidió «termina en la pc lo que haga falta». A las 16:33 se corrió `generar --maquina pc` (65
+  `desktop.ini`, índice verde: no abre ventanas). Lo que abre ventanas no se corrió porque la estaban usando (16:13,
+  16:20, 16:35: Steam, Epic, Spotify). Falta, con la PC libre (`quser` sin actividad y ningún juego): `medir-vista.ps1`
+  (sale 0) y `caliente-sega.ps1` (hoja de capturas), como tareas interactivas de una vez (copiarlos a `C:\Games\_scripts\`).
+- **MCR hecha**: Fran aprobó el concepto y los requisitos v0.2 («apruebo la lista que hiciste y el resto tambien»,
+  `docs/bitacora.md`). La fase 1 quedó cerrada; de la 0 falta la mitad (b), la demora de Double Dragon II en red.
+- **TLOU de PS3 de a dos**: lo lleva la sesión `tlou-factions` (Factions por RPCS3 y el servidor casero
+  `comradesean/tlou-factions-server`), con su documento en `docs/tlou-factions.md`. Antes de tocar su parte,
+  leé ese documento.
 
 ## Lo de la tarde (2026-11-25)
 
