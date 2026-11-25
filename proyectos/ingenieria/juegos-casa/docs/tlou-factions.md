@@ -133,6 +133,15 @@ La europea tampoco estaba en ninguna máquina (medido arriba), así que no hubo 
 | Actualización **01.11** (EBOOT.BIN + patch1.psarc, 15 archivos) en `C:\Games\RPCS3\dev_hdd0\game\BCUS98174` de **las dos** | **MD5 igual** en los 15 (L1-15, mitad de la actualización) | lista MD5 de la PC contra la de la note |
 | Lado jugador en las dos (`scripts/tlou/cliente-tlou.ps1`): `custom_configs\config_BCUS98174.yml` (Stub PPU Traps 1, Internet y RPCN prendidos, IP swap list a 10.147.20.3), `rpcn.yml` apuntado a `10.147.20.3:31313` sin cuenta, los dos parches y `patch_config.yml` con «min players = 2» y el Facebook falso para 01.00 y 01.11 | puestos (ninguno existía antes; se sacan con `-Deshacer`) | salida del script |
 
+**Cuentas de RPCN (2026-11-25 ~17:05, con el sí de Fran: «pone Fran y el otro nombre pone Male»)**: `Fran` en
+la notebook y `Male` en la PC, creadas en el RPCN de la casa con `scripts/tlou/rpcn-cuenta.py` (cliente propio
+del protocolo de RPCN 1.12.1; mail ficticio `@casa.lan`, que el RPCN de la casa no valida; la clave se genera ahí
+y sólo vive en el `rpcn.yml` de cada máquina). El log de RPCN dice `Successfully created account Male`, y
+`rpcn-cuenta.py --probar` entra con cada una (**login OK en las dos**). Sin control negativo del login (una
+clave mala que dé rojo): se intentó y lo frenó el permiso de la sesión; queda pendiente.
+Primer intento fallido: el avatar vacío lo rechaza (`get_string(false)` de RPCN); se manda el avatar por
+defecto de RPCS3.
+
 Predicción P1-bis (antes de arrancar el juego): con el disco, el log del RPCS3 va a decir `PAT: Applied patch`
 para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar el pedido de `net10.bin.psarc.crypt`.
 
