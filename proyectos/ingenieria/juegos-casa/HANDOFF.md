@@ -1,7 +1,21 @@
 # Handoff — juegos-casa
 
-**Escrito el:** 2026-11-24 · **Fase al cerrar:** 0 (Concepto, Pre-Fase A), abierta: falta el sí de Fran
-al concepto y el spike de Double Dragon II.
+**Escrito el:** 2026-11-25 · **Fase al cerrar:** 0 (Concepto, Pre-Fase A), abierta: falta el sí de Fran
+al concepto y la demora en cuadros (L1-05); la conexión y el MD5 ya pasaron.
+
+## Lo último (2026-11-25, sesión de los clásicos)
+
+- **Hecho**: 16 clásicos de a dos de Mega Drive en las dos máquinas (MD5 igual, 18/18), accesos por juego
+  en `Escritorio\Juegos\Juegos de a dos` de las dos (script generalizado + `scripts/juegos-de-a-dos.csv`),
+  LEEME para Fran (`docs/LEEME-lo-hecho-y-lo-que-se-puede.md` y `Escritorio\Juegos\LEEME.txt` de las dos),
+  planilla del orden (`docs/orden-escritorio-2026-11-25.md`).
+- **Falta, en orden**: (1) con Fran avisando que terminaron de jugar: prueba en caliente con captura de cada
+  juego nuevo (`scripts/abrir-y-capturar.ps1`; en la PC, tarea interactiva de una vez, el script ya está en
+  `C:\Games\_scripts\`) y de Minecraft entrando a la juntada y a Better MC 5 (cuentas sin conexión: las pone
+  Fran); (2) volver a correr `instalar-retroarch.ps1` con RetroArch cerrado en las dos, para que escriba
+  `retroarch.cfg` (con RetroArch abierto lo saltea a propósito).
+- Comandos: note `-Nick Fran -Otra 10.147.20.3 -NombreOtra "la PC" -Carpeta "C:\Users\frans\Desktop\Juegos\Juegos de a dos"`;
+  PC `-Nick Kheven -Otra 10.147.20.2 -NombreOtra "la note" -Carpeta "C:\Users\Fran\Desktop\Juegos\Juegos de a dos"`.
 
 ## Arrancá por acá
 
