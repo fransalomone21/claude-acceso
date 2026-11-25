@@ -145,6 +145,22 @@ defecto de RPCS3.
 Predicción P1-bis (antes de arrancar el juego): con el disco, el log del RPCS3 va a decir `PAT: Applied patch`
 para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar el pedido de `net10.bin.psarc.crypt`.
 
+### 2026-11-25 ~17:25 — el disco llegó y el primer arranque en la notebook
+
+- Fran bajó la copia de EE. UU. a la notebook: `Last of Us The (USA) (EnFrEsPt).zip` (32 117 159 081 bytes) con
+  la ISO **ya desencriptada** (`Last of Us, The (USA) (En,Fr,Es,Pt).iso`, 35 380 920 320 bytes, MD5
+  `4E2B4C0E03B54189DE0AB97FC3A36C3C`), extraída a `C:\Games\PS3-ISOs\`. El zip queda en Descargas (R-02).
+- RPCS3 lee ISO desde el commit «ISO: Add ISO reader code and ISO device» (2026-01-09), anterior a este build.
+- `jugar-factions.ps1`: servidor OK, juego OK contra la referencia, RPCS3 abierto: ventana
+  `FPS: 30.97 | Vulkan | 0.0.43-20568 | The Last of Us™ [BCUS98174]` a los 45 s (**la notebook lo mueve**).
+- **Del lado del servidor** (17:25:42): `http_gateway.log` → `GET /net10.bin.psarc.crypt` → `served 102368
+  bytes` (la IP swap list funciona y el juego pide el de la 01.11), y enseguida **dos conexiones de 10.147.20.2 al
+  `ticket_server` :7320** → el juego aceptó el `net10` armado con la IP de la PC (**P1 confirmado en vivo**).
+  Las dos cerraron sin mandar nada (`peer closed after 0/88 bytes`): a esa altura el juego está en el menú; se
+  mira de nuevo al entrar a Facciones.
+- RPCS3 tiene el `RPCS3.log` abierto en exclusivo mientras corre: lo de adentro (parches aplicados) se lee al
+  cerrarlo.
+
 ## 7. Lo que falta, en orden, cuando vuelva el disco
 
 1. Fran pone la copia de EE. UU. (BCUS98174, carpeta o ISO) en la PC, por ejemplo en `C:\Games\PS3-ISOs\`.
