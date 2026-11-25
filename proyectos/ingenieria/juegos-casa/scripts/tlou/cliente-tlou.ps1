@@ -45,11 +45,13 @@ Hosts: "Official RPCN Server|np.rpcs3.net|||Casa (PC)|${Servidor}:31313"
 Experimental IPv6 support: false
 "@
 
-foreach ($p in 'minplayers_patch.yml', 'facebook_stub_patch.yml') {
-  $o = Join-Path $parchesOrigen $p
-  $d = Join-Path $Rpcs3 "patches\BCUS98174_tlou_$p"
-  if (-not (Test-Path $o)) { "FALTA el parche de origen: $o"; exit 1 }
-  if (Test-Path $d) { "YA ESTABA (no se toca): $d" } else { Copy-Item $o $d; Add-Content -LiteralPath $puesto -Value $d; "puesto: $d" }
+# RPCS3 0.0.43 solo lee patches\patch.yml, imported_patch.yml y <TITLE_ID>_patch.yml: los dos se unen en uno
+$d = Join-Path $Rpcs3 'patches\BCUS98174_patch.yml'
+$o = @('minplayers_patch.yml', 'facebook_stub_patch.yml') | ForEach-Object { Join-Path $parchesOrigen $_ }
+if ($o | Where-Object { -not (Test-Path $_) }) { "FALTA un parche de origen en $parchesOrigen"; exit 1 }
+if (Test-Path $d) { "YA ESTABA (no se toca): $d" } else {
+  python (Join-Path $PSScriptRoot 'unir-parches.py') $d @o
+  Add-Content -LiteralPath $puesto -Value $d; "puesto: $d"
 }
 
 $h100 = 'PPU-9df60dc1aa5005a0c80e9066e4951dc0471553e6'; $h111 = 'PPU-120fb71f7352d62521c639b0e99f960018c10a56'

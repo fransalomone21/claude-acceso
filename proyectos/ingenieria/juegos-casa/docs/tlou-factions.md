@@ -169,6 +169,31 @@ para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar e
 - RPCS3 tiene el `RPCS3.log` abierto en exclusivo mientras corre: lo de adentro (parches aplicados) se lee al
   cerrarlo.
 
+### 2026-11-25 ~17:55 — Fran en el gym («avanza tranquilo»): la sesión maneja el juego de la notebook
+
+- La notebook no tiene mando conectado («Wireless controller not detected», captura `00.png`): el perfil activo
+  pasa a **Default** (teclado: Start = Enter, X = X, Círculo = C, flechas) mientras la sesión lo maneja; el
+  original (`ps4 dualshock`) está en `C:\Games\_respaldos\tlou-2026-11-25\active_input_configurations.yml.dualshock`
+  y **se devuelve al terminar**. Teclas por scancode y una captura por paso: `scripts/tlou/rpcs3-teclas.ps1`
+  (capturas en `C:\Games\_pruebas\tlou-2026-11-25\`).
+- **Los parches no entraban**: RPCS3 0.0.43 sólo carga `patches\patch.yml`, `imported_patch.yml` y
+  `patches\<TITLE_ID>_patch.yml` (`Utilities/bin_patch.cpp`: `append_global_patches` / `append_title_patches`); el
+  README del servidor dice «cualquier .yml sirve» y en el primer arranque no hubo ni una línea `PAT:`. Arreglo:
+  `scripts/tlou/unir-parches.py` arma `BCUS98174_patch.yml` (MD5 `A8DC505B...` igual en las dos). Segundo
+  arranque: **`PAT: Applied patch`** para «min players = 2», «Facebook sign-in» y «Facebook Graph names» (01.11).
+- Primer arranque (log copiado en `RPCS3-arranque1.log`): `Applying custom config ... config_BCUS98174.yml`, la IP
+  swap list leída, `PPU executable hash: PPU-120fb71f...` (la 01.11, el hash de los parches), `DnsHook: Solving
+  t1.patch.s3.amazonaws.com to 10.147.20.3`, y **`rpcn: You are now logged in RPCN(Fran | Fran)!`**.
+- Menú principal → «FACTIONS MP» → **«To connect to Factions you must download some FREE map content. OK / No»**
+  (`03.png`). Es el pedido de la **actualización 1.09** (agosto de 2014): desde ahí Facciones exige bajar de la
+  tienda de PS3 dos mapas gratis (Beach y Financial Plaza) ([blog de Naughty Dog](https://naughtydog.com/blog/the_last_of_us_patch_103_and_109_free_maps),
+  [PlayStation Blog](https://blog.playstation.com/2014/08/29/the-last-of-us-free-maps-and-new-weapons/)). La
+  tienda ya no existe y la sesión no baja contenido (R-01).
+- **Camino que no depende de eso**: la **01.00 del disco** (anterior a la 1.09) y el servidor casero la soporta
+  (parches con el hash `PPU-9df60dc1...`, `net1` para la 01.00, ya parcheado y servido). La actualización 01.11 de
+  la notebook se movió (no se borró) a `C:\Games\_deshacer\tlou-actualizacion-0111\` (15 archivos). Con eso la 01.00
+  compila sus módulos por primera vez.
+
 ## 7. Lo que falta, en orden, cuando vuelva el disco
 
 1. Fran pone la copia de EE. UU. (BCUS98174, carpeta o ISO) en la PC, por ejemplo en `C:\Games\PS3-ISOs\`.
