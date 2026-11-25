@@ -1,9 +1,22 @@
 # Handoff — juegos-casa
 
-**Escrito el:** 2026-11-25 (mediodía) · **Fase al cerrar:** 0 (Concepto) abierta por el sí de Fran; la 1 (el
+**Escrito el:** 2026-11-25 (16:30) · **Fase al cerrar:** 0 (Concepto) abierta, falta el sí de Fran; la 1 (el
 índice) con su criterio cumplido, se cierra junto con la MCR de la 0.
 
-## Lo más nuevo (2026-11-25 a la tarde)
+## Lo último (2026-11-25, 16:30, sesión «seguí con lo que falte»)
+
+- **Hecho y medido en la note**: las carpetas del índice abren solas en íconos grandes. `indice.py generar` escribe
+  un `desktop.ini` (plantilla Imágenes, con la marca `juegos-casa indice.py`; uno ajeno no se pisa) en cada carpeta
+  y la deja de solo lectura; la limpieza del generador borra esos archivos y carpetas con `-Force`. Lo mide
+  `scripts/medir-vista.ps1` (abre, lee la vista, cierra SÓLO las ventanas que abrió): verde en el índice real, rojo
+  con una carpeta sin el archivo.
+- **La PC no se tocó**: a las 16:13 y 16:20 la estaban usando (sesión activa, Steam, Epic, Spotify). Lo que falta
+  ahí es de la sesión, no de Fran: con la PC libre (`quser` sin actividad y ningún juego), en una pasada:
+  `python proyectos\ingenieria\juegos-casa\scripts\indice.py generar --maquina pc`, después `medir-vista.ps1` y
+  `caliente-sega.ps1` como tareas interactivas de una vez (las dos ya están en el repo; copiarlas a `C:\Games\_scripts\`).
+- **Falta de Fran**: el sí al concepto y a los requisitos v0.2 (MCR; su frase a `docs/bitacora.md`).
+
+## Lo de la tarde (2026-11-25)
 
 Fran pidió otra forma: **juegos de PC sueltos en `Juegos\`, una carpeta por consola (Sega, PS2, PS3, Android),
 Minecraft ordenado (Servidores, Otros launchers, Tienda, Jugar) y la clasificación toda en `Clasificados\`**, con
@@ -121,8 +134,9 @@ Proyecto juegos-casa (claude-acceso), fase 0 (Pre-Fase A) con la 1 (el indice) y
 6. Primer comando: python proyectos\ingenieria\juegos-casa\scripts\indice.py verificar --maquina ambas
 7. Efecto: "[note] VERDE: el indice esta completo" y "[pc] VERDE: ..."; un "sin catalogar" es un juego nuevo
    instalado: va al catalogo y se corre generar.
-Despues: la prueba en caliente en la PC (scripts/caliente-sega.ps1 como tarea interactiva, solo si nadie la usa:
-quser sin actividad y ningun juego abierto) y la sesion 6 (RetroBat).
+Despues, con la PC libre (quser sin actividad y ningun juego abierto): indice.py generar --maquina pc (iconos
+grandes por desktop.ini), y como tareas interactivas de una vez scripts/medir-vista.ps1 (sale 0) y
+scripts/caliente-sega.ps1 (hoja de capturas); y la sesion 6 (RetroBat).
 ```
 
 ### El retome anterior (2026-11-24, sesión 2), como historia

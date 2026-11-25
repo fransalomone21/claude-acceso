@@ -409,7 +409,7 @@ $ErrorActionPreference = 'Continue'
 $plan = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('@@PLAN@@')) | ConvertFrom-Json
 $escr = $plan.escritorio
 $juegos = Join-Path $escr 'Juegos'
-$res = [ordered]@{ migrados = 0; creados = 0; omitidos = @(); errores = @(); planilla = @() }
+$res = [ordered]@{ migrados = 0; creados = 0; vistas = 0; omitidos = @(); errores = @(); planilla = @() }
 # 1. el indice viejo al almacen de lanzadores (L2-GEN-03, L2-GEN-04)
 foreach ($m in $plan.migrar) {
     if (-not (Test-Path -LiteralPath $m.origen)) { continue }
@@ -432,9 +432,10 @@ foreach ($c in @('Juegos de a dos', 'Sega - los dos en la PC', 'Juegos de PC\Acc
 foreach ($r in $plan.viejas) {
     $p = Join-Path $juegos $r
     if (-not (Test-Path (Join-Path $p '@@MARCA@@'))) { continue }
-    Get-ChildItem $p -Recurse -File -Force -Include *.lnk, *.url, *.txt, '@@MARCA@@' | Remove-Item -Force
-    Get-ChildItem $p -Recurse -Directory | Sort-Object { $_.FullName.Length } -Descending | Where-Object { -not (Get-ChildItem $_.FullName -Force) } | Remove-Item
-    if (-not (Get-ChildItem $p -Force)) { Remove-Item $p } else { $res.errores += "quedo algo que no genero el indice en '$r': no se borra" }
+    Get-ChildItem $p -Recurse -File -Force -Include *.lnk, *.url, *.txt, '@@MARCA@@', desktop.ini | Remove-Item -Force
+    # (-Force: las carpetas del indice son de solo lectura para que Explorer lea su desktop.ini; sin -Force no se borran)
+    Get-ChildItem $p -Recurse -Directory | Sort-Object { $_.FullName.Length } -Descending | Where-Object { -not (Get-ChildItem $_.FullName -Force) } | Remove-Item -Force
+    if (-not (Get-ChildItem $p -Force)) { Remove-Item $p -Force } else { $res.errores += "quedo algo que no genero el indice en '$r': no se borra" }
 }
 $man = '@@MANIFIESTO@@'
 if (Test-Path $man) { foreach ($n in Get-Content $man) { $f = Join-Path $juegos $n; if ($n -and (Test-Path -LiteralPath $f)) { Remove-Item -LiteralPath $f -Force } } }
@@ -443,8 +444,8 @@ foreach ($r in $plan.raices) {
     $p = Join-Path $juegos $r
     if (-not (Test-Path $p)) { continue }
     if (-not (Test-Path (Join-Path $p '@@MARCA@@'))) { $res.errores += "la carpeta '$r' existe y no la genero el indice: no se toca"; continue }
-    Get-ChildItem $p -Recurse -File -Include *.lnk, *.url, *.txt | Remove-Item -Force
-    Get-ChildItem $p -Recurse -Directory | Sort-Object { $_.FullName.Length } -Descending | Where-Object { -not (Get-ChildItem $_.FullName -Force) } | Remove-Item
+    Get-ChildItem $p -Recurse -File -Force -Include *.lnk, *.url, *.txt, desktop.ini | Where-Object { $_.Name -ne '@@MARCA@@' } | Remove-Item -Force
+    Get-ChildItem $p -Recurse -Directory | Sort-Object { $_.FullName.Length } -Descending | Where-Object { -not (Get-ChildItem $_.FullName -Force) } | Remove-Item -Force
 }
 foreach ($r in $plan.raices) {
     $p = Join-Path $juegos $r
@@ -491,6 +492,28 @@ foreach ($it in $plan.items) {
         if ($it.raiz) { $raizNueva += (Split-Path $dst -Leaf) }
         $res.creados++
     } catch { $res.errores += "$($it.dest): $($_.Exception.Message)" }
+}
+# 4. cada carpeta del indice abre en iconos grandes, para que se vean las caratulas: un desktop.ini con la
+#    plantilla Imagenes (medido 2026-11-25 en la note: sin el, Detalles; con el, iconos grandes, aun en una
+#    carpeta ya abierta). Explorer solo lo lee si la carpeta es de solo lectura. Uno ajeno no se pisa.
+$vista = "; juegos-casa indice.py: abre en iconos grandes`r`n[ViewState]`r`nMode=`r`nVid=`r`nFolderType=Pictures`r`n"
+$dirs = @(Get-Item -LiteralPath $juegos)
+foreach ($r in $plan.raices) {
+    $p = Join-Path $juegos $r
+    if (Test-Path (Join-Path $p '@@MARCA@@')) { $dirs += Get-Item -LiteralPath $p; $dirs += @(Get-ChildItem -LiteralPath $p -Recurse -Directory) }
+}
+foreach ($d in $dirs) {
+    $ini = Join-Path $d.FullName 'desktop.ini'
+    try {
+        if (Test-Path -LiteralPath $ini) {
+            if ((Get-Content -LiteralPath $ini -Raw -Force) -notmatch 'juegos-casa indice\.py') { continue }
+            (Get-Item -LiteralPath $ini -Force).Attributes = 'Normal'
+        }
+        [IO.File]::WriteAllText($ini, $vista, (New-Object Text.UnicodeEncoding $false, $true))
+        (Get-Item -LiteralPath $ini -Force).Attributes = 'Hidden, System'
+        $d.Attributes = $d.Attributes -bor [IO.FileAttributes]::ReadOnly
+        $res.vistas++
+    } catch { $res.errores += "vista de $($d.FullName): $($_.Exception.Message)" }
 }
 New-Item -ItemType Directory -Force (Split-Path $man) | Out-Null
 [IO.File]::WriteAllLines($man, [string[]]$raizNueva, (New-Object Text.UTF8Encoding $false))
@@ -618,6 +641,7 @@ def main(argv):
         elif cmd == "generar":
             res = aplicar(m, p)
             print(f"[{m}] migrados al almacen {res['migrados']}, creados {res['creados']}, omitidos {len(res['omitidos'])}"
+                  + f", carpetas en iconos grandes {res.get('vistas', 0)}"
                   + (f"; planilla: {res['planilla_archivo']}" if res.get("planilla_archivo") else ""))
             for e in res["errores"]:
                 print("  ERROR", e)
