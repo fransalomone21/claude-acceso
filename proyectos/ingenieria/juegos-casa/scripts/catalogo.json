@@ -6,7 +6,7 @@
     "version": {"original": "Originales", "con mods": "Con mods", "innovacion": "Innovaciones (remakes y versiones de fans)"}
   },
   "no_son_juegos": {
-    "carpeta": ["^RetroArch$", "^PCSX2", "^RPCS3", "^rpcs3", "^PS2-", "^PS3-ISOs$", "^Mods$", "^Minecraft-mods$", "^_", "^DS4Windows", "^Accesos$", "^BlueStacks$"],
+    "carpeta": ["^RetroArch$", "^PCSX2", "^RPCS3", "^rpcs3", "^PS2-", "^PS3-ISOs$", "^Mods$", "^Minecraft-mods$", "^_", "^DS4Windows", "^Accesos$", "^BlueStacks$", "^tlou-factions$"],
     "steam": ["^228980$"],
     "ps3": ["^TEST12345$", "locks$", "^NPUO30130$"]
   },
@@ -115,8 +115,11 @@
     {"id": "god-of-war-ghost-of-sparta", "nombre": "God of War Ghost of Sparta", "sistema": "PlayStation 3", "modo": ["un jugador"], "tipo": ["accion", "historia"], "version": "original",
      "detectar": [{"clase": "ps3", "titulo": "Ghost of Sparta"}], "lanzadores": [{"ps3": "Ghost of Sparta"}],
      "_nota": "Sus accesos viejos apuntan a Escritorio\\Programas, que no existe desde el orden del 2026-11-12: el acceso se arma desde el RPCS3 donde esta instalado."},
-    {"id": "tlou-ps3", "nombre": "The Last of Us (PS3)", "sistema": "PlayStation 3", "modo": ["un jugador"], "tipo": ["accion", "historia"], "version": "original",
-     "detectar": [{"clase": "ps3", "id": "^(BCES01584|BCES01585|BCUS98174)"}, {"clase": "acceso", "nombre": "^The Last of Us™$"}], "lanzadores": [{"acceso": "^The Last of Us™$", "uno": true}]},
+    {"id": "tlou-ps3", "nombre": "The Last of Us (PS3)", "sistema": "PlayStation 3", "modo": ["un jugador", "cada uno en su pantalla"], "tipo": ["accion", "historia"], "version": "original",
+     "detectar": [{"clase": "ps3", "id": "^(BCES01584|BCES01585|BCUS98174)"}, {"clase": "acceso", "nombre": "^The Last of Us™$"}],
+     "lanzadores": [{"acceso": "^The Last of Us™$", "uno": true},
+                    {"programa": "C:\\Games\\tlou-factions\\Jugar Facciones de a dos.cmd", "nombre": "The Last of Us - Facciones de a dos", "icono": "C:\\Games\\RPCS3\\rpcs3.exe"}],
+     "de_a_dos": {"forma": "Facciones (el multijugador), uno en la note y otro en la PC, contra el servidor casero que corre en la PC (comradesean/tlou-factions-server + RPCN propio). Versión 1.00 del disco: la 1.11 pide mapas de la tienda de PS3, que ya no existe.", "pasos": ["La PC prendida (el acceso prende solo el servidor de la PC).", "En cada máquina, abrir «The Last of Us - Facciones de a dos».", "Menú > FACTIONS; cuenta Fran en la note, Male en la PC.", "Uno invita al otro al grupo y buscan partida (con 2 alcanza)."], "estado": "sin probar", "nota": "Al 25/11 la 1.00 entra a Facciones y habla con el servidor, y pide el Online Pass de la caja: falta resolver eso antes de la primera partida (docs/tlou-factions.md)."}},
 
     {"id": "tlou-1", "nombre": "The Last of Us Parte I", "sistema": "PC", "modo": ["un jugador"], "tipo": ["accion", "historia"], "version": "original",
      "detectar": [{"clase": "carpeta", "nombre": "^The Last of Us Part I$"}], "lanzadores": [{"exe": "^tlou-i\\.exe$"}]},

@@ -33,6 +33,13 @@ aparece con «(disco USB)» en el nombre: hay que enchufarlo antes.
   («ser anfitrion» en una, «unirse a ...» en la otra) anda, pero anoche se ralentizó y se desincronizó; desde
   hoy RetroArch juega en red con 2 cuadros de margen y chequea cada medio segundo que las dos vayan iguales,
   que es el arreglo para eso. Falta probarlo jugando.
+- **The Last of Us de PS3, Facciones (el multijugador), uno en la note y otro en la PC** — *casi*: el acceso
+  «The Last of Us - Facciones de a dos» (carpeta PS3 y Clasificados\De a dos) prende solo el servidor casero de
+  la PC, chequea que el juego sea el mismo en las dos y abre el juego. Cuentas: **Fran** en la note, **Male** en
+  la PC. Ya entra a Facciones y habla con el servidor; **falta una traba**: la versión 1.00 pide el «Online Pass»
+  (el código que venía en la caja), y la 1.11 pide unos mapas gratis de la tienda de PS3, que ya no existe. Hasta
+  resolver una de las dos, no se llega a la partida. Los gráficos verdes tienen arreglo puesto (parches oficiales
+  de RPCS3 + ajustes de la wiki), sin mirar todavía en pantalla.
 - **CoD World at War**: pantalla dividida en una compu (la receta entera está en la carpeta PS3 y en «Clasificados\De a dos»).
 - **Minecraft**: abajo.
 - Cada juego de a dos dice en su txt si está **probado**, **probable** o **sin probar**.

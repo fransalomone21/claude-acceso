@@ -209,7 +209,50 @@ para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar e
 - La 01.11 de la PC también se apartó (no se borró) a `C:\Games\_deshacer\tlou-actualizacion-0111\` (15 archivos).
   La PC sigue con sesión activa (`quser`: activa, sin tiempo inactivo): no se abrió nada ahí.
 
-## 7. Lo que falta, en orden, cuando vuelva el disco
+### 2026-11-25 ~18:05 — Fran: «aceptalo, investiga ... los graficos corruptos, actualiza la pc y dejemos aca»
+
+- **Acuerdo de Sony aceptado** con su sí (Triángulo, después ACCEPT y X; `09.png`-`10.png`). Lo que sigue
+  (`11.png`): **«You need an Online Pass to access Online.»** (Redeem Online Pass Code / Purchase / Leave). La
+  01.00 de lanzamiento traía el Online Pass de la caja (PS3, 2013; [MP1st](https://mp1st.com/news/the-last-of-us-is-officially-out-launch-patch-1-01-available-new-mp-videos));
+  el servidor casero no lo trata (no hay nada sobre «Online Pass» en su repo). **Hoy no se llega a la partida**: con
+  la 01.00 falta el Online Pass, con la 01.11 los mapas gratis de la tienda.
+- **Gráficos corruptos** (el verde y las rayas de los menús que vio Fran; capturas `01.png`-`02.png`). Fuentes:
+  - la base oficial de parches de RPCS3 (la que baja el Patch Manager, `rpcs3.net/compatibility?patch&api=v1&v=1.2`,
+    sha256 verificado; `scripts/tlou/parches-oficiales.py`): 19 parches para la 01.00 y 27 para la 01.11. La nota
+    de **«Disable in-built MLAA»** dice textual que *permite usar el escalado de resolución* y *arregla la "Green
+    Rain"*; RPCS3 corre acá a **150 % de resolución**: es la causa probable del verde;
+  - [issue #16296 de RPCS3](https://github.com/RPCS3/rpcs3/issues/16296): kd-11 (desarrollador de la GPU de RPCS3)
+    pide *read depth, RSX detiling y strict rendering mode*; otros suman ZCULL relajado (placas Pascal; la 3090 y la
+    4060 no lo son);
+  - la [página de la wiki de RPCS3](https://wiki.rpcs3.net/index.php?title=The_Last_of_Us) (Cloudflare no deja
+    leerla desde la sesión; lo que dice salió del resumen de la búsqueda: leer y escribir buffers de color y
+    profundidad, «Handle RSX memory tiling», «Accurate RSX reservation access»).
+- **Aplicado en las dos** (`cliente-tlou.ps1 -Actualizar`, MD5 iguales en las dos): la config del juego suma
+  `Read/Write Color Buffers`, `Read/Write Depth Buffer`, `Handle RSX Memory Tiling`, `Strict Rendering Mode` y
+  `Accurate RSX reservation access`; `patches\patch.yml` = la base oficial; `patch_config.yml` prende «Disable
+  in-built MLAA», «Enable GPU Lighting» y «Depth border fix» para 01.00 y 01.11. En la notebook el log dice
+  **`PAT: Applied`** para los seis (tres del servidor + tres de gráficos). **El efecto en pantalla no se miró**:
+  Fran pidió «hacelo en frío, no abras más cosas» y se cerró el juego antes de la captura.
+- El mando de la notebook volvió a `ps4 dualshock`. Nada abierto en ninguna de las dos.
+- **Índice**: `tlou-ps3` suma «cada uno en su pantalla», el lanzador «The Last of Us - Facciones de a dos»
+  (`C:\Games\tlou-factions\Jugar Facciones de a dos.cmd`) y su `de_a_dos` (estado: sin probar); `tlou-factions`
+  entra a «no son juegos» (el inventario la tomaba como juego). `indice.py generar --maquina ambas`: **VERDE en las
+  dos** (note 45 juegos, PC 54), con el acceso en `PS3\` y en `Clasificados\De a dos\The Last of Us (PS3)\`.
+- **LEEME** con el estado, copiado a `Escritorio\Juegos\LEEME.txt` de las dos: MD5 `9ADFF31A...` igual en los tres.
+
+## 7. Lo que falta (al 25/11, 18:15), en orden
+
+1. **Pasar la traba de entrada**, una de dos: (a) en la 01.00, el Online Pass: buscar en el EBOOT el chequeo
+   (`sceNpDrmIsAvailable` / entitlement) y un parche que lo dé por bueno, como hizo el autor con el de Facebook; o
+   (b) en la 01.11 (sin Online Pass), los mapas gratis: o el paquete del DLC gratis lo aporta Fran (R-01), o un
+   parche que saltee el chequeo de «FREE map content». Antes, buscar si la comunidad ya lo resolvió.
+2. Mirar en pantalla el arreglo de gráficos (con Fran libre o con su OK para abrir ventanas).
+3. La primera partida de a dos: invitación por RPCN, buscar partida con el mínimo de 2, cronómetro (L1-04) y ping
+   durante la partida (L1-05).
+4. La PC: abrir allí el juego sólo con la PC libre (`quser` sin actividad).
+5. Prueba en rojo pendiente: login de RPCN con una clave mala.
+
+## 7b. Lo que falta, en orden, cuando vuelva el disco (escrito antes; los pasos 1-5 quedaron hechos)
 
 1. Fran pone la copia de EE. UU. (BCUS98174, carpeta o ISO) en la PC, por ejemplo en `C:\Games\PS3-ISOs\`.
 2. La sesión: MD5 del disco, copia a la notebook (MD5 igual, L1-15) y la actualización 01.11 a las dos.
