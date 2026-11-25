@@ -42,6 +42,7 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 | **Las carpetas del índice de la PC abren en íconos grandes** (65 `desktop.ini`, `generar --maquina pc`) | `medir-vista.ps1` en la pantalla de la PC (por `scripts/en-pantalla-pc.ps1`, tarea interactiva de una vez que se borra sola): Juegos, Sega y la carpeta más honda de Clasificados en vista 1 / ícono 96, sale 0 | 2026-11-25 |
 | **Los 18 de Mega Drive arrancan en la PC** | `caliente-sega.ps1` en la pantalla de la PC: 18 capturas con MD5 distinto, 17 con la pantalla de inicio a los 12 s; Gunstar Heroes negro a los 12 s (fundido de la intro) y con la intro a los 25 s. Hoja en `C:\Games\_pruebas\caliente-pc-2026-11-25\hoja.png` de la note | 2026-11-25 |
 | Los 18 de Mega Drive arrancan en la notebook con la config nueva | capturas en `C:\Games\_pruebas\caliente-2026-11-25\` (hoja.png): 18 pantallas de inicio | 2026-11-25 |
+| **TLOU PS3 Facciones, armado en las dos** (sesión `tlou-factions`): servidor casero + RPCN propio corriendo en la PC (tarea a pedido `TLOU-servidor`, firewall sólo LAN y ZeroTier), cuentas Fran (note) y Male (PC), ISO de EE. UU. con MD5 `4E2B4C0E...` igual en las dos, la 1.00 en uso (la 1.11 apartada en `C:\Games\_deshacer\`), parches aplicados, acceso «The Last of Us - Facciones de a dos» en el índice | log de RPCN (`logged in RPCN(Fran)`), `ticket_server`/`session_manager` con `Fran` desde 10.147.20.2, `PAT: Applied` ×6, `indice.py generar` verde en las dos; detalle en `docs/tlou-factions.md` | 2026-11-25 |
 | RetroArch de las dos con la config de red nueva (2 cuadros de demora, chequeo cada 30) | `retroarch.cfg` leído: `netplay_input_latency_frames_min = "2"`, `netplay_check_frames = "30"`, nick Fran / Kheven | 2026-11-25 |
 
 ## Lo que es hipótesis
@@ -51,6 +52,8 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 | RetroArch en red con Genesis Plus GX conecta la notebook y la PC con 0-2 cuadros de demora (L1-05) | el indicador de netplay en una partida | la conexión se midió; la demora no |
 | El arreglo de red de RetroArch (2 cuadros) saca la desincronización | jugar Double Dragon II en red note-PC | escrito en la config, sin jugar todavía |
 | El `.pkg` de God of War: Ghost of Sparta (9,1 GB) de la cuarentena ya está instalado en RPCS3 | encontrar su carpeta de juego en `dev_hdd0\game` del RPCS3 de la notebook | no se miró (la puerta pide declarar el sistema `rpcs3`) |
+| TLOU PS3 Facciones se juega de a dos (note-PC) una vez pasada la traba de entrada: la 1.00 pide el Online Pass de la caja y la 1.11 los mapas gratis de la tienda muerta | una partida de dos con los logs del servidor | la traba sigue; camino propuesto en `docs/tlou-factions.md` §7 |
+| El arreglo de gráficos de TLOU PS3 (parche sin MLAA + iluminación por GPU + buffers y tiling de la RSX) saca el verde de los menús | mirar el menú en pantalla | aplicado y con `PAT: Applied`; Fran pidió no abrir más ventanas |
 | La PC dibuja dos instancias y manda una a la notebook (Apollo + Nucleus Co-op u OBS) | fase 3, spike | nadie documenta la combinación; es lo último de la escalera |
 
 ## Callejones sin salida
