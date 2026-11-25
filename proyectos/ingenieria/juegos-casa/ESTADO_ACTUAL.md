@@ -39,6 +39,8 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 | El verificador discrimina | `indice.py sabotaje`: un acceso borrado del disco da rojo nombrando el juego; un juego sacado del catálogo da «sin catalogar» con su ROM; el índice real, verde (en las dos) | 2026-11-25 |
 | El control de accesos rotos encontró uno que ya estaba: Ghost of Sparta apuntaba a `Escritorio\Programas` (no existe desde el 12/11); ahora sale del RPCS3 donde está instalado | rojo L1-03 → verde después del arreglo | 2026-11-25 |
 | **Las carpetas del índice de la notebook abren solas en íconos grandes** (las carátulas se ven): `indice.py generar` escribe un `desktop.ini` (plantilla Imágenes) en las 62 carpetas y las deja de solo lectura | `scripts/medir-vista.ps1`: Juegos, Sega y la carpeta más honda de Clasificados en vista 1 / ícono 96 (sale 0); una carpeta sin el archivo, vista 4 / ícono 16 (sale 1); `generar` dos veces seguidas y `sabotaje` en rojo como debe, control verde | 2026-11-25 |
+| **Las carpetas del índice de la PC abren en íconos grandes** (65 `desktop.ini`, `generar --maquina pc`) | `medir-vista.ps1` en la pantalla de la PC (por `scripts/en-pantalla-pc.ps1`, tarea interactiva de una vez que se borra sola): Juegos, Sega y la carpeta más honda de Clasificados en vista 1 / ícono 96, sale 0 | 2026-11-25 |
+| **Los 18 de Mega Drive arrancan en la PC** | `caliente-sega.ps1` en la pantalla de la PC: 18 capturas con MD5 distinto, 17 con la pantalla de inicio a los 12 s; Gunstar Heroes negro a los 12 s (fundido de la intro) y con la intro a los 25 s. Hoja en `C:\Games\_pruebas\caliente-pc-2026-11-25\hoja.png` de la note | 2026-11-25 |
 | Los 18 de Mega Drive arrancan en la notebook con la config nueva | capturas en `C:\Games\_pruebas\caliente-2026-11-25\` (hoja.png): 18 pantallas de inicio | 2026-11-25 |
 | RetroArch de las dos con la config de red nueva (2 cuadros de demora, chequeo cada 30) | `retroarch.cfg` leído: `netplay_input_latency_frames_min = "2"`, `netplay_check_frames = "30"`, nick Fran / Kheven | 2026-11-25 |
 
@@ -47,8 +49,6 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 | Hipótesis | Qué la confirmaría | Por qué todavía no se probó |
 |---|---|---|
 | RetroArch en red con Genesis Plus GX conecta la notebook y la PC con 0-2 cuadros de demora (L1-05) | el indicador de netplay en una partida | la conexión se midió; la demora no |
-| Las carpetas del índice de la PC abren en íconos grandes (el `desktop.ini` ya está: `generar --maquina pc` a las 16:33 del 2026-11-25 escribió 65, índice verde) | `medir-vista.ps1` como tarea interactiva en la PC | a las 16:13, 16:20 y 16:35 alguien la usaba (sesión activa, Steam, Epic y Spotify): lo que abre ventanas no se corrió |
-| Los 18 de Mega Drive arrancan en la PC | `scripts/caliente-sega.ps1` como tarea interactiva en la PC | el 2026-11-25 a las 12 alguien usaba la PC (sesión activa): nada se abre mientras la usan. En la note pasó 18/18 |
 | El arreglo de red de RetroArch (2 cuadros) saca la desincronización | jugar Double Dragon II en red note-PC | escrito en la config, sin jugar todavía |
 | El `.pkg` de God of War: Ghost of Sparta (9,1 GB) de la cuarentena ya está instalado en RPCS3 | encontrar su carpeta de juego en `dev_hdd0\game` del RPCS3 de la notebook | no se miró (la puerta pide declarar el sistema `rpcs3`) |
 | La PC dibuja dos instancias y manda una a la notebook (Apollo + Nucleus Co-op u OBS) | fase 3, spike | nadie documenta la combinación; es lo último de la escalera |
@@ -61,6 +61,6 @@ en cuadros y el MD5 de la ROM medidos (`PDP.md` §4).
 
 ## Lo próximo
 
-El sí de Fran al concepto (cierra la 0 y la 1); con la PC libre, en una sola pasada: `indice.py generar --maquina
-pc` (íconos grandes), `medir-vista.ps1` y la prueba en caliente (`caliente-sega.ps1`), las dos como tarea interactiva; después
+De la fase 0 falta (b): jugar Double Dragon II en red y leer la demora (L1-05). El TLOU de PS3 de a dos lo lleva la
+sesión `tlou-factions` (`docs/tlou-factions.md`). Después
 RetroBat con tema de cajas (sesión 6 del plan). El plan por sesiones está en `HANDOFF.md`.

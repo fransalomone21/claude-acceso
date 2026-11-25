@@ -10,10 +10,10 @@
   y la deja de solo lectura; la limpieza del generador borra esos archivos y carpetas con `-Force`. Lo mide
   `scripts/medir-vista.ps1` (abre, lee la vista, cierra SÓLO las ventanas que abrió): verde en el índice real, rojo
   con una carpeta sin el archivo.
-- **La PC**: Fran pidió «termina en la pc lo que haga falta». A las 16:33 se corrió `generar --maquina pc` (65
-  `desktop.ini`, índice verde: no abre ventanas). Lo que abre ventanas no se corrió porque la estaban usando (16:13,
-  16:20, 16:35: Steam, Epic, Spotify). Falta, con la PC libre (`quser` sin actividad y ningún juego): `medir-vista.ps1`
-  (sale 0) y `caliente-sega.ps1` (hoja de capturas), como tareas interactivas de una vez (copiarlos a `C:\Games\_scripts\`).
+- **La PC, terminada** (Fran: «termina en la pc lo que haga falta», y a las 16:45 «PC libre»): índice con las 65
+  carpetas en íconos grandes, medido en su pantalla; los 18 de Mega Drive arrancan (hoja de capturas; Gunstar Heroes
+  pide 25 s). Para correr algo en la pantalla de la PC desde la note: `scripts/en-pantalla-pc.ps1 -Script x.ps1
+  [-Argumentos "..."]` (copia, tarea interactiva de una vez, trae la salida y borra la tarea).
 - **MCR hecha**: Fran aprobó el concepto y los requisitos v0.2 («apruebo la lista que hiciste y el resto tambien»,
   `docs/bitacora.md`). La fase 1 quedó cerrada; de la 0 falta la mitad (b), la demora de Double Dragon II en red.
 - **TLOU de PS3 de a dos**: lo lleva la sesión `tlou-factions` (Factions por RPCS3 y el servidor casero
