@@ -194,6 +194,21 @@ para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar e
   la notebook se movió (no se borró) a `C:\Games\_deshacer\tlou-actualizacion-0111\` (15 archivos). Con eso la 01.00
   compila sus módulos por primera vez.
 
+### 2026-11-25 ~18:01 — la 01.00 entra a Facciones y habla con todo el servidor
+
+- La 01.00 compila sus 147 módulos (~1,5 min la primera vez), muestra el menú viejo (NEW GAME / FACTIONS /
+  OPTIONS / DOWNLOADABLES, `06.png`) y **FACTIONS no pide mapas**: «Connecting...» (`07.png`).
+- **Del lado del servidor, ahora sí el juego** (18:00:48, desde 10.147.20.2): `ticket_server` recibe el hello de
+  `heartbeat-server` y el comando `heartbeat Fran` («presence refreshed for 'Fran'»); `session_manager` recibe el
+  `np_id` `Fran` y `ClientHello2` (0x146); `http_gateway` sirve `userdata/Fran.txt.crypt`, `profiles/Fran/profile.21`
+  y **guarda el perfil** (`PUT ... profile.21`, 367 bytes). Esto prueba que el juego tomó la IP del servidor del
+  `net1` parcheado (el de la 01.00): **P1 confirmado en vivo, ahora sin el actor equivocado**.
+- Pantalla siguiente: **«ONLINE USER AGREEMENT»** de Sony (versión 1.00.063), con «DECLINE» / «ACCEPT» (Triángulo)
+  y la afirmación de ser mayor de 18 (`08.png`). **La sesión no lo acepta en nombre de Fran** (aceptar términos
+  pide su sí explícito): el juego queda abierto ahí en la notebook.
+- La 01.11 de la PC también se apartó (no se borró) a `C:\Games\_deshacer\tlou-actualizacion-0111\` (15 archivos).
+  La PC sigue con sesión activa (`quser`: activa, sin tiempo inactivo): no se abrió nada ahí.
+
 ## 7. Lo que falta, en orden, cuando vuelva el disco
 
 1. Fran pone la copia de EE. UU. (BCUS98174, carpeta o ISO) en la PC, por ejemplo en `C:\Games\PS3-ISOs\`.
