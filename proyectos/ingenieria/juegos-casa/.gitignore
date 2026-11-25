@@ -1,0 +1,3 @@
+# Lo que mide el inventario de cada maquina: rutas del disco y de donde salio cada archivo (regla 2 del contrato:
+# el repo es publico; el catalogo no lleva rutas).
+inventario/

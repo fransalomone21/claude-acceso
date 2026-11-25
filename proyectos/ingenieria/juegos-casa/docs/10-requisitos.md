@@ -1,7 +1,7 @@
 # Requisitos — borrador de la fase 0
 
-**Versión 0.1, 24 de noviembre de 2026.** Estado: **borrador** (NASA Pre-Fase A, *draft system-level
-requirements*). Entra en línea base cuando Fran lo acepta en la revisión de concepto (MCR) que cierra la
+**Versión 0.2, 25 de noviembre de 2026** (0.1 del 24: nivel 0 y 1; la 0.2 suma el eje tipo completo y el
+nivel 2 del índice). Estado: **borrador** (NASA Pre-Fase A, *draft system-level requirements*). Entra en línea base cuando Fran lo acepta en la revisión de concepto (MCR) que cierra la
 fase 0 (`../PDP.md` §4).
 
 Escrito con los libros abiertos: `perfil-global/pilares/nucleo-ise.md` §4, el INCOSE GtWR
@@ -24,7 +24,12 @@ instale, las carpetas y los scripts son *salidas*: se comparan contra esta lista
 | **índice** | el árbol de carpetas con accesos directos de una máquina (`Escritorio\Juegos\`) |
 | **catálogo** | la lista única de juegos con su clasificación, de la que sale el índice de las dos máquinas |
 | **inventario** | lo que un script mide en el disco de una máquina: qué juegos hay y dónde |
-| **ejes de clasificación** | modo (un jugador, dos jugadores, cooperativo, pantalla dividida, cada uno en su pantalla) y tipo (acción, construcción, mundo libre, historia) |
+| **ejes de clasificación** | modo (un jugador, dos jugadores, cooperativo, pantalla dividida, cada uno en su pantalla) y tipo (acción, construcción, mundo libre, historia, deportes y carreras, estrategia y puzzle) |
+| **modo dos jugadores** | dos personas en la misma máquina y la misma pantalla, en contra o juntas |
+| **modo cooperativo** | dos personas del mismo lado contra el juego, en cualquier modo de pantalla |
+| **lanzador** | el acceso directo que arranca un juego en una forma (solo, ser anfitrión, unirse, los dos en esta máquina) |
+| **generador** | el script que arma el índice de una máquina desde el catálogo y el inventario |
+| **carpeta de deshacer** | `C:\Games\_indice\accesos\` de cada máquina: los accesos del índice viejo, movidos sin borrar y con su ruta de origen; el generador los copia de ahí al índice |
 | **versión** | original, con mods, o innovación (remake de fans, port nativo, pack de texturas) |
 | **juego de red** | un juego de a dos que se juega con una máquina por jugador |
 | **estado de prueba** | probado (se jugó de a dos y se vio), probable (fuentes coinciden), sin probar |
@@ -106,7 +111,39 @@ L0-06 baja la restricción R-01 al sistema, para que tenga método de verificaci
 - **L1-15** es derivado: RetroArch y PCSX2 desincronizan si las dos máquinas no tienen exactamente el
   mismo archivo (investigación §2); comprobarlo antes ahorra la partida rota.
 
+## 5b. Nivel 2 — el índice (fase 1, 2026-11-25)
+
+Los elementos del segmento índice: el **catálogo** (CAT, en el repo), el **inventario** (INV, uno por máquina),
+el **generador** (GEN) y el **verificador** (VER). Escritos al abrir la fase 1, con el inventario de las dos
+máquinas ya medido (`scripts/inventario.ps1`).
+
+| ID | Padre | Requisito | Tipo | Verificación |
+|---|---|---|---|---|
+| L2-INV-01 | L1-01 | El inventario deberá detectar en cada máquina los juegos de Steam, de Epic Games, de las carpetas de juegos, de RetroArch, de PlayStation 2 y de RPCS3. | funcional | ensayo |
+| L2-INV-02 | L1-14 | El inventario deberá registrar la suma MD5 de cada ROM y de cada ISO de más de 100 MB. | funcional | inspección |
+| L2-CAT-01 | L1-02 | El catálogo deberá asignar a cada juego entre 1 y 3 valores de modo y entre 1 y 2 valores de tipo. | funcional | inspección (script) |
+| L2-GEN-01 | L1-12 | El generador deberá construir el índice de una máquina a partir del catálogo y del inventario de esa máquina. | funcional | demostración |
+| L2-GEN-02 | L1-02 | El generador deberá crear en el índice una carpeta por cada valor de cada eje de clasificación presente en la máquina. | funcional | inspección (script) |
+| L2-GEN-03 | R-02 | Cuando el generador reemplaza un acceso directo del índice viejo, el generador deberá mover el acceso directo reemplazado a la carpeta de deshacer. | restricción | inspección |
+| L2-GEN-04 | R-02 | Cuando el generador mueve un acceso directo a la carpeta de deshacer, el generador deberá anotar el origen y el destino del acceso directo en la planilla del movimiento. | restricción | inspección |
+| L2-VER-01 | L1-01 | El verificador deberá nombrar cada juego que el inventario detecta y el índice de la máquina omite. | funcional | ensayo (sabotaje: un juego sacado del índice da rojo con su nombre) |
+
+**Rationale del nivel 2.**
+
+- **L2-GEN-01 fija la implementación** a propósito: es el resultado de la decisión del 2026-11-24 (`../PDP.md`
+  §6, «carpetas de accesos generadas desde un catálogo único»), y un índice armado a mano es el que diverge
+  entre las dos máquinas (SEH p. 60: el porqué de limitar la solución va en el rationale).
+- **L2-CAT-01, 1 a 3 modos y 1 a 2 tipos**: un juego sin modo o sin tipo no aparece en su eje (L1-02); más de
+  tres modos o dos tipos llena todas las carpetas con el mismo juego y la clasificación deja de separar.
+- **El eje tipo creció de 4 a 6 valores** (2026-11-25): con los cuatro de Fran (acción, construcción, mundo
+  libre, historia) PES 6 y Bloons TD no entraban en ninguna carpeta, y L1-02 no se podía cumplir. Se agregan
+  «deportes y carreras» y «estrategia y puzzle»; los cuatro de Fran quedan como estaban.
+- **L2-GEN-03 y L2-GEN-04** bajan R-02: el índice viejo son accesos que Fran usa; reemplazarlos sin dejar el
+  original y su planilla es borrar.
+- **L2-INV-02, 100 MB**: las ISO de PS2 pesan más de 1 GB; lo que queda por debajo en esas carpetas son
+  archivos sueltos de un ISO extraído (medido en la PC: los datos de BLACK), no juegos.
+
 ## 6. Qué queda para después
 
-El nivel 2 (índice, entorno de emulación, red de a dos) se escribe al abrir la fase 1, con lo que mida el
+El nivel 2 del entorno de emulación y de la red de a dos se escribe al abrir la fase 2, con lo que midió el
 spike. Y los requisitos del Minecraft no van acá: viven en `minecraft-amigos/docs/10-requisitos.md`.

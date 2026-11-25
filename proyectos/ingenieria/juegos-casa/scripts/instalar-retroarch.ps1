@@ -1,6 +1,7 @@
 # Deja RetroArch portable en C:\Games\RetroArch con el nucleo de Mega Drive y los accesos para jugar de a
 # dos en red (cada uno en su pantalla) de cada juego de la lista. Corre igual en la notebook y en la PC.
-# Uso: .\instalar-retroarch.ps1 -Nick Fran -Otra 10.147.20.3 -NombreOtra "la PC" -Carpeta "C:\Users\frans\Desktop\Juegos\Juegos de a dos"
+# Uso: .\instalar-retroarch.ps1 -Nick Fran -Otra 10.147.20.3 -NombreOtra "la PC" -Carpeta "C:\Games\_indice\accesos\Juegos\Juegos de a dos"
+# (desde el 2026-11-25 los accesos van al almacen del indice, no al Escritorio: despues, indice.py generar los pone)
 # La lista de juegos es juegos-de-a-dos.csv (al lado de este script): Nombre, Rom (archivo en roms\megadrive),
 # Modo (red = ser anfitrion / unirse / los dos en esta maquina; uno = un solo acceso).
 # Las ROMs las pone Fran (R-01): un juego cuya ROM no esta en roms\megadrive se saltea y se avisa.

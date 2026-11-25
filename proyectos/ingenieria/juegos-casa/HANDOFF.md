@@ -1,9 +1,27 @@
 # Handoff — juegos-casa
 
-**Escrito el:** 2026-11-25 · **Fase al cerrar:** 0 (Concepto, Pre-Fase A), abierta: falta el sí de Fran
-al concepto y la demora en cuadros (L1-05); la conexión y el MD5 ya pasaron.
+**Escrito el:** 2026-11-25 (mediodía) · **Fase al cerrar:** 0 (Concepto) abierta por el sí de Fran; la 1 (el
+índice) con su criterio cumplido, se cierra junto con la MCR de la 0.
 
-## Lo último (2026-11-25, sesión de los clásicos)
+## Lo último (2026-11-25 al mediodía, sesión «ordená la carpeta de juegos»)
+
+- **Hecho y medido**: el índice en las dos máquinas (`scripts/catalogo.json` + `scripts/indice.py`): note 45
+  juegos, PC 54, `verificar` en verde y `sabotaje` en rojo por el motivo correcto en las dos. Los accesos viejos
+  están en `C:\Games\_indice\accesos\` (planillas en `inventario/`, deshacer en `docs/orden-escritorio-2026-11-25.md`).
+  Requisitos v0.2 (eje tipo de 6 valores, L2 del índice; GtWR 0 VIOLA). LEEME nuevo en las dos (MD5).
+  RetroArch con la config de red nueva en las dos. Los 18 de Mega Drive arrancan en la note (capturas).
+- **Falta, en orden**: (1) el sí de Fran al concepto y a los requisitos (MCR: cierra la 0 y la 1); (2) la prueba
+  en caliente en la PC cuando nadie la use: `scripts/caliente-sega.ps1` como tarea interactiva de una vez
+  (como `ra-teclas.ps1`), y mirar la hoja de capturas; (3) jugar DD II en red con el arreglo y medir la demora
+  (L1-05); (4) sesión 6 del plan (RetroBat, mostrarle 2-3 temas a Fran).
+- **Para sumar un juego**: agregarlo a `scripts/catalogo.json` (cómo se detecta, modo, tipo, versión, y si es de
+  a dos, su forma y pasos) y `python scripts/indice.py generar --maquina ambas`. Un juego instalado que no está
+  en el catálogo hace dar rojo al `verificar` («sin catalogar»): así no se pierde ninguno.
+- **Comandos de RetroArch** (ahora los accesos van al almacén, no al Escritorio): note `-Nick Fran -Otra
+  10.147.20.3 -NombreOtra "la PC" -Carpeta "C:\Games\_indice\accesos\Juegos\Juegos de a dos"`; PC `-Nick Kheven
+  -Otra 10.147.20.2 -NombreOtra "la note" -Carpeta` igual; después `indice.py generar`.
+
+## La sesión de los clásicos (2026-11-25 a la madrugada)
 
 - **Hecho**: 16 clásicos de a dos de Mega Drive en las dos máquinas (MD5 igual, 18/18), accesos por juego
   en `Escritorio\Juegos\Juegos de a dos` de las dos (script generalizado + `scripts/juegos-de-a-dos.csv`),
@@ -20,8 +38,7 @@ al concepto y la demora en cuadros (L1-05); la conexión y el MD5 ya pasaron.
   `C:\Games\_scripts\`) y de Minecraft entrando a la juntada y a Better MC 5 (cuentas sin conexión: las pone
   Fran); (2) volver a correr `instalar-retroarch.ps1` con RetroArch cerrado en las dos, para que escriba
   `retroarch.cfg` (con RetroArch abierto lo saltea a propósito).
-- Comandos: note `-Nick Fran -Otra 10.147.20.3 -NombreOtra "la PC" -Carpeta "C:\Users\frans\Desktop\Juegos\Juegos de a dos"`;
-  PC `-Nick Kheven -Otra 10.147.20.2 -NombreOtra "la note" -Carpeta "C:\Users\Fran\Desktop\Juegos\Juegos de a dos"`.
+- (Los comandos de esa sesión apuntaban `-Carpeta` al Escritorio: desde el índice, van al almacén; ver arriba.)
 
 ## Arrancá por acá
 

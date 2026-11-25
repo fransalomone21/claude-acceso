@@ -18,6 +18,12 @@ BlueStacks (2026-11-24).
 | **qué existe afuera** (emuladores, red de a dos, servidores revividos, mods con red, packs, frontends) | [`docs/investigacion-2026-11-24.md`](docs/investigacion-2026-11-24.md) — y antes de tocar un emulador o un juego, se declara con ella: `.\cascada.ps1 -Sistema juegos-pc -Investigacion proyectos/ingenieria/juegos-casa/docs/investigacion-2026-11-24.md -Prediccion "..." -Respaldo "..."` |
 | **contra qué se diseña y se verifica** | [`docs/10-requisitos.md`](docs/10-requisitos.md) (N, R, L0, L1) |
 | la forma de jugar de a dos de un juego («la escalera») | investigación §3 |
+| **el índice** (`Escritorio\Juegos` de las dos máquinas): sumar un juego, cambiar una clasificación, rearmarlo | `scripts/catalogo.json` (la lista única, sin rutas) y `scripts/indice.py` (`plan`, `generar`, `verificar`, `sabotaje`; `--maquina note|pc|ambas`). Lo que mide cada máquina va a `inventario/` (ignorado) |
+| qué se movió de los escritorios y cómo deshacerlo | [`docs/orden-escritorio-2026-11-25.md`](docs/orden-escritorio-2026-11-25.md) y las planillas de `inventario/` |
+| lo que lee Fran en `Escritorio\Juegos\LEEME.txt` | [`docs/LEEME-lo-hecho-y-lo-que-se-puede.md`](docs/LEEME-lo-hecho-y-lo-que-se-puede.md) (se copia igual a las dos, MD5) |
+| Double Dragon II en red: predicción, medición, el arreglo de la demora | [`docs/spike-double-dragon.md`](docs/spike-double-dragon.md) |
+| los clásicos de Sega en RetroArch (accesos, config de red, prueba en caliente) | `scripts/instalar-retroarch.ps1` (`-Carpeta C:\Games\_indice\accesos\Juegos\Juegos de a dos`: los accesos van al almacén del índice), `scripts/caliente-sega.ps1`, `scripts/ra-teclas.ps1` |
+| problemas técnicos registrados | [`PROBLEMAS.md`](PROBLEMAS.md) |
 | el BlueStacks de la PC (Android para el hermano) | [`EMULADOR-ANDROID.md`](EMULADOR-ANDROID.md) |
 | el Minecraft | **no es de acá**: `proyectos/ingenieria/minecraft-amigos/` |
 | manejar la PC desde la notebook (SSH, tareas con ventana, capturas) | `proyectos/ingenieria/pc-casa-control/CLAUDE.md` |
@@ -46,6 +52,8 @@ CLAUDE.md         este archivo
 ESTADO_ACTUAL.md  donde estamos hoy
 HANDOFF.md        el mensaje para la proxima sesion (con el plan por sesiones)
 docs/             investigacion, requisitos, spikes, bitacora
+scripts/          el indice (catalogo.json, indice.py, inventario.ps1) y RetroArch (instalar, probar, manejar)
+inventario/       lo que mide cada maquina y las planillas de lo movido (ignorado por git: lleva rutas)
 EMULADOR-ANDROID.md  el BlueStacks de la PC (2026-11-15)
 ```
 

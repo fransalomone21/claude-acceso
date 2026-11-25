@@ -51,3 +51,32 @@ Import-Csv "C:\Users\frans\Desktop\claude-acceso\proyectos\ingenieria\juegos-cas
 
 Las ROMs nuevas de `C:\Games\RetroArch\roms\megadrive\` (16 `.bin`) se sacan a mano si hiciera falta; la fuente
 sigue entera en Descargas.
+
+## El índice (2026-11-25, más tarde): lo que movió `indice.py generar`
+
+El índice reemplazó a las carpetas de accesos sueltos. **Nada se borró**: cada acceso del índice viejo se movió
+al almacén `C:\Games\_indice\accesos\` de su máquina, **con la misma ruta relativa al Escritorio** que tenía
+(`Juegos\Juegos de a dos\Double Dragon II\...`), y el índice lo copia de ahí (L2-GEN-03). La planilla de cada
+movimiento (origen, destino) está en `inventario/planilla-note-2026-11-25-1153.csv` (66 accesos) y
+`inventario/planilla-pc-2026-11-25-1155.csv` (103), ignoradas por git porque llevan rutas. El almacén se llamaba
+`lanzadores` en esas planillas y se renombró a `accesos` minutos después (el nombre chocaba con la puerta de
+BLACK); las rutas de las planillas cambian sólo en esa palabra.
+
+| Máquina | Qué se movió al almacén |
+|---|---|
+| note | `Juegos de a dos` entero, `Juegos de PC\Accesos`, `Minecraft` (4 accesos) |
+| PC | los 23 accesos sueltos de `Juegos`, `Juegos de a dos` entero, `Sega - los dos en la PC` |
+| PC | además, `Juegos\plutonium.exe` → `C:\Games\Plutonium\plutonium.exe` (MD5 igual antes y después) |
+
+Lo que **no** se tocó: `BLACK`, `Emuladores`, `Utilidades`, `Mods`, `Instaladores`, `Juegos de PC` y `Juegos
+instalados` (tienen juegos instalados adentro), `Juegos de emulador` (las ISOs de BLACK están protegidas), el LEEME.
+
+**Deshacer el índice** (en cada máquina; en la PC con `Fran`):
+
+```powershell
+$e = "C:\Users\frans\Desktop"; $a = "C:\Games\_indice\accesos"
+Get-ChildItem $a -Recurse -File | ForEach-Object { $d = Join-Path $e $_.FullName.Substring($a.Length + 1); New-Item -ItemType Directory -Force (Split-Path $d) | Out-Null; Move-Item -LiteralPath $_.FullName -Destination $d }
+"1 - Todos los juegos","2 - De a dos","3 - Por modo","4 - Por tipo","5 - Por version" | ForEach-Object { Remove-Item -LiteralPath (Join-Path "$e\Juegos" $_) -Recurse }
+```
+
+(En la note, el `Minecraft` generado se borra antes de devolver el viejo.)
