@@ -1,0 +1,19 @@
+MINECRAFT CON MODS DE FRAN - para Kevin
+
+Lo que necesitás antes:
+  - ZeroTier instalado y unido a la red de Fran (el número de la red te lo pasa Fran por mensaje;
+    después Fran te autoriza desde su lado).
+  - Tu cuenta en Prism Launcher (eso lo resolvés vos).
+
+Instalar (una sola vez):
+  1. Doble clic en instalar-tienda.bat.
+  2. Si no tenés Prism, lo instala solo. Al final te dice LISTO.
+
+Jugar:
+  1. Que Fran tenga abierta la tienda y el server en su note.
+  2. Abrí Prism, elegí "Tienda 1.21.1" y dale Launch.
+     Antes de abrir se pone igual a lo que Fran eligió en la tienda, y entra directo al server.
+
+Si algo falla:
+  - "la tienda de Fran no contesta": Fran tiene que abrir la tienda, o tu ZeroTier no está conectado.
+  - El juego abre pero no entra al server: Fran tiene que prender el server (Iniciar server de la tienda).

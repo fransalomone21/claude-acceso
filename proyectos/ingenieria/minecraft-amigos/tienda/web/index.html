@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tienda de mods — Minecraft de los pibes</title>
+<style>
+  :root { --fondo:#1b1f1a; --panel:#262c24; --borde:#3a4337; --texto:#eef2ea; --suave:#a9b5a3; --verde:#6fbf4b; --verde2:#4e9a2f; --rojo:#d9534f; --oro:#e0b84c; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Segoe UI", system-ui, sans-serif; background:var(--fondo); color:var(--texto); }
+  header { padding:20px 28px 8px; }
+  h1 { margin:0; font-size:28px; } h1 span { color:var(--verde); }
+  .sub { color:var(--suave); margin-top:4px; }
+  .pub { margin-top:10px; display:inline-block; background:var(--panel); border:1px solid var(--borde); border-radius:8px; padding:6px 12px; font-size:14px; }
+  main { display:grid; grid-template-columns: 1fr 340px; gap:20px; padding:12px 28px 40px; align-items:start; }
+  h2 { font-size:20px; margin:22px 0 10px; }
+  .combos { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:12px; }
+  .combo { background:var(--panel); border:2px solid var(--borde); border-radius:12px; padding:14px; cursor:pointer; position:relative; }
+  .combo:hover { border-color:var(--verde2); } .combo.elegido { border-color:var(--verde); box-shadow:0 0 0 2px var(--verde) inset; }
+  .combo h3 { margin:0 0 6px; font-size:17px; } .combo p { margin:0 0 8px; color:var(--suave); font-size:14px; line-height:1.35; }
+  .chip { display:inline-block; font-size:12px; background:#33402f; border-radius:20px; padding:2px 9px; margin-right:4px; color:var(--texto); }
+  .reco { position:absolute; top:-10px; right:10px; background:var(--oro); color:#222; font-weight:700; font-size:12px; border-radius:20px; padding:2px 9px; }
+  .familia { margin-top:8px; }
+  .cartas { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap:10px; }
+  .carta { background:var(--panel); border:1px solid var(--borde); border-radius:10px; padding:12px; display:flex; gap:10px; }
+  .carta.en { border-color:var(--verde); background:#2b3628; }
+  .carta img { width:48px; height:48px; border-radius:8px; flex:none; background:#111; object-fit:cover; }
+  .carta h4 { margin:0 0 4px; font-size:15px; } .carta p { margin:0 0 6px; font-size:13px; color:var(--suave); line-height:1.3; }
+  .carta button { font-size:13px; }
+  button { background:var(--verde2); color:#fff; border:0; border-radius:8px; padding:6px 12px; cursor:pointer; font-weight:600; }
+  button.sacar { background:#55604f; } button:disabled { opacity:.5; cursor:default; }
+  aside { position:sticky; top:12px; background:var(--panel); border:1px solid var(--borde); border-radius:12px; padding:16px; }
+  aside h2 { margin-top:0; } aside ul { padding-left:18px; margin:6px 0 10px; max-height:260px; overflow:auto; font-size:14px; }
+  .total { font-size:14px; color:var(--suave); margin-bottom:10px; }
+  input[type=text] { width:100%; padding:7px; border-radius:6px; border:1px solid var(--borde); background:#1d221b; color:var(--texto); margin-bottom:10px; }
+  .grande { width:100%; padding:12px; font-size:16px; }
+  #log { margin-top:12px; font-family: Consolas, monospace; font-size:12px; background:#121510; border-radius:8px; padding:8px; max-height:220px; overflow:auto; white-space:pre-wrap; display:none; }
+  .ok { color:var(--verde); font-weight:700; } .mal { color:var(--rojo); font-weight:700; }
+  .nota { font-size:12px; color:var(--suave); margin-top:8px; line-height:1.35; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Tienda de mods <span>⛏</span></h1>
+  <div class="sub">Elegí una combinación o armá la tuya tildando mods. Al confirmar, la tienda la prueba en un server y, si arranca, la deja lista en la note, la PC y la de Kevin.</div>
+  <div class="pub" id="pub">Cargando…</div>
+</header>
+<main>
+  <section>
+    <h2>Combinaciones armadas</h2>
+    <div class="combos" id="combos"></div>
+    <h2>O armala vos</h2>
+    <div class="nota">Siempre van incluidos los <b id="nnucleo"></b> mods de base (rendimiento, mapa, recetas y ayudas de interfaz). Lo que cada mod necesite para andar se agrega solo. Nada de frío, calor ni sed: la tienda no los deja pasar.</div>
+    <div id="familias"></div>
+  </section>
+  <aside>
+    <h2>Tu carrito</h2>
+    <input type="text" id="nombre" placeholder="Nombre (opcional)">
+    <div class="total" id="total">Vacío</div>
+    <ul id="lista"></ul>
+    <button class="grande" id="confirmar" disabled>Confirmar y armar</button>
+    <div id="log"></div>
+    <div class="nota">Después de confirmar: abrí la instancia «Tienda 1.21.1» en Prism y se pone al día sola antes de arrancar. Cada combinación tiene su propio mundo en el server.</div>
+  </aside>
+</main>
+<script>
+let C = null, carrito = new Set(), combo = null;
+const $ = id => document.getElementById(id);
+
+async function cargar() {
+  C = await (await fetch('/api/catalogo')).json();
+  $('nnucleo').textContent = C.nucleo;
+  $('pub').innerHTML = C.publicado
+    ? `Publicado ahora: <b>${C.publicado.nombre}</b> · ${C.publicado.mods} mods · ${C.publicado.publicado}`
+    : 'Todavía no hay nada publicado.';
+  $('combos').innerHTML = C.combos.map(c => `
+    <div class="combo" data-id="${c.id}">
+      ${c.recomendada ? '<span class="reco">Recomendada</span>' : ''}
+      <h3>${c.nombre}</h3><p>${c.desc}</p>
+      <span class="chip">${c.mods_total} mods</span><span class="chip">${c.memoria_gb} GB de memoria (estimado)</span>
+    </div>`).join('');
+  document.querySelectorAll('.combo').forEach(el => el.onclick = () => elegirCombo(el.dataset.id));
+  $('familias').innerHTML = Object.entries(C.familias).map(([fid, fnom]) => {
+    const cs = C.cartas.filter(c => c.familia === fid);
+    if (!cs.length) return '';
+    return `<div class="familia"><h2>${fnom}</h2><div class="cartas">${cs.map(c => `
+      <div class="carta" id="c-${c.id}">
+        <img src="${c.icono || ''}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div><h4>${c.nombre}</h4><p>${c.desc}</p>
+        <span class="chip">${c.peso}</span><span class="chip">${c.mods} mod${c.mods > 1 ? 's' : ''}</span>
+        <div style="margin-top:6px"><button data-id="${c.id}">Agregar</button></div></div>
+      </div>`).join('')}</div></div>`;
+  }).join('');
+  document.querySelectorAll('.carta button').forEach(b => b.onclick = () => alternar(b.dataset.id));
+  pintar();
+}
+
+function elegirCombo(id) {
+  const c = C.combos.find(x => x.id === id);
+  combo = id; carrito = new Set(c.cartas); $('nombre').value = c.nombre; pintar();
+}
+function alternar(id) {
+  combo = null;
+  carrito.has(id) ? carrito.delete(id) : carrito.add(id); pintar();
+}
+function pintar() {
+  document.querySelectorAll('.combo').forEach(el => el.classList.toggle('elegido', el.dataset.id === combo));
+  C.cartas.forEach(c => {
+    const el = $('c-' + c.id), en = carrito.has(c.id);
+    el.classList.toggle('en', en);
+    const b = el.querySelector('button'); b.textContent = en ? 'Sacar' : 'Agregar'; b.className = en ? 'sacar' : '';
+  });
+  const cb = combo && C.combos.find(x => x.id === combo);
+  const nombres = [...carrito].map(id => C.cartas.find(c => c.id === id).nombre);
+  $('lista').innerHTML = cb && cb.todo_bmc5 ? '<li>Better MC 5 entero (sin estaciones)</li>' : nombres.map(n => `<li>${n}</li>`).join('');
+  $('total').textContent = cb ? `${cb.nombre}: ${cb.mods_total} mods, ${cb.memoria_gb} GB de memoria (estimado)`
+    : (carrito.size ? `${carrito.size} elegidos + los de base` : 'Vacío');
+  $('confirmar').disabled = !(cb || carrito.size);
+}
+
+$('confirmar').onclick = async () => {
+  const pedido = combo ? { combo, nombre: $('nombre').value || undefined } : { cartas: [...carrito], nombre: $('nombre').value || 'Mi selección' };
+  $('confirmar').disabled = true; $('log').style.display = 'block'; $('log').textContent = 'Armando…\n';
+  const r = await fetch('/api/armar', { method: 'POST', body: JSON.stringify(pedido) });
+  if (r.status !== 202) { $('log').textContent += (await r.json()).error; $('confirmar').disabled = false; return; }
+  const t = setInterval(async () => {
+    const e = await (await fetch('/api/estado')).json();
+    $('log').textContent = e.log.filter(l => !l.startsWith('bajado ')).join('\n');
+    if (!e.ocupado && e.resultado) {
+      clearInterval(t);
+      $('log').innerHTML += e.resultado.ok ? `\n<span class="ok">Listo: abrí «Tienda 1.21.1» en Prism.</span>` : `\n<span class="mal">No se publicó: ${e.resultado.motivo}</span>`;
+      $('confirmar').disabled = false; cargar();
+    }
+  }, 1500);
+};
+cargar();
+</script>
+</body>
+</html>

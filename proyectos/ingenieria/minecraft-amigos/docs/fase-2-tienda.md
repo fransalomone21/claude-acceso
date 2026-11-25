@@ -68,6 +68,25 @@ CurseForge en la sesión de la tienda.
 - **La biblioteca de mods bajados** (L1-11) vive en la PC, que tiene disco: una carpeta por familia.
 - **Cada combinación** es una instancia de Prism y un mundo propios; el server corre una a la vez.
 
+## 3b. Lo que cambió al construirla (2026-11-25)
+
+- **Sin packwiz.** `packwiz-installer` sólo borra lo que él mismo instaló: un jar puesto a mano queda en la
+  instancia y L1-03 («igual al pack, por SHA-1») no se cumple. En su lugar, `tienda/sincronizar.ps1`
+  (PowerShell 5.1, está en toda máquina con Windows): lee `lista.json` de la tienda, baja lo que falta o
+  cambió con su SHA-1, y aparta lo que sobra a `mods_fuera_de_pack` (no borra). Prism lo corre como comando
+  previo de la instancia «Tienda 1.21.1». Se evita además compilar packwiz con Go.
+- **NeoForge propio, 21.1.267.** El server de prueba frenó la primera combinación porque Lootr pedía
+  NeoForge ≥ 21.1.195 y Better MC 5 trae 21.1.176. La tienda tiene su NeoForge en
+  `C:\Users\frans\MinecraftServer\tienda\neoforge` (libraries) y la instancia lo usa; Better MC 5 y su server
+  siguen intactos.
+- **20 jars de Better MC 5 no están en Modrinth** (son de CurseForge): se sirven desde la notebook
+  (`/pack/archivos/`), sólo en la combinación Better MC 5. Uso en casa, no se republican.
+- **El server de la tienda** (puerto 25568) se pone igual a lo publicado al prenderlo
+  (`iniciar-server-tienda.bat` → `armar.py --server`), un mundo por combinación (`mundo-<combo>`).
+- Twilight Forest no está en Modrinth: queda afuera. Undergarden es `the-undergarden` y Deeper and Darker
+  `deeperdarker`.
+- Lo que la sesión construyó y probó está en `tienda/` (ver `tienda/LEEME.md`).
+
 ## 4. Las combinaciones (a validar en la sesión de la tienda)
 
 | Combinación | Qué es | Peso |

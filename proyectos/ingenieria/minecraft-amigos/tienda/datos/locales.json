@@ -1,0 +1,102 @@
+{
+ "biomemusic-1.21-3.5.jar": {
+  "sha1": "f5868f1fb5b1172e0464b7206ddad6e5cc481582",
+  "bytes": 33053,
+  "lado": "both"
+ },
+ "chunksending-1.21-2.8.jar": {
+  "sha1": "35cfb1c8a22f7acc25fbd9ff6ae6ec53329fa0de",
+  "bytes": 11753,
+  "lado": "both"
+ },
+ "clientcrafting-1.21-1.8.jar": {
+  "sha1": "c42404d01ff96783f9ec9414fe12b30696978f99",
+  "bytes": 6484,
+  "lado": "both"
+ },
+ "connectivity-1.21.1-7.1.jar": {
+  "sha1": "08ea51545b3d7cfafd462ec1818a4547e900cbc0",
+  "bytes": 106046,
+  "lado": "both"
+ },
+ "cupboard-1.21-2.9.jar": {
+  "sha1": "8f6eb497f60fb6a2cf2b276113d33e61b9a5c2a5",
+  "bytes": 23509,
+  "lado": "both"
+ },
+ "farsight-1.21-3.8.jar": {
+  "sha1": "de2606d74f852c85abe9521c7dd4204bd88a9e23",
+  "bytes": 437939,
+  "lado": "both"
+ },
+ "fastasyncworldsave-1.21-2.4.jar": {
+  "sha1": "19bb22682eba82b3b59941b39906418da7ae429a",
+  "bytes": 10748,
+  "lado": "both"
+ },
+ "gpumemleakfix-1.21-1.8.jar": {
+  "sha1": "1894d2f0dd0c275aea0f1a6265ebd5715569c208",
+  "bytes": 6574,
+  "lado": "both"
+ },
+ "lionfishapi-2.6.jar": {
+  "sha1": "3d9059ea05839e0daab926848d91ecb14ca5a4d4",
+  "bytes": 92312,
+  "lado": "both"
+ },
+ "lootintegrations-1.21.1-4.6.jar": {
+  "sha1": "1ef82c2dea407f82acaf6260c0205b15e5560fda",
+  "bytes": 36798,
+  "lado": "both"
+ },
+ "lootintegrations_formations-1.3.jar": {
+  "sha1": "9b8ca992f9cfb6b17a31d7ac27407d838478c792",
+  "bytes": 5950,
+  "lado": "both"
+ },
+ "lootintegrations_lootintegrations_bygonepillage-1.2.jar": {
+  "sha1": "5e8ccc101bd391fbb283ad111be9f68c93d3352a",
+  "bytes": 5036,
+  "lado": "both"
+ },
+ "lootintegrations_moog-1.5.jar": {
+  "sha1": "115b5b59567f3213978a5260ca5604065e4c7f2e",
+  "bytes": 5466,
+  "lado": "both"
+ },
+ "lootintegrations_yungs-1.4.jar": {
+  "sha1": "e4171447d6924edf0450bd0614a271798be0ef01",
+  "bytes": 5946,
+  "lado": "both"
+ },
+ "lootintegration_wda-1.6.jar": {
+  "sha1": "46c94dae90118644cbe7e018ffe7ae4d1a1a8fab",
+  "bytes": 7690,
+  "lado": "both"
+ },
+ "memorysettings-1.21-5.9.jar": {
+  "sha1": "46358f0310ea43fb23de2f831ddba6628dcb5f94",
+  "bytes": 22328,
+  "lado": "both"
+ },
+ "recipeessentials-1.21-4.0.jar": {
+  "sha1": "a1ea98e7ea194807201cc8618ac9e74da65716e5",
+  "bytes": 43950,
+  "lado": "both"
+ },
+ "repurposed_structures_friends_and_foes_compat_v8.jar": {
+  "sha1": "a280428729bef3cc71f37c1b2c104553daa867e5",
+  "bytes": 75050,
+  "lado": "both"
+ },
+ "smoothchunk-1.21-4.1.jar": {
+  "sha1": "f54d5d352e15560240f151a7d054096a33a58f4a",
+  "bytes": 12852,
+  "lado": "both"
+ },
+ "structureessentials-1.21.1-4.7.jar": {
+  "sha1": "02cbb191d46ddabbd871d4362bd3e13cddb3999d",
+  "bytes": 59891,
+  "lado": "both"
+ }
+}
