@@ -117,6 +117,25 @@ Predicción (P1, arriba): ida y vuelta byte a byte igual; con la IP cambiada, `H
 **Estado al frenar (2026-11-25 ~16:50)**: no se instaló ni se cambió nada en ninguna máquina (todo lo de arriba
 fue lectura o archivos en el scratchpad de la sesión). No hay nada que desinstalar.
 
+### 2026-11-25 ~17:10 — lo que no depende del disco (Fran: «en 20 min se descarga la de usa»)
+
+La europea tampoco estaba en ninguna máquina (medido arriba), así que no hubo nada que probar con ella.
+
+| Qué | Medido | Cómo |
+|---|---|---|
+| Respaldo del RPCS3 0.0.43 (savedata, `config`, `patches`) en `C:\Games\_respaldos\tlou-2026-11-25` | note 18 archivos, PC 19, **0 distintos** | `md5-original.csv` al lado, recomparado |
+| Servidor en la PC: `C:\Games\tlou-factions\servidor` (commit `0204949`) + RPCN 1.12.1 (`rpcn-win.zip`, MD5 `7C62BAD910FEEA06A6FA0E5C97FE598B`, certificado propio con `--cert-gen`) | **los 7 puertos escuchan** (TCP 80, 7312, 7313, 7314, 7320, 31313; UDP 3657 en `[::]` con IPv6-only apagado, que también recibe IPv4: `udp_server.rs` de RPCN) | `scripts/tlou/servidor-tlou.ps1 -Estado` |
+| Arranca con la tarea **a pedido** `TLOU-servidor` (sin disparador, S4U: sin ventana) y sigue corriendo al terminar la tarea | confirmado | `Start-ScheduledTask` y `-Estado` 25 s después |
+| Firewall de la PC: regla `TLOU Factions (juegos-casa)`, perfil privado, sólo 10.147.20.0/24 y 192.168.1.0/24 | confirmado | los 6 TCP conectan **desde la notebook** por ZeroTier (28-41 ms) |
+| El servidor entrega el `net10` parcheado | HTTP 200, 102 368 bytes, **MD5 `9A91295C...`** = el parcheado | `curl` desde la note con `Host: t1.final.prod.s3.amazonaws.com` |
+| Latencia note-PC | ZeroTier 27,7 ms de media (máx. 41); la PC a la note por la LAN da 23,8 ms: **lo pone el Wi-Fi de la notebook**, no ZeroTier (va DIRECT por 192.168.1.3) | `Test-Connection`, `zerotier-cli peers` |
+| La PC cambió de IP en la LAN: hoy es **192.168.1.3**, no .7 | confirmado | `Get-NetIPAddress` en la PC |
+| Actualización **01.11** (EBOOT.BIN + patch1.psarc, 15 archivos) en `C:\Games\RPCS3\dev_hdd0\game\BCUS98174` de **las dos** | **MD5 igual** en los 15 (L1-15, mitad de la actualización) | lista MD5 de la PC contra la de la note |
+| Lado jugador en las dos (`scripts/tlou/cliente-tlou.ps1`): `custom_configs\config_BCUS98174.yml` (Stub PPU Traps 1, Internet y RPCN prendidos, IP swap list a 10.147.20.3), `rpcn.yml` apuntado a `10.147.20.3:31313` sin cuenta, los dos parches y `patch_config.yml` con «min players = 2» y el Facebook falso para 01.00 y 01.11 | puestos (ninguno existía antes; se sacan con `-Deshacer`) | salida del script |
+
+Predicción P1-bis (antes de arrancar el juego): con el disco, el log del RPCS3 va a decir `PAT: Applied patch`
+para las tres entradas de 01.11, y el `http_gateway.log` de la PC va a mostrar el pedido de `net10.bin.psarc.crypt`.
+
 ## 7. Lo que falta, en orden, cuando vuelva el disco
 
 1. Fran pone la copia de EE. UU. (BCUS98174, carpeta o ISO) en la PC, por ejemplo en `C:\Games\PS3-ISOs\`.
