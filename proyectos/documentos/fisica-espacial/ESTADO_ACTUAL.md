@@ -1,5 +1,14 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-26 (mañana): la guía de CR resuelta, convertida en guía de examen, publicada.** Del chat del grupo: en la
+> clase del Problema 9 Aníbal pidió describir con palabras el movimiento desde un sistema inercial («con la punta
+> dibuja un cono») y los ejes con la notación del giróscopo ($A A'$, $B B'$); del parcialito, la respuesta bien
+> escrita fue la que repetía el Beer §18.3A (= §18.9, pág. 1187, de nuestra edición). `practica/resueltos-cr.typ` abre
+> con el capítulo «Guía de examen» (`<examen>`): el párrafo del giróscopo, el satélite libre como giróscopo sin
+> cardanes, el molde de seis frases (G, $bold(H)_G$, cono, sin nutación, spin, los dos conos) y lo que ve cada
+> observador, el P9 contado así (con $Delta v_G = 0,032$ m/s), una tabla P4-P9 y las preguntas probables. Símbolos
+> y consignas en verde, render mirado (págs. 2-4), Drive al día por MD5.
+
 > **2026-11-25 (noche, después): la hoja de fórmulas del 2.º parcial, publicada.** Pedido de Fran: «una hoja de
 > fórmulas como la del primer parcial, pero para el segundo». Tercera versión del mismo fuente:
 > `practica/hoja-formulas.typ --input version=parcial2` → `salida/hoja-formulas-parcial2.pdf`, una carilla, sólo fórmulas

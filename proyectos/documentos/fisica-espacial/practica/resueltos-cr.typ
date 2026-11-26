@@ -16,7 +16,7 @@
 #import "figuras-cr-guia.typ" as fg
 
 #show: documento.with(
-  titulo: [Cuerpo rígido — la guía entera, resuelta con un workflow],
+  titulo: [Cuerpo rígido — guía de examen y la guía entera resuelta],
   subtitulo: [Problemas 1 a 9 y los dos adicionales de la guía, y los ejercicios que vimos y no están en ella: cada uno con la idea, su utilidad y los mismos ocho pasos],
   encabezado: [Cuerpo rígido — la guía resuelta con el workflow],
 )
@@ -116,6 +116,229 @@
   la misma.
   // simbolos: L_G, H_G, M, H, I, I', omega, Omega, L, P, Delta
 ]
+
+= Guía de examen: lo que va a pedir Aníbal el 26/11 <examen>
+
+#gancho[
+  En la última clase hicieron el Problema 9 y Aníbal insistió con una sola cosa:
+  *contar con palabras el movimiento del satélite visto desde un sistema
+  inercial*. Quería oír «con la punta dibuja un cono», y quería los ejes con
+  los nombres del giróscopo del Beer: $A A'$, $B B'$, $C C'$. Y del parcialito
+  de cuerpo rígido dijo que la única respuesta bien escrita fue la que repetía,
+  casi palabra por palabra, el párrafo del giróscopo del Beer. La lectura no
+  pide mucha interpretación: todo cuerpo libre se piensa como un giróscopo en
+  cardanes, y se cuenta con *esas* palabras. Este capítulo es eso y nada más;
+  el resto del documento son los problemas resueltos, cada uno con su paso 8
+  («conclusiones») listo para reescribir con el molde de acá.
+]
+// simbolos: A, A', B, B', C, C'
+
+== El párrafo que hay que saber decir: el giróscopo en cardanes
+
+En nuestra edición del Beer es el §18.9, «Movimiento de un giróscopo. Ángulos
+de Euler», pág. 1187 (figs. 18.15 y 18.16); en la edición nueva el mismo
+párrafo es el §18.3A. Lo que sigue es su contenido, en el orden del libro, con
+cada eje pegado a su pieza.
+
+*La pieza.* Un giróscopo es un rotor que gira libre alrededor de su eje
+geométrico. Montado en una suspensión de Cardan —dos balancines, uno adentro
+del otro— puede tomar cualquier orientación, pero su centro de masa queda fijo
+en el espacio.
+
+*Los ejes, con nombre de pieza.*
+- $A A'$: la recta de los cojinetes $A$ y $A'$ del balancín *exterior*. Está
+  fija en el espacio.
+- $B B'$: la recta de los cojinetes del balancín *interior*, que van montados
+  en el exterior. Es perpendicular a $A A'$ y gira con el balancín exterior.
+- $C C'$: el eje del rotor, montado en el balancín interior, perpendicular a
+  $B B'$.
+- $D D'$: un diámetro marcado en el rotor, para poder contar cuánto giró.
+// simbolos: D, D', O, X, Y, Z
+
+*El sistema fijo.* $O X Y Z$, con el origen $O$ en el centro de masa y el eje
+$Z$ a lo largo de $A A'$. *La posición de referencia*: los dos balancines y el
+diámetro $D D'$ en el plano fijo $Y Z$.
+
+*Los tres pasos.* De la referencia se llega a cualquier posición con:
++ una rotación $phi$ del balancín exterior alrededor de $A A'$;
++ una rotación $theta$ del balancín interior alrededor de $B B'$;
++ una rotación $psi$ del rotor alrededor de $C C'$.
+// simbolos: phi, theta, psi
+Esos tres son los *ángulos de Euler* $phi$, $theta$ y $psi$, y fijan del todo la
+posición del giróscopo. Sus derivadas $dot(phi)$, $dot(theta)$ y $dot(psi)$ son
+la velocidad de *precesión*, de *nutación* y de *spin* (giro propio).
+// simbolos: phidot, thetadot, psidot
+
+*La terna de trabajo.* $O x y z$, pegada al balancín *interior*: $y$ a lo largo
+de $B B'$, $z$ a lo largo de $C C'$, y $x$ cierra la terna. Son ejes
+principales del giróscopo; siguen la precesión y la nutación pero *no* el spin,
+y por eso convienen más que unos ejes pegados al rotor: el rotor, que es de
+revolución, gira adentro de ella sin que sus momentos de inercia cambien.
+
+*La velocidad angular*, respecto del fijo, es la suma de las tres parciales. Con
+$hat(i)$, $hat(j)$, $hat(k)$ los versores de $O x y z$ y $bold(K)$ el de $Z$:
+// simbolos: K, k, omega
+$ bold(omega) = dot(phi) bold(K) + dot(theta) hat(j) + dot(psi) hat(k) $
+Esa base *no es ortonormal*: $bold(K)$ y $hat(k)$ forman el ángulo $theta$. Así
+que proyecto $bold(K)$ sobre $x$ y $z$ (con la $x$ de la fig. 18.16),
+$bold(K) = -sin theta thin hat(i) + cos theta thin hat(k)$, y queda
+$ bold(omega) = -dot(phi) sin theta thin hat(i) + dot(theta) hat(j) + (dot(psi) + dot(phi) cos theta) hat(k) $
+Como $O x y z$ es principal, con $I$ el momento axial (sobre $C C'$) e $I'$ el
+transversal, el momento angular sale componente a componente:
+// simbolos: H_O, I, I'
+$ bold(H)_O = -I' dot(phi) sin theta thin hat(i) + I' dot(theta) hat(j) + I (dot(psi) + dot(phi) cos theta) hat(k) $
+
+#duda[¿Ejes $A A'$ y $B B'$? En los libros son ejes fijos al espacio y ejes fijos al cuerpo. ¿No contradice al libro?]
+
+No: *es* el libro, §18.9. Los tres ejes del giróscopo son exactamente esas
+ternas con nombre de pieza: $A A'$ es el eje fijo al *espacio* ($Z$); $C C'$ es
+el eje fijo al *cuerpo* (el de simetría); y $B B'$ es el del medio, la recta
+perpendicular a los dos, que acompaña la precesión y la nutación pero no el
+spin. Aníbal no inventa una notación: elige la del capítulo que manda leer, y
+pide que cada eje se nombre por la pieza que lo materializa.
+
+#posta[
+  Tres piezas, tres ejes, tres ángulos, y cada ángulo gira una pieza alrededor
+  del eje de la pieza que la sostiene: el balancín de afuera alrededor de
+  $A A'$ (precesión), el de adentro alrededor de $B B'$ (nutación), el rotor
+  alrededor de $C C'$ (spin). Si sabés dibujar los cardanes, sabés decir los
+  ángulos; si los decís sin decir a qué pieza está pegado cada eje, para él
+  no los dijiste.
+]
+
+== El satélite libre es un giróscopo sin cardanes
+
+#dedos[
+  Meté el satélite, con la imaginación, en una suspensión de Cardan invisible.
+  El eje fijo $A A'$ lo ponés sobre $bold(H)_G$, que en vuelo libre no se mueve
+  (Anexo B.1). $C C'$ es el eje de simetría del satélite. $B B'$ es la recta
+  por $G$ perpendicular a los dos. El ángulo entre $A A'$ y $C C'$ es $theta$, y
+  en vuelo libre no cambia: no hay nutación. Lo único que pasa es que el
+  balancín de afuera da vueltas (precesión) y el satélite gira adentro del de
+  adentro (spin). La punta $C$ del eje da vueltas en un círculo alrededor de
+  $A A'$: *el eje barre un cono*, con vértice en $G$, alrededor de $bold(H)_G$.
+]
+// simbolos: H_G, G
+
+== El molde: el movimiento visto desde el inercial, en seis frases
+
+Sirve para el paso 8 («conclusiones») de cualquier problema de cuerpo libre de
+la guía. Cada frase lleva su número, y el número sale de los pasos 1 a 7.
+
++ *El centro de masa.* Sin fuerza externa, $G$ sigue en línea recta a velocidad
+  constante (o quieto). Si hubo un impulso, sale con
+  $Delta bold(v)_G = (sum bold(F)) Delta t \/ m$ y desde ahí, recta y uniforme.
+  // simbolos: v_G, F, m, Delta, t
++ *El momento angular.* Sin cupla respecto de $G$, $bold(H)_G$ queda constante
+  en módulo y en dirección: es el eje fijo $A A'$. Se dice hacia dónde quedó y
+  a qué ángulo $theta$ del eje de simetría.
++ *La punta dibuja un cono.* El eje de simetría ($C C'$) barre un cono con
+  vértice en $G$, alrededor de $bold(H)_G$, de semiángulo $theta$; da una vuelta
+  cada $2 pi \/ dot(phi)$, con $dot(phi) = H_G \/ I'$ (Anexo A.1).
+  // simbolos: pi
++ *Sin nutación.* $theta$ es constante: el cono ni se abre ni se cierra (si hay
+  disipación, sí: Anexo B.7).
++ *El spin.* El cuerpo gira sobre su propio eje a
+  $dot(psi) = (I' - I)\/I thin dot(phi) cos theta$: para el mismo lado que la
+  precesión si es alargado ($I < I'$, *directa*), para el contrario si es
+  achatado ($I > I'$, *retrógrada*).
++ *$bold(omega)$ y los dos conos.* $bold(omega)$ está en el plano de $bold(H)_G$ y
+  el eje, a $gamma$ del eje, con $tan gamma = (I\/I') tan theta$ (Anexo A.2).
+  Visto desde afuera, $bold(omega)$ da vueltas alrededor de $bold(H)_G$ y barre
+  el *cono espacial*, fijo, de semiángulo $abs(gamma - theta)$; visto desde el
+  cuerpo, da vueltas alrededor del eje y barre el *cono corporal*, de
+  semiángulo $gamma$. El movimiento es el cono corporal rodando sin deslizar
+  sobre el espacial: por afuera si es directa; si es retrógrada, el espacial
+  queda adentro del corporal (Anexo B.8).
+  // simbolos: gamma
+
+*Y lo que ve cada observador* (Aníbal lo pregunta así): desde el *inercial*,
+las seis frases. Desde la terna $O x y z$ del balancín interior, $bold(H)_G$,
+$bold(omega)$ y el eje están quietos, y el cuerpo sólo gira a $dot(psi)$
+alrededor de $z$. Desde unos ejes *pegados al cuerpo*, $bold(H)_G$ y
+$bold(omega)$ son los que dan vueltas alrededor del eje de simetría, a
+$-dot(psi)$.
+
+#trampa[
+  «El satélite gira alrededor de $bold(H)_G$» está mal dicho. En cada instante
+  el cuerpo gira alrededor de $bold(omega)$ (el eje instantáneo); lo que da
+  vueltas alrededor de $bold(H)_G$ es el *eje de simetría* (y $bold(omega)$ con
+  él). Y $theta$ es el ángulo de $bold(H)_G$ con el eje, no el de $bold(omega)$:
+  ese es $gamma$.
+]
+
+== El Problema 9 contado así: la respuesta modelo
+
+Con los números del Problema 9 (resuelto más abajo): $theta = 37,5$°,
+$gamma = 42,7$°, $dot(phi) = 0,0951$ rad/s, $dot(psi) = -0,0126$ rad/s.
+
+*Antes del encendido.* Visto desde un sistema inercial con origen en $G$, el
+satélite gira alrededor de su eje de simetría $y$, que está fijo en el espacio,
+a $omega_0 = 0,0628$ rad/s; $bold(H)_G = I_y omega_0 hat(j)$ está sobre el eje.
+Es un giróscopo con $theta = 0$: $A A'$ y $C C'$ coinciden, y la punta no
+dibuja nada.
+// simbolos: omega_0, I_y
+
+*Durante los 2 s.* Los propulsores $A$ y $B$ empujan al satélite hacia $-y$ en
+dos vértices de la tapa, al costado del eje. Esa fuerza tiene momento respecto
+de $G$ y tumba a $bold(H)_G$ hacia $+x$; además, como no tiene compañera, le da
+al centro de masa $Delta bold(v)_G = -2 J T \/ m thin hat(j) = -0,032 thin hat(j)$
+m/s. (El encendido se trata como un impulso: en 2 s el satélite casi no se
+movió.)
+// simbolos: J, T
+
+*Después.* Ya no hay fuerzas ni cuplas externas, entonces:
+- $G$ se aleja en línea recta, hacia $-y$, a $0,032$ m/s (más lo que traía);
+- $bold(H)_G = (115,9; 150,8; 0)$ kg·m²/s queda fijo en el espacio, a
+  $theta = 37,5$° de donde estaba el eje: ese es el eje $A A'$ del giróscopo
+  equivalente;
+- *la punta del eje de simetría dibuja un cono* de semiángulo $37,5$° alrededor
+  de $bold(H)_G$, con vértice en $G$, y da una vuelta cada $2 pi \/ 0,0951 =
+  66$ s;
+- $theta$ no cambia: no hay nutación, el cono no se abre ni se cierra;
+- el satélite gira sobre su propio eje a $dot(psi) = -0,0126$ rad/s, *al revés*
+  que la precesión: es achatado ($I_y = 2400 > I_x = 2000$ kg·m²), precesión
+  *retrógrada*;
+- $bold(omega)$, a $42,7$° del eje y en el plano de $bold(H)_G$ y el eje, barre
+  alrededor de $bold(H)_G$ un cono espacial fijo de $42,7 - 37,5 = 5,2$°; en el
+  cuerpo barre un cono corporal de $42,7$° alrededor del eje, y el corporal
+  rueda con el espacial *adentro*.
+// simbolos: I_x
+
+Desde unos ejes pegados al satélite, en cambio, $bold(H)_G$ y $bold(omega)$ dan
+vueltas alrededor del eje $y$ a $+0,0126$ rad/s: una vuelta cada $8,3$ min.
+
+== Los demás problemas libres, en una línea cada uno
+
+Para terminar los que quedan: los números salen de cada resolución, y la frase
+es la del molde.
+
+#table(
+  columns: (0.7fr, 1fr, 1fr, 1.2fr, 2.3fr),
+  inset: (x: 5pt, y: 4pt),
+  table.header(..([Problema], [Cono de la punta ($theta$)], [Una vuelta cada], [Spin], [Lo que se agrega al contarlo]).map(t => text(size: 8.5pt, weight: "bold", fill: c-azul)[#t])),
+  ..(
+    [4], [$2$°], [$1,83$ s], [al revés: retrógrada], [achatado ($I\/I' = 16\/9$); con disipación el cono se cierra: estable],
+    [5], [el del bamboleo], [$10,0$ s], [al revés: retrógrada], [$I = 2 I'$; gira sobre el eje mayor, el bamboleo se amortigua],
+    [6], [—], [—], [depende de $ell\/r$], [directa si $ell\/r > 2,45$; en el límite, isótropo: no hay cono],
+    [7], [$32,0$°], [$53,3$ s], [al revés: retrógrada], [$gamma = 44,3$°; $G$ sale despedido por el impulso del cohete],
+    [8], [$52,0$°], [$41,3$ s], [al revés: retrógrada], [el pulso abrió el cono de $7,3$° a $52$°; el sentido no cambia: es del cuerpo],
+    [9], [$37,5$°], [$66$ s], [al revés: retrógrada], [$gamma = 42,7$°; $G$ a $0,032$ m/s hacia $-y$],
+  ).map(c => text(size: 8.5pt, c)),
+)
+// simbolos: ell, r
+
+== Lo que puede preguntar, con la respuesta corta
+
+#oral(
+  ([Defina con palabras los ángulos de Euler.], [El párrafo de arriba: tres piezas, tres ejes ($A A'$, $B B'$, $C C'$), tres rotaciones, cada una alrededor del eje de la pieza que sostiene a la que gira.]),
+  ([¿La base de $bold(omega) = dot(phi) bold(K) + dot(theta) hat(j) + dot(psi) hat(k)$ es ortonormal?], [No: $bold(K)$ y $hat(k)$ forman $theta$. Se proyecta $bold(K) = -sin theta hat(i) + cos theta hat(k)$ y queda en $O x y z$, que sí lo es.]),
+  ([¿Por qué la terna en el balancín interior y no en el rotor?], [Porque es principal, no gira con el spin, y con un rotor de revolución sus momentos de inercia no cambian.]),
+  ([¿Qué forma describe el eje?], [Un cono con vértice en $G$, alrededor de $bold(H)_G$ fijo, de semiángulo $theta$; la punta, un círculo.]),
+  ([¿Por qué $bold(H)_G$ queda fijo?], [Porque, después del impulso, no hay cupla externa respecto de $G$: $dot(bold(H))_G = sum bold(M)_G = bold(0)$.]),
+  ([¿Directa o retrógrada?], [Se compara $I$ con $I'$: achatado ($I > I'$) retrógrada, alargado directa. No depende de cómo se lo golpeó.]),
+)
+// simbolos: M_G, Hdot_G
 
 = El workflow: plantear siempre igual
 
@@ -1275,7 +1498,9 @@ y D encendidos, las del 18.126.
 *(Inciso 7)* Visto desde afuera: $bold(H)$ queda fijo, inclinado $37,5$° hacia
 $+x$ respecto de donde estaba el eje; el eje de simetría y $bold(omega)$ giran
 alrededor de $bold(H)$ una vez cada 66 s, mientras el satélite gira sobre sí
-mismo para el otro lado; el cono espacial queda adentro del corporal.
+mismo para el otro lado; el cono espacial queda adentro del corporal. La
+versión que pide Aníbal, con el giróscopo y el centro de masa, está en la
+#link(<examen>)[guía de examen] del principio.
 #porque("B.8")[Retrógrada: $bold(H)$ queda entre el eje y $bold(omega)$, y el cono espacial entra adentro del corporal.]
 
 

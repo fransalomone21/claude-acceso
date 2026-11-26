@@ -1,5 +1,9 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-26 (mañana) — guía de examen de CR** (estado, en ESTADO). **Queda:** si Fran trae el enunciado del 2.º
+> parcial, contrastarlo con el capítulo nuevo (ANI-R19). La sesión entró con `-Excepcion` por presupuesto (pedido de
+> Fran): no leyó ESTADO/PDP/lecciones; sólo el libro, el skill de Typst, la guía y el Beer §18.9.
+
 > **2026-11-25 (noche, después) — la hoja del 2.º parcial** (estado, en ESTADO). **Queda:** nada. **Trampa pagada:** el
 > título de la hoja ocupa todo el ancho pero `verificar-hoja.py` lo mide contra la columna 1: un título más largo que
 > «Física Espacial — fórmulas» sale como renglón fuera de columna (falso positivo); se acorta el título.
