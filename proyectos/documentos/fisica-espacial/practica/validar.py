@@ -418,7 +418,8 @@ def c_parciales():
 PARCIALES_NUEVOS = ('modelo-parcial-1.typ', 'modelo-parcial-2.typ', 'modelo-parcial-3.typ',
                     'modelo-parcial-4.typ', 'modelo-parcial-5.typ', 'parcialito-4-momento-angular.typ',
                     'resueltos-cr-1-a-4.typ', 'resumen-cuerpo-rigido.typ', 'parcialito-5-cuerpo-rigido.typ',
-                    'resumen-cmg.typ', 'resueltos-cr.typ', 'resueltos-cr-extras.typ')
+                    'resumen-cmg.typ', 'resueltos-cr.typ', 'resueltos-cr-extras.typ',
+                    'modelo-2do-parcial-a.typ', 'modelo-2do-parcial-b.typ')
 
 
 def c_modelos():
@@ -733,6 +734,9 @@ def c_modelos():
         'resueltos-cr.typ': guia_cr_entera,
         # los extras: sus cuentas por dos caminos viven en cuentas_extras.py (2026-11-15)
         'resueltos-cr-extras.typ': list(__import__('cuentas_extras').CONTROLES),
+        # los dos modelos del 2.o parcial (2026-11-25): cuentas por dos caminos en cuentas_2do_parcial.py
+        'modelo-2do-parcial-a.typ': list(__import__('cuentas_2do_parcial').CONTROLES_A),
+        'modelo-2do-parcial-b.typ': list(__import__('cuentas_2do_parcial').CONTROLES_B),
         'parcialito-4-momento-angular.typ': parcialito4,
         'modelo-parcial-4.typ': modelo4,
         'modelo-parcial-5.typ': modelo5,

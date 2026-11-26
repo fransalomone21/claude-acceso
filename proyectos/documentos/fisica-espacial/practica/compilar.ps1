@@ -36,6 +36,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en las figuras de omega, H y sus derivadas (lista arriba)' }
     python verificar-figuras.py galeria-cr-guia.typ
     if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en los dibujos de la guia de CR, P4 a Ad2 (lista arriba)' }
+    python verificar-figuras.py galeria-2do-parcial.typ
+    if ($LASTEXITCODE -ne 0) { throw 'verificar-figuras.py en rojo en los dibujos de los modelos del 2do parcial (lista arriba)' }
     # Regla propia 13: ningun simbolo en el aire; cada uno, presentado donde
     # aparece primero (pedido de Fran, 2026-10-29; sabotaje: --sabotaje)
     python verificar-simbolos.py
@@ -58,6 +60,8 @@ try {
         @('resumen-cuerpo-rigido.typ', 'salida\resumen-cuerpo-rigido.pdf', $null),
         @('parcialito-5-cuerpo-rigido.typ', 'salida\parcialito-5-cuerpo-rigido.pdf', $null),
         @('resumen-cmg.typ', 'salida\resumen-cmg.pdf', $null),
+        @('modelo-2do-parcial-a.typ', 'salida\modelo-2do-parcial-a.pdf', $null),
+        @('modelo-2do-parcial-b.typ', 'salida\modelo-2do-parcial-b.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
     )

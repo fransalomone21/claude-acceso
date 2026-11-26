@@ -72,6 +72,18 @@
       "estado": "2026-09-29 -- 4 ejercicios integradores sobre el apunte, ahora con figuras, notacion por tema y camino alternativo en cada resolucion; numeros validados por practica/validar.py"
     },
     {
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/6 - 2do Parcial y recuperatorio (26-11)/1 - Modelos A y B (cuerpo rigido)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-2do-parcial-a.pdf",
+      "nombre-en-drive": "Modelo A de 2do parcial (con resolucion).pdf",
+      "estado": "2026-11-25 -- pedido de Fran para el 2do parcial del 26/11 (CMG no entra; va de extra): la forma del 1er parcial (numerico del Beer con figura, dibujo 3D, escriba o deduzca con opine) mas uno al estilo de los parcialitos; pulso sobre una sonda alargada (directa) con el workflow de ocho pasos, giroscopo en cardanes en precesion estable, Euler y el polo de la Tierra (304 dias contra 433), la rueda y la mancuerna, extra de CMG; resoluciones y resultados abajo, 10 pag.; numeros por dos caminos en practica/cuentas_2do_parcial.py (fuente: practica/modelo-2do-parcial-a.typ)"
+    },
+    {
+      "materia": "Fisica Espacial/4 - Parciales y parcialitos/6 - 2do Parcial y recuperatorio (26-11)/1 - Modelos A y B (cuerpo rigido)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-2do-parcial-b.pdf",
+      "nombre-en-drive": "Modelo B de 2do parcial (con resolucion).pdf",
+      "estado": "2026-11-25 -- mismo pedido y forma que el A, otros casos: meteorito sobre un satelite achatado (retrograda, el PR 18.6), disco torcido en sus cojinetes (d'Alembert), trompo en precesion estable con las dos raices y el spin minimo, Euler/Explorer 1/giroscopo-orbita en palabras, extra de CMG que reorienta; resoluciones y resultados abajo, 10 pag. (fuente: practica/modelo-2do-parcial-b.typ)"
+    },
+    {
       "materia": "Fisica Espacial/4 - Parciales y parcialitos/2 - 1er Parcial (01-10, tomado)/2 - Modelos de parcial",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/modelo-parcial-1.pdf",
       "nombre-en-drive": "Modelo de parcial 1 (con resolucion).pdf",

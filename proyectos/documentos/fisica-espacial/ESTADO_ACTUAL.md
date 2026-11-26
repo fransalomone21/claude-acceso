@@ -1,5 +1,19 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-25 (noche), en la PC: dos modelos del 2.º parcial (26/11), publicados.** Pedido de Fran: «2 modelos de
+> 2do parcial sabiendo que no entran CMG, igual mete alguno de CMG como extra; todos los modelos que tomó Aníbal;
+> resoluciones y resultados abajo, con dibujos vectoriales efectivos; todo ordenado en carpetas».
+> `practica/modelo-2do-parcial-a.typ` y `-b.typ` (10 págs. cada uno): la forma del 1.er parcial (ANI-41: numérico del
+> Beer con figura, dibujo 3D con preguntas, «escriba (o deduzca)» con «opine») más uno al estilo de los parcialitos, y
+> un extra de CMG; el 1 de cada uno con el workflow W1-W8. **A:** pulso fuera de $G$ sobre una sonda alargada
+> (directa), giróscopo en cardanes en precesión estable, Euler y el polo de la Tierra (304 días contra 433 de
+> Chandler, contra los equinoccios), rueda y mancuerna. **B:** meteorito sobre un satélite achatado (retrógrada),
+> disco torcido en sus cojinetes, trompo con las dos raíces y el spin mínimo, Euler/Explorer 1/giróscopo-órbita en
+> palabras. Figuras nuevas en `practica/figuras-2do-parcial.typ` (galería en `compilar.ps1`, `verificar-figuras.py`
+> en verde); 92 números por dos caminos en `practica/cuentas_2do_parcial.py` → `validar.py` 1004 (eran 912),
+> sabotaje de tres casos en rojo; símbolos (84 + 61) y consignas (91) en verde. Drive:
+> `4 - Parciales y parcialitos/6 - 2do Parcial y recuperatorio (26-11)/1 - Modelos A y B (cuerpo rigido)`, MD5 al día.
+
 > **2026-11-17, en la PC: los porqués de la guía de CR, con atajos de ida y vuelta (52 págs., publicada).** Pedido de
 > Fran: «justificaciones breves y con anexos abajo» (su ejemplo: por qué $bold(H)_G$ está sobre $bold(K)$ en el P4).
 > 27 «¿Por qué?» de una o dos líneas pegados a cada afirmación justificable, del P1 al Ad2 (`#porque` en

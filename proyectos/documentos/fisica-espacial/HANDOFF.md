@@ -1,5 +1,14 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-25 (noche) — los dos modelos del 2.º parcial** (estado, en ESTADO). **Queda:** (1) si después del parcial
+> Fran trae el enunciado, entra a `catedras` (ANI-R19) y se contrasta lo inferido de la forma (ANI-41); (2) el
+> integrador viejo quedó suelto en `6 - 2do Parcial…` al lado de la subcarpeta nueva: moverlo a su propia subcarpeta
+> con `rclone moveto` lo frenó el permiso de la sesión (no es necesario: son un PDF y una carpeta); (3) la hoja de
+> fórmulas sigue sin lo de actitud (PLAN-RECTA-FINAL, punto 2). **Trampas pagadas:** (a) coma decimal dentro de
+> `sqrt(...)` es separador de argumentos (`0","018`), otra vez; (b) un `_nota` con halo blanco tapó un tramo de la
+> curva del gráfico de las raíces: los rótulos largos van donde no pasa ninguna curva; (c) `valor_de` de
+> `validar.py` no lee «2,628⏎times 10^7»: el control va con el número dividido por la potencia.
+
 > **2026-11-17 — los porqués de la guía de CR** (estado, en ESTADO). **Queda:** (1) los extras
 > (`resueltos-cr-extras.typ`) no tienen «¿Por qué?»: si Fran los pide, mismo `#porque("B.n")[...]`; (2) la recta
 > final sigue en el orden del bloque del 15/16. **Trampas pagadas:** (a) un `// simbolos:` movido de lugar deja la
