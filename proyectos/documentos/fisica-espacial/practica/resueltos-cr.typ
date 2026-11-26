@@ -14,6 +14,7 @@
 #import "../apunte/biblioteca/estilo.typ": esquema, paneles
 #import "../apunte/biblioteca/figuras-euler.typ": _triangulo, _leyenda-senos
 #import "figuras-cr-guia.typ" as fg
+#import "figuras-cr3d.typ": fig-cardanes, _prec-a
 
 #show: documento.with(
   titulo: [Cuerpo rígido — guía de examen y la guía entera resuelta],
@@ -169,6 +170,8 @@ posición del giróscopo. Sus derivadas $dot(phi)$, $dot(theta)$ y $dot(psi)$ so
 la velocidad de *precesión*, de *nutación* y de *spin* (giro propio).
 // simbolos: phidot, thetadot, psidot
 
+#dibujo(fig-cardanes(rotulos: true, escala: 0.8cm))[Redibujada de Beer, figs. 18.15b y 18.16 (pág. 1187). El balancín exterior gira $phi$ alrededor de $A A'$ (fijo, sobre $Z$); el interior gira $theta$ alrededor de $B B'$ (montado en el exterior); el rotor gira $psi$ alrededor de $C C'$ (montado en el interior). $O x y z$ va pegada al balancín interior: $y$ sobre $B B'$, $z$ sobre $C C'$.]
+
 *La terna de trabajo.* $O x y z$, pegada al balancín *interior*: $y$ a lo largo
 de $B B'$, $z$ a lo largo de $C C'$, y $x$ cierra la terna. Son ejes
 principales del giróscopo; siguen la precesión y la nutación pero *no* el spin,
@@ -187,6 +190,9 @@ Como $O x y z$ es principal, con $I$ el momento axial (sobre $C C'$) e $I'$ el
 transversal, el momento angular sale componente a componente:
 // simbolos: H_O, I, I'
 $ bold(H)_O = -I' dot(phi) sin theta thin hat(i) + I' dot(theta) hat(j) + I (dot(psi) + dot(phi) cos theta) hat(k) $
+
+#dibujo(_prec-a)[El plano de $bold(K)$ y $hat(k)$, con $y$ ($B B'$) saliendo de la hoja y sin nutación: $bold(omega) = dot(phi) bold(K) + dot(psi) hat(k)$ está escrito en dos direcciones que forman $theta$; proyectado sobre $x$ y $z$ queda $-dot(phi) sin theta thin hat(i) + omega_z hat(k)$, con $omega_z = dot(psi) + dot(phi) cos theta$. Como la fig. 18.17 del Beer.]
+// simbolos: omega_z
 
 #duda[¿Ejes $A A'$ y $B B'$? En los libros son ejes fijos al espacio y ejes fijos al cuerpo. ¿No contradice al libro?]
 
@@ -219,6 +225,9 @@ pide que cada eje se nombre por la pieza que lo materializa.
   $A A'$: *el eje barre un cono*, con vértice en $G$, alrededor de $bold(H)_G$.
 ]
 // simbolos: H_G, G
+
+#dibujo(esquema(escala: 0.85cm, fg._libre(1.2, 37.5, fg._disco)))[El cuerpo libre como giróscopo sin cardanes, con los números del Problema 9 ($I_y \/ I_x = 1,2$, $theta = 37,5$°; el octógono, dibujado como un disco achatado). $bold(H)_G$ fijo hace de $A A'$; el eje de simetría ($C C'$) barre el cono punteado alrededor de él (precesión $dot(phi)$) mientras el cuerpo gira sobre sí mismo (spin $dot(psi) < 0$: retrógrada); $bold(omega)$ queda a $gamma$ del eje, más afuera que $bold(H)_G$.]
+// simbolos: I_y, I_x, gamma
 
 == El molde: el movimiento visto desde el inercial, en seis frases
 
@@ -266,6 +275,8 @@ $-dot(psi)$.
   él). Y $theta$ es el ángulo de $bold(H)_G$ con el eje, no el de $bold(omega)$:
   ese es $gamma$.
 ]
+
+#dibujo(fg.fig-conos-libre)[Los dos conos (como las figs. 18.24 y 18.25 del Beer, con los ángulos exagerados). El *corporal* va pegado al cuerpo, alrededor del eje, y rueda sin deslizar sobre el *espacial*, fijo alrededor de $bold(H)_G$; se tocan a lo largo de $bold(omega)$. Directa: se tocan por afuera. Retrógrada —el Problema 9—: el espacial queda adentro del corporal.]
 
 == El Problema 9 contado así: la respuesta modelo
 

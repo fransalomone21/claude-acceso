@@ -311,3 +311,40 @@
   rotulo((2.55 * calc.cos(30deg), 2.55 * calc.sin(30deg)), text(fill: c-rojo)[$-M$ y $omega_"nave" < 0$], ancla: "west")
   rotulo((0, -2.75), text(size: 7.5pt, fill: luma(60))[$(I - I_R) omega_"nave" + I_R (omega_"nave" + omega_"rel") = 0$: el par es interno], ancla: "north")
 })
+
+// ---------------------------------------------------------------------
+// Los dos conos del cuerpo simetrico libre (Beer 18.11, figs. 18.24-18.25),
+// en seccion axial: H_G vertical, el eje a te de H, omega a ga del eje.
+// Directa (alargado, ga < te): omega entre el eje y H; conos tangentes por
+// afuera. Retrograda (achatado, ga > te): H entre el eje y omega; el cono
+// espacial queda adentro del corporal. Angulos exagerados a proposito.
+// ---------------------------------------------------------------------
+#let _conos(te, ga) = {
+  let O = (0, 0)
+  let L = 3.0
+  let pp = (ang, r) => (r * calc.cos(ang * 1deg), r * calc.sin(ang * 1deg))
+  let dH = 90
+  let dk = 90 - te
+  let dw = dk + ga // omega, a ga del eje, del lado de H
+  let se = calc.abs(ga - te)
+  let cono(eje, semi, color) = {
+    cetz.draw.line(pp(eje - semi, L), O, pp(eje + semi, L), stroke: 0.7pt + color)
+    circulo-escorzo(pp(eje, L * calc.cos(semi * 1deg)), L * calc.sin(semi * 1deg),
+      dir: eje - 90, achatado: 0.30, color: color, grosor: 0.7pt, punteada: false)
+  }
+  cono(dk, ga, c-trazo)
+  cono(dH, se, c-aux)
+  cetz.draw.line(O, pp(dk, L + 0.55), stroke: (paint: luma(70), thickness: 0.6pt, dash: "dashed"))
+  rotulo(pp(dk, L + 0.6), text(fill: luma(70))[eje ($C C'$)], ancla: "south-west")
+  flecha(O, pp(dH, L + 0.75), color: c-verde)
+  rotulo(pp(dH, L + 0.8), text(fill: c-verde)[$bold(H)_G$ fijo ($A A'$)], ancla: "south")
+  flecha(O, pp(dw, L * 0.92), color: c-dato)
+  rotulo(pp(dw, L * 0.92), text(fill: c-dato)[$bold(omega)$], ancla: "south-west")
+  rotulo(pp(dH + se + 6, L * 0.62), text(fill: c-aux)[espacial], ancla: "east")
+  rotulo(pp(dk - ga - 4, L * 0.7), text(fill: c-trazo)[corporal], ancla: "west")
+  rotulo((0, -0.08), [$G$], ancla: "north")
+}
+#let fig-conos-libre = paneles(
+  ([*Directa*: alargado, $I < I'$, $gamma < theta$], esquema(escala: 0.75cm, _conos(42, 20))),
+  ([*Retrógrada*: achatado, $I > I'$, $gamma > theta$], esquema(escala: 0.75cm, _conos(22, 44))),
+)
