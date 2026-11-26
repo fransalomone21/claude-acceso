@@ -31,15 +31,24 @@
 //
 //    typst compile --root .. hoja-formulas.typ salida/hoja-formulas.pdf
 //    typst compile --root .. --input version=parcial hoja-formulas.typ salida/hoja-formulas-parcial.pdf
+//    typst compile --root .. --input version=parcial2 hoja-formulas.typ salida/hoja-formulas-parcial2.pdf
+//
+//  version=parcial2 (Fran, 2026-11-25: «una hoja de formulas como la del
+//  primer parcial, pero para el segundo»): UNA carilla con el cuerpo rigido
+//  del cap. 18 del Beer y la rotacion que lo sostiene, sin CMG (no entra,
+//  ANI-83). Misma regla: solo formulas y titulos.
 // =====================================================================
-#let completa = sys.inputs.at("version", default: "completa") != "parcial"
+#let version = sys.inputs.at("version", default: "completa")
+#let completa = version != "parcial" and version != "parcial2"
+#let segundo = version == "parcial2"
 
 #set document(
-  title: if completa { "Hoja de fórmulas — Física Espacial" } else { "Hoja para el parcial — Física Espacial" },
+  title: if completa { "Hoja de fórmulas — Física Espacial" } else if segundo { "Hoja para el 2.º parcial — Física Espacial" } else { "Hoja para el parcial — Física Espacial" },
   author: "Apunte de Física Espacial — UNSAM")
 #set page(paper: "a4", margin: (x: 0.8cm, y: 0.75cm), columns: 3)
 #set columns(gutter: 11pt)
-#set text(lang: "es", region: "ar", size: 8.6pt,
+// La del 2.o parcial tiene menos temas: la letra crece para llenar la carilla.
+#set text(lang: "es", region: "ar", size: if segundo { 10.6pt } else { 8.6pt },
   font: ("Libertinus Serif", "Georgia", "Times New Roman"))
 #set par(justify: false, leading: 0.42em, spacing: 0.42em)
 #show math.equation: eq => {
@@ -65,12 +74,116 @@
 // --- titulo -------------------------------------------------------------
 #place(top, scope: "parent", float: true, block(width: 100%, below: 4pt)[
   #grid(columns: (auto, 1fr), align: (left + bottom, right + bottom), column-gutter: 8pt,
-    text(size: 12.5pt, weight: "bold", fill: acento)[Física Espacial — fórmulas],
-    text(size: 8.6pt)[$mu = G M, quad h = L\/m$],
+    text(size: 12.5pt, weight: "bold", fill: acento)[#if segundo [Física Espacial — 2.º parcial] else [Física Espacial — fórmulas]],
+    if segundo { text(size: 8.6pt)[$sum bold(M)_G = dot(bold(H))_G, quad bold(H)_G = bold(I) bold(omega)$] }
+    else { text(size: 8.6pt)[$mu = G M, quad h = L\/m$] },
   )
   #v(-3pt)
   #line(length: 100%, stroke: 0.8pt + acento)
 ])
+
+// =====================================================================
+//  LA DEL 2.o PARCIAL -- cuerpo rigido (version=parcial2), una carilla
+// =====================================================================
+#if segundo [
+#tema[Rotación alrededor de un eje][
+$ v = omega r, quad a_t = alpha r, quad a_"rad" = omega^2 r $
+$ K = 1/2 I omega^2, quad I = sum m_i r_i^2 = M k^2 $
+$ I_P = I_"cm" + M d^2 $
+#text(size: 8.8pt, table(columns: (1.25fr, 1fr, 1fr, 1fr), stroke: none, inset: (x: 1.5pt, y: 1.2pt),
+  [varilla (cm)], [$M L^2 \/ 12$], [aro], [$M R^2$],
+  [varilla (ext)], [$M L^2 \/ 3$], [disco], [$M R^2 \/ 2$],
+  [esfera], [$2 M R^2 \/ 5$], [esf. hueca], [$2 M R^2 \/ 3$],
+  [disco (diám.)], [$M R^2 \/ 4$], [cilindro], [$M R^2 \/ 2$],
+))
+$ tau = r F sin phi, quad sum tau_z = I alpha_z $
+$ L_z = I omega, quad bold(L) = I bold(omega) $
+$ W = integral tau thin d theta, quad P = tau omega $
+$ sum bold(tau)_"ext" = 0 arrow.r.double sum I_i omega_i = "cte" $
+]
+#aire
+#tema[Giróscopo elemental][
+$ sum bold(tau) = (d bold(L))/(d t), quad Delta bold(L) = bold(tau) Delta t $
+$ bold(tau) = bold(Omega) times bold(L), quad Omega = tau/L = (M g r)/(I omega) $
+]
+#aire
+#tema[Cinemática del rígido][
+$ bold(v)_B = bold(v)_A + bold(omega) times bold(r)_(B\/A) $
+$ bold(a)_B = bold(a)_A + bold(alpha) times bold(r)_(B\/A) $
+$ #h(2.2em) + bold(omega) times (bold(omega) times bold(r)_(B\/A)) $
+$ ((d bold(Q))/(d t))_"fijo" = ((d bold(Q))/(d t))_"rot" + bold(Omega) times bold(Q) $
+]
+#aire
+#tema[Impulso y choques en 3D][
+$ m Delta macron(bold(v)) = sum bold(J), quad bold(J) = integral bold(F) d t $
+$ bold(H)_(G 2) = bold(H)_(G 1) + sum bold(r)_i times bold(J)_i $
+$ bold(r) times bold(J) = (y J_z - z J_y; thin z J_x - x J_z; $
+$ #h(4.2em) x J_y - y J_x) $
+$ bold(H)_O = macron(bold(r)) times m macron(bold(v)) + bold(H)_G $
+$ T = 1/2 m macron(v)^2 + 1/2 bold(omega) dot bold(H)_G $
+$ W_(1 arrow.r 2) = bold(J) dot (bold(v)_1 + bold(v)_2)/2 $
+]
+
+#colbreak()
+#tema[Momento angular del rígido][
+$ mat(H_x; H_y; H_z) = mat(I_x, -I_(x y), -I_(x z); -I_(x y), I_y, -I_(y z); -I_(x z), -I_(y z), I_z) mat(omega_x; omega_y; omega_z) $
+$ I_x = sum m (y^2 + z^2), quad I_(x y) = sum m x y $
+$ bold(H)_G = (I_x omega_x; thin I_y omega_y; thin I_z omega_z) $
+$ T = 1/2 (I_x omega_x^2 + I_y omega_y^2 + I_z omega_z^2) $
+$ bold(omega) parallel "eje": quad T = H^2/(2 I) $
+]
+#aire
+#tema[Ecuaciones de Euler][
+$ sum bold(M)_G = ((d bold(H)_G)/(d t))_(G x y z) + bold(Omega) times bold(H)_G $
+$ sum M_x &= I_x dot(omega)_x - (I_y - I_z) omega_y omega_z \
+  sum M_y &= I_y dot(omega)_y - (I_z - I_x) omega_z omega_x \
+  sum M_z &= I_z dot(omega)_z - (I_x - I_y) omega_x omega_y $
+$ I_x = I_y = I', thin I_z = I, thin bold(M) = 0: $
+$ omega_z = "cte" $
+$ dot(omega)_x = -lambda omega_y, quad dot(omega)_y = lambda omega_x $
+$ lambda = (I - I')/I' omega_z, quad T_lambda = (2 pi)/lambda $
+]
+#aire
+#tema[Eje fijo (d'Alembert)][
+$ bold(omega) = "cte": quad sum bold(M)_G = bold(omega) times bold(H)_G $
+$ H_perp = (I - I') omega sin beta cos beta $
+$ M = omega H_perp, quad F = M/L $
+]
+#aire
+#tema[Constantes][
+$ g_0 = 9,81 "m/s²", quad 1 "rpm" = (2 pi)/60 "rad/s" $
+]
+
+#colbreak()
+#tema[Ángulos de Euler y giróscopo][
+$ bold(omega) = dot(phi) bold(K) + dot(theta) hat(j) + dot(psi) hat(k) $
+$ bold(Omega) = dot(phi) bold(K) + dot(theta) hat(j) $
+$ bold(K) = -sin theta thin hat(i) + cos theta thin hat(k) $
+$ omega_x = -dot(phi) sin theta, quad omega_y = dot(theta) $
+$ omega_z = dot(psi) + dot(phi) cos theta $
+$ bold(H) = -I' dot(phi) sin theta thin hat(i) + I' dot(theta) hat(j) + I omega_z hat(k) $
+]
+#aire
+#tema[Precesión estable][
+$ sum bold(M)_O = (I omega_z - I' dot(phi) cos theta) dot(phi) sin theta thin hat(j) $
+$ bold(M)_"peso" = W c sin theta thin hat(j) $
+$ (I' - I) cos theta thin dot(phi)^2 - I dot(psi) thin dot(phi) + W c = 0 $
+$ dot(psi)_"mín" = sqrt(4 (I' - I) cos theta thin W c) \/ I $
+$ dot(phi) approx (W c)/(I dot(psi)), quad theta = 90°: quad sum M = I dot(psi) dot(phi) $
+]
+#aire
+#tema[Cuerpo simétrico sin cupla][
+$ bold(H)_G = "cte", quad bold(omega) = dot(phi) bold(K) + dot(psi) hat(k), quad bold(K) parallel bold(H)_G $
+$ tan theta = H_perp/H_z, quad tan gamma = omega_perp/omega_z $
+$ tan gamma = I/I' tan theta $
+$ omega_perp = H_perp/I', quad omega_z = H_z/I $
+$ dot(phi) = H_G/I', quad dot(psi) = (I' - I)/(I I') H_G cos theta $
+$ omega/(sin theta) = dot(phi)/(sin gamma) = abs(dot(psi))/(sin abs(theta - gamma)) $
+$ I < I': quad theta > gamma, quad dot(psi) > 0 $
+$ I > I': quad gamma > theta, quad dot(psi) < 0 $
+$ T_"prec" = (2 pi)/dot(phi) $
+]
+] else [
 
 // =====================================================================
 //  COLUMNA 1 -- dinamica: cantidad de movimiento, cohete, energia, L, rotacion
@@ -227,6 +340,7 @@ $ bold(v) = mu/h [-sin nu thin hat(P) + (e + cos nu) hat(Q)] $
   [$mu_"Sol"$], [$1,327 times 10^11$ km³/s²],
   [1 UA], [$149,6 times 10^6$ km],
 )
+]
 ]
 
 // =====================================================================

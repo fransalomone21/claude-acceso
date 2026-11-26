@@ -1,5 +1,9 @@
 # HANDOFF — Apunte de Física Espacial
 
+> **2026-11-25 (noche, después) — la hoja del 2.º parcial** (estado, en ESTADO). **Queda:** nada. **Trampa pagada:** el
+> título de la hoja ocupa todo el ancho pero `verificar-hoja.py` lo mide contra la columna 1: un título más largo que
+> «Física Espacial — fórmulas» sale como renglón fuera de columna (falso positivo); se acorta el título.
+
 > **2026-11-25 (noche) — los dos modelos del 2.º parcial** (estado, en ESTADO). **Queda:** (1) si después del parcial
 > Fran trae el enunciado, entra a `catedras` (ANI-R19) y se contrasta lo inferido de la forma (ANI-41); (2) el
 > integrador viejo quedó suelto en `6 - 2do Parcial…` al lado de la subcarpeta nueva: moverlo a su propia subcarpeta

@@ -30,6 +30,12 @@
       "estado": "2026-10-01 -- 1 carilla A4 para el parcial: solo formulas y titulos de tema, sin tres cuerpos, Lagrange ni rigido 3D; con elementos orbitales (clase de Valenti y Bate) y producto vectorial (fuente: practica/hoja-formulas.typ --input version=parcial)"
     },
     {
+      "materia": "Fisica Espacial/2 - Hojas de formulas/2do parcial (26-11)",
+      "local": "proyectos/documentos/fisica-espacial/practica/salida/hoja-formulas-parcial2.pdf",
+      "nombre-en-drive": "Hoja de formulas - 2do parcial.pdf",
+      "estado": "2026-11-25 -- pedido de Fran: «una hoja de formulas como la del primer parcial, pero para el segundo». 1 carilla A4, solo formulas y titulos: rotacion e I, giroscopo elemental, cinematica del rigido, impulso en 3D, tensor y H, ecuaciones de Euler, eje fijo, angulos de Euler, precesion estable, cuerpo simetrico sin cupla; sin CMG (no entra, ANI-83). Va en subcarpeta para no apilar 3 PDF sueltos (fuente: practica/hoja-formulas.typ --input version=parcial2)"
+    },
+    {
       "materia": "Fisica Espacial/4 - Parciales y parcialitos/1 - Parcialito 3, momento angular (28-09, tomado)",
       "local": "proyectos/documentos/fisica-espacial/practica/salida/parcialito-momento-angular.pdf",
       "nombre-en-drive": "Parcialito - Momento angular (con resolucion).pdf",

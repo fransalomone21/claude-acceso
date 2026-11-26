@@ -1,5 +1,13 @@
 # Estado actual — Apunte de Física Espacial
 
+> **2026-11-25 (noche, después): la hoja de fórmulas del 2.º parcial, publicada.** Pedido de Fran: «una hoja de
+> fórmulas como la del primer parcial, pero para el segundo». Tercera versión del mismo fuente:
+> `practica/hoja-formulas.typ --input version=parcial2` → `salida/hoja-formulas-parcial2.pdf`, una carilla, sólo fórmulas
+> y títulos (rotación e $I$, giróscopo elemental, cinemática del rígido, impulso en 3D, tensor, Euler, eje fijo,
+> ángulos de Euler, precesión estable, cuerpo simétrico sin cupla; sin CMG), letra 10,6 pt porque tiene menos temas.
+> `verificar-hoja.py` en verde para las tres hojas (las dos viejas salen idénticas al byte); en `compilar.ps1`. Drive:
+> `2 - Hojas de formulas/2do parcial (26-11)`, MD5 al día.
+
 > **2026-11-25 (noche), en la PC: dos modelos del 2.º parcial (26/11), publicados.** Pedido de Fran: «2 modelos de
 > 2do parcial sabiendo que no entran CMG, igual mete alguno de CMG como extra; todos los modelos que tomó Aníbal;
 > resoluciones y resultados abajo, con dibujos vectoriales efectivos; todo ordenado en carpetas».

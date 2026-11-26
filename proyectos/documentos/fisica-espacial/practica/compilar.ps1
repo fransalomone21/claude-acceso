@@ -63,7 +63,8 @@ try {
         @('modelo-2do-parcial-a.typ', 'salida\modelo-2do-parcial-a.pdf', $null),
         @('modelo-2do-parcial-b.typ', 'salida\modelo-2do-parcial-b.pdf', $null),
         @('hoja-formulas.typ', 'salida\hoja-formulas.pdf', $null),
-        @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial')
+        @('hoja-formulas.typ', 'salida\hoja-formulas-parcial.pdf', 'version=parcial'),
+        @('hoja-formulas.typ', 'salida\hoja-formulas-parcial2.pdf', 'version=parcial2')
     )
     # Fecha de creacion FIJA: sin esto Typst estampa la hora de compilacion,
     # todos los PDF salen "modificados" con el texto identico y el hook los
@@ -81,7 +82,7 @@ try {
     }
     # la hoja de formulas: ningun renglon fuera de su columna, y la del
     # parcial en UNA carilla (la definitiva en dos)
-    python verificar-hoja.py salida\hoja-formulas-parcial.pdf:1 salida\hoja-formulas.pdf:2
+    python verificar-hoja.py salida\hoja-formulas-parcial.pdf:1 salida\hoja-formulas.pdf:2 salida\hoja-formulas-parcial2.pdf:1
     if ($LASTEXITCODE -ne 0) { throw 'verificar-hoja.py en rojo: un renglon fuera de su columna o una carilla de mas' }
     # Regla propia 10: ninguna consigna partida entre dos paginas
     python verificar-consignas.py
