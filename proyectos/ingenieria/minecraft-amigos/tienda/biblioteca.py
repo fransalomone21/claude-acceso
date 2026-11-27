@@ -13,11 +13,13 @@ Los mods que no son de ninguna carta van a 'Base y rendimiento' (el nucleo) o a 
 import base64, os, subprocess, sys
 
 import armar as A
+from perfil import VERSION
 
 LLAVE = os.path.expanduser(r"~\.ssh\pc-cable")
 PC = "Fran@10.147.20.3"
-DESTINO = "C:/Games/Minecraft-mods"
-OTRAS = "Bibliotecas y de Better MC 5"
+# la 1.21.1 en la raiz (como estaba); la 1.21.4 en su propia carpeta: los jars de una no sirven en la otra
+DESTINO = "C:/Games/Minecraft-mods" + ("" if VERSION == "1.21.1" else f"/{VERSION}")
+OTRAS = "Bibliotecas y de Better MC 5" if VERSION == "1.21.1" else "Bibliotecas y del mundo con Agus"
 
 
 def plan_por_familia(cat, cur):

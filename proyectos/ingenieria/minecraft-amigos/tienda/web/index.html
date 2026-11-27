@@ -51,6 +51,10 @@
   .grande { width:100%; padding:12px; font-size:16px; }
   #log { margin-top:12px; font-family: Consolas, monospace; font-size:12px; background:#121510; border-radius:8px; padding:8px; max-height:220px; overflow:auto; white-space:pre-wrap; display:none; }
   .ok { color:var(--verde); font-weight:700; } .mal { color:var(--rojo); font-weight:700; }
+  .versiones { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .versiones a, .versiones span { border-radius:20px; padding:5px 14px; font-size:14px; text-decoration:none; border:1px solid var(--borde); }
+  .versiones span { background:var(--verde2); color:#fff; font-weight:700; border-color:var(--verde2); } .versiones a { color:var(--texto); background:var(--panel); }
+  .versiones a:hover { border-color:var(--verde); }
   .nota { font-size:12px; color:var(--suave); margin-top:8px; line-height:1.35; }
 </style>
 </head>
@@ -58,6 +62,7 @@
 <header>
   <h1>Tienda de mods <span>⛏</span></h1>
   <div class="sub">Elegí una combinación o armá la tuya tildando mods. Al confirmar, la tienda la prueba en un server y, si arranca, la deja lista en la note, la PC y la de Kevin.</div>
+  <div class="versiones" id="versiones"></div>
   <div class="pub" id="pub">Cargando…</div>
 </header>
 <main>
@@ -66,7 +71,7 @@
     <div class="combos" id="combos"></div>
     <h2>O armala vos</h2>
     <div class="nota">Siempre van incluidos los <b id="nnucleo"></b> mods de base (rendimiento, mapa, recetas y ayudas de interfaz). Lo que cada mod necesite para andar se agrega solo. Nada de frío, calor ni sed: la tienda no los deja pasar.</div>
-    <input type="text" class="buscar" id="buscar" placeholder="Buscar un mod (por ejemplo: conejo, dragón, cohete)">
+    <input type="text" class="buscar" id="buscar" placeholder="Buscar un mod (por ejemplo: conejo, dragón, castillo)">
     <div id="familias"></div>
   </section>
   <aside>
@@ -76,7 +81,7 @@
     <ul id="lista"></ul>
     <button class="grande" id="confirmar" disabled>Confirmar y armar</button>
     <div id="log"></div>
-    <div class="nota">Después de confirmar: abrí la instancia «Tienda 1.21.1» en Prism y se pone al día sola antes de arrancar. Cada combinación tiene su propio mundo en el server.</div>
+    <div class="nota">Después de confirmar: abrí la instancia «<b class="inst">Tienda</b>» en Prism y se pone al día sola antes de arrancar. Cada combinación tiene su propio mundo en el server.</div>
   </aside>
 </main>
 <script>
@@ -86,6 +91,11 @@ const $ = id => document.getElementById(id);
 async function cargar() {
   C = await (await fetch('/api/catalogo')).json();
   $('nnucleo').textContent = C.nucleo;
+  // las dos versiones de la tienda (L1-01, L1-20): cada una en su puerto, la otra es un link
+  $('versiones').innerHTML = `<span>Minecraft ${C.version_nombre}</span>` + C.otras.map(o =>
+    `<a href="http://${location.hostname}:${o.puerto}/">Pasar a ${o.nombre}</a>`).join('');
+  document.title = `Tienda de mods ${C.version} — Minecraft de los pibes`;
+  document.querySelectorAll('.inst').forEach(e => e.textContent = C.instancia);
   $('pub').innerHTML = C.publicado
     ? `Publicado ahora: <b>${C.publicado.nombre}</b> · ${C.publicado.mods} mods · ${C.publicado.publicado}`
     : 'Todavía no hay nada publicado.';
@@ -153,7 +163,7 @@ function pintar() {
   });
   const cb = combo && C.combos.find(x => x.id === combo);
   const nombres = [...carrito].map(id => C.cartas.find(c => c.id === id).nombre);
-  $('lista').innerHTML = cb && cb.todo_bmc5 ? '<li>Better MC 5 entero (sin estaciones)</li>' : nombres.map(n => `<li>${n}</li>`).join('');
+  $('lista').innerHTML = cb && cb.todo_bmc5 ? `<li>${C.base_nombre}</li>` : nombres.map(n => `<li>${n}</li>`).join('');
   $('total').textContent = cb ? `${cb.nombre}: ${cb.mods_total} mods, ${cb.memoria_gb} GB de memoria (estimado)`
     : (carrito.size ? `${carrito.size} elegidos + los de base` : 'Vacío');
   $('confirmar').disabled = !(cb || carrito.size);
@@ -169,7 +179,7 @@ $('confirmar').onclick = async () => {
     $('log').textContent = e.log.filter(l => !l.startsWith('bajado ')).join('\n');
     if (!e.ocupado && e.resultado) {
       clearInterval(t);
-      $('log').innerHTML += e.resultado.ok ? `\n<span class="ok">Listo: abrí «Tienda 1.21.1» en Prism.</span>` : `\n<span class="mal">No se publicó: ${e.resultado.motivo}</span>`;
+      $('log').innerHTML += e.resultado.ok ? `\n<span class="ok">Listo: abrí «${C.instancia}» en Prism.</span>` : `\n<span class="mal">No se publicó: ${e.resultado.motivo}</span>`;
       $('confirmar').disabled = false; cargar();
     }
   }, 1500);

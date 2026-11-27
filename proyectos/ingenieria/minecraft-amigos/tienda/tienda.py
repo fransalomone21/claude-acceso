@@ -11,8 +11,9 @@ import json, math, os, sys, threading
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 import armar as A
+from perfil import P, PERFILES, VERSION
 
-PUERTO = 8765
+PUERTO = P["puerto_web"]   # 8765 la 1.21.1, 8766 la 1.21.4 (TIENDA_VERSION=1.21.4)
 WEB = os.path.join(A.AQUI, "web")
 _estado = {"ocupado": False, "log": [], "resultado": None}
 _lock = threading.Lock()
@@ -50,7 +51,9 @@ def catalogo():
     if os.path.exists(pub):
         d = json.load(open(pub, encoding="utf-8"))
         publicado = {"nombre": d["nombre"], "combo": d.get("combo"), "publicado": d["publicado"], "mods": len(d["mods"])}
-    return {"familias": cur["familias"], "subfamilias": cur.get("subfamilias", {}), "cartas": cartas, "combos": combos,
+    otras = [{"version": v, "nombre": p["nombre"], "puerto": p["puerto_web"]} for v, p in PERFILES.items() if v != VERSION]
+    return {"version": VERSION, "version_nombre": P["nombre"], "otras": otras, "instancia": P["instancia"],
+            "base_nombre": cur.get("base_nombre", "Better MC 5 entero (sin estaciones)"), "familias": cur["familias"], "subfamilias": cur.get("subfamilias", {}), "cartas": cartas, "combos": combos,
             "publicado": publicado,
             "nucleo": len(cur["nucleo"])}
 
@@ -114,5 +117,5 @@ class H(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     puerto = int(sys.argv[1]) if len(sys.argv) > 1 else PUERTO
-    print(f"Tienda de mods en http://localhost:{puerto}  (desde otra maquina: http://10.147.20.2:{puerto})")
+    print(f"Tienda de mods {P['nombre']} en http://localhost:{puerto}  (desde otra maquina: http://10.147.20.2:{puerto})")
     ThreadingHTTPServer(("0.0.0.0", puerto), H).serve_forever()

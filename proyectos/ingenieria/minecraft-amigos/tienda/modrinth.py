@@ -2,10 +2,12 @@
 (nunca se baja la lista entera de versiones de un proyecto: se traba)."""
 import json, re, time, urllib.parse, urllib.request
 
+from perfil import P
+
 API = "https://api.modrinth.com/v2"
 UA = {"User-Agent": "claude-acceso/minecraft-amigos (tienda de mods)", "Content-Type": "application/json"}
-MC = "1.21.1"
-CARGADOR = "neoforge"
+MC = P["mc"]
+CARGADOR = P["cargador"]
 
 
 def _pedir(url, datos=None, intentos=4):

@@ -14,11 +14,13 @@ import argparse, glob, hashlib, json, os, re, sys
 import modrinth as M
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-DATOS = os.path.join(AQUI, "datos")
+DATOS = os.path.join(AQUI, M.P["datos"])
 CAT = os.path.join(DATOS, "catalogo.json")
 CURADO = os.path.join(DATOS, "curado.json")
 
 LOADERS_TIPO = {"mod": (M.CARGADOR,), "shader": ("iris",), "resourcepack": None}
+# de donde sale la base: 1.21.1 de la instancia Better MC 5; 1.21.4 de la instancia "Nuevo 1.21.4" (el mundo con Agus)
+ORIGEN_BASE = "bmc5" if M.CARGADOR == "neoforge" else "base"
 
 
 def archivo_principal(v):
@@ -108,7 +110,7 @@ def main():
             if not p or any(x in os.path.basename(hs[h]).lower() for x in excluir_base):
                 continue
             tipo = "mod"
-            registrar(cat, p, v, tipo, "bmc5")
+            registrar(cat, p, v, tipo, ORIGEN_BASE)
             cat["base"].append(p["slug"])
             por_id[p["id"]] = p["slug"]
         print(f"base: {len(jars)} jars, {len(cat['base'])} en el catalogo, sin identificar en Modrinth: {sin or 'ninguno'}")
@@ -126,7 +128,7 @@ def main():
         if slug in visto:
             continue
         visto.add(slug)
-        if slug in cat["proyectos"] and cat["proyectos"][slug].get("origen") == "bmc5":
+        if slug in cat["proyectos"] and cat["proyectos"][slug].get("origen") == ORIGEN_BASE:
             continue
         p = (M.proyectos([slug]) or [None])[0]
         if not p:
@@ -144,7 +146,7 @@ def main():
                 pendientes.append((d, "mod"))
     # las dependencias de la base que no son de la base
     for slug in list(cat["versiones"]):
-        for d in cat["versiones"][slug]["deps"]:
+        for d in list(cat["versiones"][slug]["deps"]):
             if d not in por_id:
                 dp = (M.proyectos([d]) or [None])[0]
                 if dp and dp["slug"] not in cat["proyectos"]:
@@ -152,6 +154,12 @@ def main():
                     if v:
                         registrar(cat, dp, v, "mod", "dependencia")
                         por_id[dp["id"]] = dp["slug"]
+                    elif cat["proyectos"][slug].get("origen") == ORIGEN_BASE:
+                        # la base ya arranco y se jugo sin ese jar: viene adentro del mod (medido 2026-11-27: Mod Menu
+                        # declara placeholder-api y lo trae adentro; el server de Agus lo muestra en .fabric/processedMods)
+                        cat["versiones"][slug]["deps"].remove(d)
+                        cat["versiones"][slug].setdefault("deps_adentro", []).append(dp["slug"])
+                        print(f"  aviso: {dp['slug']} (de {slug}) sin version suelta: viene adentro del mod de la base")
                     else:
                         faltan.append(dp["slug"] + " (dependencia de " + slug + ", sin version)")
     # --ultimas: cada proyecto a su ultima version 1.21.1 + NeoForge (la de Better MC 5 queda en 'fijadas').

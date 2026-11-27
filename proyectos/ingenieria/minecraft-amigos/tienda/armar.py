@@ -13,22 +13,49 @@ Uso por consola (la pagina usa las mismas funciones):
 """
 import argparse, hashlib, json, os, shutil, subprocess, sys, threading, time, urllib.request
 
+from perfil import P, VERSION   # 1.21.1 NeoForge o 1.21.4 Fabric, por TIENDA_VERSION (L1-01, L1-20)
+
 AQUI = os.path.dirname(os.path.abspath(__file__))
-DATOS = os.path.join(AQUI, "datos")
-RAIZ = os.environ.get("TIENDA_RAIZ", r"C:\Users\frans\MinecraftServer\tienda")
+DATOS = os.path.join(AQUI, P["datos"])
+RAIZ = os.environ.get("TIENDA_RAIZ", P["raiz"])
 CACHE = os.path.join(RAIZ, "cache")
 PUBLICADO = os.path.join(RAIZ, "publicado")
 PRUEBA = os.path.join(RAIZ, "prueba")
 SERVER = os.path.join(RAIZ, "server")
 BMC5_SERVER = r"C:\Users\frans\MinecraftServer\bmc5"
 NEOFORGE_LIBS = os.path.join(RAIZ, "neoforge", "libraries")
+# Fabric: el lanzador (fabric-server-launch.jar, del instalador de Fabric: trae fijos el cargador y la version de
+# Minecraft) baja el server de Mojang y sus librerias la primera vez. Eso se guarda una sola vez en RAIZ\fabric y
+# el server de prueba y el de la tienda lo usan por union, como las librerias de NeoForge. .fabric/processedMods
+# NO se comparte: lo arma cada server con SUS mods, y dos servers a la vez lo pisarian.
+FABRIC = os.path.join(RAIZ, "fabric")
+FABRIC_COMPARTIDO = ("libraries", "versions", ".fabric/server", ".fabric/remappedJars")
 BMC5_MODS = os.path.join(os.environ.get("APPDATA", ""), "PrismLauncher", "instances", "Better MC 5 (1.21.1)", ".minecraft", "mods")
 JAVA = os.path.join(os.environ.get("APPDATA", ""), "PrismLauncher", "java", "java-runtime-delta", "bin", "java.exe")
-NEOFORGE = "21.1.267"     # el de la tienda (los extras piden >= 21.1.195; Better MC 5 trae 21.1.176)
-MC = "1.21.1"
+CARGADOR = P["cargador"]
+NEOFORGE = P["cargador_version"] if CARGADOR == "neoforge" else None   # 21.1.267: los extras piden >= 21.1.195
+FABRIC_LOADER = P["cargador_version"] if CARGADOR == "fabric" else None
+MC = P["mc"]
 ARGS_NEOFORGE = f"@libraries/net/neoforged/neoforge/{NEOFORGE}/win_args.txt"
 TOPE_PRUEBA_S = 280          # L1-02 pide publicar en 300 s
-PUERTO_PRUEBA = 25598
+PUERTO_PRUEBA = P["puerto_prueba"]
+PUERTO_SERVER = P["puerto_server"]
+
+
+def comando_server():
+    """Lo que arranca el server en su carpeta: NeoForge por su archivo de argumentos, Fabric por su lanzador."""
+    if CARGADOR == "neoforge":
+        return [JAVA, "@user_jvm_args.txt", ARGS_NEOFORGE, "nogui"]
+    return [JAVA, "-Xms2G", "-Xmx8G", "-jar", "fabric-server-launch.jar", "nogui"]
+
+
+def _union(enlace, destino):
+    if os.path.exists(enlace) and os.path.realpath(enlace) != os.path.realpath(destino):
+        os.rmdir(enlace)   # una union vieja (rmdir de una union no toca el destino; una carpeta llena da error)
+    if not os.path.exists(enlace):
+        os.makedirs(destino, exist_ok=True)
+        os.makedirs(os.path.dirname(enlace), exist_ok=True)
+        subprocess.run(["cmd", "/c", "mklink", "/J", enlace, destino], check=True, capture_output=True)
 
 
 class Bloqueado(Exception):
@@ -130,13 +157,17 @@ def al_cache(e, log):
 
 
 def preparar_server(dir_, es, puerto, nivel, log):
-    """Deja un server NeoForge en dir_ con exactamente los mods de lado server/both de la seleccion."""
+    """Deja un server (NeoForge o Fabric, segun la version) en dir_ con exactamente los mods de lado server/both."""
     os.makedirs(dir_, exist_ok=True)
-    libs = os.path.join(dir_, "libraries")
-    if os.path.exists(libs) and os.path.realpath(libs) != os.path.realpath(NEOFORGE_LIBS):
-        os.rmdir(libs)   # una union vieja (rmdir de una union no toca el destino)
-    if not os.path.exists(libs):   # las librerias del NeoForge de la tienda, por union (no se copian)
-        subprocess.run(["cmd", "/c", "mklink", "/J", libs, NEOFORGE_LIBS], check=True, capture_output=True)
+    if CARGADOR == "neoforge":   # las librerias del NeoForge de la tienda, por union (no se copian)
+        _union(os.path.join(dir_, "libraries"), NEOFORGE_LIBS)
+    else:
+        lanzador = os.path.join(FABRIC, "fabric-server-launch.jar")
+        if not os.path.exists(lanzador):
+            raise Bloqueado(f"falta {lanzador}: correr 'python armar.py --preparar-fabric' una vez")
+        shutil.copy2(lanzador, os.path.join(dir_, "fabric-server-launch.jar"))
+        for d in FABRIC_COMPARTIDO:
+            _union(os.path.join(dir_, *d.split("/")), os.path.join(FABRIC, *d.split("/")))
     mods = os.path.join(dir_, "mods")
     os.makedirs(mods, exist_ok=True)
     quiero = {e["archivo"]: e for e in es if e["lado"] != "client"}
@@ -169,7 +200,7 @@ def probar(es, log, tope=TOPE_PRUEBA_S):
     shutil.rmtree(mundo, ignore_errors=True)
     preparar_server(PRUEBA, es, PUERTO_PRUEBA, "prueba-mundo", log)
     t0 = time.time()
-    p = subprocess.Popen([JAVA, "@user_jvm_args.txt", ARGS_NEOFORGE, "nogui"], cwd=PRUEBA, stdin=subprocess.PIPE,
+    p = subprocess.Popen(comando_server(), cwd=PRUEBA, stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace")
     ultimas, todas, done = [], [], None
     def leer():
@@ -215,7 +246,9 @@ def publicar(nombre, combo, es, log):
         if e["url"].startswith("archivos/"):
             shutil.copy2(os.path.join(CACHE, e["archivo"]), os.path.join(PUBLICADO, "archivos", e["archivo"]))
     doc = {"nombre": nombre, "combo": combo, "publicado": time.strftime("%Y-%m-%d %H:%M:%S"), "minecraft": MC,
-           "neoforge": NEOFORGE, "mods": es}
+           "cargador": CARGADOR, "cargador_version": P["cargador_version"], "mods": es}
+    if NEOFORGE:
+        doc["neoforge"] = NEOFORGE   # lo que leia la version de antes
     tmp = os.path.join(PUBLICADO, "lista.json.tmp")
     json.dump(doc, open(tmp, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     os.replace(tmp, os.path.join(PUBLICADO, "lista.json"))
@@ -228,8 +261,27 @@ def sincronizar_server(log=print):
     for e in d["mods"]:
         al_cache(e, log)
     nivel = "mundo-" + (d.get("combo") or "seleccion-" + "".join(ch for ch in d["nombre"].lower() if ch.isalnum()))
-    preparar_server(SERVER, d["mods"], 25568, nivel, log)
+    preparar_server(SERVER, d["mods"], PUERTO_SERVER, nivel, log)
     log(f"server de la tienda: '{d['nombre']}' ({d['publicado']}), mundo {nivel}")
+
+
+def preparar_fabric(origen, log=print):
+    """Deja RAIZ\\fabric listo: el lanzador del server de origen (fija cargador y version) y lo que ese server ya
+    bajo de Mojang y de Fabric, asi la primera prueba no baja 120 MB. Del origen solo se lee."""
+    if CARGADOR != "fabric":
+        raise SystemExit("--preparar-fabric es de la version 1.21.4 (TIENDA_VERSION=1.21.4)")
+    jar = os.path.join(origen, "fabric-server-launch.jar")
+    import zipfile
+    props = zipfile.ZipFile(jar).read("install.properties").decode()
+    if f"game-version={MC}" not in props or f"fabric-loader-version={FABRIC_LOADER}" not in props:
+        raise SystemExit(f"el lanzador de {origen} no es {MC} + Fabric {FABRIC_LOADER}: {props!r}")
+    os.makedirs(FABRIC, exist_ok=True)
+    shutil.copy2(jar, os.path.join(FABRIC, "fabric-server-launch.jar"))
+    for d in FABRIC_COMPARTIDO:
+        src, dst = os.path.join(origen, *d.split("/")), os.path.join(FABRIC, *d.split("/"))
+        if os.path.isdir(src):
+            shutil.copytree(src, dst, dirs_exist_ok=True)
+    log(f"fabric listo en {FABRIC}: {props.strip()}")
 
 
 def armar(cartas=(), combo=None, nombre=None, slugs_extra=(), saltear_dep=None, log=print, solo_resolver=False):
@@ -270,8 +322,16 @@ if __name__ == "__main__":
     a.add_argument("--nombre")
     a.add_argument("--solo-resolver", action="store_true")
     a.add_argument("--server", action="store_true", help="solo poner al dia el server de la tienda con lo publicado")
+    a.add_argument("--arrancar", action="store_true", help="con --server: despues lo arranca en esta consola")
+    a.add_argument("--preparar-fabric", metavar="SERVER_FABRIC",
+                   help="1.21.4: copia el lanzador y lo que ya bajo de un server Fabric que anda (solo lee de ahi)")
     o = a.parse_args()
+    if o.preparar_fabric:
+        preparar_fabric(o.preparar_fabric); sys.exit(0)
     if o.server:
-        sincronizar_server(); sys.exit(0)
+        sincronizar_server()
+        if o.arrancar:   # la consola queda en el server: se cierra escribiendo stop
+            sys.exit(subprocess.call(comando_server(), cwd=SERVER))
+        sys.exit(0)
     r = armar([c for c in o.cartas.split(",") if c], o.combo, o.nombre, solo_resolver=o.solo_resolver)
     sys.exit(0 if r["ok"] else 1)

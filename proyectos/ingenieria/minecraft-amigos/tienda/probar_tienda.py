@@ -1,6 +1,7 @@
 """Sabotajes y controles de la tienda (L1-10, L1-06, L1-03). Cada caso dice QUE LLEGO y POR QUE dio su resultado.
 
-  python probar_tienda.py            (con la tienda corriendo en :8765; tarda ~2 minutos: arranca servers de prueba)
+  python probar_tienda.py            (1.21.1: la tienda en :8765; tarda ~2 minutos: arranca servers de prueba)
+  TIENDA_VERSION=1.21.4 python probar_tienda.py   (la del mundo con Agus, en :8766; S2 con Mutant Monsters sin Puzzles Lib)
 
 Casos:
   S1  una seleccion con Tough As Nails queda BLOQUEADA por la lista de castigos y lista.json no cambia     (L1-10)
@@ -13,9 +14,12 @@ Casos:
 import hashlib, os, shutil, subprocess, sys, tempfile
 
 import armar as A
+from perfil import P, VERSION
 
 TIENDA = os.path.dirname(os.path.abspath(__file__))
-PACK = "http://localhost:8765/pack/lista.json"
+PACK = f"http://localhost:{P['puerto_web']}/pack/lista.json"
+# S2: una carta y una dependencia obligatoria suya que el server pide al arrancar, por version
+S2 = {"1.21.1": ("cataclysm", "lionfish-api", "lionfish"), "1.21.4": ("mutantes", "puzzles-lib", "puzzles")}[VERSION]
 resultados = []
 
 
@@ -38,7 +42,7 @@ def ps(script, *args):
 def pack_prendido():
     import socket
     try:
-        socket.create_connection(("127.0.0.1", 8765), timeout=2).close()
+        socket.create_connection(("127.0.0.1", P["puerto_web"]), timeout=2).close()
         return True
     except OSError:
         return False
@@ -49,7 +53,9 @@ def main():
     antes y se devuelve al final (2026-11-25: dejaba publicada la Liviana encima de la combinacion de Fran)."""
     import time
     copia = tempfile.mkdtemp(prefix="tienda-publicado-")
-    shutil.copytree(A.PUBLICADO, os.path.join(copia, "p"))
+    habia = os.path.isdir(A.PUBLICADO)   # la 1.21.4 puede no tener nada publicado todavia: se devuelve igual, vacia
+    if habia:
+        shutil.copytree(A.PUBLICADO, os.path.join(copia, "p"))
     servidor = None
     if not pack_prendido():
         servidor = subprocess.Popen([sys.executable, os.path.join(TIENDA, "tienda.py")], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -61,7 +67,8 @@ def main():
         return casos()
     finally:
         shutil.rmtree(A.PUBLICADO, ignore_errors=True)
-        shutil.copytree(os.path.join(copia, "p"), A.PUBLICADO)
+        if habia:
+            shutil.copytree(os.path.join(copia, "p"), A.PUBLICADO)
         shutil.rmtree(copia, ignore_errors=True)
         print(f"lo publicado volvio a como estaba: {huella()}")
         if servidor:
@@ -81,9 +88,10 @@ def casos():
          f"motivo: {r['motivo']!r}; lista.json {'igual' if huella() == base else 'CAMBIO'}; corrio server de prueba: {any('server de prueba' in l for l in log)}")
 
     log.clear()
-    r = A.armar(cartas=["cataclysm"], nombre="sabotaje", saltear_dep="lionfish-api", log=log.append)
+    carta, dep, clave = S2
+    r = A.armar(cartas=[carta], nombre="sabotaje", saltear_dep=dep, log=log.append)
     llego = any("server de prueba: NO arranco" in l for l in log)
-    caso("S2 dependencia faltante no se publica", (not r["ok"]) and llego and "lionfish" in r["motivo"].lower() and huella() == base,
+    caso(f"S2 dependencia faltante ({dep}) no se publica", (not r["ok"]) and llego and clave in r["motivo"].lower() and huella() == base,
          f"server de prueba: {next((l for l in log if 'server de prueba' in l), 'NO CORRIO')}; lista.json {'igual' if huella() == base else 'CAMBIO'}")
 
     # S3/C2 sobre una copia de mods sincronizada desde cero
