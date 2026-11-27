@@ -66,6 +66,21 @@ sectorizar ... mods de conejos»):**
 | L1-18 y L1-19 nuevos en `docs/10-requisitos.md` (v0.2) | el documento |
 | Twilight Forest quedó afuera: no está en Modrinth | `mc_verificar`: «NO EXISTE the-twilight-forest» |
 
+**Lo nuevo del 2026-11-27 a la madrugada (pedido de Fran: seguir el mundo 1.21.4 con Agus, con mods de
+estructuras, dimensiones y mundos, sin el frío y calor):**
+
+| Qué | Evidencia |
+|---|---|
+| El server del mundo con Agus se **mudó a la notebook**: `C:\Users\frans\MinecraftServer\agus-1.21.4`, puerto 25566, `start.bat` con -Xms2G -Xmx8G, minimizado. En la PC quedó apagado, con `start.bat.movido-a-la-notebook` y un txt que avisa (no prenderlo: copia vieja) | `Done (1.389s)`; `fran` (127.0.0.1) y `deadshot1234` (10.147.20.3, ZeroTier) `joined the game` en su posición de siempre (-1870, 64, -151) |
+| Tough As Nails y GlitchCore fuera del server (seguían en el de la PC: el 24 se sacaron de todos lados menos de ahí) | en `mods_fuera_de_pack/` del server |
+| Pack 1.21.4: de 77 a **100 jars** (21 de estructuras, terreno, End y cielo, más EMF y ETF para Fresh Animations); en Fabric 1.21.4 **no hay mods de naves ni planetas** (búsqueda en Modrinth) | `armar_pack.py`: «[ok] 100 jars; sin version 1.21.4: ninguno»; `pack/agregar.txt` comentado |
+| Instancia **«Nuevo 1.21.4»** igual al pack en la notebook y en la PC (la única 1.21.4 con mods nuevos; «Juntada 1.21.4» movida a `C:\Users\frans\MinecraftServer\instancias-fuera\`) | SHA-1: 98/98 en las dos antes de EMF/ETF; después, 100 y 100 jars |
+| Resource packs en las dos: Fresh Animations, Better Leaves, Fancy Crops, New Glowing Ores, Low On Fire, Dramatic Skys | SHA-1 de Modrinth al bajar |
+| Respaldo del mundo antes de los mods: `world-backup-2026-11-27.zip` (714,7 MB) en el Escritorio de la PC | el zip |
+
+Cuentas sin conexión: Fran `fran` (notebook), Agus `deadshot1234` (PC). Se abre el juego directo al server con
+`prismlauncher --launch "Nuevo 1.21.4" --server <ip>:25566 --profile <cuenta>` (en la PC, por tarea interactiva).
+
 **Lo nuevo del 2026-11-26 (medido): los 86 mods de la tienda arrancan.**
 
 | Qué | Evidencia |

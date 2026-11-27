@@ -51,3 +51,31 @@ modernfix
 noisium
 spark                         # si hay lag, dice de donde viene
 chunky                        # pregenerar el mundo antes de que lleguen
+
+# --- 2026-11-27, Fran: «una banda de mods copados del espacio, estructuras, dimensiones, mundos» ---
+# espacio: en Fabric 1.21.4 no hay mods de cohetes ni planetas (medido en Modrinth); lo que hay es el cielo
+spyglass-astronomy            # constelaciones y planetas con el catalejo (cliente)
+astrocraft                    # cielo con planetas y estrellas (cliente)
+# mundos: terreno nuevo, solo en lo que no se exploro
+terralith                     # biomas nuevos en el mundo normal
+tectonic                      # montanas y valles gigantes (anda con Terralith)
+enderscape                    # el End con biomas y bichos nuevos
+# estructuras: aparecen en chunks sin explorar
+dungeons-and-taverns
+towns-and-towers
+repurposed-structures-fabric
+explorify
+moogs-voyager-structures
+mes-moogs-end-structures
+mns-moogs-nether-structures
+mss-moogs-soaring-structures  # estructuras en el cielo
+when-dungeons-arise-seven-seas
+underground-worlds
+formations-overworld
+formations-nether
+additional-structures
+better-archeology
+structure-layout-optimizer    # que tantas estructuras no traben el server
+# para el resource pack Fresh Animations (solo cliente)
+entity-model-features
+entitytexturefeatures

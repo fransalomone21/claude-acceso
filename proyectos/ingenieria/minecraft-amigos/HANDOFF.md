@@ -3,7 +3,18 @@
 **Escrito el:** 2026-11-26 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
 y probada con sus 86 mods; falta la validación con Fran y Kevin.
 
-## Lo último (2026-11-26): los 52 nuevos arrancan — HECHO
+## Lo último (2026-11-27, madrugada): el mundo 1.21.4 con Agus, en la notebook
+
+Fran y Agus juegan en `C:\Users\frans\MinecraftServer\agus-1.21.4` (puerto 25566) con la instancia «Nuevo 1.21.4»
+(100 jars) — ver `ESTADO_ACTUAL.md`, bloque del 27. Pendiente, en este orden:
+1. **La tienda para las dos versiones** (pedido de Fran): hoy `tienda/` es sólo 1.21.1 NeoForge; el pack 1.21.4
+   vive en `pack/agregar.txt` + `armar_pack.py`. Falta decidir cómo la página ofrece 1.21.4 Fabric (otro catálogo,
+   otro cargador, server de prueba Fabric) sin romper lo de 1.21.1.
+2. Los requisitos (`docs/10-requisitos.md`) dicen 1.21.1 (L1-01): sumar la 1.21.4 es un cambio de requisito y va
+   con el sí de Fran.
+3. RCON apagado en el server 25566 (`enable-rcon=false`): para apagarlo bien, `stop` en su ventana minimizada.
+
+## Lo de antes (2026-11-26): los 52 nuevos arrancan — HECHO
 
 Los pasos 1-3 del bloque de abajo están hechos y medidos (`ESTADO_ACTUAL.md`, bloque «2026-11-26»). Lo que sigue
 es de Fran: el punto 2 de «Arrancá por acá (mediodía)», abajo (cuentas sin conexión en Prism, elegir una
