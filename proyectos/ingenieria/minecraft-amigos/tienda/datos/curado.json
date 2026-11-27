@@ -54,6 +54,10 @@
   "ping-wheel",
   "yigd"
  ],
+ "deps_faltan": {
+  "irons-spells-n-spellbooks": ["irons-lib"],
+  "adorable-hamster-pets": ["patchouli", "fzzy-config"]
+ },
  "extras": [
   {
    "slug": "deep-aether"

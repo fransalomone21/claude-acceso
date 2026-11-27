@@ -117,6 +117,8 @@ def main():
     for item in curado.get("extras", []):
         slug, tipo = item["slug"], item.get("tipo", "mod")
         pendientes.append((slug, tipo))
+    for ds in curado.get("deps_faltan", {}).values():   # las que Modrinth no declara tambien van al catalogo
+        pendientes += [(d, "mod") for d in ds]
     visto = set()
     faltan = []
     while pendientes:

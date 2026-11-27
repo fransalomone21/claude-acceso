@@ -6,7 +6,7 @@
 | `tienda.py` | la página, `/api/catalogo`, `/api/armar` (POST), `/api/estado`, `/pack/...` | L1-02 |
 | `armar.py` | resolver (núcleo + cartas + dependencias), castigos, cache con SHA-1, server de prueba, publicar; `--server` pone al día el server de la tienda | L1-05, L1-06, L1-10 |
 | `catalogar.py` + `modrinth.py` | arma `datos/catalogo.json` desde la instancia Better MC 5 (por SHA-1) y los extras de `datos/curado.json` | L0-03 |
-| `datos/curado.json` | cartas en castellano, familias, núcleo, combinaciones y lista de castigos (lo único que se edita a mano) | L1-07, L1-08, L1-09 |
+| `datos/curado.json` | cartas en castellano, familias, núcleo, combinaciones, lista de castigos y `deps_faltan` (dependencias que el mod pide al arrancar y Modrinth no declara) — lo único que se edita a mano | L1-06, L1-07, L1-08, L1-09 |
 | `datos/locales.json` | los 20 jars de Better MC 5 que no están en Modrinth | — |
 | `sincronizar.ps1` | comando previo de Prism: iguala `mods/` al pack por SHA-1 | L1-03, L1-04 |
 | `verificar-instancia.ps1` | compara una instancia contra el pack, sin tocar nada (0 igual, 1 distinto, 2 sin pack) | L1-03 |

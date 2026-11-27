@@ -1,9 +1,17 @@
 # Handoff — minecraft-amigos
 
-**Escrito el:** 2026-11-25 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
-y probada; falta la validación con Fran y Kevin.
+**Escrito el:** 2026-11-26 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
+y probada con sus 86 mods; falta la validación con Fran y Kevin.
 
-## Lo último (2026-11-25, 18:20, desde la sesión de juegos-casa; Fran: «termina ahora y deja para despues»)
+## Lo último (2026-11-26): los 52 nuevos arrancan — HECHO
+
+Los pasos 1-3 del bloque de abajo están hechos y medidos (`ESTADO_ACTUAL.md`, bloque «2026-11-26»). Lo que sigue
+es de Fran: el punto 2 de «Arrancá por acá (mediodía)», abajo (cuentas sin conexión en Prism, elegir una
+combinación en la tienda, jugar con Kevin). La deuda del punto 4 (formato de `curado.json`) sigue abierta.
+Un mod nuevo que no arranca por «requires X»: mirar si X está en `prueba/mods`; si falta, va a `deps_faltan`
+de `curado.json`.
+
+## Lo de antes (2026-11-25, 18:20, desde la sesión de juegos-casa; Fran: «termina ahora y deja para despues»)
 
 La tienda creció a 86 cartas con subsectores, conejos y fotos desplegables (ver `ESTADO_ACTUAL.md`, bloque «a la
 tarde»); la página nueva ya está sirviendo (tienda reiniciada minimizada). **Primero, al volver:**

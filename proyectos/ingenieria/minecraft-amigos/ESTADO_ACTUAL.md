@@ -1,6 +1,6 @@
 # Estado actual — minecraft-amigos
 
-**Última actualización:** 2026-11-25
+**Última actualización:** 2026-11-26
 
 ## Dónde estamos
 
@@ -66,11 +66,18 @@ sectorizar ... mods de conejos»):**
 | L1-18 y L1-19 nuevos en `docs/10-requisitos.md` (v0.2) | el documento |
 | Twilight Forest quedó afuera: no está en Modrinth | `mc_verificar`: «NO EXISTE the-twilight-forest» |
 
-**Los 52 nuevos juntos NO arrancan todavía** (server de prueba, sin publicar; lo publicado quedó igual): «Mod
-irons_spellbooks requires irons_lib 1.21.1-2 or above, and below 1.21.1-3» y «Mod adorablehamsterpets requires
-patchouli 1.21.1-93-NEOFORGE or above» (en 21 s, 133 mods). Falta sumar `irons-lib` a los extras y subir Patchouli
-(la de Better MC 5 es más vieja), y repetir la prueba. Hasta entonces la tienda NO publica una selección con
-«Iron's Spells» o «Hámsters» (la combinación «Granja, bichos y conejos» los trae): la frena L1-06, como debe.
+**Lo nuevo del 2026-11-26 (medido): los 86 mods de la tienda arrancan.**
+
+| Qué | Evidencia |
+|---|---|
+| Los 52 nuevos juntos arrancan en el server de prueba (135 mods, 598 MB), sin publicar | `probar_sin_publicar.py nuevas`: «arranco en 193 s», «ARRANCO; publicado igual» |
+| «Granja, bichos y conejos» arranca (106 mods, 179 MB); las otras 5 combinaciones no usan las cartas tocadas | `probar_sin_publicar.py combo:granja-bichos`: «arranco en 96 s», «publicado igual» |
+| Causa: tres dependencias que el mod pide al arrancar y Modrinth no declara (irons_lib para Iron's Spells; patchouli y fzzy_config para los hámsters). Patchouli no era vieja: **no estaba** en el server | `prueba/mods` sin Patchouli; arreglo: `deps_faltan` en `tienda/datos/curado.json`, que leen `catalogar.py` y el resolver de `armar.py`; sabotaje: sin la lista, el resolver deja afuera a las dos (L1-06) |
+| Biblioteca de la PC (L1-11) con lo nuevo | `biblioteca.py`: «SHA-1 presentes 374/374» |
+| Cartas (L1-18, L1-19) | `verificar_cartas.py`: «cartas 86: VERDE»; `--sabotaje`: ROJO como debe |
+
+Ojo con L1-02 (TBR 300 s): los 52 juntos tardan 193 s en arrancar el server de prueba; una selección más grande
+puede pasarse del tope al sumar la publicación. Lo publicado sigue siendo **Aventura minecraftera**.
 
 **Falta:** que Fran agregue las cuentas sin conexión en Prism (en la note no hay ninguna: sin eso Prism no abre
 el juego; en la PC, «Kheven»), arme un combo y entre con Kevin al server de la tienda — eso cierra la fase; el

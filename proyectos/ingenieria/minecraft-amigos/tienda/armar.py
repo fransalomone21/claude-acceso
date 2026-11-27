@@ -79,7 +79,8 @@ def resolver(cat, cur, cartas=(), combo=None, slugs_extra=()):
         if s not in cat["versiones"]:
             raise Bloqueado(f"'{s}' no esta en el catalogo")
         out.append(s)
-        cola += [d for d in cat["versiones"][s]["deps"] if d not in out]
+        # deps_faltan: las que el mod pide al arrancar y Modrinth no declara (medido 2026-11-26: irons_lib, patchouli, fzzy_config)
+        cola += [d for d in cat["versiones"][s]["deps"] + cur.get("deps_faltan", {}).get(s, []) if d not in out]
     for s in out:   # y sobre lo resuelto (una dependencia tambien cuenta)
         c = es_castigo(s, cur) or es_castigo(cat["versiones"][s]["archivo"], cur)
         if c:
