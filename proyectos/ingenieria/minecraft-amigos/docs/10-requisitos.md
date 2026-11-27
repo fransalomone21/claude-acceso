@@ -1,6 +1,7 @@
 # Requisitos — fase 2: el pack nuevo y la tienda de mods
 
-**Versión 0.2, 25 de noviembre de 2026** (0.1 del 24; la 0.2 suma L1-18 y L1-19 por el pedido de Fran del 25).
+**Versión 0.3, 27 de noviembre de 2026** (0.1 del 24; la 0.2 suma L1-18 y L1-19 por el pedido de Fran del 25; la
+0.3 suma la versión del mundo con Agus —N-09, L0-09 y L1-20— y acota L1-01, con el sí de Fran del 27).
 Estado: **borrador**; entra en línea base con el sí de Fran (en la sesión del 2026-11-24 aprobó la forma: «sí, así,
 quiero que sea sencillo y que esté probado»).
 
@@ -23,6 +24,8 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
 | **lista de castigos** | los mods de temperatura y de sed (Tough As Nails, Cold Sweat, Thermoo y sus derivados) |
 | **instancia** | la instalación de Minecraft con mods de una máquina, en Prism Launcher |
 | **server de prueba** | un server efímero que arranca la selección antes de publicarla |
+| **versión principal** | las selecciones de Minecraft 1.21.1 de la tienda (las de L0-06) |
+| **versión del mundo con Agus** | las selecciones de Minecraft 1.21.4 de la tienda (las de L0-09) |
 
 ## 2. Necesidades de Fran
 
@@ -36,6 +39,7 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
 | N-06 | La versión más nueva entre las que tienen más mods. |
 | N-07 | Que sea sencillo y que esté probado. |
 | N-08 | El server en la notebook, que tiene más memoria. |
+| N-09 | Elegir también los mods del mundo 1.21.4 que Fran juega con Agus. |
 
 ## 3. Restricciones
 
@@ -57,12 +61,14 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
 | L0-06 | N-06 | El sistema deberá correr en la versión de Minecraft más nueva entre las versiones con mayor cantidad de mods publicados. | restricción | análisis |
 | L0-07 | N-07 | El sistema deberá probar cada selección antes de entregarla a los jugadores. | funcional | ensayo |
 | L0-08 | N-08 | El sistema deberá alojar el server en la máquina de la casa con más memoria. | restricción | inspección |
+| L0-09 | N-09 | El sistema deberá ofrecer selecciones de mods para Minecraft 1.21.4. | funcional | demostración |
 
 ## 5. Nivel 1
 
 | ID | Padre | Requisito | Tipo | Verificación |
 |---|---|---|---|---|
-| L1-01 | L0-06 | El sistema deberá usar Minecraft 1.21.1 con el cargador NeoForge. | restricción | inspección |
+| L1-01 | L0-06 | En la versión principal, el sistema deberá usar Minecraft 1.21.1 con el cargador NeoForge. | restricción | inspección |
+| L1-20 | L0-09 | En la versión del mundo con Agus, el sistema deberá usar Minecraft 1.21.4 con el cargador Fabric. | restricción | inspección |
 | L1-02 | L0-02 | Cuando Fran confirma una selección en la tienda, el sistema deberá publicar el pack dentro de los 300 s posteriores a la confirmación. | desempeño | ensayo (cronómetro) |
 | L1-03 | L0-02 | Al abrir el juego, la instancia de cada máquina deberá igualar la lista de mods del pack, comparada por hash SHA-1. | funcional | ensayo |
 | L1-04 | L0-02 | El sistema deberá sincronizar la instancia de la notebook de Fran, la instancia de la PC y la instancia de Kevin con el pack. | interfaz | demostración |
@@ -91,6 +97,12 @@ los cumple: [`fase-2-tienda.md`](fase-2-tienda.md).
   los de contenido grande (Aether, Cataclysm, Mowzie's Mobs, Undergarden, Bumblezone, Dungeons Arise).
   Lo que se pierde: los que quedaron en 1.20.1 (Alex's Mobs, Alex's Caves, Blue Skies). Es el resultado
   de un trade cerrado: por eso el L1 fija la implementación (SEH p. 60).
+- **N-09, L0-09 y L1-20 (la versión del mundo con Agus).** Pedido de Fran del 2026-11-27, textual: «Prepara la
+  tienda para ambas versiones y todo», sobre «nuestro server nuevo 1.21.4». El mundo con Agus ya existe en Fabric
+  1.21.4 (100 mods, `pack/manifiesto.json`): la versión y el cargador los impone ese mundo, no un trade, y por eso
+  L1-20 los fija (SEH p. 60; GtWR R31, restricción del interesado). Lo que se pierde, medido en Modrinth el mismo
+  día: en Fabric 1.21.4 no hay mods de naves ni de planetas; esos siguen en la versión principal. El resto de los
+  L1 (prueba antes de publicar, castigos, cartas, combinaciones) rige igual para las dos versiones.
 - **L1-02, 300 s.** TBR: incluye el arranque del server de prueba (el de 1.21.4 tardó 10,9 s con 62 mods;
   con 270 mods se estima un orden más). Se mide en la sesión de la tienda.
 - **L1-06 y L1-10** son lo «probado» de N-07: la tienda no puede publicar lo que no arranca ni lo que trae
