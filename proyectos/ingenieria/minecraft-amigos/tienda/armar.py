@@ -233,6 +233,9 @@ def probar(es, log, tope=TOPE_PRUEBA_S):
         if "Loading errors encountered" in l:
             detalle = [x.strip() for x in todas[i + 1:i + 40] if x.strip().startswith("- ")]
             break
+        if "Immediate reason:" in l:   # Fabric: el resolvedor dice en ingles que mod pide que (2026-11-27)
+            detalle = [l.split("Immediate reason:", 1)[1].strip()]
+            break
     motivo = " | ".join(detalle[:6]) if detalle else next((l for l in reversed(ultimas) if any(k in l for k in ("Missing or unsupported", "requires", "Exception", "ERROR", "Error"))), ultimas[-1] if ultimas else "sin salida")
     log(f"server de prueba: NO arranco en {time.time() - t0:.0f} s -- {motivo}")
     return False, motivo
@@ -265,22 +268,26 @@ def sincronizar_server(log=print):
     log(f"server de la tienda: '{d['nombre']}' ({d['publicado']}), mundo {nivel}")
 
 
-def preparar_fabric(origen, log=print):
-    """Deja RAIZ\\fabric listo: el lanzador del server de origen (fija cargador y version) y lo que ese server ya
-    bajo de Mojang y de Fabric, asi la primera prueba no baja 120 MB. Del origen solo se lee."""
+def preparar_fabric(origen=None, log=print):
+    """Deja RAIZ\\fabric listo: el lanzador oficial de Fabric para MC + el cargador de la tienda (meta.fabricmc.net,
+    con su version verificada adentro), y si se da un server Fabric que ya anda, lo que ese server bajo de Mojang
+    (el jar del server y sus librerias), asi la primera prueba no baja 70 MB. Del origen solo se lee."""
     if CARGADOR != "fabric":
         raise SystemExit("--preparar-fabric es de la version 1.21.4 (TIENDA_VERSION=1.21.4)")
-    jar = os.path.join(origen, "fabric-server-launch.jar")
-    import zipfile
-    props = zipfile.ZipFile(jar).read("install.properties").decode()
+    import io, zipfile
+    url = f"https://meta.fabricmc.net/v2/versions/loader/{MC}/{FABRIC_LOADER}/{P['instalador_fabric']}/server/jar"
+    req = urllib.request.Request(url, headers={"User-Agent": "claude-acceso/minecraft-amigos (tienda de mods)"})
+    jar = urllib.request.urlopen(req, timeout=120).read()
+    props = zipfile.ZipFile(io.BytesIO(jar)).read("install.properties").decode()
     if f"game-version={MC}" not in props or f"fabric-loader-version={FABRIC_LOADER}" not in props:
-        raise SystemExit(f"el lanzador de {origen} no es {MC} + Fabric {FABRIC_LOADER}: {props!r}")
+        raise SystemExit(f"el lanzador bajado no es {MC} + Fabric {FABRIC_LOADER}: {props!r}")
     os.makedirs(FABRIC, exist_ok=True)
-    shutil.copy2(jar, os.path.join(FABRIC, "fabric-server-launch.jar"))
-    for d in FABRIC_COMPARTIDO:
-        src, dst = os.path.join(origen, *d.split("/")), os.path.join(FABRIC, *d.split("/"))
-        if os.path.isdir(src):
-            shutil.copytree(src, dst, dirs_exist_ok=True)
+    open(os.path.join(FABRIC, "fabric-server-launch.jar"), "wb").write(jar)
+    if origen:
+        for d in ("libraries", "versions", ".fabric/server"):
+            src, dst = os.path.join(origen, *d.split("/")), os.path.join(FABRIC, *d.split("/"))
+            if os.path.isdir(src):
+                shutil.copytree(src, dst, dirs_exist_ok=True)
     log(f"fabric listo en {FABRIC}: {props.strip()}")
 
 
@@ -323,11 +330,11 @@ if __name__ == "__main__":
     a.add_argument("--solo-resolver", action="store_true")
     a.add_argument("--server", action="store_true", help="solo poner al dia el server de la tienda con lo publicado")
     a.add_argument("--arrancar", action="store_true", help="con --server: despues lo arranca en esta consola")
-    a.add_argument("--preparar-fabric", metavar="SERVER_FABRIC",
-                   help="1.21.4: copia el lanzador y lo que ya bajo de un server Fabric que anda (solo lee de ahi)")
+    a.add_argument("--preparar-fabric", metavar="SERVER_FABRIC", nargs="?", const="",
+                   help="1.21.4: baja el lanzador de Fabric; si se da un server Fabric que anda, copia lo que ya bajo de Mojang")
     o = a.parse_args()
-    if o.preparar_fabric:
-        preparar_fabric(o.preparar_fabric); sys.exit(0)
+    if o.preparar_fabric is not None:
+        preparar_fabric(o.preparar_fabric or None); sys.exit(0)
     if o.server:
         sincronizar_server()
         if o.arrancar:   # la consola queda en el server: se cierra escribiendo stop

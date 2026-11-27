@@ -19,7 +19,7 @@ es ese mismo pack, con un mundo propio en el server de la tienda.
 | `armar.py` | resolver (núcleo + cartas + dependencias), castigos, cache con SHA-1, server de prueba, publicar; `--server` pone al día el server de la tienda | L1-05, L1-06, L1-10 |
 | `perfil.py` | las dos versiones: Minecraft, cargador, puertos, carpetas y nombre de la instancia | L1-01, L1-20 |
 | `catalogar.py` + `modrinth.py` | arma `catalogo.json` desde la base (1.21.1: la instancia Better MC 5; 1.21.4: «Nuevo 1.21.4»), por SHA-1, y los extras de `curado.json`; una dependencia de la base sin versión suelta queda en `deps_adentro` (viene dentro del mod) | L0-03 |
-| `datos/curado.json` | cartas en castellano, familias, núcleo, combinaciones, lista de castigos y `deps_faltan` (dependencias que el mod pide al arrancar y Modrinth no declara) — lo único que se edita a mano | L1-06, L1-07, L1-08, L1-09 |
+| `datos/curado.json` (y `datos-1.21.4/curado.json`) | cartas en castellano, familias, núcleo, combinaciones, lista de castigos, `deps_faltan` (dependencias que el mod pide al arrancar y Modrinth no declara) y `lado_forzado` (un mod que Modrinth marca de un solo lado y otro lo pide en los dos: Fusion, para Rechiseled) — lo único que se edita a mano | L1-06, L1-07, L1-08, L1-09 |
 | `datos/locales.json` | los 20 jars de Better MC 5 que no están en Modrinth | — |
 | `sincronizar.ps1` | comando previo de Prism: iguala `mods/` al pack por SHA-1 | L1-03, L1-04 |
 | `verificar-instancia.ps1` | compara una instancia contra el pack, sin tocar nada (0 igual, 1 distinto, 2 sin pack) | L1-03 |
@@ -34,8 +34,9 @@ es ese mismo pack, con un mundo propio en el server de la tienda.
 
 Fuera del repo (pesa): `C:\Users\frans\MinecraftServer\tienda\` con `cache\`, `publicado\`, `prueba\`,
 `server\` y `neoforge\` (NeoForge 21.1.267); `C:\Users\frans\MinecraftServer\tienda-1.21.4\` igual, con `fabric\` en
-vez de `neoforge\` (el lanzador Fabric 0.19.3 y lo que baja; se arma una vez con
-`python armar.py --preparar-fabric C:\Users\frans\MinecraftServer\agus-1.21.4`, que sólo lee de ahí).
+vez de `neoforge\` (el lanzador oficial de Fabric 0.20.1 y lo que baja; se arma una vez con
+`python armar.py --preparar-fabric`, y si se le da un server Fabric que ya anda —`C:\Users\frans\MinecraftServer\agus-1.21.4`—
+copia de ahí, sólo leyendo, lo que ya bajó de Mojang).
 
 Sumar un mod a la tienda: agregarlo a `extras` y a una carta en `datos/curado.json` (con su `familia` y su `sub`,
 una de `subfamilias`), correr `python catalogar.py` (avisa si no existe o no tiene versión 1.21.1 NeoForge, y trae

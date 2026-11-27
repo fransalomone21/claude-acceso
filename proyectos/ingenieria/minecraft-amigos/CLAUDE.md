@@ -51,7 +51,14 @@ herramientas/  modrinth_check.py, armar_pack.py, empaquetar.py, rcon.py
 **Fase 2 (la tienda):** en la notebook, `C:\Users\frans\MinecraftServer\tienda\` (cache, publicado, prueba,
 server en el puerto 25568, NeoForge 21.1.267) y la página en el puerto 8765; la instancia «Tienda 1.21.1» en
 el Prism de la notebook y de la PC; la biblioteca de jars en `C:\Games\Minecraft-mods\` de la PC. Los accesos
-de cada máquina los arma el índice de `juegos-casa` en `Escritorio\Juegos\Minecraft`.
+de cada máquina los arma el índice de `juegos-casa` en `Escritorio\Juegos\Minecraft`. **Desde el 2026-11-27 la tienda
+tiene también la versión 1.21.4 Fabric** (L1-20): `TIENDA_VERSION=1.21.4`, página en 8766, server en 25569,
+`C:\Users\frans\MinecraftServer\tienda-1.21.4\`, instancia «Tienda 1.21.4», biblioteca en
+`C:\Games\Minecraft-mods\1.21.4\` (el cuadro de las dos, en `tienda/LEEME.md`).
+
+**El mundo con Agus (1.21.4):** server en la notebook, `C:\Users\frans\MinecraftServer\agus-1.21.4`, puerto 25566,
+sin RCON: se apaga con `stop` en su ventana o con `herramientas/escribir-en-consola.ps1 -Proceso <pid del java>`.
+Su pack es `pack/agregar.txt` + `armar_pack.py` (instancia «Nuevo 1.21.4»), no la tienda.
 
 **Fase 1** — sólo en la notebook de Fran (MSI, ZeroTier 10.147.20.2):
 

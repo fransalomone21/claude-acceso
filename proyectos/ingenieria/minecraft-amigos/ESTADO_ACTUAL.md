@@ -1,13 +1,13 @@
 # Estado actual — minecraft-amigos
 
-**Última actualización:** 2026-11-26
+**Última actualización:** 2026-11-27
 
 ## Dónde estamos
 
 | Fase | Estado |
 |---|---|
 | 1 — La juntada del 2026-10-02 (Fabric 1.21.4) | **cancelada** el 2026-11-24: la reemplaza la 2 (el server y los mundos 1.21.4 quedan) |
-| 2 — El pack nuevo (1.21.1 NeoForge) y la tienda de mods | **en curso**: tienda construida y con sabotajes en verde; falta que Fran la use y juegue con Kevin |
+| 2 — El pack nuevo (1.21.1 NeoForge) y la tienda de mods | **en curso**: tienda construida y con sabotajes en verde, desde el 27 también para 1.21.4 Fabric; falta que Fran la use y juegue con Kevin |
 
 **Qué cierra la fase en curso:** (a) Fran arma una combinación desde la tienda y las instancias de la
 notebook y de la PC quedan iguales al pack (SHA-1) al abrir el juego; (b) los sabotajes de la tienda dan
@@ -77,6 +77,21 @@ estructuras, dimensiones y mundos, sin el frío y calor):**
 | Instancia **«Nuevo 1.21.4»** igual al pack en la notebook y en la PC (la única 1.21.4 con mods nuevos; «Juntada 1.21.4» movida a `C:\Users\frans\MinecraftServer\instancias-fuera\`) | SHA-1: 98/98 en las dos antes de EMF/ETF; después, 100 y 100 jars |
 | Resource packs en las dos: Fresh Animations, Better Leaves, Fancy Crops, New Glowing Ores, Low On Fire, Dramatic Skys | SHA-1 de Modrinth al bajar |
 | Respaldo del mundo antes de los mods: `world-backup-2026-11-27.zip` (714,7 MB) en el Escritorio de la PC | el zip |
+
+**Lo nuevo del 2026-11-27 a la madrugada, después de jugar: la tienda en dos versiones** (pedido de Fran: «Prepara la
+tienda para ambas versiones y todo»; requisitos v0.3: N-09, L0-09, L1-20):
+
+| Qué | Evidencia |
+|---|---|
+| Un solo código para 1.21.1 NeoForge (`:8765`, server `:25568`) y 1.21.4 Fabric (`:8766`, server `:25569`), elegido por `TIENDA_VERSION` (`tienda/perfil.py`); cada página pasa a la otra | `/api/catalogo`: 86 cartas y 6 combos en 8765, 69 cartas y 7 combos en 8766; en el navegador, el selector arriba y sin errores de consola |
+| Catálogo 1.21.4: los 100 jars de «Nuevo 1.21.4» (por SHA-1) + 45 extras medidos en Modrinth (de ~170 candidatos, la mitad no tiene versión Fabric 1.21.4: Aether, Naturalist, Bumblezone, Create, Farmer's Delight…) = 158 proyectos | `catalogar.py`: «no resueltos: ninguno»; `verificar_cartas.py`: «cartas 69: VERDE», `--sabotaje` ROJO |
+| Las 7 combinaciones 1.21.4 arrancan en el server de prueba: Liviana 27 s, El mundo con Agus 51 s, Exploradores 62 s, Bichos y jefes 32 s, Mundos nuevos 36 s, Casa 34 s, Minero 33 s (L1-05) | `probar_sin_publicar.py combo:<id>`: «ARRANCO; publicado igual» las 7 |
+| Cargador de la tienda 1.21.4: **Fabric 0.20.1** (el último estable), no el 0.19.3 del mundo con Agus: con 0.19.3, Fabric Language Kotlin 1.14.2 no arrancaba («needs fabricloader >= 0.19.5») y Casa y Minero no se publicaban, como debe (L1-06). Rechiseled pide Fusion en el server y Modrinth lo marca de cliente: `lado_forzado` en `datos-1.21.4/curado.json` | los dos motivos, leídos del server de prueba; con el arreglo, las 7 arrancan |
+| Sabotajes 1.21.4: 7/7 (Tough As Nails bloqueado; Mutant Monsters sin Puzzles Lib no se publica; instancia distinta da rojo; sin pack no da verde). Regresión 1.21.1: 7/7, lo publicado volvió igual | `probar_tienda.py` con y sin `TIENDA_VERSION=1.21.4` |
+| Publicada en la 1.21.4: **El mundo con Agus** (100 mods, en 52 s: L1-02). La 1.21.1 sigue con Aventura minecraftera | `armar.py --combo agus`: «listo en 52 s» |
+| Instancia «Tienda 1.21.4» (Fabric 0.20.1, entra a `:25569`) en la note y en la PC, igual al pack (L1-03, L1-04) | `verificar-instancia.ps1`: 74 esperados, 74 en la instancia, exit 0 en las dos |
+| Biblioteca 1.21.4 en `C:\Games\Minecraft-mods\1.21.4\<familia>` de la PC (L1-11) | `biblioteca.py`: «SHA-1 presentes 158/158» |
+| El server de la tienda 1.21.4 arranca con su `.bat` (175 mods, Done en 25 s) y se apaga con `stop` escrito en su consola por `herramientas/escribir-en-consola.ps1` (para servers sin RCON) | log: «All dimensions are saved», el java terminó a los 2 s; el script en un blanco inocuo recibió `stop`, y con un proceso sin consola sale 1 |
 
 Cuentas sin conexión: Fran `fran` (notebook), Agus `deadshot1234` (PC). Se abre el juego directo al server con
 `prismlauncher --launch "Nuevo 1.21.4" --server <ip>:25566 --profile <cuenta>` (en la PC, por tarea interactiva).

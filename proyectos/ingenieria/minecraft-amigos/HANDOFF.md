@@ -3,16 +3,26 @@
 **Escrito el:** 2026-11-26 · **Fase al cerrar:** 2 (el pack nuevo y la tienda), abierta: tienda construida
 y probada con sus 86 mods; falta la validación con Fran y Kevin.
 
-## Lo último (2026-11-27, madrugada): el mundo 1.21.4 con Agus, en la notebook
+## Lo último (2026-11-27, ~03 h): la tienda para las dos versiones — HECHO
 
-Fran y Agus juegan en `C:\Users\frans\MinecraftServer\agus-1.21.4` (puerto 25566) con la instancia «Nuevo 1.21.4»
-(100 jars) — ver `ESTADO_ACTUAL.md`, bloque del 27. Pendiente, en este orden:
-1. **La tienda para las dos versiones** (pedido de Fran): hoy `tienda/` es sólo 1.21.1 NeoForge; el pack 1.21.4
-   vive en `pack/agregar.txt` + `armar_pack.py`. Falta decidir cómo la página ofrece 1.21.4 Fabric (otro catálogo,
-   otro cargador, server de prueba Fabric) sin romper lo de 1.21.1.
-2. Los requisitos (`docs/10-requisitos.md`) dicen 1.21.1 (L1-01): sumar la 1.21.4 es un cambio de requisito y va
-   con el sí de Fran.
-3. RCON apagado en el server 25566 (`enable-rcon=false`): para apagarlo bien, `stop` en su ventana minimizada.
+La tienda arma 1.21.1 NeoForge (`:8765`) y 1.21.4 Fabric (`:8766`, `TIENDA_VERSION=1.21.4`) con el mismo código;
+requisitos v0.3 (N-09, L0-09, L1-20). Lo medido está en `ESTADO_ACTUAL.md`, bloque «la tienda en dos versiones»; el
+cuadro de las dos versiones, en `tienda/LEEME.md`. Las dos máquinas quedaron **apagadas** a pedido de Fran, con el
+server del mundo con Agus cerrado con `stop` (mundo guardado). Lo que sigue es de Fran:
+1. Probar la página 1.21.4: `tienda/abrir-tienda-1.21.4.bat`, elegir una combinación y confirmar; después
+   `iniciar-server-tienda-1.21.4.bat` y Prism > «Tienda 1.21.4» > Jugar (en la note y en la PC ya está creada).
+2. El mundo con Agus **no** es de la tienda: se sigue con `pack/agregar.txt` + `armar_pack.py` (instancia
+   «Nuevo 1.21.4», server `agus-1.21.4`, puerto 25566). Sin RCON: se apaga con `stop` en su ventana o con
+   `herramientas/escribir-en-consola.ps1 -Proceso <pid del java>`.
+3. Si un mod nuevo de la 1.21.4 no arranca: leer el motivo (`Immediate reason` de Fabric, ya sale en la página);
+   si pide un cargador más nuevo, se sube `cargador_version` en `tienda/perfil.py` (y `-FabricLoader` de
+   `crear-instancia.ps1`) y se corre `python armar.py --preparar-fabric`; si pide en el server un mod que Modrinth
+   marca de cliente, va a `lado_forzado` de `datos-1.21.4/curado.json`.
+
+## Lo de antes (2026-11-27, madrugada): el mundo 1.21.4 con Agus, en la notebook — HECHO
+
+Fran y Agus jugaron en `C:\Users\frans\MinecraftServer\agus-1.21.4` (puerto 25566) con la instancia «Nuevo 1.21.4»
+(100 jars) — ver `ESTADO_ACTUAL.md`, bloque del 27 a la madrugada.
 
 ## Lo de antes (2026-11-26): los 52 nuevos arrancan — HECHO
 

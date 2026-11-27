@@ -3,6 +3,7 @@
  "base_excluir": ["toughasnails", "tough-as-nails", "glitchcore"],
  "castigos": ["tough-as-nails", "toughasnails", "cold-sweat", "thermoo", "frostiful", "scorchful", "thirst", "dehydration", "legendary-survival-overhaul", "homeostatic", "survive"],
  "deps_faltan": {},
+ "lado_forzado": {"fusion-connected-textures": "both"},
  "nucleo": ["sodium", "sodium-extra", "reeses-sodium-options", "iris", "lithium", "ferrite-core", "entityculling", "immediatelyfast", "modernfix", "noisium", "moreculling", "structure-layout-optimizer", "dynamic-fps", "spark", "chunky", "xaeros-minimap", "xaeros-world-map", "rei", "jade", "modmenu", "mouse-tweaks", "appleskin", "continuity", "lambdynamiclights", "entity-model-features", "entitytexturefeatures"],
  "extras": [
   {"slug": "biomes-o-plenty"}, {"slug": "oh-the-biomes-weve-gone"}, {"slug": "traverse"}, {"slug": "wilder-wild"}, {"slug": "galosphere"},

@@ -12,7 +12,10 @@ PERFILES = {
     "1.21.1": {"mc": "1.21.1", "cargador": "neoforge", "cargador_version": "21.1.267", "datos": "datos",
                "raiz": r"C:\Users\frans\MinecraftServer\tienda", "puerto_web": 8765, "puerto_server": 25568,
                "puerto_prueba": 25598, "instancia": "Tienda 1.21.1", "nombre": "1.21.1 (NeoForge)"},
-    "1.21.4": {"mc": "1.21.4", "cargador": "fabric", "cargador_version": "0.19.3", "datos": "datos-1.21.4",
+    # Fabric 0.20.1, el ultimo estable (medido 2026-11-27): con el 0.19.3 del mundo con Agus, Fabric Language Kotlin
+    # 1.14.2 no arranca ("needs fabricloader >= 0.19.5"); el mundo con Agus sigue en el suyo
+    "1.21.4": {"mc": "1.21.4", "cargador": "fabric", "cargador_version": "0.20.1", "instalador_fabric": "1.1.2",
+               "datos": "datos-1.21.4",
                "raiz": r"C:\Users\frans\MinecraftServer\tienda-1.21.4", "puerto_web": 8766, "puerto_server": 25569,
                "puerto_prueba": 25597, "instancia": "Tienda 1.21.4", "nombre": "1.21.4 (Fabric, el mundo con Agus)"},
 }

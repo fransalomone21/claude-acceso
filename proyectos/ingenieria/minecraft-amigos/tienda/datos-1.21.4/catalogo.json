@@ -2111,7 +2111,7 @@
     "mobs"
    ],
    "tipo": "mod",
-   "descargas": 12193449,
+   "descargas": 12193640,
    "origen": "extra"
   },
   "traverse": {
@@ -2159,7 +2159,7 @@
     "storage"
    ],
    "tipo": "mod",
-   "descargas": 1228688,
+   "descargas": 1228703,
    "origen": "extra"
   },
   "galosphere": {
@@ -2361,7 +2361,7 @@
     "minigame"
    ],
    "tipo": "mod",
-   "descargas": 843628,
+   "descargas": 843655,
    "origen": "extra"
   },
   "totw-modded": {
@@ -2407,7 +2407,7 @@
     "mobs"
    ],
    "tipo": "mod",
-   "descargas": 6660731,
+   "descargas": 6660815,
    "origen": "extra"
   },
   "illager-invasion": {
@@ -2500,7 +2500,7 @@
     "mobs"
    ],
    "tipo": "mod",
-   "descargas": 1658234,
+   "descargas": 1658310,
    "origen": "extra"
   },
   "fish-of-thieves": {
@@ -2524,7 +2524,7 @@
     "worldgen"
    ],
    "tipo": "mod",
-   "descargas": 1788448,
+   "descargas": 1788489,
    "origen": "extra"
   },
   "mermod": {
@@ -2545,7 +2545,7 @@
     "magic"
    ],
    "tipo": "mod",
-   "descargas": 2601813,
+   "descargas": 2601835,
    "origen": "extra"
   },
   "advanced-netherite": {
@@ -2658,7 +2658,7 @@
     "game-mechanics"
    ],
    "tipo": "mod",
-   "descargas": 1388939,
+   "descargas": 1388959,
    "origen": "extra"
   },
   "carry-on": {
@@ -2700,7 +2700,7 @@
     "storage"
    ],
    "tipo": "mod",
-   "descargas": 21534505,
+   "descargas": 21534916,
    "origen": "extra"
   },
   "storagedrawers": {
@@ -2720,7 +2720,7 @@
     "storage"
    ],
    "tipo": "mod",
-   "descargas": 4414110,
+   "descargas": 4414232,
    "origen": "extra"
   },
   "veinminer": {
@@ -2744,7 +2744,7 @@
     "technology"
    ],
    "tipo": "mod",
-   "descargas": 107891691,
+   "descargas": 107897080,
    "origen": "extra"
   },
   "just-hammers": {
@@ -2785,7 +2785,7 @@
     "game-mechanics"
    ],
    "tipo": "mod",
-   "descargas": 17929607,
+   "descargas": 17929917,
    "origen": "extra"
   },
   "pandas-falling-trees": {
@@ -2827,7 +2827,7 @@
     "storage"
    ],
    "tipo": "mod",
-   "descargas": 7609067,
+   "descargas": 7609225,
    "origen": "extra"
   },
   "macaws-bridges": {
@@ -2847,7 +2847,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 9941269,
+   "descargas": 9941469,
    "origen": "extra"
   },
   "macaws-roofs": {
@@ -2867,7 +2867,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 8407790,
+   "descargas": 8407971,
    "origen": "extra"
   },
   "macaws-doors": {
@@ -2887,7 +2887,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 8540997,
+   "descargas": 8541173,
    "origen": "extra"
   },
   "macaws-windows": {
@@ -2907,7 +2907,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 11901468,
+   "descargas": 11901680,
    "origen": "extra"
   },
   "macaws-trapdoors": {
@@ -2927,7 +2927,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 5094676,
+   "descargas": 5094827,
    "origen": "extra"
   },
   "macaws-fences-and-walls": {
@@ -2947,7 +2947,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 11688173,
+   "descargas": 11688396,
    "origen": "extra"
   },
   "macaws-lights-and-lamps": {
@@ -2967,7 +2967,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 4325612,
+   "descargas": 4325762,
    "origen": "extra"
   },
   "macaws-paths-and-pavings": {
@@ -2987,7 +2987,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 5847576,
+   "descargas": 5847720,
    "origen": "extra"
   },
   "rechiseled": {
@@ -3027,7 +3027,7 @@
     "decoration"
    ],
    "tipo": "mod",
-   "descargas": 574506,
+   "descargas": 574508,
    "origen": "extra"
   },
   "chimes": {
@@ -3072,7 +3072,7 @@
     "social"
    ],
    "tipo": "mod",
-   "descargas": 2116777,
+   "descargas": 2116822,
    "origen": "extra"
   },
   "terrablender": {
@@ -3276,7 +3276,7 @@
    ],
    "cliente": "required",
    "servidor": "unsupported",
-   "lado": "client",
+   "lado": "both",
    "categorias": [
     "decoration",
     "library"
@@ -4659,8 +4659,8 @@
    "sha512": "9a15e41e4981984ea1e63207cc67152e55df53d4f0e8e7258fc34f92f055b7aeb3cd8ac4c1504a54f3917496bd19e05b2bb2055e6b5dcaf6792f38c52aac9893",
    "bytes": 2440033,
    "deps": [
-    "puzzles-lib",
     "fabric-api",
+    "puzzles-lib",
     "forge-config-api-port"
    ]
   },

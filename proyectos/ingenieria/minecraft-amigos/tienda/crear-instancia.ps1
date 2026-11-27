@@ -10,7 +10,7 @@ param(
     [string]$Notebook = "10.147.20.2",
     [ValidateSet("1.21.1", "1.21.4")][string]$Version = "1.21.1",
     [string]$NeoForge = "21.1.267",
-    [string]$FabricLoader = "0.19.3",
+    [string]$FabricLoader = "0.20.1",   # el de la tienda 1.21.4 (perfil.py); el mundo con Agus sigue en 0.19.3
     [int]$MemoriaMB = 0
 )
 $PuertoWeb = if ($Version -eq "1.21.4") { 8766 } else { 8765 }

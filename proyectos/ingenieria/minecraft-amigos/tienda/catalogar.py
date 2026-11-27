@@ -194,6 +194,13 @@ def main():
                 if d not in por_id and d not in hechos:
                     cola.append(d)
         print(f"ultimas: {len(hechos)} proyectos revisados")
+    # lado_forzado: Modrinth marca un mod como de un solo lado y otro mod lo pide en los dos (medido 2026-11-27:
+    # Rechiseled pide Fusion en el server y Modrinth dice que Fusion es solo de cliente)
+    for s, l in curado.get("lado_forzado", {}).items():
+        if s in cat["proyectos"]:
+            cat["proyectos"][s]["lado"] = l
+        else:
+            faltan.append(s + " (lado_forzado de un mod que no esta en el catalogo)")
     print(f"fotos: {completar_galerias(cat)} proyectos completados")
     # slugs en deps: pasar ids a slugs
     for s, v in cat["versiones"].items():
